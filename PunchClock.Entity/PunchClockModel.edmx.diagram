@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fb218f32a4664e07a091349f0c7012f8" Name="Diagram1">
+        <EntityTypeShape EntityType="PunchClockNewModel.AppConfig" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.Country" Width="1.5" PointX="7.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.EmploymentType" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.Holiday" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.HolidayType" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.State" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.UserType" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.C__RefactorLog" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.Company" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.HolidayTypeHoliday" Width="1.5" PointX="12.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.PaidHoliday" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.Punch" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.User" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.CompanyEmployeeHolidayPaid" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.CompanyHoliday" Width="1.5" PointX="6.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PunchClockNewModel.CompanyPaidHoliday" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Holidays_CountryId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Users_EmploymentType_EmploymentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Holidays_HolidayTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_HolidayTypeHoliday_Holiday_HolidayId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_HolidayTypeHoliday_HolidayType_TypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Users_UserTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Company_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Users_CompanyId" ManuallyRouted="false" />
+        <AssociationConnector Association="PunchClockNewModel.FK_Punch_UserId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

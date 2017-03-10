@@ -1,0 +1,23 @@
+﻿<ul class="nav navbar-nav">
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Menu <span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="themes">
+            <li>@Html.ActionLink("User", "Register", "User", null, null)</li>
+            <li>@Html.ActionLink("Employer", "Register", "Employer", null, null)</li>
+            <li>@Html.ActionLink("Punch", "Index", "Punch", null, null)</li>
+            @if (PunchClock.UI.Web.Helpers.UserHelpers.IsAdmin(user: User) && !PunchClock.UI.Web.Helpers.UserHelpers.IsHumanResource(user: User))
+            {
+                <li>@Html.ActionLink("Approve", "Logs", "Manage", null, null)</li>
+            }
+        </ul>
+    </li>
+    @*<li>
+        @Html.ActionLink("Home", "Index", "Home", null, null)
+    </li>*@
+    <li>
+        @Html.ActionLink("About", "About", "Home", null, null)
+    </li>
+    <li>
+        @Html.ActionLink("Contact", "Contact", "Home", null, null)
+    </li>
+</ul>

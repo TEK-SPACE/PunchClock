@@ -1,0 +1,32 @@
+﻿@model PunchClock.Objects.Core.CompanyObjLibrary
+@{
+    ViewBag.Title = "Add Company";
+}
+
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+@using (Html.BeginForm())
+{
+    <ul>
+        <li>@Html.LabelFor(x => x.name)
+            @Html.TextBoxFor(x => x.name)
+            @Html.ValidationMessageFor(x => x.name)
+        </li>
+        <li>
+            @Html.LabelFor(x => x.summury)
+            @Html.TextBoxFor(x => x.summury)
+            @Html.ValidationMessageFor(x => x.summury)
+        </li>
+        <li>
+            @Html.LabelFor(x => x.logoUrl)
+            @Html.TextBoxFor(x => x.logoUrl)
+            @Html.ValidationMessageFor(x => x.logoUrl)
+        </li>
+        <li>
+            @Html.LabelFor(x => x.registerCode)
+            @Html.TextBoxFor(x => x.registerCode)
+            @Html.ValidationMessageFor(x => x.registerCode)
+        </li>
+    </ul>
+    <input type="submit" value="add" class="button" />
+}

@@ -1,0 +1,97 @@
+﻿@model PunchClock.Objects.Core.CompanyObjLibrary
+@{
+    ViewBag.Title = "Company Registration";
+}
+<div class="col-lg-6">
+    <div class="well bs-component">
+        @using (Html.BeginForm("Register", "Employer",
+                        new { enctype = "multipart/form-data" },
+                         FormMethod.Post,
+                        new { @class = "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>@ViewBag.Title</legend>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Name, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Name)
+                    </div>
+                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Summary, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextAreaFor(x => x.Summary, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Summary)
+                    </div>
+                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LogoUrl, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        <input id="fileUploader" type="file" name="logo" class="form-control" />
+                        @* @Html.TextBoxFor(x => x.logoUrl)*@
+                        @Html.ValidationMessageFor(x => x.LogoUrl)
+                    </div>
+                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DeltaPunchTime, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.DeltaPunchTime, new { title = "5 minutes default", @class = "form-control", type = "number", min = -10, max = 10, value = 1 })
+                        @Html.ValidationMessageFor(x => x.DeltaPunchTime)
+                    </div>
+                    </div>
+                @*  <li>
+                        @Html.LabelFor(x => x.registerCode, new { title="Employee to setup PunchClock account" })
+                        @Html.TextBoxFor(x => x.registerCode, new { title="Employee to setup PunchClock account", placeholder="xxxxxx" })
+                        @Html.ValidationMessageFor(x => x.registerCode)
+                    </li>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.User.FirstName, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.User.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.FirstName)
+                    </div>
+                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.User.LastName, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.User.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.LastName)
+                    </div>
+                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.User.Email, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.User.Email, new { type = "email", placeholder = "you@website.com", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.Email)
+                    </div>
+                    </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.User.Telephone, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.User.Telephone, new { placeholder = "(xxx) xxx-xxxx", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.Telephone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.User.UserName, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.User.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.UserName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.User.Password, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.PasswordFor(x => x.User.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.Password)
+                    </div>
+                </div>
+                <div class="col-lg-10 col-lg-offset-2">
+                    <input type="submit" value="Sign up" class="btn btn-primary" />
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>

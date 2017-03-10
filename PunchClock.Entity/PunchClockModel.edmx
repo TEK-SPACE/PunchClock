@@ -1,0 +1,1009 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PunchClockNewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppConfig">
+          <Key>
+            <PropertyRef Name="AppConfigId" />
+          </Key>
+          <Property Name="AppConfigId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="1000" />
+          <Property Name="ValueString" Type="varchar(max)" />
+          <Property Name="ValueBit" Type="bit" />
+          <Property Name="ValueFloat" Type="float" />
+          <Property Name="ValueInt" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TwoLetterIsoCode" Type="nvarchar" MaxLength="2" />
+          <Property Name="ThreeLetterIsoCode" Type="nvarchar" MaxLength="3" />
+          <Property Name="NumericIsoCode" Type="nvarchar" MaxLength="3" />
+          <Property Name="Published" Type="tinyint" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="ExtensionData" Type="ntext" />
+          <Property Name="CreatedOn_utc" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmploymentType">
+          <Key>
+            <PropertyRef Name="EmploymentTypeId" />
+          </Key>
+          <Property Name="EmploymentTypeId" Type="int" Nullable="false" />
+          <Property Name="EmploymentTypeName" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Holidays">
+          <Key>
+            <PropertyRef Name="HolidayId" />
+          </Key>
+          <Property Name="HolidayId" Type="int" Nullable="false" />
+          <Property Name="HolidayName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="HolidayMonth" Type="int" Nullable="false" />
+          <Property Name="HolidayDate" Type="int" Nullable="false" />
+          <Property Name="HolidayTypeId" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HolidayType">
+          <Key>
+            <PropertyRef Name="HolidayTypeId" />
+          </Key>
+          <Property Name="HolidayTypeId" Type="int" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="DateEntered_utc" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateGUID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="Abbreviation" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Published" Type="tinyint" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="ExtensionData" Type="ntext" />
+          <Property Name="CreatedOn_utc" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTypes">
+          <Key>
+            <PropertyRef Name="UserTypeId" />
+          </Key>
+          <Property Name="UserTypeId" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GlobalId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Summary" Type="varchar" MaxLength="250" />
+          <Property Name="LogoUrl" Type="varchar" MaxLength="250" />
+          <Property Name="LogoBinary" Type="varbinary(max)" />
+          <Property Name="DeltaPunchTime" Type="int" Nullable="false" />
+          <Property Name="RegisterCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PunchClockNew.dbo.CompanyEmployeeHolidayPaid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompanyEmployeeHolidayPaid">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="EmploymentTypeId" />
+            <PropertyRef Name="IsHolidayPaid" />
+          </Key>
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="EmploymentTypeId" Type="int" Nullable="false" />
+          <Property Name="IsHolidayPaid" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PunchClockNew.dbo.CompanyHoliday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompanyHoliday">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="HolidayId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="HolidayId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PunchClockNew.dbo.CompanyPaidHolidays' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompanyPaidHolidays">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="PaidHolidayTypeId" />
+            <PropertyRef Name="NumberOfDaysPerYear" />
+          </Key>
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="PaidHolidayTypeId" Type="int" Nullable="false" />
+          <Property Name="NumberOfDaysPerYear" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HolidayTypeHoliday">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="HolidayId" Type="int" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaidHolidays">
+          <Key>
+            <PropertyRef Name="PaidHolidayId" />
+          </Key>
+          <Property Name="PaidHolidayId" Type="int" Nullable="false" />
+          <Property Name="HolidayTypeName" Type="varchar" MaxLength="150" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Punch">
+          <Key>
+            <PropertyRef Name="PunchId" />
+          </Key>
+          <Property Name="PunchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PunchDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="PunchIn" Type="time" Precision="7" Nullable="false" />
+          <Property Name="PunchOut" Type="time" Precision="7" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="IsManagerAccepted" Type="bit" Nullable="false" />
+          <Property Name="RequestForApproval" Type="bit" Nullable="false" />
+          <Property Name="Comments" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GlobalId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserTypeId" Type="int" Nullable="false" />
+          <Property Name="EmploymentType" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="varchar" MaxLength="1024" />
+          <Property Name="PasswordSalt" Type="varchar" MaxLength="1024" />
+          <Property Name="PasswordLastChanged" Type="datetime2" Precision="7" />
+          <Property Name="PasswordDisabled" Type="bit" Nullable="false" />
+          <Property Name="RegisteredTimeZone" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsAdmin" Type="int" />
+          <Property Name="DateCreated_utc" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="LastUpdated_utc" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="LastActivityDate_utc" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserRegistered_IP" Type="varchar" MaxLength="50" />
+          <Property Name="Registered_MAC_Address" Type="varchar" MaxLength="50" />
+          <Property Name="LastActive_MAC_Address" Type="varchar" MaxLength="50" />
+          <Property Name="LastActivity_IP" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Company_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Holidays_CountryId">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Holidays" Type="Self.Holidays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Holidays">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Holidays_HolidayTypeId">
+          <End Role="HolidayType" Type="Self.HolidayType" Multiplicity="1" />
+          <End Role="Holidays" Type="Self.Holidays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HolidayType">
+              <PropertyRef Name="HolidayTypeId" />
+            </Principal>
+            <Dependent Role="Holidays">
+              <PropertyRef Name="HolidayTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HolidayTypeHoliday_Holiday_HolidayId">
+          <End Role="Holidays" Type="Self.Holidays" Multiplicity="1" />
+          <End Role="HolidayTypeHoliday" Type="Self.HolidayTypeHoliday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Holidays">
+              <PropertyRef Name="HolidayId" />
+            </Principal>
+            <Dependent Role="HolidayTypeHoliday">
+              <PropertyRef Name="HolidayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HolidayTypeHoliday_HolidayType_TypeId">
+          <End Role="HolidayType" Type="Self.HolidayType" Multiplicity="1" />
+          <End Role="HolidayTypeHoliday" Type="Self.HolidayTypeHoliday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HolidayType">
+              <PropertyRef Name="HolidayTypeId" />
+            </Principal>
+            <Dependent Role="HolidayTypeHoliday">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Punch_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Punch" Type="Self.Punch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Punch">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_CompanyId">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_EmploymentType_EmploymentTypeId">
+          <End Role="EmploymentType" Type="Self.EmploymentType" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmploymentType">
+              <PropertyRef Name="EmploymentTypeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EmploymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypeId">
+          <End Role="UserTypes" Type="Self.UserTypes" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="UserTypeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_GetCompanyHolidays" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="companyId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_GetCompanyHolidaysForEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="companyId" Type="int" Mode="In" />
+          <Parameter Name="EmployeeId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="PunchClockNewModelStoreContainer">
+          <EntitySet Name="AppConfig" EntityType="Self.AppConfig" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmploymentType" EntityType="Self.EmploymentType" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="HolidayType" EntityType="Self.HolidayType" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="States" EntityType="Self.States" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserTypes" Schema="Config" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="HolidayTypeHoliday" EntityType="Self.HolidayTypeHoliday" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="PaidHolidays" EntityType="Self.PaidHolidays" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Punch" EntityType="Self.Punch" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="CompanyEmployeeHolidayPaid" EntityType="Self.CompanyEmployeeHolidayPaid" store:Type="Tables" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+    [CompanyEmployeeHolidayPaid].[CompanyId] AS [CompanyId], 
+    [CompanyEmployeeHolidayPaid].[EmploymentTypeId] AS [EmploymentTypeId], 
+    [CompanyEmployeeHolidayPaid].[IsHolidayPaid] AS [IsHolidayPaid]
+    FROM [dbo].[CompanyEmployeeHolidayPaid] AS [CompanyEmployeeHolidayPaid]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CompanyHoliday" EntityType="Self.CompanyHoliday" store:Type="Tables" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+    [CompanyHoliday].[CompanyId] AS [CompanyId], 
+    [CompanyHoliday].[HolidayId] AS [HolidayId]
+    FROM [dbo].[CompanyHoliday] AS [CompanyHoliday]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CompanyPaidHolidays" EntityType="Self.CompanyPaidHolidays" store:Type="Tables" store:Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+    [CompanyPaidHolidays].[CompanyId] AS [CompanyId], 
+    [CompanyPaidHolidays].[PaidHolidayTypeId] AS [PaidHolidayTypeId], 
+    [CompanyPaidHolidays].[NumberOfDaysPerYear] AS [NumberOfDaysPerYear]
+    FROM [dbo].[CompanyPaidHolidays] AS [CompanyPaidHolidays]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Company_CreatedBy" Association="Self.FK_Company_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Holidays_CountryId" Association="Self.FK_Holidays_CountryId">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Holidays" EntitySet="Holidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Holidays_HolidayTypeId" Association="Self.FK_Holidays_HolidayTypeId">
+            <End Role="HolidayType" EntitySet="HolidayType" />
+            <End Role="Holidays" EntitySet="Holidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HolidayTypeHoliday_Holiday_HolidayId" Association="Self.FK_HolidayTypeHoliday_Holiday_HolidayId">
+            <End Role="Holidays" EntitySet="Holidays" />
+            <End Role="HolidayTypeHoliday" EntitySet="HolidayTypeHoliday" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HolidayTypeHoliday_HolidayType_TypeId" Association="Self.FK_HolidayTypeHoliday_HolidayType_TypeId">
+            <End Role="HolidayType" EntitySet="HolidayType" />
+            <End Role="HolidayTypeHoliday" EntitySet="HolidayTypeHoliday" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Punch_UserId" Association="Self.FK_Punch_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Punch" EntitySet="Punch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_CompanyId" Association="Self.FK_Users_CompanyId">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_EmploymentType_EmploymentTypeId" Association="Self.FK_Users_EmploymentType_EmploymentTypeId">
+            <End Role="EmploymentType" EntitySet="EmploymentType" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypeId" Association="Self.FK_Users_UserTypeId">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PunchClockNewModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityType Name="AppConfig">
+          <Key>
+            <PropertyRef Name="AppConfigId" />
+          </Key>
+          <Property Name="AppConfigId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ValueString" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ValueBit" Type="Boolean" />
+          <Property Name="ValueFloat" Type="Double" />
+          <Property Name="ValueInt" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="CountryGuid" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TwoLetterIsoCode" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ThreeLetterIsoCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="NumericIsoCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Published" Type="Byte" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="ExtensionData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn_utc" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Holidays" Relationship="Self.FK_Holidays_CountryId" FromRole="Country" ToRole="Holidays" />
+        </EntityType>
+        <EntityType Name="EmploymentType">
+          <Key>
+            <PropertyRef Name="EmploymentTypeId" />
+          </Key>
+          <Property Name="EmploymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="EmploymentTypeName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_EmploymentType_EmploymentTypeId" FromRole="EmploymentType" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Holiday">
+          <Key>
+            <PropertyRef Name="HolidayId" />
+          </Key>
+          <Property Name="HolidayId" Type="Int32" Nullable="false" />
+          <Property Name="HolidayName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="HolidayMonth" Type="Int32" Nullable="false" />
+          <Property Name="HolidayDate" Type="Int32" Nullable="false" />
+          <Property Name="HolidayTypeId" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Holidays_CountryId" FromRole="Holidays" ToRole="Country" />
+          <NavigationProperty Name="HolidayType" Relationship="Self.FK_Holidays_HolidayTypeId" FromRole="Holidays" ToRole="HolidayType" />
+          <NavigationProperty Name="HolidayTypeHolidays" Relationship="Self.FK_HolidayTypeHoliday_Holiday_HolidayId" FromRole="Holidays" ToRole="HolidayTypeHoliday" />
+        </EntityType>
+        <EntityType Name="HolidayType">
+          <Key>
+            <PropertyRef Name="HolidayTypeId" />
+          </Key>
+          <Property Name="HolidayTypeId" Type="Int32" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DateEntered_utc" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Holidays" Relationship="Self.FK_Holidays_HolidayTypeId" FromRole="HolidayType" ToRole="Holidays" />
+          <NavigationProperty Name="HolidayTypeHolidays" Relationship="Self.FK_HolidayTypeHoliday_HolidayType_TypeId" FromRole="HolidayType" ToRole="HolidayTypeHoliday" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="StateGUID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="Abbreviation" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Published" Type="Byte" Nullable="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="ExtensionData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn_utc" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="UserTypeId" />
+          </Key>
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_UserTypeId" FromRole="UserTypes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="GlobalId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Summary" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LogoUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LogoBinary" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="DeltaPunchTime" Type="Int32" Nullable="false" />
+          <Property Name="RegisterCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Company_CreatedBy" FromRole="Company" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_CompanyId" FromRole="Company" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="HolidayTypeHoliday">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="HolidayId" Type="Int32" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="Holiday" Relationship="Self.FK_HolidayTypeHoliday_Holiday_HolidayId" FromRole="HolidayTypeHoliday" ToRole="Holidays" />
+          <NavigationProperty Name="HolidayType" Relationship="Self.FK_HolidayTypeHoliday_HolidayType_TypeId" FromRole="HolidayTypeHoliday" ToRole="HolidayType" />
+        </EntityType>
+        <EntityType Name="PaidHoliday">
+          <Key>
+            <PropertyRef Name="PaidHolidayId" />
+          </Key>
+          <Property Name="PaidHolidayId" Type="Int32" Nullable="false" />
+          <Property Name="HolidayTypeName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Punch">
+          <Key>
+            <PropertyRef Name="PunchId" />
+          </Key>
+          <Property Name="PunchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="PunchDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="PunchIn" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="PunchOut" Type="Time" Precision="7" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="IsManagerAccepted" Type="Boolean" Nullable="false" />
+          <Property Name="RequestForApproval" Type="Boolean" Nullable="false" />
+          <Property Name="Comments" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Punch_UserId" FromRole="Punch" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="GlobalId" Type="Guid" Nullable="false" />
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+          <Property Name="EmploymentType" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="PasswordLastChanged" Type="DateTime" Precision="7" />
+          <Property Name="PasswordDisabled" Type="Boolean" Nullable="false" />
+          <Property Name="RegisteredTimeZone" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsAdmin" Type="Int32" />
+          <Property Name="DateCreated_utc" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="LastUpdated_utc" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="LastActivityDate_utc" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserRegistered_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Registered_MAC_Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastActive_MAC_Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastActivity_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmploymentType1" Relationship="Self.FK_Users_EmploymentType_EmploymentTypeId" FromRole="Users" ToRole="EmploymentType" />
+          <NavigationProperty Name="UserType" Relationship="Self.FK_Users_UserTypeId" FromRole="Users" ToRole="UserTypes" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK_Company_CreatedBy" FromRole="Users" ToRole="Company" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Users_CompanyId" FromRole="Users" ToRole="Company" />
+          <NavigationProperty Name="Punches" Relationship="Self.FK_Punch_UserId" FromRole="Users" ToRole="Punch" />
+        </EntityType>
+        <EntityType Name="CompanyEmployeeHolidayPaid">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="EmploymentTypeId" />
+            <PropertyRef Name="IsHolidayPaid" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="EmploymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IsHolidayPaid" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyHoliday">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="HolidayId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="HolidayId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyPaidHoliday">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="PaidHolidayTypeId" />
+            <PropertyRef Name="NumberOfDaysPerYear" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="PaidHolidayTypeId" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfDaysPerYear" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Holidays_CountryId">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Holidays" Type="Self.Holiday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Holidays">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_EmploymentType_EmploymentTypeId">
+          <End Role="EmploymentType" Type="Self.EmploymentType" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmploymentType">
+              <PropertyRef Name="EmploymentTypeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EmploymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Holidays_HolidayTypeId">
+          <End Role="HolidayType" Type="Self.HolidayType" Multiplicity="1" />
+          <End Role="Holidays" Type="Self.Holiday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HolidayType">
+              <PropertyRef Name="HolidayTypeId" />
+            </Principal>
+            <Dependent Role="Holidays">
+              <PropertyRef Name="HolidayTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HolidayTypeHoliday_Holiday_HolidayId">
+          <End Role="Holidays" Type="Self.Holiday" Multiplicity="1" />
+          <End Role="HolidayTypeHoliday" Type="Self.HolidayTypeHoliday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Holidays">
+              <PropertyRef Name="HolidayId" />
+            </Principal>
+            <Dependent Role="HolidayTypeHoliday">
+              <PropertyRef Name="HolidayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HolidayTypeHoliday_HolidayType_TypeId">
+          <End Role="HolidayType" Type="Self.HolidayType" Multiplicity="1" />
+          <End Role="HolidayTypeHoliday" Type="Self.HolidayTypeHoliday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HolidayType">
+              <PropertyRef Name="HolidayTypeId" />
+            </Principal>
+            <Dependent Role="HolidayTypeHoliday">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypeId">
+          <End Role="UserTypes" Type="Self.UserType" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="UserTypeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_CreatedBy">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_CompanyId">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Punch_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Punch" Type="Self.Punch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Punch">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PunchClockEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="AppConfigs" EntityType="Self.AppConfig" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="EmploymentTypes" EntityType="Self.EmploymentType" />
+          <EntitySet Name="Holidays" EntityType="Self.Holiday" />
+          <EntitySet Name="HolidayTypes" EntityType="Self.HolidayType" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserType" />
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="HolidayTypeHolidays" EntityType="Self.HolidayTypeHoliday" />
+          <EntitySet Name="PaidHolidays" EntityType="Self.PaidHoliday" />
+          <EntitySet Name="Punches" EntityType="Self.Punch" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="CompanyEmployeeHolidayPaids" EntityType="Self.CompanyEmployeeHolidayPaid" />
+          <EntitySet Name="CompanyHolidays" EntityType="Self.CompanyHoliday" />
+          <EntitySet Name="CompanyPaidHolidays" EntityType="Self.CompanyPaidHoliday" />
+          <AssociationSet Name="FK_Holidays_CountryId" Association="Self.FK_Holidays_CountryId">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Holidays" EntitySet="Holidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_EmploymentType_EmploymentTypeId" Association="Self.FK_Users_EmploymentType_EmploymentTypeId">
+            <End Role="EmploymentType" EntitySet="EmploymentTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Holidays_HolidayTypeId" Association="Self.FK_Holidays_HolidayTypeId">
+            <End Role="HolidayType" EntitySet="HolidayTypes" />
+            <End Role="Holidays" EntitySet="Holidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HolidayTypeHoliday_Holiday_HolidayId" Association="Self.FK_HolidayTypeHoliday_Holiday_HolidayId">
+            <End Role="Holidays" EntitySet="Holidays" />
+            <End Role="HolidayTypeHoliday" EntitySet="HolidayTypeHolidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HolidayTypeHoliday_HolidayType_TypeId" Association="Self.FK_HolidayTypeHoliday_HolidayType_TypeId">
+            <End Role="HolidayType" EntitySet="HolidayTypes" />
+            <End Role="HolidayTypeHoliday" EntitySet="HolidayTypeHolidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypeId" Association="Self.FK_Users_UserTypeId">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_CreatedBy" Association="Self.FK_Company_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_CompanyId" Association="Self.FK_Users_CompanyId">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Punch_UserId" Association="Self.FK_Punch_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Punch" EntitySet="Punches" />
+          </AssociationSet>
+          <FunctionImport Name="usp_GetCompanyHolidays">
+            <Parameter Name="companyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetCompanyHolidaysForEmployee" ReturnType="Collection(PunchClockNewModel.usp_GetCompanyHolidaysForEmployee_Result)">
+            <Parameter Name="companyId" Mode="In" Type="Int32" />
+            <Parameter Name="EmployeeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="usp_GetCompanyHolidaysForEmployee_Result">
+          <Property Type="String" Name="HolidayName" Nullable="false" MaxLength="200" />
+          <Property Type="DateTime" Name="HolidayDate" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PunchClockNewModelStoreContainer" CdmEntityContainer="PunchClockEntities">
+          <EntitySetMapping Name="AppConfigs">
+            <EntityTypeMapping TypeName="PunchClockNewModel.AppConfig">
+              <MappingFragment StoreEntitySet="AppConfig">
+                <ScalarProperty Name="AppConfigId" ColumnName="AppConfigId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ValueString" ColumnName="ValueString" />
+                <ScalarProperty Name="ValueBit" ColumnName="ValueBit" />
+                <ScalarProperty Name="ValueFloat" ColumnName="ValueFloat" />
+                <ScalarProperty Name="ValueInt" ColumnName="ValueInt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="PunchClockNewModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountryGuid" ColumnName="CountryGuid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TwoLetterIsoCode" ColumnName="TwoLetterIsoCode" />
+                <ScalarProperty Name="ThreeLetterIsoCode" ColumnName="ThreeLetterIsoCode" />
+                <ScalarProperty Name="NumericIsoCode" ColumnName="NumericIsoCode" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ExtensionData" ColumnName="ExtensionData" />
+                <ScalarProperty Name="CreatedOn_utc" ColumnName="CreatedOn_utc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmploymentTypes">
+            <EntityTypeMapping TypeName="PunchClockNewModel.EmploymentType">
+              <MappingFragment StoreEntitySet="EmploymentType">
+                <ScalarProperty Name="EmploymentTypeId" ColumnName="EmploymentTypeId" />
+                <ScalarProperty Name="EmploymentTypeName" ColumnName="EmploymentTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Holidays">
+            <EntityTypeMapping TypeName="PunchClockNewModel.Holiday">
+              <MappingFragment StoreEntitySet="Holidays">
+                <ScalarProperty Name="HolidayId" ColumnName="HolidayId" />
+                <ScalarProperty Name="HolidayName" ColumnName="HolidayName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HolidayMonth" ColumnName="HolidayMonth" />
+                <ScalarProperty Name="HolidayDate" ColumnName="HolidayDate" />
+                <ScalarProperty Name="HolidayTypeId" ColumnName="HolidayTypeId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HolidayTypes">
+            <EntityTypeMapping TypeName="PunchClockNewModel.HolidayType">
+              <MappingFragment StoreEntitySet="HolidayType">
+                <ScalarProperty Name="HolidayTypeId" ColumnName="HolidayTypeId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateEntered_utc" ColumnName="DateEntered_utc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="PunchClockNewModel.State">
+              <MappingFragment StoreEntitySet="States">
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="StateGUID" ColumnName="StateGUID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ExtensionData" ColumnName="ExtensionData" />
+                <ScalarProperty Name="CreatedOn_utc" ColumnName="CreatedOn_utc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="PunchClockNewModel.UserType">
+              <MappingFragment StoreEntitySet="UserTypes">
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="PunchClockNewModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="PunchClockNewModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="GlobalId" ColumnName="GlobalId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+                <ScalarProperty Name="LogoBinary" ColumnName="LogoBinary" />
+                <ScalarProperty Name="DeltaPunchTime" ColumnName="DeltaPunchTime" />
+                <ScalarProperty Name="RegisterCode" ColumnName="RegisterCode" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HolidayTypeHolidays">
+            <EntityTypeMapping TypeName="PunchClockNewModel.HolidayTypeHoliday">
+              <MappingFragment StoreEntitySet="HolidayTypeHoliday">
+                <ScalarProperty Name="HolidayId" ColumnName="HolidayId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaidHolidays">
+            <EntityTypeMapping TypeName="PunchClockNewModel.PaidHoliday">
+              <MappingFragment StoreEntitySet="PaidHolidays">
+                <ScalarProperty Name="PaidHolidayId" ColumnName="PaidHolidayId" />
+                <ScalarProperty Name="HolidayTypeName" ColumnName="HolidayTypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Punches">
+            <EntityTypeMapping TypeName="PunchClockNewModel.Punch">
+              <MappingFragment StoreEntitySet="Punch">
+                <ScalarProperty Name="PunchId" ColumnName="PunchId" />
+                <ScalarProperty Name="PunchDate" ColumnName="PunchDate" />
+                <ScalarProperty Name="PunchIn" ColumnName="PunchIn" />
+                <ScalarProperty Name="PunchOut" ColumnName="PunchOut" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsManagerAccepted" ColumnName="IsManagerAccepted" />
+                <ScalarProperty Name="RequestForApproval" ColumnName="RequestForApproval" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PunchClockNewModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GlobalId" ColumnName="GlobalId" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="EmploymentType" ColumnName="EmploymentType" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordLastChanged" ColumnName="PasswordLastChanged" />
+                <ScalarProperty Name="PasswordDisabled" ColumnName="PasswordDisabled" />
+                <ScalarProperty Name="RegisteredTimeZone" ColumnName="RegisteredTimeZone" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="DateCreated_utc" ColumnName="DateCreated_utc" />
+                <ScalarProperty Name="LastUpdated_utc" ColumnName="LastUpdated_utc" />
+                <ScalarProperty Name="LastActivityDate_utc" ColumnName="LastActivityDate_utc" />
+                <ScalarProperty Name="UserRegistered_IP" ColumnName="UserRegistered_IP" />
+                <ScalarProperty Name="Registered_MAC_Address" ColumnName="Registered_MAC_Address" />
+                <ScalarProperty Name="LastActive_MAC_Address" ColumnName="LastActive_MAC_Address" />
+                <ScalarProperty Name="LastActivity_IP" ColumnName="LastActivity_IP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyEmployeeHolidayPaids">
+            <EntityTypeMapping TypeName="PunchClockNewModel.CompanyEmployeeHolidayPaid">
+              <MappingFragment StoreEntitySet="CompanyEmployeeHolidayPaid">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="EmploymentTypeId" ColumnName="EmploymentTypeId" />
+                <ScalarProperty Name="IsHolidayPaid" ColumnName="IsHolidayPaid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyHolidays">
+            <EntityTypeMapping TypeName="PunchClockNewModel.CompanyHoliday">
+              <MappingFragment StoreEntitySet="CompanyHoliday">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="HolidayId" ColumnName="HolidayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyPaidHolidays">
+            <EntityTypeMapping TypeName="PunchClockNewModel.CompanyPaidHoliday">
+              <MappingFragment StoreEntitySet="CompanyPaidHolidays">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PaidHolidayTypeId" ColumnName="PaidHolidayTypeId" />
+                <ScalarProperty Name="NumberOfDaysPerYear" ColumnName="NumberOfDaysPerYear" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetCompanyHolidays" FunctionName="PunchClockNewModel.Store.usp_GetCompanyHolidays" />
+          <FunctionImportMapping FunctionImportName="usp_GetCompanyHolidaysForEmployee" FunctionName="PunchClockNewModel.Store.usp_GetCompanyHolidaysForEmployee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PunchClockNewModel.usp_GetCompanyHolidaysForEmployee_Result">
+                <ScalarProperty Name="HolidayName" ColumnName="HolidayName" />
+                <ScalarProperty Name="HolidayDate" ColumnName="HolidayDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,70 @@
+﻿@model PunchClock.Objects.Core.UserObjLibrary
+@{
+    ViewBag.Title = "User Details";
+}
+@{ List<SelectListItem> accountType = new List<SelectListItem>();
+   accountType.Add(new SelectListItem { Text = "Employee", Value = Convert.ToString((int)pcObjectLibrary.UserTypesEnum.Employee) });
+   accountType.Add(new SelectListItem { Text = "Manager", Value = Convert.ToString((int)pcObjectLibrary.UserTypesEnum.Manager) });}
+@*<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>You are at: @Html.DisplayTextFor(x => x.lastActivity_ip) @Html.Raw((string)ViewBag.Message)</h2>
+</hgroup>*@
+<div class="col-lg-6">
+    <div class="well bs-component">
+        @using (Ajax.BeginForm("Edit", "User", null,
+                                new AjaxOptions { HttpMethod = "POST", OnSuccess = "postResponseRegistration" },
+                                new { @class = "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>@ViewBag.Title</legend>
+                @Html.HiddenFor(x => x.UserId)
+                <div class="form-group">
+                    @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.FirstName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LastName, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.LastName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Telephone, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Telephone)
+                    </div>
+                </div>
+                @*   <li>
+                        @Html.LabelFor(x => x.password)
+                        @Html.PasswordFor(x => x.password)
+                        @Html.ValidationMessageFor(x => x.password)
+                    </li>
+                    <li>
+                        @Html.LabelFor(x => x.registrationCode)
+                        @Html.TextBoxFor(x => x.registrationCode)
+                        @Html.ValidationMessageFor(x => x.registrationCode)
+                    </li>*@
+                @*  <li>
+                        @Html.LabelFor(x => x.userObjLibraryObjLibraryTypeId)
+                        @Html.DropDownListFor(x => x.userObjLibraryObjLibraryTypeId, (IEnumerable<SelectListItem>)accountType, "--Select--")
+                        @Html.ValidationMessageFor(x => x.userObjLibraryObjLibraryTypeId)
+                    </li>*@
+                <div class="col-lg-10 col-lg-offset-2">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>

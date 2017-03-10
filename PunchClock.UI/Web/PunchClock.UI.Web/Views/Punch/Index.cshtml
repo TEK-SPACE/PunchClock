@@ -1,0 +1,103 @@
+﻿@model PunchClock.Objects.Core.PunchObjectLibrary
+@{
+    ViewBag.Title = "Punch In-Out";
+}
+@Scripts.Render("~/bundles/jqueryMask")
+<div class="col-lg-6">
+    <div class="well bs-component">
+        @if (Model != null)
+        {
+            using (Ajax.BeginForm("InOut", "Punch",
+                new { pId = Model.PunchId, inOut = "out" },
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    Confirm = "You're about to punch-Out?",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "punchBox"
+                },
+                htmlAttributes: new { id = "punchInForm", @class = "form-horizontal" }))
+            {
+                <fieldset id="punchBox">
+                    <legend>@ViewBag.Title</legend>
+                    <div class="form-group">
+                        @*<input type="submit" value="Punch In" disabled="disabled" class="btn btn-warning disabled" />*@
+                        <div class="col-lg-10">
+                            <span>
+                                @Html.Raw(string.Format("You have <span class='text-warning'> punched in at <strong>{1}</strong> </span> on {0}",
+                        Html.DisplayFor(x => Model.PunchDate),
+                       Html.DisplayFor(x => Model.PunchIn)))
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+
+                            @Html.TextBox("pTime", null,
+                   htmlAttributes: new
+                   {
+                       type = "time",
+                       @class = "pTime",
+                       style = "width: 120px; display:none;",
+                       id = "pTimePunchOut"
+                   })
+                            <input type="submit" value="Punch Out Now" class="btn btn-success" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            @Html.CheckBox("reqDifferentTime") <span>Request a different punch out time</span>
+                        </div>
+                    </div>
+                </fieldset>
+
+            }
+        }
+        else if (Model == null)
+        {
+            using (Ajax.BeginForm("InOut", "Punch",
+                    new { pId = 0, inOut = "in" },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        Confirm = "You're about to punch-In?",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "punchBox"
+                    },
+            htmlAttributes: new
+            {
+                id = "punchInForm",
+                @class = "form-horizontal"
+            }))
+            {
+                <fieldset id="punchBox">
+                    <legend> @ViewBag.Title </legend>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            @Html.TextBox("pTime", null,
+                   htmlAttributes: new
+                   {
+                       type = "time",
+                       @class = "pTime",
+                       style = "width: 120px;  display:none;",
+                       id = "pTimePunchIn"
+                   })
+                            <input type="submit" value="Punch In" class="btn btn-success" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            @*<input type="submit" value="Punch Out" disabled="disabled" class="btn btn-warning disabled" />*@
+                            @Html.CheckBox("reqDifferentTime") <span>Request a different punch in time</span>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        }
+    </div>
+</div>
+@section featured {
+    <aside>
+        @Html.ActionLink("Search Reports", "Report", "Punch", null, new { @class="btn btn-default" })
+    </aside>
+}

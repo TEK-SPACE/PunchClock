@@ -1,0 +1,39 @@
+﻿@model  Dictionary<string, List<PunchClock.Objects.Core.CompanyHolidayObjLibrary>>
+  @{int i = 0;}
+@using (Ajax.BeginForm("SetHolidays", "Employer", new { id = (string)ViewBag.companyId }, new AjaxOptions { HttpMethod = "POST" }, new { }))
+{
+  
+    <ul class="commonForm">
+        @foreach (var item in Model)
+        {
+            <h1>@Html.DisplayFor(x => item.Key)</h1>
+            <ul>
+                @foreach (var hld in item.Value)
+                {
+                    <li>@Html.CheckBox("holidayId", hld.CompanyId > 0, new { value = hld.HolidayId, @class="holidayCheck s"+hld.HolidayId.ToString() + hld.CompanyId.ToString(), id= item.Key+i.ToString() })
+                        @Html.Raw(hld.HolidayDate.HasValue ? hld.HolidayDate.Value.ToString("d")+ " - " : "")
+                         @Html.DisplayFor(x => hld.HolidayName)</li>
+                    i++;
+                }
+            </ul>
+        }
+    </ul>
+    <input type="submit" value="Update" class="k-button" />
+}
+
+<script type="text/javascript">
+    $(".holidayCheck").click(function (e) {
+        var isChecked = $(this).is(":checked");
+       // console.log(isChecked);
+        var _class = e.toElement.className;
+        //console.log(_class);
+        var _val = $.trim(_class.replace("holidayCheck",""))
+       // console.log(_val);
+        if (isChecked) {
+            $("." + _val).prop('checked', true);
+        }
+        else {
+            $("." + _val).prop('checked', false);
+        }
+    });
+</script>

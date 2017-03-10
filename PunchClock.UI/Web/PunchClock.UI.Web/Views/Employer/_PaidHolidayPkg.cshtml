@@ -1,0 +1,16 @@
+﻿@model List<PunchClock.Objects.Core.CompanyEmployeeHolidayPaidObjLibrary>
+@using (Ajax.BeginForm("PaidHolidayPkg", "Employer", null, new AjaxOptions { HttpMethod = "POST" }, new { }))
+{
+    <ul class="commonForm">
+        @for (var i = 0; i < Model.Count(); i++)
+        {
+            <li>
+                @Html.HiddenFor(x =>  Model[i].CompanyId)
+                @Html.HiddenFor(x => Model[i].EmploymentTypeId)
+                @Html.CheckBoxFor(x=> Model[i].IsHolidayPaid)
+                @Html.DisplayFor(x => Model[i].EmploymentTypeName)
+            </li>  
+        }
+    </ul>
+    <input type="submit" value="Update" class="k-button" />
+}

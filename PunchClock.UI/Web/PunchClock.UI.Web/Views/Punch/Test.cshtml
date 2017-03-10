@@ -1,0 +1,12 @@
+﻿@model pcObjectLibrary.PunchObjectLibrary
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+@using (Html.BeginForm())
+{
+    @Html.TextBoxFor(x => x.punchIn, htmlAttributes: new { type = "time", @class = "pTime", style = "width: 100px;", id = "pTime", name = "pTime"})
+    
+    <input type="submit" value="Save" />
+}

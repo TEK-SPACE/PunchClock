@@ -1,0 +1,5 @@
+﻿@model TimeSpan?
+@if (Model.HasValue)
+{
+    <span class="UTCTime">@Model.Value.ToString(@"hh\:mm\:ss")</span>
+}

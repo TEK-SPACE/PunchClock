@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>PunchClock.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{b1f72838-d8e1-48a9-9f30-b6b2ec70edfb}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>pcScripts</RootNamespace>
+    <AssemblyName>pcScripts</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <!-- Default to the v10.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'rbgx|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="insertStatements" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="Schema" />
+    <Folder Include="Config" />
+    <Folder Include="Config\Tables" />
+    <Folder Include="Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="insertStatements\Insert_UserTypes.sql" />
+    <Build Include="dbo\Tables\Punch.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Tables\CompanyHoliday.sql" />
+    <Build Include="dbo\Tables\CompanyEmployeeHolidayPaid.sql" />
+    <Build Include="dbo\Tables\Company.sql" />
+    <None Include="PunchClock.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pcScripts.publish.xml" />
+    <None Include="pcScriptsOnRBGX.publish.publish.xml" />
+    <None Include="insertStatements\InsertHolidayTypes.sql" />
+    <None Include="insertStatements\InsertNationalHolidays.sql" />
+    <None Include="insertStatements\InsertObservanceHolidays.sql" />
+    <None Include="insertStatements\InsertAdditionalChristianHolidays.sql" />
+    <None Include="insertStatements\InsertEmploymentTypes.sql" />
+    <None Include="Changes to Schema.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="pcScripts.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schema\Config.sql" />
+    <Build Include="Config\Tables\AppConfig.sql" />
+    <Build Include="Config\Tables\Country.sql" />
+    <Build Include="Config\Tables\States.sql" />
+    <Build Include="Config\Tables\UserTypes.sql" />
+    <Build Include="Config\Tables\HolidayType.sql" />
+    <Build Include="Config\Tables\Holidays.sql" />
+    <Build Include="Config\Tables\EmploymentType.sql" />
+    <Build Include="Stored Procedures\usp_GetCompanyHolidays.sql" />
+    <Build Include="Stored Procedures\usp_GetCompanyHolidaysForEmployee.sql" />
+    <Build Include="dbo\Tables\CompanyPaidHolidays.sql" />
+    <Build Include="dbo\Tables\HolidayTypeHoliday.sql" />
+    <Build Include="dbo\Tables\PaidHolidays.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="insertStatements\Insert.Country.sql" />
+  </ItemGroup>
+</Project>

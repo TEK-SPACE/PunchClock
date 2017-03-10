@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "PunchClock";
+}
+@section featured {
+    <h1>@ViewBag.Title - @ViewBag.Message</h1>
+    <p class="lead">
+        Punch Clock is an online tool for any employee to sign up and calculate their daily,weekly monthly hours and download the report in PDF format.
+    </p>
+}
+
+<div class="jumbotron">
+    <h1>Welcome to PunchClock</h1>
+    <p>Punch Clock is an online tool for any employee to sign up and calculate their daily,weekly monthly hours and download the report in PDF format.</p>
+    <p>@Html.ActionLink("Learn more", "About", "Home", null, new { @class = "btn btn-primary btn-lg" })</p>
+</div>
+<article class="col-lg-8 col-md-7 col-sm-6">
+    <section class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">How to use PunchClock</h3>
+        </div>
+        <div class="panel-body">
+            <ol class="round">
+                <li class="one">
+                    <h5>Getting Started</h5>
+                    Register for a account by providing your name, email, username and password.
+                    Manage your account to change password.
+                </li>
+
+                <li class="two">
+                    <h5>Punching</h5>
+                    click "Clock" and click punch now or Request Admin Approval
+                </li>
+
+                <li class="three">
+                    <h5>Generating Reports</h5>
+                    Click "Timesheets" enter "from" and "to" dates click search.
+                    Verify your results and click on download PDF or click export to excel.
+                </li>
+            </ol>
+        </div>
+    </section>
+</article>
