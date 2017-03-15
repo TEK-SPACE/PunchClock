@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using PunchClock.Domain.Model;
 
@@ -15,7 +16,20 @@ namespace PunchClock.DAL
         protected override void Seed(PunchClockDbContext context)
         {
             SeedEmploymentType(context);
+            SeedHolidayType(context);
             base.Seed(context);
+        }
+
+        private void SeedHolidayType(PunchClockDbContext context)
+        {
+            List<HolidayType> holidayTypes = new List<HolidayType>
+            {
+                new HolidayType {Id = 1, Name = "National Holiday", DateEnteredUtc = DateTime.UtcNow}
+            };
+            foreach (var holidayType in holidayTypes)
+            {
+                context.HolidayTypes.Add(holidayType);
+            }
         }
 
         private void SeedEmploymentType(PunchClockDbContext context)
