@@ -15,8 +15,8 @@ namespace PunchClock.Implementation
                 employeeTypes = unitOfWOrk.EmployeeTypeRepository.Get().Select(x =>
                     new SelectListItem
                     {
-                        Text = x.EmploymentTypeName,
-                        Value = x.EmploymentTypeId.ToString()
+                        Text = x.Name,
+                        Value = x.Id.ToString()
                     }).ToList();
             }
             return employeeTypes;

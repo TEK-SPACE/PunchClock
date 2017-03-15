@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PunchClock.Objects.Core
+namespace PunchClock.View.Model
 {
-    public abstract class ContactOL
+    public class Contact
     {
-        [Display(Name="Name")]
-        [Required(ErrorMessage="{0} is Required")]
-        [RegularExpression("[A-z]{2,15}", ErrorMessage="{0} is Invalid")]
+        [Display(Name = "Name")]
+        [Required(ErrorMessage = "{0} is Required")]
+        [RegularExpression("[A-z]{2,15}", ErrorMessage = "{0} is Invalid")]
         public string Name { get; set; }
 
         [Display(Name = "Email")]
@@ -22,7 +22,7 @@ namespace PunchClock.Objects.Core
         [Display(Name = "Message")]
         //[Required(ErrorMessage = "{0} is Required")]
         //[RegularExpression(@"?<!<[^>]*", ErrorMessage="{0} is Invalid")]
-        [StringLength(500,MinimumLength = 4, ErrorMessage="Min {2}, Max {1} chars")]
+        [StringLength(500, MinimumLength = 4, ErrorMessage = "Min {2}, Max {1} chars")]
         public string Message { get; set; }
 
         public string Subject { get; set; }

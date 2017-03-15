@@ -15,9 +15,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Entity", "PunchC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Common", "PunchClock.Common\PunchClock.Common.csproj", "{D813B844-C001-4661-B236-5F08E0EB27BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Model", "PunchClock.Model\PunchClock.Model.csproj", "{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.UI.Web", "PunchClock.UI\Web\PunchClock.UI.Web\PunchClock.UI.Web.csproj", "{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Domain.Model", "PunchClock.Domain.Model\PunchClock.Domain.Model.csproj", "{5DCD76EF-ABEB-417B-A482-EE53D31525DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.View.Model", "PunchClock.View.Model\PunchClock.View.Model.csproj", "{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Model.Mapper", "PunchClock.Model.Mapper\PunchClock.Model.Mapper.csproj", "{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Language", "PunchClock.Language\PunchClock.Language.csproj", "{99E50F39-600B-434C-89DE-DCED21DB9B8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,55 +68,38 @@ Global
 		{D813B844-C001-4661-B236-5F08E0EB27BC}.rbgx|Any CPU.Build.0 = rbgx|Any CPU
 		{D813B844-C001-4661-B236-5F08E0EB27BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D813B844-C001-4661-B236-5F08E0EB27BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}.rbgx|Any CPU.ActiveCfg = Release|Any CPU
-		{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}.rbgx|Any CPU.Build.0 = Release|Any CPU
-		{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB95681C-1AB9-4D7C-9FDA-34A58D7DA1BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}.rbgx|Any CPU.ActiveCfg = Release|Any CPU
 		{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}.rbgx|Any CPU.Build.0 = Release|Any CPU
 		{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD266D6C-53BB-459E-B4B1-3D6A7698C3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DCD76EF-ABEB-417B-A482-EE53D31525DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DCD76EF-ABEB-417B-A482-EE53D31525DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DCD76EF-ABEB-417B-A482-EE53D31525DA}.rbgx|Any CPU.ActiveCfg = Release|Any CPU
+		{5DCD76EF-ABEB-417B-A482-EE53D31525DA}.rbgx|Any CPU.Build.0 = Release|Any CPU
+		{5DCD76EF-ABEB-417B-A482-EE53D31525DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DCD76EF-ABEB-417B-A482-EE53D31525DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}.rbgx|Any CPU.ActiveCfg = Release|Any CPU
+		{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}.rbgx|Any CPU.Build.0 = Release|Any CPU
+		{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{631A7B90-04A6-40E7-AF7B-57F4FAC236CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}.rbgx|Any CPU.ActiveCfg = Release|Any CPU
+		{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}.rbgx|Any CPU.Build.0 = Release|Any CPU
+		{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E50F39-600B-434C-89DE-DCED21DB9B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E50F39-600B-434C-89DE-DCED21DB9B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E50F39-600B-434C-89DE-DCED21DB9B8F}.rbgx|Any CPU.ActiveCfg = Release|Any CPU
+		{99E50F39-600B-434C-89DE-DCED21DB9B8F}.rbgx|Any CPU.Build.0 = Release|Any CPU
+		{99E50F39-600B-434C-89DE-DCED21DB9B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E50F39-600B-434C-89DE-DCED21DB9B8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://rbgx.visualstudio.com/defaultcollection
-		SccProjectUniqueName0 = PunchClock.Entity\\PunchClock.Entity.csproj
-		SccProjectName0 = PunchClock.Entity
-		SccAuxPath0 = https://rbgx.visualstudio.com/defaultcollection
-		SccLocalPath0 = PunchClock.Entity
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = PunchClock.Objects.Core\\PunchClock.Objects.Core.csproj
-		SccProjectName1 = PunchClock.Objects.Core
-		SccAuxPath1 = https://rbgx.visualstudio.com/defaultcollection
-		SccLocalPath1 = PunchClock.Objects.Core
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = PunchClock.Interface\\PunchClock.Interface.csproj
-		SccProjectName2 = PunchClock.Interface
-		SccAuxPath2 = https://rbgx.visualstudio.com/defaultcollection
-		SccLocalPath2 = PunchClock.Interface
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName3 = PunchClock.DAL\\PunchClock.DAL.csproj
-		SccProjectName3 = PunchClock.DAL
-		SccAuxPath3 = https://rbgx.visualstudio.com/defaultcollection
-		SccLocalPath3 = PunchClock.DAL
-		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName4 = PunchClock.Common\\PunchClock.Common.csproj
-		SccProjectName4 = PunchClock.Common
-		SccAuxPath4 = https://rbgx.visualstudio.com/defaultcollection
-		SccLocalPath4 = PunchClock.Common
-		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName5 = PunchClock.Implementation\\PunchClock.Implementation.csproj
-		SccProjectName5 = PunchClock.Implementation
-		SccAuxPath5 = https://rbgx.visualstudio.com/defaultcollection
-		SccLocalPath5 = PunchClock.Implementation
-		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

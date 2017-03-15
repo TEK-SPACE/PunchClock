@@ -1,6 +1,5 @@
 ﻿using PunchClock.DAL;
 using PunchClock.DAL.Models;
-using PunchClock.Objects.Core;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,14 +10,14 @@ namespace PunchClock.Implementation
 {
     public class PasswordService
     {
-        private static bool ValidatePassword(UserObjLibrary user, string password)
+        private static bool ValidatePassword(View.Model.User user, string password)
         {
             return user.PasswordHash == EncodePassword(password, user.PasswordSalt);
         }
 
         public static int ValidatePassword(string userName, string password, string ipAddress, string macAddress)
         {
-            UserObjLibrary userObjLibrary = new UserObjLibrary();
+            View.Model.User userObjLibrary = new View.Model.User();
             using (var uow = new UnitOfWork())
             {
                 using (var userRepo = new UserRepository(uow))
@@ -27,8 +26,8 @@ namespace PunchClock.Implementation
                     if (user == null)
                         return -1;
 
-                    user.LastActivity_IP = ipAddress;
-                    user.LastActive_MAC_Address = macAddress;
+                    user.LastActivityIp = ipAddress;
+                    user.LastActiveMacAddress = macAddress;
                     userRepo.Update(user);
                     uow.Save();
                     userObjLibrary.InjectFrom(user);

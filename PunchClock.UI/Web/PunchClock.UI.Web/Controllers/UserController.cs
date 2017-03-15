@@ -18,9 +18,9 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = operatingUser.UserName });
-            UserObjLibrary user = new UserObjLibrary();
-            user.LastActivity_ip = userSession.IpAddress;
-            user.LastActive_MAC_address = userSession.MacAddress;
+            View.Model.User user = new View.Model.User();
+            user.LastActivityIp = userSession.IpAddress;
+            user.LastActiveMacAddress = userSession.MacAddress;
 
             ReadOnlyCollection<TimeZoneInfo> tz;
             tz = TimeZoneInfo.GetSystemTimeZones();
@@ -42,13 +42,13 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Register(UserObjLibrary user, FormCollection coll)
+        public JsonResult Register(View.Model.User user, FormCollection coll)
         {
-            user.UserRegistered_ip = userSession.IpAddress;
-            user.Registered_MAC_address = userSession.MacAddress;
-            user.LastActivity_ip = userSession.IpAddress;
-            user.LastActive_MAC_address = userSession.MacAddress;
-            user.EmploymentType = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+            user.UserRegisteredIp = userSession.IpAddress;
+            user.RegisteredMacAddress= userSession.MacAddress;
+            user.LastActivityIp = userSession.IpAddress;
+            user.LastActiveMacAddress = userSession.MacAddress;
+            user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
             UserService ub = new UserService();
             user.UserId = ub.Add(user);
             return Json(new { user = user });
@@ -60,24 +60,24 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (string.IsNullOrEmpty(userName))
                 userName = operatingUser.UserName;
-            UserObjLibrary user = new UserObjLibrary();
+            View.Model.User user = new View.Model.User();
             UserService ub = new UserService();
             user = ub.Details(userName);
-            user.UserRegistered_ip = userSession.IpAddress;
-            user.Registered_MAC_address = userSession.MacAddress;
-            user.LastActivity_ip = userSession.IpAddress;
-            user.LastActive_MAC_address = userSession.MacAddress;
+            user.UserRegisteredIp = userSession.IpAddress;
+            user.RegisteredMacAddress = userSession.MacAddress;
+            user.LastActivityIp = userSession.IpAddress;
+            user.LastActiveMacAddress = userSession.MacAddress;
             return View(user);
         }
 
         [HttpPost]
         [Authorize]
-        public JsonResult Edit(UserObjLibrary user)
+        public JsonResult Edit(View.Model.User user)
         {
-            user.UserRegistered_ip = userSession.IpAddress;
-            user.Registered_MAC_address = userSession.MacAddress;
-            user.LastActivity_ip = userSession.IpAddress;
-            user.LastActive_MAC_address = userSession.MacAddress;
+            user.UserRegisteredIp = userSession.IpAddress;
+            user.RegisteredMacAddress = userSession.MacAddress;
+            user.LastActivityIp = userSession.IpAddress;
+            user.LastActiveMacAddress = userSession.MacAddress;
             UserService ub = new UserService();
             user.UserId = ub.Update(user, false);
             return Json(new { user = user });
@@ -86,7 +86,7 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
-            UserObjLibrary user = new UserObjLibrary();
+            View.Model.User user = new View.Model.User();
             UserService ub = new UserService();
             user = ub.Details(userId: id);
 
@@ -101,7 +101,7 @@ namespace PunchClock.UI.Web.Controllers
                                   }).ToList();
             user.TimezonesList.Where(x => x.Value == user.RegisteredTimeZone).Single().Selected = true;
             var EmploymentTypes = Get.EmploymentTypes();
-            EmploymentTypes.Where(x => x.Value == user.EmploymentType.ToString()).First().Selected = true;
+            EmploymentTypes.Where(x => x.Value == user.EmploymentTypeId.ToString()).First().Selected = true;
             ViewBag.EmploymentType = EmploymentTypes;
 
             var UserTypes = Get.UserTypes(adminCall: true);
@@ -126,9 +126,9 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Details(UserObjLibrary obj, bool adminUpdate = false)
+        public ActionResult Details(View.Model.User obj, bool adminUpdate = false)
         {
-            UserObjLibrary user = new UserObjLibrary();
+            View.Model.User user = new View.Model.User();
             UserService ub = new UserService();
             user.UserId = ub.Update(obj, adminUpdate);
             return Json(new { user = obj });

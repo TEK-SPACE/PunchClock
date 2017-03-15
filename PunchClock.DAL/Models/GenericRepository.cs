@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using PunchClock.Model;
 using EntityState = System.Data.Entity.EntityState;
 
 namespace PunchClock.DAL.Models
@@ -11,10 +10,10 @@ namespace PunchClock.DAL.Models
 
     public sealed class GenericRepository<TEntity> where TEntity : class
     {
-        private readonly PunchClockEntities _context;
+        private readonly PunchClockContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public GenericRepository(PunchClockEntities context)
+        public GenericRepository(PunchClockContext context)
         {
             this._context = context;
             this._dbSet = context.Set<TEntity>();

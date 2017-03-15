@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PunchClock.View.Model;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -34,40 +35,40 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         public JsonResult Approve( FormCollection col)
         {
-            PunchObjectLibrary obj = new PunchObjectLibrary();
+            View.Model.Punch punch = new View.Model.Punch();
 
             int pId;
             int.TryParse(col.Get("models[0][punchId]"), out pId);
-            obj.PunchId = pId;
+            punch.PunchId = pId;
 
             int uId;
             int.TryParse(col.Get("models[0][userId]"), out uId);
-            obj.UserId = uId;
+            punch.UserId = uId;
 
-            obj.Comments = col.Get("models[0][comments]");
+            punch.Comments = col.Get("models[0][comments]");
 
             bool approved;
             bool.TryParse(col.Get("models[0][isManagerAccepted]"),out approved);
-            obj.IsManagerAccepted = approved;
+            punch.IsManagerAccepted = approved;
 
             UserService ub = new UserService();
-            string userTimeZoneId = ub.getTimeZoneOfUser(uId);
+            string userTimeZoneId = ub.GetTimeZoneOfUser(uId);
             //var ci = new System.Globalization.CultureInfo("en-us");
-            obj.PunchIn = Parse.ToUtcTime(jsOffsetTime: col.Get("models[0][punchIn]"), timeZoneId: userTimeZoneId);
-            obj.PunchOut = Parse.ToUtcTime(jsOffsetTime: col.Get("models[0][punchOut]"), timeZoneId: userTimeZoneId); 
+            punch.PunchIn = Parse.ToUtcTime(jsOffsetTime: col.Get("models[0][punchIn]"), timeZoneId: userTimeZoneId);
+            punch.PunchOut = Parse.ToUtcTime(jsOffsetTime: col.Get("models[0][punchOut]"), timeZoneId: userTimeZoneId); 
 
-           obj.PunchDate = Parse.ToDate(col.Get("models[0][punchDate]"));
-           obj.PunchDate = new DateTime(obj.PunchDate.Year, obj.PunchDate.Month, obj.PunchDate.Day, obj.PunchIn.Hours, obj.PunchIn.Minutes, obj.PunchIn.Seconds);
-           obj.PunchDate = TimeZoneInfo.ConvertTimeToUtc(obj.PunchDate, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone));
+           punch.PunchDate = Parse.ToDate(col.Get("models[0][punchDate]"));
+           punch.PunchDate = new DateTime(punch.PunchDate.Year, punch.PunchDate.Month, punch.PunchDate.Day, punch.PunchIn.Hours, punch.PunchIn.Minutes, punch.PunchIn.Seconds);
+           punch.PunchDate = TimeZoneInfo.ConvertTimeToUtc(punch.PunchDate, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone));
 
            bool isApproved = false;
             if (Get.AdminUsers().Any(y => operatingUser.UserTypeId.Equals(y)))
             {
                 PunchService pb = new PunchService();
-                isApproved = pb.Approve(punchObj: obj, opUserId: operatingUser.UserId);
+                isApproved = pb.Approve(punchObj: punch, opUserId: operatingUser.UserId);
             }
             //return Json(new { isSuccess = isApproved });
-            return Json(true);
+            return Json(isApproved);
         }
 
         [Authorize]
@@ -75,9 +76,8 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (Get.AdminUsers().Any(y => operatingUser.UserTypeId.Equals(y)))
             {
-                List<PunchObjectLibrary> obj = new List<PunchObjectLibrary>();
-                PunchService pb = new PunchService();
-                obj = pb.GetOpenLogs(opUserId: operatingUser.UserId);
+                PunchService punchService = new PunchService();
+                var obj = punchService.GetOpenLogs(opUserId: operatingUser.UserId);
 
                 foreach (var punch in obj)
                 {

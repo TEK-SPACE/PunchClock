@@ -88,17 +88,25 @@
       <Project>{35b3bfcb-e505-4abf-bc2a-6673b759f77a}</Project>
       <Name>PunchClock.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
+      <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
+      <Name>PunchClock.Domain.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PunchClock.Interface\PunchClock.Interface.csproj">
       <Project>{3f3c7539-9156-4a40-840a-a6dc8bd9d3b3}</Project>
       <Name>PunchClock.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PunchClock.Model\PunchClock.Model.csproj">
-      <Project>{eb95681c-1ab9-4d7c-9fda-34a58d7da1bc}</Project>
-      <Name>PunchClock.Model</Name>
+    <ProjectReference Include="..\PunchClock.Model.Mapper\PunchClock.Model.Mapper.csproj">
+      <Project>{12e43f9a-e1e5-434f-bace-a48128dfc3e7}</Project>
+      <Name>PunchClock.Model.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\PunchClock.Objects.Core\PunchClock.Objects.Core.csproj">
       <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
       <Name>PunchClock.Objects.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PunchClock.View.Model\PunchClock.View.Model.csproj">
+      <Project>{631a7b90-04a6-40e7-af7b-57f4fac236ce}</Project>
+      <Name>PunchClock.View.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

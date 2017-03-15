@@ -1,4 +1,4 @@
-﻿using PunchClock.Model;
+﻿using PunchClock.Domain.Model;
 
 namespace PunchClock.Interface
 {

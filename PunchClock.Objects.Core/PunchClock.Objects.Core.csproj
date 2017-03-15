@@ -58,16 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompanyEmployeeHolidayPaidObjLibrary.cs" />
-    <Compile Include="CompanyHolidayObjLibrary.cs" />
-    <Compile Include="CompanyObjLibrary.cs" />
-    <Compile Include="ContactOL.cs" />
     <Compile Include="Enum\EmploymentType.cs" />
     <Compile Include="GeoPluginOL.cs" />
-    <Compile Include="HolidaysObjLibrary.cs" />
-    <Compile Include="PunchObjectLibrary.cs" />
     <Compile Include="SessionObjLibrary.cs" />
-    <Compile Include="UserObjLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enum\RegistrationStatus.cs" />
     <Compile Include="Enum\UserType.cs" />

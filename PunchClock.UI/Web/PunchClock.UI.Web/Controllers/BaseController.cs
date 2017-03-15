@@ -8,7 +8,7 @@ namespace PunchClock.UI.Web.Controllers
     public class BaseController : Controller
     {
         public SessionObjLibrary userSession = new SessionObjLibrary();
-        public UserObjLibrary operatingUser = new UserObjLibrary();
+        public View.Model.User operatingUser = new View.Model.User();
         public BaseController()
         {
             SessionService session = new SessionService();

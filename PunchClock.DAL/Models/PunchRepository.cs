@@ -2,7 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using PunchClock.Model;
+using PunchClock.Domain.Model;
 using PunchClock.Interface;
 using EntityState = System.Data.Entity.EntityState;
 
@@ -10,7 +10,7 @@ namespace PunchClock.DAL.Models
 { 
     public class PunchRepository : IPunchRepository
     {
-        private readonly PunchClockEntities _context;
+        private readonly PunchClockContext _context;
 
         public PunchRepository(UnitOfWork uow)
         {
@@ -18,11 +18,11 @@ namespace PunchClock.DAL.Models
         }
 
         #region Entity Implementation
-        public IQueryable<Punch> All => _context.Punches;
+        public IQueryable<Punch> All => _context.Punch;
 
         public IQueryable<Punch> AllIncluding(params Expression<Func<Punch, object>>[] includeProperties)
         {
-            IQueryable<Punch> query = _context.Punches;
+            IQueryable<Punch> query = _context.Punch;
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
@@ -32,7 +32,7 @@ namespace PunchClock.DAL.Models
 
         public Punch Find(int id)
         {
-            return _context.Punches.Find(id);
+            return _context.Punch.Find(id);
         }
 
         public void Insert(Punch punch)
@@ -51,7 +51,7 @@ namespace PunchClock.DAL.Models
         /// <param name="punch"></param>
         public void InsertOrUpdate(Punch punch)
         {
-            if (punch.PunchId == default(int))
+            if (punch.Id == default(int))
             {
                 // New entity
                 _context.Entry(punch).State = EntityState.Added;
@@ -59,15 +59,15 @@ namespace PunchClock.DAL.Models
             else
             {
                 // Existing entity
-                _context.Punches.Add(punch);
+                _context.Punch.Add(punch);
                 //context.Entry(punch).State = StateHelper.ConverState(punch.State);
             }
         }
 
         public void Delete(int id)
         {
-            var user = _context.Users.Find(id);
-            if (user != null) _context.Users.Remove(user);
+            var user = _context.User.Find(id);
+            if (user != null) _context.User.Remove(user);
         }
 
         public void Dispose()

@@ -1,5 +1,5 @@
 ﻿using PunchClock.Interface;
-using PunchClock.Model;
+using PunchClock.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace PunchClock.DAL.Models
 {
     public class ComplexTypeRepository<T> : IEntityRepository<T>
     {
-        private readonly PunchClockEntities _context;
+        private readonly PunchClockContext _context;
 
         public ComplexTypeRepository(UnitOfWork uow)
         {
@@ -29,9 +29,9 @@ namespace PunchClock.DAL.Models
         //{
         //    if (_context != null) return _context.usp_GetCompanyHolidaysForEmployee(companyId, employeeId).ToList();
         //}
-        public int usp_GetCompanyHolidays(int companyId)
+        public List<Holiday> GetCompanyHolidays(int companyId)
         {
-            return _context.usp_GetCompanyHolidays(companyId);
+            return _context.GetCompanyHolidays(companyId);
         }
 
         public void Dispose()

@@ -1817,6 +1817,7 @@
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Manage\Logs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1841,6 +1842,10 @@
     <ProjectReference Include="..\..\..\PunchClock.Objects.Core\PunchClock.Objects.Core.csproj">
       <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
       <Name>PunchClock.Objects.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.View.Model\PunchClock.View.Model.csproj">
+      <Project>{631a7b90-04a6-40e7-af7b-57f4fac236ce}</Project>
+      <Name>PunchClock.View.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,14 +4,14 @@ using System.Linq.Expressions;
 
 namespace PunchClock.Interface
 {
-    public interface IEntityRepository<T> : IDisposable
+    public interface IEntityRepository<TEntity> : IDisposable
     {
-        IQueryable<T> All { get; }
-        IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
-        T Find(int id);
-        void Insert(T entity);
-        void Update(T entity);
-        void InsertOrUpdate(T entity);
+        IQueryable<TEntity> All { get; }
+        IQueryable<TEntity> AllIncluding(params Expression<Func<TEntity, object>>[] includeProperties);
+        TEntity Find(int id);
+        void Insert(TEntity entity);
+        void Update(TEntity entity);
+        void InsertOrUpdate(TEntity entity);
         void Delete(int id);
         //void Save();
     }

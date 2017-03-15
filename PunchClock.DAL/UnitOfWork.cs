@@ -1,28 +1,28 @@
 ﻿using PunchClock.DAL.Models;
-using PunchClock.Model;
 using System;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.DAL
 {
     public sealed class UnitOfWork : IDisposable
     {
-        private readonly PunchClockEntities _context;
+        private readonly PunchClockContext _context;
         public UnitOfWork()
         {
-            _context = new PunchClockEntities();
+            _context = new PunchClockContext();
         }
-        public UnitOfWork(PunchClockEntities context)
+        public UnitOfWork(PunchClockContext context)
         {
             _context = context;
         }
 
-        internal PunchClockEntities Context => _context;
+        internal PunchClockContext Context => _context;
 
         private GenericRepository<User> _userRepository;
         private GenericRepository<Punch> _punchRepository;
         private GenericRepository<Company> _companyRepository;
         private GenericRepository<EmploymentType> _employmentTypeRepository;
-        private GenericRepository<CompanyEmployeeHolidayPaid> _companyEmployeeHolidayPaidsRepository;
+        private GenericRepository<EmployeePaidHoliday> _employeePaidHoliday;
         private GenericRepository<Holiday> _holidayRepository;
         private GenericRepository<HolidayTypeHoliday> _holidayTypeHolidayRepository;
         private GenericRepository<HolidayType> _holidayTypeRepository;
@@ -75,15 +75,15 @@ namespace PunchClock.DAL
             }
         }
 
-        public GenericRepository<CompanyEmployeeHolidayPaid> CompanyEmployeeHolidayPaidRepository
+        public GenericRepository<EmployeePaidHoliday> EmployeePaidHolidayPaidRepository
         {
             get
             {
-                if (this._companyEmployeeHolidayPaidsRepository == null)
+                if (this._employeePaidHoliday == null)
                 {
-                    this._companyEmployeeHolidayPaidsRepository = new GenericRepository<CompanyEmployeeHolidayPaid>(_context);
+                    this._employeePaidHoliday = new GenericRepository<EmployeePaidHoliday>(_context);
                 }
-                return _companyEmployeeHolidayPaidsRepository;
+                return _employeePaidHoliday;
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using PunchClock.Model;
+﻿using PunchClock.Domain.Model;
 using PunchClock.Objects.Core;
 using System.Web;
 

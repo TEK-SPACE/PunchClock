@@ -2,8 +2,8 @@
 
 namespace PunchClock.Interface
 {
-    public interface IGenericRepository<T>
+    public interface IGenericRepository<out TEntity>
     {
-        IEnumerable<T> ExecWithStoreProcedure(string query, params object[] parameters);
+        IEnumerable<TEntity> ExecWithStoreProcedure(string query, params object[] parameters);
     }
 }

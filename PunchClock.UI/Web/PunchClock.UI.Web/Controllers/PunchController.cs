@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using PunchClock.View.Model;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -20,14 +21,14 @@ namespace PunchClock.UI.Web.Controllers
 
         public ActionResult Index()
         {
-            PunchObjectLibrary obj = new PunchObjectLibrary();
+            Punch obj = new Punch();
             PunchService pb = new PunchService();
             obj = pb.OpUserOpenLog(operatingUser.UserId);
             return View(obj);
         }
 
         [HttpPost]
-        public ActionResult Index(PunchObjectLibrary obj)
+        public ActionResult Index(Punch obj)
         {
             return View(obj);
         }
@@ -81,7 +82,7 @@ namespace PunchClock.UI.Web.Controllers
         public JsonResult Report(DateTime? stDate, DateTime? enDate, int userId = 0)
         {
             ViewBag.Message = "Enter your search criteria";
-            List<PunchObjectLibrary> obj = new List<PunchObjectLibrary>();
+            List<Punch> obj = new List<Punch>();
             if (userId == 0)
                 userId = operatingUser.UserId;
             PunchService pb = new PunchService();
@@ -108,7 +109,7 @@ namespace PunchClock.UI.Web.Controllers
             obj = pb.Search(operatingUserId: operatingUser.UserId, userId: userId, stDate: stDate.Value, enDate:enDate.Value);
 
             CompanyService cb = new CompanyService();
-            List<HolidaysObjLibrary> holidays = cb.GetCompanyHolidays(companyId: operatingUser.CompanyId, userId: userId == 0 ? operatingUser.UserId : userId, stDate: stDate.Value, enDate: enDate.Value);
+            List<Holiday> holidays = cb.GetCompanyHolidays(companyId: operatingUser.CompanyId, userId: userId == 0 ? operatingUser.UserId : userId, stDate: stDate.Value, enDate: enDate.Value);
 
             foreach (var holiday in holidays)
             {
@@ -118,7 +119,7 @@ namespace PunchClock.UI.Web.Controllers
 
                 if (nameOfTheDay != "sunday" && nameOfTheDay != "saturday")
                 {
-                    obj.Add(new PunchObjectLibrary
+                    obj.Add(new Punch
                     {
                         PunchId = -69,
                         PunchDate = TimeZoneInfo.ConvertTimeToUtc(holiday.HolidayDate.Value.Date, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)),
@@ -158,9 +159,9 @@ namespace PunchClock.UI.Web.Controllers
 
         public FileResult Export()
         {
-            List<PunchObjectLibrary> obj = new List<PunchObjectLibrary>();
+            List<Punch> obj = new List<Punch>();
             if (Session["punchObjectLibrary"] != null)
-                obj = (List<PunchObjectLibrary>)Session["punchObjectLibrary"];
+                obj = (List<Punch>)Session["punchObjectLibrary"];
             else
                 return File("", "application/pdf", "NoDataFound.pdf");
             // step 1: creation of a document-object
@@ -182,15 +183,15 @@ namespace PunchClock.UI.Web.Controllers
             dataTable.DefaultCell.BorderWidth = 2;
             dataTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
             UserService UB = new UserService();
-            UserObjLibrary userDetails = UB.Details(obj.FirstOrDefault().UserId);
+            User userDetails = UB.Details(obj.FirstOrDefault().UserId);
             var EmployeeName = string.Format("{0} {1} {2}", userDetails.FirstName, userDetails.MiddleName, userDetails.LastName);
 
             //Adding Company
-            if (operatingUser.CompanyObjLibrary.LogoBinary != null)
+            if (operatingUser.Company.LogoBinary != null)
             {
                 //string imageBase64 = Convert.ToBase64String(operatingUser.tCompany.logoBinary);
                 //string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
-                Image gif = Image.GetInstance(operatingUser.CompanyObjLibrary.LogoBinary);
+                Image gif = Image.GetInstance(operatingUser.Company.LogoBinary);
                 gif.ScaleAbsoluteWidth(140);
                 gif.ScaleAbsoluteHeight(30);
                 dataTable.AddCell(new PdfPCell(gif) { Colspan = 3, BorderWidth = 0, PaddingTop = 5, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT });
@@ -218,7 +219,7 @@ namespace PunchClock.UI.Web.Controllers
             dataTable.HeaderRows = 1;
             dataTable.DefaultCell.BorderWidth = 1;
             List<TimeSpan> TimeSpanCollection = new List<TimeSpan>();
-            foreach (PunchObjectLibrary punch in obj)
+            foreach (Punch punch in obj)
             {
                 
                 var pIn = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate.Date + punch.PunchIn, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone));
