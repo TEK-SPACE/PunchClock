@@ -1,6 +1,6 @@
-﻿@model PunchClock.Objects.Core.PunchObjectLibrary
+﻿@model PunchClock.View.Model.PunchView
 @{
-    ViewBag.Title = "Punch In-Out";
+    ViewBag.Title = "Punches In-Out";
 }
 @Scripts.Render("~/bundles/jqueryMask")
 <div class="col-lg-6">
@@ -21,7 +21,7 @@
                 <fieldset id="punchBox">
                     <legend>@ViewBag.Title</legend>
                     <div class="form-group">
-                        @*<input type="submit" value="Punch In" disabled="disabled" class="btn btn-warning disabled" />*@
+                        @*<input type="submit" value="Punches In" disabled="disabled" class="btn btn-warning disabled" />*@
                         <div class="col-lg-10">
                             <span>
                                 @Html.Raw(string.Format("You have <span class='text-warning'> punched in at <strong>{1}</strong> </span> on {0}",
@@ -39,9 +39,9 @@
                        type = "time",
                        @class = "pTime",
                        style = "width: 120px; display:none;",
-                       id = "pTimePunchOut"
+                       id = "pTimePunchesOut"
                    })
-                            <input type="submit" value="Punch Out Now" class="btn btn-success" />
+                            <input type="submit" value="Punches Out Now" class="btn btn-success" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -80,14 +80,14 @@
                        type = "time",
                        @class = "pTime",
                        style = "width: 120px;  display:none;",
-                       id = "pTimePunchIn"
+                       id = "pTimePunchesIn"
                    })
-                            <input type="submit" value="Punch In" class="btn btn-success" />
+                            <input type="submit" value="Punches In" class="btn btn-success" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10">
-                            @*<input type="submit" value="Punch Out" disabled="disabled" class="btn btn-warning disabled" />*@
+                            @*<input type="submit" value="Punches Out" disabled="disabled" class="btn btn-warning disabled" />*@
                             @Html.CheckBox("reqDifferentTime") <span>Request a different punch in time</span>
                         </div>
                     </div>

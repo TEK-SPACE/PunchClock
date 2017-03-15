@@ -18,9 +18,9 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = operatingUser.UserName });
-            View.Model.User user = new View.Model.User();
-            user.LastActivityIp = userSession.IpAddress;
-            user.LastActiveMacAddress = userSession.MacAddress;
+            View.Model.UserView user = new View.Model.UserView();
+            user.LastActivityIp = UserUserSession.IpAddress;
+            user.LastActiveMacAddress = UserUserSession.MacAddress;
 
             ReadOnlyCollection<TimeZoneInfo> tz;
             tz = TimeZoneInfo.GetSystemTimeZones();
@@ -42,12 +42,12 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Register(View.Model.User user, FormCollection coll)
+        public JsonResult Register(View.Model.UserView user, FormCollection coll)
         {
-            user.UserRegisteredIp = userSession.IpAddress;
-            user.RegisteredMacAddress= userSession.MacAddress;
-            user.LastActivityIp = userSession.IpAddress;
-            user.LastActiveMacAddress = userSession.MacAddress;
+            user.UserRegisteredIp = UserUserSession.IpAddress;
+            user.RegisteredMacAddress= UserUserSession.MacAddress;
+            user.LastActivityIp = UserUserSession.IpAddress;
+            user.LastActiveMacAddress = UserUserSession.MacAddress;
             user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
             UserService ub = new UserService();
             user.UserId = ub.Add(user);
@@ -60,24 +60,24 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (string.IsNullOrEmpty(userName))
                 userName = operatingUser.UserName;
-            View.Model.User user = new View.Model.User();
+            View.Model.UserView user = new View.Model.UserView();
             UserService ub = new UserService();
             user = ub.Details(userName);
-            user.UserRegisteredIp = userSession.IpAddress;
-            user.RegisteredMacAddress = userSession.MacAddress;
-            user.LastActivityIp = userSession.IpAddress;
-            user.LastActiveMacAddress = userSession.MacAddress;
+            user.UserRegisteredIp = UserUserSession.IpAddress;
+            user.RegisteredMacAddress = UserUserSession.MacAddress;
+            user.LastActivityIp = UserUserSession.IpAddress;
+            user.LastActiveMacAddress = UserUserSession.MacAddress;
             return View(user);
         }
 
         [HttpPost]
         [Authorize]
-        public JsonResult Edit(View.Model.User user)
+        public JsonResult Edit(View.Model.UserView user)
         {
-            user.UserRegisteredIp = userSession.IpAddress;
-            user.RegisteredMacAddress = userSession.MacAddress;
-            user.LastActivityIp = userSession.IpAddress;
-            user.LastActiveMacAddress = userSession.MacAddress;
+            user.UserRegisteredIp = UserUserSession.IpAddress;
+            user.RegisteredMacAddress = UserUserSession.MacAddress;
+            user.LastActivityIp = UserUserSession.IpAddress;
+            user.LastActiveMacAddress = UserUserSession.MacAddress;
             UserService ub = new UserService();
             user.UserId = ub.Update(user, false);
             return Json(new { user = user });
@@ -86,7 +86,7 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
-            View.Model.User user = new View.Model.User();
+            View.Model.UserView user = new View.Model.UserView();
             UserService ub = new UserService();
             user = ub.Details(userId: id);
 
@@ -126,9 +126,9 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Details(View.Model.User obj, bool adminUpdate = false)
+        public ActionResult Details(View.Model.UserView obj, bool adminUpdate = false)
         {
-            View.Model.User user = new View.Model.User();
+            View.Model.UserView user = new View.Model.UserView();
             UserService ub = new UserService();
             user.UserId = ub.Update(obj, adminUpdate);
             return Json(new { user = obj });

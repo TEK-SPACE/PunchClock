@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using PunchClock.Objects.Core;
 
 namespace PunchClock.View.Model
 {
-    public class Company
+    public class CompanyView
     {
         public int CompanyId { get; set; }
         public Guid GlobalId { get; set; }
@@ -23,6 +22,6 @@ namespace PunchClock.View.Model
         public string RegisterCode { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public User User { get; set; }
+        public UserView User { get; set; }
     }
 }

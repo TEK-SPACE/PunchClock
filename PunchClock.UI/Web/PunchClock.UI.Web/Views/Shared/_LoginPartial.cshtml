@@ -6,11 +6,11 @@
             @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "", title = "Manage" })
         </li>
         <li>
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            <a href="javascript:document.getElementByUserId('logoutForm').submit()">Log off</a>
             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
             {
                 @Html.AntiForgeryToken()
-                @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
+                @*<a href="javascript:document.getElementByUserId('logoutForm').submit()">Log off</a>*@
             }
         </li>
 }

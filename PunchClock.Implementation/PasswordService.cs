@@ -10,14 +10,14 @@ namespace PunchClock.Implementation
 {
     public class PasswordService
     {
-        private static bool ValidatePassword(View.Model.User user, string password)
+        private static bool ValidatePassword(View.Model.UserView user, string password)
         {
             return user.PasswordHash == EncodePassword(password, user.PasswordSalt);
         }
 
         public static int ValidatePassword(string userName, string password, string ipAddress, string macAddress)
         {
-            View.Model.User userObjLibrary = new View.Model.User();
+            View.Model.UserView userObjLibrary = new View.Model.UserView();
             using (var uow = new UnitOfWork())
             {
                 using (var userRepo = new UserRepository(uow))

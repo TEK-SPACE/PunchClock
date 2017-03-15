@@ -6,9 +6,9 @@ namespace PunchClock.Implementation
 {
     public class SessionService
     {
-        public SessionObjLibrary GetCurrentSession(HttpContextBase httpContext)
+        public UserSession GetCurrentSession(HttpContextBase httpContext)
         {
-            SessionObjLibrary sess = new SessionObjLibrary
+            UserSession sess = new UserSession
             {
                 IpAddress = Geo.GetIpAddress(),
                 MacAddress = Geo.GetMac()

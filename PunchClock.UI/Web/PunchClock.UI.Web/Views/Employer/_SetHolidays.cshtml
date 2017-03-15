@@ -1,8 +1,8 @@
-﻿@model  Dictionary<string, List<PunchClock.Objects.Core.CompanyHolidayObjLibrary>>
+﻿@model  Dictionary<string, List<PunchClock.View.Model.CompanyHolidayView>>
   @{int i = 0;}
-@using (Ajax.BeginForm("SetHolidays", "Employer", new { id = (string)ViewBag.companyId }, new AjaxOptions { HttpMethod = "POST" }, new { }))
+@using (Ajax.BeginForm("SetHolidays", "Employer", new {id = (string) ViewBag.companyId}, new AjaxOptions {HttpMethod = "POST"}, new {}))
 {
-  
+
     <ul class="commonForm">
         @foreach (var item in Model)
         {
@@ -10,15 +10,16 @@
             <ul>
                 @foreach (var hld in item.Value)
                 {
-                    <li>@Html.CheckBox("holidayId", hld.CompanyId > 0, new { value = hld.HolidayId, @class="holidayCheck s"+hld.HolidayId.ToString() + hld.CompanyId.ToString(), id= item.Key+i.ToString() })
-                        @Html.Raw(hld.HolidayDate.HasValue ? hld.HolidayDate.Value.ToString("d")+ " - " : "")
-                         @Html.DisplayFor(x => hld.HolidayName)</li>
+                    <li>
+                        @Html.CheckBox("holidayUserId", hld.CompanyId > 0, new {value = hld.HolidayId, @class = "holidayCheck s" + hld.HolidayId + hld.CompanyId, id = item.Key + i})
+                        @Html.Raw(hld.HolidayDate.HasValue ? hld.HolidayDate.Value.ToString("d") + " - " : "")
+                        @Html.DisplayFor(x => hld.HolidayName)</li>
                     i++;
                 }
             </ul>
         }
     </ul>
-    <input type="submit" value="Update" class="k-button" />
+    <input type="submit" value="Update" class="k-button"/>
 }
 
 <script type="text/javascript">

@@ -6,17 +6,17 @@ namespace PunchClock.DAL
 {
     public sealed class UnitOfWork : IDisposable
     {
-        private readonly PunchClockContext _context;
+        private readonly PunchClockDbContext _context;
         public UnitOfWork()
         {
-            _context = new PunchClockContext();
+            _context = new PunchClockDbContext();
         }
-        public UnitOfWork(PunchClockContext context)
+        public UnitOfWork(PunchClockDbContext context)
         {
             _context = context;
         }
 
-        internal PunchClockContext Context => _context;
+        internal PunchClockDbContext Context => _context;
 
         private GenericRepository<User> _userRepository;
         private GenericRepository<Punch> _punchRepository;

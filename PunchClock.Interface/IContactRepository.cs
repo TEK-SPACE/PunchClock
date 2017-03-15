@@ -5,6 +5,6 @@ namespace PunchClock.Interface
 {
     public interface IContactRepository : IEntityRepository<User>
     {
-        bool Submit(View.Model.Contact obj, GeoPluginOL geo);
+        bool Submit(View.Model.ContactView obj, GeoPlugin geo);
     }
 }

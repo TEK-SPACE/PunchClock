@@ -1,6 +1,6 @@
-﻿@model pcObjectLibrary.UserObjLibrary
+﻿@model PunchClock.View.Model.UserView
 @{
-    ViewBag.Title = "Punch Reports";
+    ViewBag.Title = "Punches Reports";
 }
 <div class="col-lg-6">
     <div class="well bs-component">
@@ -17,7 +17,7 @@
                                    name="searchType"
                                    checked
                                    value="1"
-                                   class="ckdPunchReport">
+                                   class="ckdPunchesReport">
                             Month
                         </label>
                     </div>
@@ -33,7 +33,7 @@
                             <input type="radio"
                                    name="searchType"
                                    value="2"
-                                   class="ckdPunchReport">
+                                   class="ckdPunchesReport">
                             Date Range
                         </label>
                     </div>
@@ -46,15 +46,15 @@
                     </div>
                 </div>
 
-                @if (PunchClock.UI.Web.Helpers.UserHelpers.IsAdmin(user: User) || PunchClock.Helpers.UserHelpers.isHumanResource(user: User))
+                @if (PunchClock.UI.Web.Helpers.UserHelpers.IsAdmin(user: User) || PunchClock.UI.Web.Helpers.UserHelpers.IsHumanResource(user: User))
                 {
                     <div class="form-group">
                         @*<label class="col-lg-2 control-label">
                                 Employee
                             </label>*@
                         <div class="col-lg-10">
-                            @Html.DropDownListFor(x => x.userObjLibraryId, (IEnumerable<SelectListItem>)(ViewBag.users), htmlAttributes: new { required = "required", @class = "form-control" })
-                            @Html.ValidationMessage("userObjLibraryId_listbox", "Please select employee")
+                            @Html.DropDownListFor(x => x.UserId, (IEnumerable<SelectListItem>)(ViewBag.users), htmlAttributes: new { required = "required", @class = "form-control" })
+                            @Html.ValidationMessage("userObjLibraryUserId_listbox", "Please select employee")
                         </div>
                     </div>
                 }
@@ -92,23 +92,23 @@
         }
         //$("#resultGrid").parent().html("<section id=\"resultGrid\"></section>");
         $("#resultGrid").kendoGrid({
-            columns: [{ field: "PunchId", title: "id", hidden: true },
+            columns: [{ field: "PunchesUserId", title: "id", hidden: true },
                 {
-                    field: "PunchDate",// create a column bound to the "name" field
+                    field: "PunchesDate",// create a column bound to the "name" field
                     title: "Date", // set its title to "Name"
                     type: "date",
                     format: "{0:dd-MMM-yyyy}",
                     footerTemplate: "#: kendo.toString(min, 'd') # - #: kendo.toString(max, 'd')#"
                 }, {
-                    field: "PunchDay",// create a column bound to the "age" field
+                    field: "PunchesDay",// create a column bound to the "age" field
                     //format: "{0:dd-MMM-yyyy}",
                     title: "Day" // set its title to "Age"
                 }, {
-                    field: "PunchIn",// create a column bound to the "age" field
+                    field: "PunchesIn",// create a column bound to the "age" field
                     title: "In-Time" // set its title to "Age"
                 },
             {
-                field: "PunchOut",// create a column bound to the "age" field
+                field: "PunchesOut",// create a column bound to the "age" field
                 title: "Out-Time" // set its title to "Age"
             },
             {
@@ -134,8 +134,8 @@
                             elem.PunchIn = UTCToClientLocal(elem.PunchIn.Hours + ":" + elem.PunchIn.Minutes + ":" + elem.PunchIn.Seconds);
                             elem.PunchDay = DayFromDate(elem.PunchDate);
                             elem.PunchOut = UTCToClientLocal(elem.PunchOut.Hours + ":" + elem.PunchOut.Minutes + ":" + elem.PunchOut.Seconds);
-                            //elem.punchDate = elem.punchId != -69 ? UTCDateToClientLocalDate(elem.punchDate) : elem.punchDate;
-                            //elem.punchDate = elem.punchId != -69 ? DateToUTC(elem.punchDate) : elem.punchDate;
+                            //elem.punchDate = elem.punchUserId != -69 ? UTCDateToClientLocalDate(elem.punchDate) : elem.punchDate;
+                            //elem.punchDate = elem.punchUserId != -69 ? DateToUTC(elem.punchDate) : elem.punchDate;
                             elem.HoursNew = MinutesToTime(elem.Hours);
                             elem.Hours = elem.Hours;
                         });
@@ -146,7 +146,7 @@
                     { field: "Hours", aggregate: "sum" },
                     { fielP: "ApprovedHours", aggregate: "sum" },
                 { field: "punchDate", aggregate: "min", format: "{0:dd-MMM-yyyy}" },
-                { field: "PunchDate", aggregate: "max", format: "{0:dd-MMM-yyyy}" }]
+                { field: "PunchesDate", aggregate: "max", format: "{0:dd-MMM-yyyy}" }]
             },
             toolbar: kendo.template($("#ToolBarTemplate").html()),
             rowTemplate: kendo.template($("#rowTemplate").html()),
@@ -165,22 +165,22 @@
     }
 </script>
 <script id="rowTemplate" type="text/x-kendo-tmpl">
-    # if (PunchId == -69){ #
+    # if (PunchesUserId == -69){ #
     <tr role="row" class="holidayRow success">
         # } else  if(!RequestForApproval || (RequestForApproval && IsManagerAccepted)){ #
     <tr role="row">
         # } else { #
     <tr role="row" class="pendingApproval warning">
         # } #
-        <td style="display:none" role="gridcell">#: PunchId #</td>
-        <td role="gridcell">#: kendo.toString(PunchDate, 'd') # </td>
-        <td role="gridcell">#: PunchDay #</td>
-        # if (PunchId == -69){ #
+        <td style="display:none" role="gridcell">#: PunchesUserId #</td>
+        <td role="gridcell">#: kendo.toString(PunchesDate, 'd') # </td>
+        <td role="gridcell">#: PunchesDay #</td>
+        # if (PunchesUserId == -69){ #
         <td role="gridcell">N/A</td>
         <td role="gridcell">N/A</td>
         # } else { #
-        <td role="gridcell">#: PunchIn #</td>
-        <td role="gridcell">#: PunchOut #</td>
+        <td role="gridcell">#: PunchesIn #</td>
+        <td role="gridcell">#: PunchesOut #</td>
         # } #
 
         <td style="display:none" role="gridcell">#: Hours #</td>
@@ -190,22 +190,22 @@
 
 </script>
 <script id="altRowTemplate" type="text/x-kendo-tmpl">
-    # if (PunchId == -69){ #
+    # if (PunchesUserId == -69){ #
     <tr role="row" class="k-alt holidayRow success">
         # } else  if(!RequestForApproval || (RequestForApproval && IsManagerAccepted)){ #
     <tr role="row" class="k-alt">
         # } else { #
     <tr role="row" class="k-alt pendingApproval warning">
         # } #
-        <td style="display:none" role="gridcell">#: PunchId #</td>
-        <td role="gridcell">#: kendo.toString(PunchDate, 'd') #</td>
-        <td role="gridcell">#: PunchDay #</td>
-        # if (PunchId == -69){ #
+        <td style="display:none" role="gridcell">#: PunchesUserId #</td>
+        <td role="gridcell">#: kendo.toString(PunchesDate, 'd') #</td>
+        <td role="gridcell">#: PunchesDay #</td>
+        # if (PunchesUserId == -69){ #
         <td role="gridcell">N/A</td>
         <td role="gridcell">N/A</td>
         # } else { #
-        <td role="gridcell">#: PunchIn #</td>
-        <td role="gridcell">#: PunchOut #</td>
+        <td role="gridcell">#: PunchesIn #</td>
+        <td role="gridcell">#: PunchesOut #</td>
         # } #
         <td style="display:none" role="gridcell">#: Hours #</td>
         <td role="gridcell">#: HoursNew#</td>
@@ -214,6 +214,6 @@
 </script>
 <script type="text/x-kendo-template" id="ToolBarTemplate">
     <div class="toolbar">
-        @Html.ActionLink("Export", "Export", "Punch", new { @class = "k-button" })
+        @Html.ActionLink("Export", "Export", "Punches", new { @class = "k-button" })
     </div>
 </script>

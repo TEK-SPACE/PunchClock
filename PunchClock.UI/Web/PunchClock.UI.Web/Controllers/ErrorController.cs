@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    public class ErrorsController : BaseController
+    public class ErrorController : BaseController
     {
         //
         // GET: /Error/

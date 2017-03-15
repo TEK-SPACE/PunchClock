@@ -10,7 +10,7 @@ namespace PunchClock.DAL.Models
 { 
     public class CompanyRepository : ICompanyRepository
     {
-        private readonly PunchClockContext _context;
+        private readonly PunchClockDbContext _context;
 
         public CompanyRepository(UnitOfWork uow)
         {
@@ -18,11 +18,11 @@ namespace PunchClock.DAL.Models
         }
 
         #region Entity Implementation
-        public IQueryable<Company> All => _context.Company;
+        public IQueryable<Company> All => _context.Companies;
 
         public IQueryable<Company> AllIncluding(params Expression<Func<Company, object>>[] includeProperties)
         {
-            IQueryable<Company> query = _context.Company;
+            IQueryable<Company> query = _context.Companies;
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
@@ -32,7 +32,7 @@ namespace PunchClock.DAL.Models
 
         public Company Find(int id)
         {
-            return _context.Company.Find(id);
+            return _context.Companies.Find(id);
         }
 
         public void Insert(Company company)
@@ -55,16 +55,16 @@ namespace PunchClock.DAL.Models
             else
             {
                 // Existing entity
-                _context.Company.Add(company);
-                //context.Entry(company).State = StateHelper.ConverState(company.State);
-                //context.Entry(company.Users.First()).State = StateHelper.ConverState(company.State);
+                _context.Companies.Add(company);
+                //context.Entry(company).States = StateHelper.ConverState(company.States);
+                //context.Entry(company.Users.First()).States = StateHelper.ConverState(company.States);
             }
         }
 
         public void Delete(int id)
         {
-            var user = _context.User.Find(id);
-            if (user != null) _context.User.Remove(user);
+            var user = _context.Users.Find(id);
+            if (user != null) _context.Users.Remove(user);
         }
 
         public void Dispose()

@@ -5,7 +5,7 @@ namespace PunchClock.Interface
 {
     public interface IEmailRepository : IEntityRepository<User>
     {
-        string ComposeContactEmail(View.Model.Contact contact, GeoPluginOL geo);
+        string ComposeContactEmail(View.Model.ContactView contact, GeoPlugin geo);
         bool SendEmail(string msgBody, string msgSubject);
     }
 }

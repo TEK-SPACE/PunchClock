@@ -1,11 +1,9 @@
 ﻿using PunchClock.DAL;
-using PunchClock.DAL.Models;
 using PunchClock.Domain.Model;
 using System.Collections.Generic;
 using Omu.ValueInjecter;
 using System;
 using System.Linq;
-using System.Data.SqlClient;
 using System.Data.Entity;
 using PunchClock.Model.Mapper;
 using PunchClock.Objects.Core.Enum;
@@ -15,7 +13,7 @@ namespace PunchClock.Implementation
 {
     public class CompanyService
     {
-        public int Add(View.Model.Company companyView)
+        public int Add(View.Model.CompanyView companyView)
         {
             using (var unitOfWork = new UnitOfWork())
             {
@@ -25,7 +23,7 @@ namespace PunchClock.Implementation
                     return (int) RegistrationStatus.UserNameNotAvailable;
                 if (unitOfWork.CompanyRepository.Get(x => x.Name.ToLower().Equals(companyView.Name.ToLower())).Any())
                     return (int) RegistrationStatus.DuplicateCompany;
-                var companyDomain = new Domain.Model.Company();
+                var companyDomain = new Company();
                 new Map().ViewToDomain(companyView, companyDomain);
                 companyDomain.GlobalId = Guid.NewGuid();
                 companyDomain.IsActive = false; // Admin needs to monitor and  activate
@@ -39,7 +37,7 @@ namespace PunchClock.Implementation
                 companyDomain.User.PasswordHash = PasswordService.EncodePassword(companyView.User.Password,
                     companyView.User.PasswordSalt);
 
-                var userDomain = new Domain.Model.User();
+                var userDomain = new User();
                 new Map().ViewToDomain(companyView.User, userDomain);
                 unitOfWork.UserRepository.Insert(userDomain);
                 unitOfWork.Save();
@@ -47,9 +45,9 @@ namespace PunchClock.Implementation
             }
         }
 
-        public View.Model.Company Details(int companyId)
+        public View.Model.CompanyView Details(int companyId)
         {
-            var companyView= new View.Model.Company();
+            var companyView= new View.Model.CompanyView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var company = unitOfWork.CompanyRepository.GetById(companyId);
@@ -58,7 +56,7 @@ namespace PunchClock.Implementation
             return companyView;
         }
 
-        public int Update(View.Model.Company obj)
+        public int Update(View.Model.CompanyView obj)
         {
             using (var unitOfWork = new UnitOfWork())
             {
@@ -69,18 +67,18 @@ namespace PunchClock.Implementation
             return 0;
         }
 
-        public List<View.Model.EmployeePaidHoliday> PaidHolidayPkg(int companyId)
+        public List<View.Model.EmployeePaidHolidayView> PaidHolidayPkg(int companyId)
         {
-            List<View.Model.EmployeePaidHoliday> employeePaidHolidays;
-            using (PunchClockContext context = new PunchClockContext())
+            List<View.Model.EmployeePaidHolidayView> employeePaidHolidays;
+            using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                employeePaidHolidays = (from et in context.EmploymentType
-                    join pk in context.EmployeePaidHoliday on et.Id equals pk.EmploymentTypeId into pkGroup
+                employeePaidHolidays = (from et in context.EmploymentTypes
+                    join pk in context.EmployeePaidHolidays on et.Id equals pk.EmploymentTypeId into pkGroup
                     from pkg in pkGroup.DefaultIfEmpty()
-                    join c in context.Company on pkg.CompanyId equals c.Id into cGroup
+                    join c in context.Companies on pkg.CompanyId equals c.Id into cGroup
                     from cg in cGroup.DefaultIfEmpty()
                     where cg.Id == companyId || cg.Id == 0
-                    select new View.Model.EmployeePaidHoliday
+                    select new View.Model.EmployeePaidHolidayView
                     {
                         CompanyId = cg.Id == 0 ? companyId : cg.Id,
                         EmploymentTypeId = et.Id,
@@ -91,7 +89,7 @@ namespace PunchClock.Implementation
             return employeePaidHolidays;
         }
 
-        public void UpdatePaidHolidayPkg(List<View.Model.EmployeePaidHoliday> pkgs)
+        public void UpdatePaidHolidayPkg(List<View.Model.EmployeePaidHolidayView> pkgs)
         {
             var compId = pkgs.First().CompanyId;
             using (var unitOfWork = new UnitOfWork())
@@ -118,9 +116,9 @@ namespace PunchClock.Implementation
             }
         }
 
-        public List<View.Model.CompanyHoliday> CompanyHolidays(int companyId)
+        public List<View.Model.CompanyHolidayView> CompanyHolidays(int companyId)
         {
-            List<View.Model.CompanyHoliday> companyHolidays;
+            List<View.Model.CompanyHolidayView> companyHolidays;
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
                 companyHolidays = (from h in unitOfWork.HolidayRepository.Get()
@@ -128,7 +126,7 @@ namespace PunchClock.Implementation
                                       join ht in unitOfWork.HolidayTypeRepository.Get() on t.TypeId equals ht.Id
                                       from ch in unitOfWork.CompanyHolidayRepository.Get(x => x.HolidayId == h.Id).DefaultIfEmpty()
                                       where ch.CompanyId == companyId || ch.CompanyId == 0
-                                      select new View.Model.CompanyHoliday
+                                      select new View.Model.CompanyHolidayView
                                       {
                                           CompanyId = ch.CompanyId,
                                           HolidayId = h.Id,
@@ -143,7 +141,7 @@ namespace PunchClock.Implementation
             return companyHolidays;
         }
 
-        public void UpdateCompanyHolidays(List<View.Model.CompanyHoliday> hlds)
+        public void UpdateCompanyHolidays(List<View.Model.CompanyHolidayView> hlds)
         {
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
@@ -170,10 +168,10 @@ namespace PunchClock.Implementation
             }
         }
 
-        public List<View.Model.Holiday> GetCompanyHolidays(int companyId, int userId, DateTime stDate, DateTime enDate)
+        public List<View.Model.HolidayView> GetCompanyHolidays(int companyId, int userId, DateTime stDate, DateTime enDate)
         {
             List<Holiday> holidays;
-            using (PunchClockContext context = new PunchClockContext())
+            using (PunchClockDbContext context = new PunchClockDbContext())
             {
                 holidays = context.GetCompanyHolidays(companyId).ToList();
             }
@@ -181,7 +179,7 @@ namespace PunchClock.Implementation
                 holidays = holidays.Where(x => x.HolidayDate >= stDate.Date).ToList();
             if (enDate != DateTime.MinValue)
                 holidays = holidays.Where(x => x.HolidayDate <= enDate.Date).ToList();
-            var holidayViews = new List<View.Model.Holiday>();
+            var holidayViews = new List<View.Model.HolidayView>();
             new Map().DomainToView(holidayViews, holidays);
             return holidayViews;
         }

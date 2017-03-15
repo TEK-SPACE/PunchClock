@@ -7,12 +7,12 @@ namespace PunchClock.UI.Web.Controllers
 {
     public class BaseController : Controller
     {
-        public SessionObjLibrary userSession = new SessionObjLibrary();
-        public View.Model.User operatingUser = new View.Model.User();
+        public UserSession UserUserSession = new UserSession();
+        public View.Model.UserView operatingUser = new View.Model.UserView();
         public BaseController()
         {
             SessionService session = new SessionService();
-            userSession = session.GetCurrentSession(HttpContext);
+            UserUserSession = session.GetCurrentSession(HttpContext);
             
         }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)

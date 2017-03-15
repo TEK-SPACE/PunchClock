@@ -13,7 +13,7 @@ namespace PunchClock.Implementation
 {
     public class UserService
     {
-        public int Add(View.Model.User userObjLibrary)
+        public int Add(View.Model.UserView userObjLibrary)
         {
             userObjLibrary.PasswordSalt = PasswordService.GenerateSalt();
             userObjLibrary.PasswordHash = PasswordService.EncodePassword(userObjLibrary.Password, userObjLibrary.PasswordSalt);
@@ -30,7 +30,7 @@ namespace PunchClock.Implementation
                 if (userObjLibrary.UserTypeId == (int)UserType.Manager)
                     userObjLibrary.IsActive = false;
 
-                var user = new Domain.Model.User();
+                var user = new User();
                new Map().ViewToDomain(userObjLibrary, user);
                 unitOfWork.UserRepository.Insert(user);
                 unitOfWork.Save();
@@ -56,7 +56,7 @@ namespace PunchClock.Implementation
 
         private static void UpdatePassword(string userName, string newPassword, string macAddress, string ipAddress)
         {
-            View.Model.User userObjLibrary = new View.Model.User();
+            View.Model.UserView userObjLibrary = new View.Model.UserView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var user = unitOfWork.UserRepository.Get(x => x.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
@@ -71,9 +71,9 @@ namespace PunchClock.Implementation
             }
         }
 
-        public View.Model.User Details(string userName)
+        public View.Model.UserView Details(string userName)
         {
-            View.Model.User userObjLibrary = new View.Model.User();
+            View.Model.UserView userObjLibrary = new View.Model.UserView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var user = unitOfWork.UserRepository.Get(u => u.UserName.ToLower() == userName.ToLower()).SingleOrDefault();
@@ -83,25 +83,25 @@ namespace PunchClock.Implementation
             return userObjLibrary;
         }
 
-        public View.Model.User Details(int userId)
+        public View.Model.UserView Details(int userId)
         {
-            View.Model.User userObjLibrary = new View.Model.User ();
+            View.Model.UserView userObjLibrary = new View.Model.UserView ();
             using (var unitOfWork = new UnitOfWork())
             {
                 var user = unitOfWork.UserRepository.GetById(userId);
                 if (user != null)
                     userObjLibrary.InjectFrom(user);
-                if (user != null && user.Id > 0)
+                if (user != null && user.Uid > 0)
                 {
                     var punch = unitOfWork.PunchRepository.Get(p => p.UserId == userId);
                     if (punch == null) return userObjLibrary;
-                    userObjLibrary.LastPunch = new View.Model.Punch ();
+                    userObjLibrary.LastPunch = new View.Model.PunchView ();
                     new Map().DomainToView(userObjLibrary.LastPunch, punch.Last());
                 }
             }
             return userObjLibrary;
         }
-        public int Update(View.Model.User userObjLibrary, bool adminUpdate)
+        public int Update(View.Model.UserView userObjLibrary, bool adminUpdate)
         {
             using (var unitOfWork = new UnitOfWork())
             {
@@ -153,7 +153,7 @@ namespace PunchClock.Implementation
                                  select new SelectListItem
                                  {
                                      Text = $"{user.FirstName} {user.MiddleName} {user.LastName}",
-                                     Value = $"{user.Id}"
+                                     Value = $"{user.Uid}"
                                  }).ToList();
                 else
                     employees = (from user in users
@@ -162,23 +162,23 @@ namespace PunchClock.Implementation
                                  select new SelectListItem
                                  {
                                      Text = $"{user.FirstName} {user.MiddleName} {user.LastName}",
-                                     Value = $"{user.Id}"
+                                     Value = $"{user.Uid}"
                                  }).ToList();
             }
             
             return employees;
         }
 
-        public List<View.Model.User> GetAllUsers(int companyId)
+        public List<View.Model.UserView> GetAllUsers(int companyId)
         {
-            List<View.Model.User> userObjLibraries;
+            List<View.Model.UserView> userObjLibraries;
             using (var unitOfWork = new UnitOfWork())
             {
                 var users = unitOfWork.UserRepository.Get(x => x.CompanyId == companyId);
                 userObjLibraries = users
                     .Select(x =>
-                        new View.Model.User().InjectFrom(x))
-                        .Cast<View.Model.User>().ToList();
+                        new View.Model.UserView().InjectFrom(x))
+                        .Cast<View.Model.UserView>().ToList();
             }
             return userObjLibraries;
         }

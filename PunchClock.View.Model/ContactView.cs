@@ -2,7 +2,7 @@
 
 namespace PunchClock.View.Model
 {
-    public class Contact
+    public class ContactView
     {
         [Display(Name = "Name")]
         [Required(ErrorMessage = "{0} is Required")]

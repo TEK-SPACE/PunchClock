@@ -8,7 +8,7 @@ namespace PunchClock.DAL.Models
 {
     public class ComplexTypeRepository<T> : IEntityRepository<T>
     {
-        private readonly PunchClockContext _context;
+        private readonly PunchClockDbContext _context;
 
         public ComplexTypeRepository(UnitOfWork uow)
         {

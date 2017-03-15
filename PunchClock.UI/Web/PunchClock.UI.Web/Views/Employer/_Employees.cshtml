@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PunchClock.Objects.Core.UserObjLibrary>
+﻿@model IEnumerable<PunchClock.View.Model.UserView>
 <div id="splitter">
     <div class="pane-content">
         <section class="inside">
@@ -8,17 +8,17 @@
                 {
                     <li>
                         @Ajax.ActionLink(
-                @Html.Raw(string.Format("{0} {1} {2}", user.FirstName, user.MiddleName, user.LastName)).ToString(),
-                "Details", "User", new
-                {
-                    id = user.UserId
-                }, new AjaxOptions
-                {
-                    Confirm = "You are above to load this employee details",
-                    UpdateTargetId = "empDetails",
-                    InsertionMode = InsertionMode.Replace,
-                    OnComplete = "utcDate"
-                }, new { })
+                            @Html.Raw($"{user.FirstName} {user.MiddleName} {user.LastName}").ToString(),
+                            "Details", "User", new
+                            {
+                                id = user.UserId
+                            }, new AjaxOptions
+                            {
+                                Confirm = "You are above to load this employee details",
+                                UpdateTargetId = "empDetails",
+                                InsertionMode = InsertionMode.Replace,
+                                OnComplete = "utcDate"
+                            }, new { })
                     </li>
                 }
             </ul>

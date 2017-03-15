@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace PunchClock.Model.Mapper
 {
     public partial class Map
     {
-        public void ViewToDomain(View.Model.Punch view, Domain.Model.Punch domain)
+        public void ViewToDomain(View.Model.PunchView view, Domain.Model.Punch domain)
         {
             //Todo: Need to Implement
         }
-        public void DomainToView(View.Model.Punch view, Domain.Model.Punch domain)
+        public void DomainToView(View.Model.PunchView view, Domain.Model.Punch domain)
         {
             //Todo: Need to Implement
         }
-        public void ViewToDomain(List<View.Model.Punch> views, List<Domain.Model.Punch> domains)
+        public void ViewToDomain(List<View.Model.PunchView> views, List<Domain.Model.Punch> domains)
         {
             foreach (var view in views)
             {
@@ -25,11 +21,11 @@ namespace PunchClock.Model.Mapper
                 domains.Add(domain);
             }
         }
-        public void DomainToView(List<View.Model.Punch> views, List<Domain.Model.Punch> domains)
+        public void DomainToView(List<View.Model.PunchView> views, List<Domain.Model.Punch> domains)
         {
             foreach (var domain in domains)
             {
-                var view = new View.Model.Punch();
+                var view = new View.Model.PunchView();
                 DomainToView(view, domain);
                 views.Add(view);
             }

@@ -21,14 +21,14 @@ namespace PunchClock.UI.Web.Controllers
 
         public ActionResult Index()
         {
-            Punch obj = new Punch();
+            PunchView obj = new PunchView();
             PunchService pb = new PunchService();
             obj = pb.OpUserOpenLog(operatingUser.UserId);
             return View(obj);
         }
 
         [HttpPost]
-        public ActionResult Index(Punch obj)
+        public ActionResult Index(PunchView obj)
         {
             return View(obj);
         }
@@ -55,11 +55,11 @@ namespace PunchClock.UI.Web.Controllers
             TimeSpan punchTime = reqDifferentTime ? punchDateTime.TimeOfDay : TimeSpan.MinValue;
             if (InOut == "in")
             {
-                message = pb.PunchIn(operatingUser.UserId, punchTime, userSession.IpAddress);
+                message = pb.PunchIn(operatingUser.UserId, punchTime, UserUserSession.IpAddress);
             }
             else if (InOut == "out")
             {
-                message = pb.PunchOut(operatingUser.UserId, pId, punchTime, userSession.IpAddress);
+                message = pb.PunchOut(operatingUser.UserId, pId, punchTime, UserUserSession.IpAddress);
             }
 
             return Json(message);
@@ -82,7 +82,7 @@ namespace PunchClock.UI.Web.Controllers
         public JsonResult Report(DateTime? stDate, DateTime? enDate, int userId = 0)
         {
             ViewBag.Message = "Enter your search criteria";
-            List<Punch> obj = new List<Punch>();
+            List<PunchView> obj = new List<PunchView>();
             if (userId == 0)
                 userId = operatingUser.UserId;
             PunchService pb = new PunchService();
@@ -109,7 +109,7 @@ namespace PunchClock.UI.Web.Controllers
             obj = pb.Search(operatingUserId: operatingUser.UserId, userId: userId, stDate: stDate.Value, enDate:enDate.Value);
 
             CompanyService cb = new CompanyService();
-            List<Holiday> holidays = cb.GetCompanyHolidays(companyId: operatingUser.CompanyId, userId: userId == 0 ? operatingUser.UserId : userId, stDate: stDate.Value, enDate: enDate.Value);
+            List<HolidayView> holidays = cb.GetCompanyHolidays(companyId: operatingUser.CompanyId, userId: userId == 0 ? operatingUser.UserId : userId, stDate: stDate.Value, enDate: enDate.Value);
 
             foreach (var holiday in holidays)
             {
@@ -119,7 +119,7 @@ namespace PunchClock.UI.Web.Controllers
 
                 if (nameOfTheDay != "sunday" && nameOfTheDay != "saturday")
                 {
-                    obj.Add(new Punch
+                    obj.Add(new PunchView
                     {
                         PunchId = -69,
                         PunchDate = TimeZoneInfo.ConvertTimeToUtc(holiday.HolidayDate.Value.Date, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)),
@@ -159,9 +159,9 @@ namespace PunchClock.UI.Web.Controllers
 
         public FileResult Export()
         {
-            List<Punch> obj = new List<Punch>();
+            List<PunchView> obj = new List<PunchView>();
             if (Session["punchObjectLibrary"] != null)
-                obj = (List<Punch>)Session["punchObjectLibrary"];
+                obj = (List<PunchView>)Session["punchObjectLibrary"];
             else
                 return File("", "application/pdf", "NoDataFound.pdf");
             // step 1: creation of a document-object
@@ -183,7 +183,7 @@ namespace PunchClock.UI.Web.Controllers
             dataTable.DefaultCell.BorderWidth = 2;
             dataTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
             UserService UB = new UserService();
-            User userDetails = UB.Details(obj.FirstOrDefault().UserId);
+            UserView userDetails = UB.Details(obj.FirstOrDefault().UserId);
             var EmployeeName = string.Format("{0} {1} {2}", userDetails.FirstName, userDetails.MiddleName, userDetails.LastName);
 
             //Adding Company
@@ -219,7 +219,7 @@ namespace PunchClock.UI.Web.Controllers
             dataTable.HeaderRows = 1;
             dataTable.DefaultCell.BorderWidth = 1;
             List<TimeSpan> TimeSpanCollection = new List<TimeSpan>();
-            foreach (Punch punch in obj)
+            foreach (PunchView punch in obj)
             {
                 
                 var pIn = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate.Date + punch.PunchIn, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone));

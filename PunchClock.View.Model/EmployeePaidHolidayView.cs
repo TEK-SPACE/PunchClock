@@ -1,6 +1,6 @@
 ﻿namespace PunchClock.View.Model
 {
-    public class EmployeePaidHoliday
+    public class EmployeePaidHolidayView
     {
         public string EmploymentTypeName { get; set; }
         public int CompanyId { get; set; }

@@ -50,7 +50,7 @@ namespace PunchClock.Common
             };
             if (adminCall)
             {
-                userTypes.Add(new SelectListItem { Text = "Company Admin", Value = Convert.ToString((int)UserType.CompanyAdmin) });
+                userTypes.Add(new SelectListItem { Text = "Companies Admin", Value = Convert.ToString((int)UserType.CompanyAdmin) });
                 userTypes.Add(new SelectListItem { Text = "Admin", Value = Convert.ToString((int)UserType.Admin) });
             }
             userTypes.Add(new SelectListItem { Text = "Human Resources", Value = Convert.ToString((int)UserType.HumanResources) });

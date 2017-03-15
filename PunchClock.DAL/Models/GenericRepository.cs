@@ -10,10 +10,10 @@ namespace PunchClock.DAL.Models
 
     public sealed class GenericRepository<TEntity> where TEntity : class
     {
-        private readonly PunchClockContext _context;
+        private readonly PunchClockDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public GenericRepository(PunchClockContext context)
+        public GenericRepository(PunchClockDbContext context)
         {
             this._context = context;
             this._dbSet = context.Set<TEntity>();

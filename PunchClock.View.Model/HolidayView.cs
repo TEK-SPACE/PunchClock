@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PunchClock.View.Model
 {
-    public class Holiday
+    public class HolidayView
     {
         [UIHint("TimeSpan")]
         public TimeSpan PunchIn { get; set; }

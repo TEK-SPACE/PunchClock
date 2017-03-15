@@ -4,15 +4,15 @@ namespace PunchClock.Model.Mapper
 {
     public partial class Map
     {
-        public void ViewToDomain(View.Model.Holiday view, Domain.Model.Holiday domain)
+        public void ViewToDomain(View.Model.HolidayView view, Domain.Model.Holiday domain)
         {
             //Todo: Need to Implement
         }
-        public void DomainToView(View.Model.Holiday view, Domain.Model.Holiday domain)
+        public void DomainToView(View.Model.HolidayView view, Domain.Model.Holiday domain)
         {
             //Todo: Need to Implement
         }
-        public void ViewToDomain(List<View.Model.Holiday> views, List<Domain.Model.Holiday> domains)
+        public void ViewToDomain(List<View.Model.HolidayView> views, List<Domain.Model.Holiday> domains)
         {
             foreach (var view in views)
             {
@@ -21,11 +21,11 @@ namespace PunchClock.Model.Mapper
                 domains.Add(domain);
             }
         }
-        public void DomainToView(List<View.Model.Holiday> views, List<Domain.Model.Holiday> domains)
+        public void DomainToView(List<View.Model.HolidayView> views, List<Domain.Model.Holiday> domains)
         {
             foreach (var domain in domains)
             {
-                var view = new View.Model.Holiday();
+                var view = new View.Model.HolidayView();
                 DomainToView(view, domain);
                 views.Add(view);
             }

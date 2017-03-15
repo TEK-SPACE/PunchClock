@@ -10,7 +10,7 @@ namespace PunchClock.DAL.Models
 { 
     public class PunchRepository : IPunchRepository
     {
-        private readonly PunchClockContext _context;
+        private readonly PunchClockDbContext _context;
 
         public PunchRepository(UnitOfWork uow)
         {
@@ -18,11 +18,11 @@ namespace PunchClock.DAL.Models
         }
 
         #region Entity Implementation
-        public IQueryable<Punch> All => _context.Punch;
+        public IQueryable<Punch> All => _context.Punches;
 
         public IQueryable<Punch> AllIncluding(params Expression<Func<Punch, object>>[] includeProperties)
         {
-            IQueryable<Punch> query = _context.Punch;
+            IQueryable<Punch> query = _context.Punches;
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
@@ -32,7 +32,7 @@ namespace PunchClock.DAL.Models
 
         public Punch Find(int id)
         {
-            return _context.Punch.Find(id);
+            return _context.Punches.Find(id);
         }
 
         public void Insert(Punch punch)
@@ -59,15 +59,15 @@ namespace PunchClock.DAL.Models
             else
             {
                 // Existing entity
-                _context.Punch.Add(punch);
-                //context.Entry(punch).State = StateHelper.ConverState(punch.State);
+                _context.Punches.Add(punch);
+                //context.Entry(punch).States = StateHelper.ConverState(punch.States);
             }
         }
 
         public void Delete(int id)
         {
-            var user = _context.User.Find(id);
-            if (user != null) _context.User.Remove(user);
+            var user = _context.Users.Find(id);
+            if (user != null) _context.Users.Remove(user);
         }
 
         public void Dispose()
@@ -76,7 +76,7 @@ namespace PunchClock.DAL.Models
         } 
         #endregion
 
-        //public Punch LastPunch(int userId)
+        //public Punches LastPunch(int userId)
         //{
         //    return context.Punches.Where(x=>x.UserId == userId).OrderByDescending(x=>x.PunchDate).FirstOrDefault();
         //}

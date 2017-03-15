@@ -27,8 +27,8 @@ namespace PunchClock.UI.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            Company model = new Company();
-            model.User = new User();
+            CompanyView model = new CompanyView();
+            model.User = new UserView();
             if (User.Identity.IsAuthenticated)
             {
                 if (operatingUser.UserTypeId == (int)UserType.CompanyAdmin)
@@ -46,13 +46,13 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(Company obj, HttpPostedFileBase logo)
+        public ActionResult Register(CompanyView obj, HttpPostedFileBase logo)
         {
             obj.RegisterCode = Get.RandomNumber().ToString();
-            obj.User.UserRegisteredIp = userSession.IpAddress;
-            obj.User.RegisteredMacAddress = userSession.MacAddress;
-            obj.User.LastActivityIp = userSession.IpAddress;
-            obj.User.LastActiveMacAddress = userSession.MacAddress;
+            obj.User.UserRegisteredIp = UserUserSession.IpAddress;
+            obj.User.RegisteredMacAddress = UserUserSession.MacAddress;
+            obj.User.LastActivityIp = UserUserSession.IpAddress;
+            obj.User.LastActiveMacAddress = UserUserSession.MacAddress;
             obj.User.RegistrationCode = obj.RegisterCode;
             ViewBag.Message = "Successfully Added";
             CompanyService cb = new CompanyService();
@@ -97,13 +97,13 @@ namespace PunchClock.UI.Web.Controllers
             ReadOnlyCollection<TimeZoneInfo> tz;
             tz = TimeZoneInfo.GetSystemTimeZones();
             //var _timezones = (from t in tz
-            //                 orderby t.Id
+            //                 orderby t.UserId
             //                 select new SelectListItem
             //                 {
-            //                     Value = t.Id,
-            //                     Text = t.Id
+            //                     Value = t.UserId,
+            //                     Text = t.UserId
             //                 }).ToList();
-            List<User> _employees = new List<User>();
+            List<UserView> _employees = new List<UserView>();
             //foreach (var u in _employees)
             //{
             //    u.timezonesList = _timezones;
@@ -127,8 +127,8 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Edit(string id)
         {
-            Company model = new Company();
-            model.User = new User();
+            CompanyView model = new CompanyView();
+            model.User = new UserView();
             if (operatingUser.UserTypeId == (int)UserType.CompanyAdmin)
             {
                 CompanyService cb = new CompanyService();
@@ -146,10 +146,10 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult SetHolidays(string id)
         {
-            List<CompanyHoliday> hld = new List<CompanyHoliday>();
+            List<CompanyHolidayView> hld = new List<CompanyHolidayView>();
             CompanyService cb = new CompanyService();
             hld = cb.CompanyHolidays(Convert.ToInt32(id));
-            Dictionary<string, List<CompanyHoliday>> obj = hld.GroupBy(x => x.HolidayType).ToDictionary(g => g.Key, g => g.ToList());
+            Dictionary<string, List<CompanyHolidayView>> obj = hld.GroupBy(x => x.HolidayType).ToDictionary(g => g.Key, g => g.ToList());
            //var retObj = hld.GroupBy(x => x.HolidayType, x => x, (key, g) => new { HolidayType = key, CompanyHolidayObjLibrary = g.ToList() }).ToList();
             ViewBag.companyId = id;
             return PartialView("_SetHolidays", obj);
@@ -159,13 +159,13 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult SetHolidays(string id, string[] holidayId)
         {
-            List<View.Model.CompanyHoliday> hld = new List<View.Model.CompanyHoliday>();
+            List<View.Model.CompanyHolidayView> hld = new List<View.Model.CompanyHolidayView>();
 
             foreach (var hid in holidayId)
             {
                 int tmpHid;
                 if(int.TryParse(hid,out tmpHid)){
-                    hld.Add(new View.Model.CompanyHoliday
+                    hld.Add(new View.Model.CompanyHolidayView
                     {
                         CompanyId = Convert.ToInt32(id),
                         HolidayId = tmpHid
@@ -183,7 +183,7 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult PaidHolidayPkg(string id)
         {
-            List<View.Model.EmployeePaidHoliday> pkg = new List<View.Model.EmployeePaidHoliday>();
+            List<View.Model.EmployeePaidHolidayView> pkg = new List<View.Model.EmployeePaidHolidayView>();
             CompanyService cb = new CompanyService();
             pkg = cb.PaidHolidayPkg(Convert.ToInt32(id));
             SiteService sb = new SiteService();
@@ -194,7 +194,7 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public JsonResult PaidHolidayPkg(List<View.Model.EmployeePaidHoliday> pkg)
+        public JsonResult PaidHolidayPkg(List<View.Model.EmployeePaidHolidayView> pkg)
         {
             CompanyService cb = new CompanyService();
             cb.UpdatePaidHolidayPkg(pkg);
@@ -202,7 +202,7 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost][Authorize]
-        public RedirectResult Edit(View.Model.Company obj, HttpPostedFileBase logo)
+        public RedirectResult Edit(View.Model.CompanyView obj, HttpPostedFileBase logo)
         {
             ViewBag.Message = "Successfully Updated";
             CompanyService cb = new CompanyService();

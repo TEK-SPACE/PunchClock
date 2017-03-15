@@ -6,7 +6,7 @@ namespace PunchClock.Interface
 {
     public interface IGeoRepository : IEntityRepository<User>
     {
-        GeoPluginOL GetUserGeo(string clientIp = null);
+        GeoPlugin GetUserGeo(string clientIp = null);
         
         string IpAddress(HttpContextBase httpContext);
 

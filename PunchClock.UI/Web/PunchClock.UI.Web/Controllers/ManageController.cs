@@ -35,7 +35,7 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         public JsonResult Approve( FormCollection col)
         {
-            View.Model.Punch punch = new View.Model.Punch();
+            View.Model.PunchView punch = new View.Model.PunchView();
 
             int pId;
             int.TryParse(col.Get("models[0][punchId]"), out pId);

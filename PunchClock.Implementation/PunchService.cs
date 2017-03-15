@@ -11,9 +11,9 @@ namespace PunchClock.Implementation
 {
     public class PunchService
     {
-        public View.Model.Punch OpUserOpenLog(int opUserId)
+        public View.Model.PunchView OpUserOpenLog(int opUserId)
         {
-            View.Model.Punch punchObjectLibrary = new View.Model.Punch();
+            View.Model.PunchView punchObjectLibrary = new View.Model.PunchView();
 
             using (var unitOfWork = new UnitOfWork())
             {
@@ -25,20 +25,20 @@ namespace PunchClock.Implementation
             return punchObjectLibrary;
         }
 
-        public List<View.Model.Punch> GetOpenLogs(int opUserId)
+        public List<View.Model.PunchView> GetOpenLogs(int opUserId)
         {
-            List<View.Model.Punch> punchList = new List<View.Model.Punch>();
+            List<View.Model.PunchView> punchList = new List<View.Model.PunchView>();
             using (var unitOfWork = new UnitOfWork())
             {
-                var user = unitOfWork.UserRepository.Get(filter: x => x.Id == opUserId).FirstOrDefault();
+                var user = unitOfWork.UserRepository.Get(filter: x => x.Uid == opUserId).FirstOrDefault();
                 if (user != null)
                 {
                     var punch = (from p in unitOfWork.PunchRepository.Get()
-                                  join u in unitOfWork.UserRepository.Get() on p.UserId equals u.Id
-                                  where u.CompanyId == user.CompanyId
+                                  join u in unitOfWork.UserRepository.Get() on p.UserId equals u.Uid
+                                 where u.CompanyId == user.CompanyId
                                   select p).ToList();
                     punch.ForEach(p =>
-                        punchList.Add(new View.Model.Punch
+                        punchList.Add(new View.Model.PunchView
                         {
                             IsManagerAccepted = p.ManagerAccepted,
                             PunchDate = p.PunchDate,
@@ -60,8 +60,8 @@ namespace PunchClock.Implementation
             string message = "Successfully punched in";
             using (var unitOfWork = new UnitOfWork())
             {
-                var user = unitOfWork.UserRepository.Get(x => x.Id == userId).FirstOrDefault();
-                View.Model.Punch punch = new View.Model.Punch
+                var user = unitOfWork.UserRepository.Get(x => x.Uid == userId).FirstOrDefault();
+                View.Model.PunchView punch = new View.Model.PunchView
                 {
                     UserId = userId,
                     PunchDate = DateTime.UtcNow,
@@ -78,7 +78,7 @@ namespace PunchClock.Implementation
                 {
                     if (string.IsNullOrEmpty(punch.Comments))
                         punch.Comments = string.Empty;
-                    punch.Comments += "Punch from new IP address";
+                    punch.Comments += "Punches from new IP address";
                     punch.RequestForApproval = true;
                 }
                 var punchDomain = new Punch();
@@ -105,7 +105,7 @@ namespace PunchClock.Implementation
             string message = "Successfully punched Out";
             using (var unitOfWork = new UnitOfWork())
             {
-                var user = unitOfWork.UserRepository.Get(x => x.Id == userId).FirstOrDefault();
+                var user = unitOfWork.UserRepository.Get(x => x.Uid == userId).FirstOrDefault();
                 var punch = unitOfWork.PunchRepository.Get(x => x.Id == punchId).SingleOrDefault();
 
                 if (punch != null)
@@ -117,7 +117,7 @@ namespace PunchClock.Implementation
                     {
                         if (string.IsNullOrEmpty(punch.Comments))
                             punch.Comments = string.Empty;
-                        punch.Comments += " User requested explicit punch time";
+                        punch.Comments += " Users requested explicit punch time";
                         punch.RequestForApproval = true;
                     }
                     if (DateTime.UtcNow.Date.Subtract(punch.PunchDate).Days != 0)
@@ -131,7 +131,7 @@ namespace PunchClock.Implementation
                     {
                         if (string.IsNullOrEmpty(punch.Comments))
                             punch.Comments = string.Empty;
-                        punch.Comments += " Punch from new IP address";
+                        punch.Comments += " Punches from new IP address";
                         punch.RequestForApproval = true;
                     }
                 }
@@ -151,9 +151,9 @@ namespace PunchClock.Implementation
             return message;
         }
 
-        public List<View.Model.Punch> Search(int operatingUserId,int userId, DateTime stDate, DateTime enDate)
+        public List<View.Model.PunchView> Search(int operatingUserId,int userId, DateTime stDate, DateTime enDate)
         {
-            List<View.Model.Punch> punchList;
+            List<View.Model.PunchView> punchList;
             using (var unitOfWork = new UnitOfWork())
             {
                 punchList = (from p in unitOfWork.PunchRepository.Get()
@@ -163,7 +163,7 @@ namespace PunchClock.Implementation
                             // && enDate.Subtract(p.PunchDate).Days <= 0
                              //&& p.PunchOut != null
                     where pPunchOut != null
-                    select new View.Model.Punch
+                    select new View.Model.PunchView
                     {
                                  IsManagerAccepted = p.ManagerAccepted,
                                  RequestForApproval = p.RequestForApproval,
@@ -182,7 +182,7 @@ namespace PunchClock.Implementation
             return punchList;
         }
 
-        public bool Approve(View.Model.Punch punchObj, int opUserId)
+        public bool Approve(View.Model.PunchView punchObj, int opUserId)
         {
             bool retValue;
             using (var unitOfWork = new UnitOfWork())

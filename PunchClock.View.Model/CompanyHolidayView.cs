@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace PunchClock.Objects.Core
+namespace PunchClock.View.Model
 {
-    public class CompanyHolidayObjLibrary
+    public class CompanyHolidayView
     {
         public int CompanyId { get; set; }
         public int HolidayId { get; set; }

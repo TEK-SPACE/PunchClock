@@ -1,4 +1,4 @@
-﻿@model PunchClock.Objects.Core.UserObjLibrary
+﻿@model PunchClock.View.Model.UserView
 @using (Ajax.BeginForm("Details", "User", new { adminUpdate = true }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "postResponseUpdate" }, new { }))
 {
      @Html.HiddenFor(x => x.UserId)
@@ -40,9 +40,9 @@
             @Html.ValidationMessageFor(x => x.UserTypeId)
         </li>
         <li>
-            @Html.LabelFor(x => x.EmploymentType)
-            @Html.DropDownListFor(x => x.EmploymentType, (IEnumerable<SelectListItem>)ViewBag.EmploymentType, "--Select--", htmlAttributes: new { })
-            @Html.ValidationMessageFor(x => x.EmploymentType)
+            @Html.LabelFor(x => x.EmploymentTypeId)
+            @Html.DropDownListFor(x => x.EmploymentTypeId, (IEnumerable<SelectListItem>)ViewBag.EmploymentType, "--Select--", htmlAttributes: new { })
+            @Html.ValidationMessageFor(x => x.EmploymentTypeId)
         </li>
          <li>
             @Html.LabelFor(x => x.RegisteredTimeZone)

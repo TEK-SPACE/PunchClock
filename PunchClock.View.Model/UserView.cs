@@ -3,72 +3,90 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace PunchClock.Objects.Core
+namespace PunchClock.View.Model
 {
-    public class UserObjLibrary
+    public class UserView
     {
-        public PunchObjectLibrary LastPunch { get; set; } = new PunchObjectLibrary();
+        public PunchView LastPunch { get; set; } = new PunchView();
 
         [ScaffoldColumn(false)]
         public int UserId { get; set; }
 
-        public int EmploymentType { get; set; }
+        public int EmploymentTypeId { get; set; }
         public int CompanyId { get; set; }
 
         [ScaffoldColumn(false)]
         public Guid GlobalId { get; set; }
+
         [Display(Name = "First Name"), Required(ErrorMessage = "{0} is Required"),
-       RegularExpression("^[a-zA-Z-' ]+$", ErrorMessage = "Invalid {0}"), StringLength(150, MinimumLength = 2, ErrorMessage = "Min {2}, Max {1} chars")]
+         RegularExpression("^[a-zA-Z-' ]+$", ErrorMessage = "Invalid {0}"),
+         StringLength(150, MinimumLength = 2, ErrorMessage = "Min {2}, Max {1} chars")]
 
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name"), Required(ErrorMessage = "{0} is Required"),
-      RegularExpression("^[a-zA-Z-' ]+$", ErrorMessage = "Invalid {0}"), StringLength(150, MinimumLength = 2, ErrorMessage = "Min {2}, Max {1} chars")]
+         RegularExpression("^[a-zA-Z-' ]+$", ErrorMessage = "Invalid {0}"),
+         StringLength(150, MinimumLength = 2, ErrorMessage = "Min {2}, Max {1} chars")]
 
         public string LastName { get; set; }
+
         [Display(Name = "Email")]
         [Required]
         public string Email { get; set; }
+
         [Display(Name = "Mobile"),
-       RegularExpression(@"^(\(?\d\d\d\)?)?( |-|\.)?\d\d\d( |-|\.)?\d{4,4}(( |-|\.)?[ext\.]+ ?\d+)?$", ErrorMessage = "Invalid {0}")]
+         RegularExpression(@"^(\(?\d\d\d\)?)?( |-|\.)?\d\d\d( |-|\.)?\d{4,4}(( |-|\.)?[ext\.]+ ?\d+)?$",
+             ErrorMessage = "Invalid {0}")]
 
         public string Telephone { get; set; }
 
         [Display(Name = "Middle Initial"),
-       RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Invalid {0}"), StringLength(1, ErrorMessage = "Max {1} char")]
+         RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Invalid {0}"), StringLength(1, ErrorMessage = "Max {1} char")]
 
         public string MiddleName { get; set; }
+
         [Display(Name = "User Name")]
         [Required]
         public string UserName { get; set; }
+
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
 
         [ScaffoldColumn(false)]
         public DateTime PasswordLastChanged { get; set; }
+
         [ScaffoldColumn(false)]
         public bool PasswordDisabled { get; set; }
+
         [ScaffoldColumn(false)]
         public bool IsActive { get; set; }
+
         [ScaffoldColumn(false)]
         public bool IsDeleted { get; set; }
+
         [ScaffoldColumn(false)]
         public int? IsAdmin { get; set; }
 
         [ScaffoldColumn(false)]
-        public DateTimeOffset DateCreated_utc { get; set; }
+        public DateTimeOffset DateCreatedUtc { get; set; }
+
         [ScaffoldColumn(false)]
-        public DateTimeOffset LastUpdated_utc { get; set; }
+        public DateTimeOffset LastUpdatedUtc { get; set; }
+
         [ScaffoldColumn(false)]
-        public DateTimeOffset LastActivityDate_utc { get; set; }
+        public DateTimeOffset LastActivityDateUtc { get; set; }
+
         [ScaffoldColumn(false)]
-        public string UserRegistered_ip { get; set; }
+        public string UserRegisteredIp { get; set; }
+
         [ScaffoldColumn(false)]
-        public string LastActivity_ip { get; set; }
+        public string LastActivityIp { get; set; }
+
         [ScaffoldColumn(false)]
-        public string Registered_MAC_address { get; set; }
+        public string RegisteredMacAddress { get; set; }
+
         [ScaffoldColumn(false)]
-        public string LastActive_MAC_address { get; set; }
+        public string LastActiveMacAddress { get; set; }
 
         [Display(Name = "Account Type")]
         public int UserTypeId { get; set; }
@@ -83,10 +101,11 @@ namespace PunchClock.Objects.Core
         [Display(Name = "Timezone")]
         [Required(ErrorMessage = "Please select your timezone")]
         public string RegisteredTimeZone { get; set; }
+
         public IEnumerable<SelectListItem> TimezonesList { get; set; }
-       
-        public CompanyObjLibrary CompanyObjLibrary { get; set; }
-        public ICollection<PunchObjectLibrary> PunchObjectLibrary { get; set; }
-        public PunchClock.Objects.Core.Enum.UserType UserType { get; set; }
+
+        public CompanyView Company { get; set; }
+        public ICollection<PunchView> Punch { get; set; }
+        public Objects.Core.Enum.UserType UserType { get; set; }
     }
 }

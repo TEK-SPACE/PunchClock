@@ -52,6 +52,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Omu.ValueInjecter, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
       <HintPath>..\packages\valueinjecter.3.1.1.3\lib\net40\Omu.ValueInjecter.dll</HintPath>
       <Private>True</Private>
@@ -75,7 +78,7 @@
     <Compile Include="Models\CompanyRepository.cs" />
     <Compile Include="Models\ComplexTypeRepository.cs" />
     <Compile Include="Models\UserRepository.cs" />
-    <Compile Include="PunchClockContext.cs" />
+    <Compile Include="PunchClockDbContext.cs" />
     <Compile Include="PunchDBInitializer.cs" />
     <Compile Include="StateHelper.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -85,10 +88,6 @@
     <ProjectReference Include="..\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
       <Name>PunchClock.Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PunchClock.Entity\PunchClock.Entity.csproj">
-      <Project>{141cd39b-72ae-4551-8d48-a27511d0dd13}</Project>
-      <Name>PunchClock.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\PunchClock.Interface\PunchClock.Interface.csproj">
       <Project>{3f3c7539-9156-4a40-840a-a6dc8bd9d3b3}</Project>

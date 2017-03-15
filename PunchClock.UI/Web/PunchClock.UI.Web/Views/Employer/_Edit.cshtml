@@ -1,6 +1,6 @@
-﻿@model PunchClock.Objects.Core.CompanyObjLibrary
+﻿@model PunchClock.View.Model.CompanyView
 @*@{
-    ViewBag.Title = "Update Company";
+    ViewBag.Title = "Update Companies";
 }
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
@@ -27,7 +27,7 @@
             @if (Model.LogoBinary != null)
             {
                 string imageBase64 = Convert.ToBase64String(Model.LogoBinary);
-                string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+                string imageSrc = $"data:image/gif;base64,{imageBase64}";
                 <img src="@imageSrc"  />
             }
             <br />

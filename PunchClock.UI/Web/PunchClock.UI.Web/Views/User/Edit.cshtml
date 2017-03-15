@@ -1,10 +1,8 @@
-﻿@model PunchClock.Objects.Core.UserObjLibrary
+﻿@model PunchClock.View.Model.UserView
 @{
-    ViewBag.Title = "User Details";
+    ViewBag.Title = "Users Details";
 }
-@{ List<SelectListItem> accountType = new List<SelectListItem>();
-   accountType.Add(new SelectListItem { Text = "Employee", Value = Convert.ToString((int)pcObjectLibrary.UserTypesEnum.Employee) });
-   accountType.Add(new SelectListItem { Text = "Manager", Value = Convert.ToString((int)pcObjectLibrary.UserTypesEnum.Manager) });}
+@{ List<SelectListItem> accountType = new List<SelectListItem> {new SelectListItem {Text = "Employee", Value = Convert.ToString((int) PunchClock.Objects.Core.Enum.UserType.Employee)}, new SelectListItem {Text = "Manager", Value = Convert.ToString((int) PunchClock.Objects.Core.Enum.UserType.Manager)}}; }
 @*<hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     <h2>You are at: @Html.DisplayTextFor(x => x.lastActivity_ip) @Html.Raw((string)ViewBag.Message)</h2>

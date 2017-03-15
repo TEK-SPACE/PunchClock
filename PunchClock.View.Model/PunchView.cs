@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PunchClock.Objects.Core
+namespace PunchClock.View.Model
 {
-    public class PunchObjectLibrary
+   public class PunchView
     {
         public int PunchId { get; set; }
 
@@ -21,7 +21,7 @@ namespace PunchClock.Objects.Core
         public bool IsManagerAccepted { get; set; }
         public bool RequestForApproval { get; set; }
         public string Comments { get; set; }
-        public UserObjLibrary User { get; set; }
+        public UserView User { get; set; }
         public TimeSpan Duration { get; set; }
     }
 }
