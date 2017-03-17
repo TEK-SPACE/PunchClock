@@ -93,11 +93,50 @@ namespace PunchClock.DAL
                     new State {Id=62,Name="Armed Forces Canada",Abbreviation="AE",CountryId=1,CreatedOnUtc=DateTime.UtcNow},
                     new State {Id=63,Name="Armed Forces Europe",Abbreviation="AE",CountryId=1,CreatedOnUtc=DateTime.UtcNow},
                     new State {Id=64,Name="Armed Forces Middle East",Abbreviation="AE",CountryId=1,CreatedOnUtc=DateTime.UtcNow},
-                    new State {Id=65,Name="Armed Forces Pacific",Abbreviation="AP",CountryId=1,CreatedOnUtc=DateTime.UtcNow}
+                    new State {Id=65,Name="Armed Forces Pacific",Abbreviation="AP",CountryId=1,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=66,Name="Andhra Pradesh",Abbreviation="AP",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=67,Name="Arunachal Pradesh",Abbreviation="AR",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=68,Name="Assam",Abbreviation="AS",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=69,Name="Bihar",Abbreviation="BR",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=70,Name="Chhattisgarh",Abbreviation="CG",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=71,Name="Goa",Abbreviation="GA",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=72,Name="Gujarat",Abbreviation="GJ",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=73,Name="Haryana",Abbreviation="HR",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=74,Name="Himachal Pradesh",Abbreviation="HP",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=75,Name="Jammu and Kashmir",Abbreviation="JK",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=76,Name="Jharkhand",Abbreviation="JH",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=77,Name="Karnataka",Abbreviation="KA",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=78,Name="Kerala",Abbreviation="KL",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=79,Name="Madhya Pradesh",Abbreviation="MP",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=80,Name="Maharashtra",Abbreviation="MH",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=81,Name="Manipur",Abbreviation="MN",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=82,Name="Meghalaya",Abbreviation="ML",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=83,Name="Mizoram",Abbreviation="MZ",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=84,Name="Nagaland",Abbreviation="NL",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=85,Name="Orissa",Abbreviation="OR",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=86,Name="Punjab",Abbreviation="PB",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=87,Name="Rajasthan",Abbreviation="RJ",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=88,Name="Sikkim",Abbreviation="SK",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=89,Name="Tamil Nadu",Abbreviation="TN",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=90,Name="Tripura",Abbreviation="TR",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=91,Name="Uttarakhand",Abbreviation="UK",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=92,Name="Telangana",Abbreviation="TS",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=93,Name="Uttar Pradesh",Abbreviation="UP",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=94,Name="West Bengal",Abbreviation="WB",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=95,Name="Andaman and Nicobar Islands",Abbreviation="AN",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=96,Name="Chandigarh",Abbreviation="CH",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=97,Name="Dadra and Nagar Haveli",Abbreviation="DH",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=98,Name="Daman and Diu",Abbreviation="DD",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=99,Name="Delhi",Abbreviation="DL",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=100,Name="Lakshadweep",Abbreviation="LD",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=101,Name="Pondicherry",Abbreviation="PY",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=102,Name="Daman and Diu",Abbreviation="DD",CountryId=2,CreatedOnUtc=DateTime.UtcNow},
+                    new State {Id=103,Name="DL",Abbreviation="JH",CountryId=2,CreatedOnUtc=DateTime.UtcNow}
                 };
             foreach (var state in states)
             {
-                context.States.Add(state);
+                // context.States.Add(state);
+                context.States.AddOrUpdate(state);
             }
 
         }
@@ -106,11 +145,13 @@ namespace PunchClock.DAL
         {
             List<Country> countries = new List<Country>
             {
-                new Country {Id=1,Name="United States",TwoLetterIsoCode="US",ThreeLetterIsoCode="USA",NumericIsoCode="000",Published=1,DisplayOrder=1,CreatedOnUtc=DateTime.UtcNow}
+                new Country {Id=1,Name="United States",TwoLetterIsoCode="US",ThreeLetterIsoCode="USA",NumericIsoCode="000",Published=1,DisplayOrder=1,CreatedOnUtc=DateTime.UtcNow},
+                new Country {Id=2,Name="India",TwoLetterIsoCode="IN",ThreeLetterIsoCode="IND",NumericIsoCode="091",Published=1,DisplayOrder=1,CreatedOnUtc=DateTime.UtcNow}
             };
             foreach (var country in countries)
             {
-                context.Countries.Add(country);
+                //context.Countries.Add(country);
+                context.Countries.AddOrUpdate(country);
             }
         }
 
@@ -141,7 +182,8 @@ namespace PunchClock.DAL
             };
             foreach (var holiday in holidays)
             {
-                context.Holidays.Add(holiday);
+                //  context.Holidays.Add(holiday);
+                context.Holidays.AddOrUpdate(holiday);
             }
         }
 
@@ -156,7 +198,8 @@ namespace PunchClock.DAL
             };
             foreach (var userType in userTypes)
             {
-                context.UserTypes.Add(userType);
+                //context.UserTypes.Add(userType);
+                context.UserTypes.AddOrUpdate(userType);
             }
         }
 
@@ -169,14 +212,15 @@ namespace PunchClock.DAL
                 new HolidayType {Id = 3, Name = "Observance", DateEnteredUtc = DateTime.UtcNow},
                 new HolidayType {Id = 4, Name = "Christian Holiday", DateEnteredUtc = DateTime.UtcNow},
                 new HolidayType {Id = 5, Name = "Muslim Holiday", DateEnteredUtc = DateTime.UtcNow},
-                new HolidayType {Id =  6,Name = "Jewish Holiday", DateEnteredUtc = DateTime.UtcNow},
+                new HolidayType {Id = 6,Name = "Jewish Holiday", DateEnteredUtc = DateTime.UtcNow},
                 new HolidayType {Id = 7, Name = "Hindu Holiday", DateEnteredUtc = DateTime.UtcNow},
                 new HolidayType {Id = 8, Name = "Other Holiday", DateEnteredUtc = DateTime.UtcNow},
                 
             };
             foreach (var holidayType in holidayTypes)
             {
-                context.HolidayTypes.Add(holidayType);
+                //  context.HolidayTypes.Add(holidayType);
+                context.HolidayTypes.AddOrUpdate(holidayType);
             }
         }
 
@@ -190,7 +234,8 @@ namespace PunchClock.DAL
             };
             foreach (var employmentType in employementTypes)
             {
-                context.EmploymentTypes.Add(employmentType);
+                // context.EmploymentTypes.Add(employmentType);
+                context.EmploymentTypes.AddOrUpdate(employmentType);
             }
         }
     }
