@@ -13,29 +13,33 @@ namespace PunchClock.Implementation
 {
     public class UserService
     {
-        public int Add(View.Model.UserView userObjLibrary)
+        public int Add(View.Model.UserView userView)
         {
-            userObjLibrary.PasswordSalt = PasswordService.GenerateSalt();
-            userObjLibrary.PasswordHash = PasswordService.EncodePassword(userObjLibrary.Password, userObjLibrary.PasswordSalt);
+            userView.PasswordSalt = PasswordService.GenerateSalt();
+            userView.PasswordHash = PasswordService.EncodePassword(userView.Password, userView.PasswordSalt);
 
             using (var unitOfWork = new UnitOfWork())
             {
-                if (unitOfWork.UserRepository.Get(x => x.UserName.ToLower() == userObjLibrary.UserName.ToLower()).Any())
-                    return (int)RegistrationStatus.UserNameNotAvailable;
+                if (unitOfWork.UserRepository.Get(x => x.UserName.ToLower() == userView.UserName.ToLower()).Any())
+                    return (int) RegistrationStatus.UserNameNotAvailable;
 
-                var company = unitOfWork.CompanyRepository.Get(x => x.RegisterCode.ToLower() == userObjLibrary.RegistrationCode.ToLower()).FirstOrDefault();
+                var company =
+                    unitOfWork.CompanyRepository.Get(
+                        x => x.RegisterCode.ToLower() == userView.RegistrationCode.ToLower()).FirstOrDefault();
                 if (company == null)
-                    return (int)RegistrationStatus.InvalidRegistrationCode;
-                userObjLibrary.CompanyId = company.Id;
-                if (userObjLibrary.UserTypeId == (int)UserType.Manager)
-                    userObjLibrary.IsActive = false;
+                    return (int) RegistrationStatus.InvalidRegistrationCode;
+
+                userView.CompanyId = company.Id;
+
+                if (userView.UserTypeId == (int) UserType.Manager)
+                    userView.IsActive = false;
 
                 var user = new User();
-               new Map().ViewToDomain(userObjLibrary, user);
+                new Map().ViewToDomain(userView, user);
                 unitOfWork.UserRepository.Insert(user);
                 unitOfWork.Save();
             }
-            return userObjLibrary.UserId;
+            return userView.UserId;
         }
 
         public static bool Login(string userName, string password, string ipAddress, string macAddress)

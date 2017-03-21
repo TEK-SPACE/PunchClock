@@ -7,10 +7,12 @@ namespace PunchClock.Model.Mapper
         public void ViewToDomain(View.Model.UserView view, Domain.Model.User domain)
         {
             //Todo: Need to Implement
+            domain.UserName = view.UserName;
         }
         public void DomainToView(View.Model.UserView view, Domain.Model.User domain)
         {
             //Todo: Need to Implement
+            view.UserName = domain.UserName;
         }
         public void ViewToDomain(List<View.Model.UserView> views, List<Domain.Model.User> domains)
         {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Collections.ObjectModel;
-using PunchClock.Objects.Core;
 using PunchClock.Implementation;
 using PunchClock.Common;
 using PunchClock.Objects.Core.Enum;
+using PunchClock.View.Model;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -13,45 +12,51 @@ namespace PunchClock.UI.Web.Controllers
     {
         //
         // GET: /Register/
+        private readonly UserService _userService;
+
+        public UserController()
+        {
+            _userService = new UserService();
+        }
 
         public ActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = operatingUser.UserName });
-            View.Model.UserView user = new View.Model.UserView();
-            user.LastActivityIp = UserUserSession.IpAddress;
-            user.LastActiveMacAddress = UserUserSession.MacAddress;
+            UserView user = new UserView
+            {
+                LastActivityIp = UserUserSession.IpAddress,
+                LastActiveMacAddress = UserUserSession.MacAddress
+            };
 
-            ReadOnlyCollection<TimeZoneInfo> tz;
-            tz = TimeZoneInfo.GetSystemTimeZones();
-            user.TimezonesList = (from t in tz
+            var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
+            user.TimezonesList = (from t in systemTimeZones
                                   orderby t.Id
                                   select new SelectListItem
                                   {
                                        Value = t.Id,
                                        Text = t.Id
                                   }).ToList();
-            user.TimezonesList.Where(x => x.Value == "US Eastern Standard Time").Single().Selected = true;
+            user.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
 
-            var UserTypes = Get.UserTypes(adminCall: true);
+            var userTypes = Get.UserTypes(adminCall: true);
             if (user.UserTypeId > 0)
-                UserTypes.Where(x => x.Value == user.UserTypeId.ToString()).First().Selected = true;
-            ViewBag.UserTypes = UserTypes;
+                userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
+            ViewBag.UserTypes = userTypes;
 
             return View(user);
         }
 
         [HttpPost]
-        public JsonResult Register(View.Model.UserView user, FormCollection coll)
+        public JsonResult Register(UserView user, FormCollection coll)
         {
             user.UserRegisteredIp = UserUserSession.IpAddress;
             user.RegisteredMacAddress= UserUserSession.MacAddress;
             user.LastActivityIp = UserUserSession.IpAddress;
             user.LastActiveMacAddress = UserUserSession.MacAddress;
             user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
-            UserService ub = new UserService();
-            user.UserId = ub.Add(user);
-            return Json(new { user = user });
+            user.UserId = _userService.Add(user);
+            return Json(new {user });
         }
 
         [HttpGet]
@@ -60,9 +65,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (string.IsNullOrEmpty(userName))
                 userName = operatingUser.UserName;
-            View.Model.UserView user = new View.Model.UserView();
-            UserService ub = new UserService();
-            user = ub.Details(userName);
+            var user = _userService.Details(userName);
             user.UserRegisteredIp = UserUserSession.IpAddress;
             user.RegisteredMacAddress = UserUserSession.MacAddress;
             user.LastActivityIp = UserUserSession.IpAddress;
@@ -72,52 +75,47 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public JsonResult Edit(View.Model.UserView user)
+        public JsonResult Edit(UserView user)
         {
             user.UserRegisteredIp = UserUserSession.IpAddress;
             user.RegisteredMacAddress = UserUserSession.MacAddress;
             user.LastActivityIp = UserUserSession.IpAddress;
             user.LastActiveMacAddress = UserUserSession.MacAddress;
-            UserService ub = new UserService();
-            user.UserId = ub.Update(user, false);
-            return Json(new { user = user });
+            user.UserId = _userService.Update(user, false);
+            return Json(new {user });
         }
         [HttpGet]
         [Authorize]
         public ActionResult Details(int id)
         {
-            View.Model.UserView user = new View.Model.UserView();
-            UserService ub = new UserService();
-            user = ub.Details(userId: id);
+           var user = _userService.Details(userId: id);
 
-            ReadOnlyCollection<TimeZoneInfo> tz;
-            tz = TimeZoneInfo.GetSystemTimeZones();
-            user.TimezonesList = (from t in tz
+            var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
+            user.TimezonesList = (from t in systemTimeZones
                                   orderby t.Id
                                   select new SelectListItem
                                   {
                                       Value = t.Id,
                                       Text = t.Id
                                   }).ToList();
-            user.TimezonesList.Where(x => x.Value == user.RegisteredTimeZone).Single().Selected = true;
-            var EmploymentTypes = Get.EmploymentTypes();
-            EmploymentTypes.Where(x => x.Value == user.EmploymentTypeId.ToString()).First().Selected = true;
-            ViewBag.EmploymentType = EmploymentTypes;
+            user.TimezonesList.Single(x => x.Value == user.RegisteredTimeZone).Selected = true;
+            var employmentTypes = Get.EmploymentTypes();
+            employmentTypes.First(x => x.Value == user.EmploymentTypeId.ToString()).Selected = true;
+            ViewBag.EmploymentType = employmentTypes;
 
-            var UserTypes = Get.UserTypes(adminCall: true);
-            UserTypes.Where(x => x.Value == user.UserTypeId.ToString()).First().Selected = true;
-            ViewBag.UserTypes = UserTypes;
+            var userTypes = Get.UserTypes(adminCall: true);
+            userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
+            ViewBag.UserTypes = userTypes;
 
-            if (user.LastPunch.PunchIn != null && user.LastPunch.PunchIn != TimeSpan.MinValue)
+            if (user.LastPunch.PunchIn != TimeSpan.MinValue)
             {
                 user.LastPunch.PunchIn = 
                     TimeZoneInfo.ConvertTimeFromUtc( user.LastPunch.PunchDate.Date +  user.LastPunch.PunchIn, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)).TimeOfDay;
             }
             if (user.LastPunch.PunchOut != null && user.LastPunch.PunchOut != TimeSpan.MinValue)
             {
-                user.LastPunch.PunchOut = user.LastPunch.PunchOut.HasValue ? 
-                    TimeZoneInfo.ConvertTimeFromUtc(user.LastPunch.PunchDate.Date + user.LastPunch.PunchOut.Value, 
-                    TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)).TimeOfDay : TimeSpan.MinValue;
+                user.LastPunch.PunchOut = TimeZoneInfo.ConvertTimeFromUtc(user.LastPunch.PunchDate.Date + user.LastPunch.PunchOut.Value, 
+                    TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)).TimeOfDay;
             }
 
 
@@ -126,11 +124,9 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Details(View.Model.UserView obj, bool adminUpdate = false)
+        public ActionResult Details(UserView obj, bool adminUpdate = false)
         {
-            View.Model.UserView user = new View.Model.UserView();
-            UserService ub = new UserService();
-            user.UserId = ub.Update(obj, adminUpdate);
+            _userService.Update(obj, adminUpdate);
             return Json(new { user = obj });
         }
     }
