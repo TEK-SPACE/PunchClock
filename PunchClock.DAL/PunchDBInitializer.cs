@@ -27,7 +27,20 @@ namespace PunchClock.DAL
             SeedCountry(context);
             SeedState(context);
 
+            SeedCompany(context);
             base.Seed(context);
+        }
+
+        private void SeedCompany(PunchClockDbContext context)
+        {
+            List<Company> companies = new List<Company>
+            {
+                new Company {Id=1,Name="Tekspace",RegisterCode="12345" }
+            };
+            foreach(var company in companies)
+            {
+                context.Companies.Add(company);
+            }
         }
 
         private void SeedState(PunchClockDbContext context)
@@ -595,12 +608,13 @@ namespace PunchClock.DAL
             List<EmploymentType> employementTypes = new List<EmploymentType>
             {
                 new EmploymentType {Id = 1, Name = "Full Time"},
-                new EmploymentType {Id = 2, Name = "Full Time Contractor"},
-                new EmploymentType {Id = 1, Name = "Part Time"}
+                new EmploymentType {Id = 2, Name = "Contract Hourly"},
+                new EmploymentType {Id = 3, Name = "Contract Flat"},
+                new EmploymentType {Id = 4, Name = "Part Time" }
             };
             foreach (var employmentType in employementTypes)
             {
-                context.EmploymentTypes.AddOrUpdate(employmentType);
+                context.EmploymentTypes.AddOrUpdate(x=>x.Id, employmentType);
             }
         }
     }

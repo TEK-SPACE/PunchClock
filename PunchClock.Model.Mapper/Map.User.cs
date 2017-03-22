@@ -8,11 +8,64 @@ namespace PunchClock.Model.Mapper
         {
             //Todo: Need to Implement
             domain.UserName = view.UserName;
+            domain.CompanyId = view.CompanyId;
+            domain.DateCreatedUtc = view.DateCreatedUtc;
+            domain.Email = view.Email;
+            domain.EmploymentTypeId = view.EmploymentTypeId;
+            domain.FirstName = view.FirstName;
+            domain.GlobalId = view.GlobalId;
+            domain.IsActive = view.IsActive;
+            domain.IsAdmin = view.IsAdmin;
+            domain.IsDeleted = view.IsDeleted;
+            domain.LastActiveMacAddress = view.LastActiveMacAddress;
+            domain.LastActivityDateUtc = view.LastActivityDateUtc;
+            domain.LastActivityIp = view.LastActivityIp;
+            domain.LastName = view.LastName;
+            domain.LastUpdatedUtc = view.LastUpdatedUtc;
+            domain.MiddleName = view.MiddleName;
+            domain.PasswordDisabled = view.PasswordDisabled;
+            domain.PasswordHash = view.PasswordHash;
+            domain.PasswordLastChanged = view.PasswordLastChanged;
+            domain.PasswordSalt = view.PasswordSalt;
+            domain.RegisteredMacAddress =view.RegisteredMacAddress;
+            domain.RegisteredTimeZone = view.RegisteredTimeZone;
+            domain.Telephone = view.Telephone;
+           // domain.Uid = view.UserId;
+            domain.UserName = view.UserName;
+            domain.UserRegisteredIp = view.UserRegisteredIp;
+          //  domain.UserType = view.UserType;
+            domain.UserTypeId = view.UserTypeId;
+
         }
         public void DomainToView(View.Model.UserView view, Domain.Model.User domain)
         {
             //Todo: Need to Implement
             view.UserName = domain.UserName;
+            view.CompanyId = domain.CompanyId;
+            view.DateCreatedUtc = domain.DateCreatedUtc;
+            view.Email = domain.Email;
+            view.EmploymentTypeId = domain.EmploymentTypeId;
+            view.FirstName = domain.FirstName;
+            view.GlobalId = domain.GlobalId;
+            view.IsActive = domain.IsActive;
+            view.IsAdmin = domain.IsAdmin;
+            view.IsDeleted = domain.IsDeleted;
+            view.LastActiveMacAddress = domain.LastActiveMacAddress;
+            view.LastActivityDateUtc = domain.LastActivityDateUtc;
+            view.LastActivityIp = domain.LastActivityIp;
+            view.LastName = domain.LastName;
+            view.MiddleName = domain.MiddleName;
+            view.PasswordDisabled = domain.PasswordDisabled;
+            view.PasswordHash = domain.PasswordHash;
+            //view.PasswordLastChanged = domain.PasswordLastChanged;
+            view.PasswordSalt = domain.PasswordSalt;
+            view.RegisteredMacAddress = domain.RegisteredMacAddress;
+            view.RegisteredTimeZone = domain.RegisteredTimeZone;
+            view.Telephone = domain.Telephone;
+            view.UserName = domain.UserName;
+            view.UserRegisteredIp = domain.UserRegisteredIp;
+            //  view.UserType = domain.UserType;
+            view.UserTypeId = domain.UserTypeId;
         }
         public void ViewToDomain(List<View.Model.UserView> views, List<Domain.Model.User> domains)
         {

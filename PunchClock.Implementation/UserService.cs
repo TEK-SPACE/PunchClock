@@ -17,7 +17,10 @@ namespace PunchClock.Implementation
         {
             userView.PasswordSalt = PasswordService.GenerateSalt();
             userView.PasswordHash = PasswordService.EncodePassword(userView.Password, userView.PasswordSalt);
-
+            userView.DateCreatedUtc = DateTimeOffset.UtcNow;
+            userView.LastActivityDateUtc = DateTimeOffset.UtcNow;
+            userView.LastUpdatedUtc = DateTimeOffset.UtcNow;
+            userView.PasswordLastChanged = DateTime.UtcNow;
             using (var unitOfWork = new UnitOfWork())
             {
                 if (unitOfWork.UserRepository.Get(x => x.UserName.ToLower() == userView.UserName.ToLower()).Any())
