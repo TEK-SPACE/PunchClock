@@ -66,6 +66,7 @@ namespace PunchClock.Model.Mapper
             view.UserRegisteredIp = domain.UserRegisteredIp;
             //  view.UserType = domain.UserType;
             view.UserTypeId = domain.UserTypeId;
+            view.UserId = domain.Uid;
         }
         public void ViewToDomain(List<View.Model.UserView> views, List<Domain.Model.User> domains)
         {

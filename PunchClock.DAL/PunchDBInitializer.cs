@@ -573,10 +573,11 @@ namespace PunchClock.DAL
         {
             List<UserType> userTypes = new List<UserType>
             {
-                new UserType {Id = 1, Description="Employee"},
-                new UserType {Id = 2, Description = "Manager"},
-                new UserType {Id = 3, Description = "CompanyAdmin"},
-                new UserType {Id = 4, Description = "Admin"}
+                new UserType {Id = (int)Objects.Core.Enum.UserType.Employee, Description="Employee"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.Manager, Description = "Manager"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.Admin, Description = "Admin"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.HumanResources,Description="Human Resource" }
             };
             foreach (var userType in userTypes)
             {

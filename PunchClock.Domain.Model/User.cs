@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Domain.Model
 {
@@ -18,6 +19,7 @@ namespace PunchClock.Domain.Model
             return userIdentity;
         }
         //[Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Uid { get; set; }
         public Guid GlobalId { get; set; }
         public int UserTypeId { get; set; }
@@ -47,7 +49,7 @@ namespace PunchClock.Domain.Model
 
         public virtual EmploymentType EmploymentType { get; set; }
         public virtual UserType UserType { get; set; }
-        public virtual ICollection<Company> Companies { get; set; }
+        public virtual Company Company { get; set; }
         public virtual ICollection<Punch> Punches { get; set; }
     }
 }

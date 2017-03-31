@@ -54,7 +54,7 @@ namespace PunchClock.DAL.Models
 
         public void InsertOrUpdate(User user)
         {
-            if (user.Uid == default(int))
+            if (user.Id == default(string))
             {
                 // New entity
                 _context.Entry(user).State = EntityState.Added;

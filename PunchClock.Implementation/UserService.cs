@@ -39,6 +39,7 @@ namespace PunchClock.Implementation
 
                 var user = new User();
                 new Map().ViewToDomain(userView, user);
+                user.GlobalId = Guid.NewGuid();
                 unitOfWork.UserRepository.Insert(user);
                 unitOfWork.Save();
             }
@@ -98,7 +99,7 @@ namespace PunchClock.Implementation
                 var user = unitOfWork.UserRepository.GetById(userId);
                 if (user != null)
                     userObjLibrary.InjectFrom(user);
-                if (user != null && user.Uid > 0)
+                if (user != null)
                 {
                     var punch = unitOfWork.PunchRepository.Get(p => p.UserId == userId);
                     if (punch == null) return userObjLibrary;
@@ -160,7 +161,7 @@ namespace PunchClock.Implementation
                                  select new SelectListItem
                                  {
                                      Text = $"{user.FirstName} {user.MiddleName} {user.LastName}",
-                                     Value = $"{user.Uid}"
+                                     Value = $"{user.Id}"
                                  }).ToList();
                 else
                     employees = (from user in users
@@ -169,7 +170,7 @@ namespace PunchClock.Implementation
                                  select new SelectListItem
                                  {
                                      Text = $"{user.FirstName} {user.MiddleName} {user.LastName}",
-                                     Value = $"{user.Uid}"
+                                     Value = $"{user.Id}"
                                  }).ToList();
             }
             

@@ -31,11 +31,11 @@ namespace PunchClock.Implementation
 
                 unitOfWork.CompanyRepository.Insert(companyDomain);
 
-                companyDomain.User.CompanyId = companyDomain.Id;
-                companyDomain.User.UserTypeId = (int) UserType.CompanyAdmin;
-                companyDomain.User.PasswordSalt = PasswordService.GenerateSalt();
-                companyDomain.User.PasswordHash = PasswordService.EncodePassword(companyView.User.Password,
-                    companyView.User.PasswordSalt);
+                //companyDomain.User.CompanyId = companyDomain.Id;
+                //companyDomain.User.UserTypeId = (int) UserType.CompanyAdmin;
+                //companyDomain.User.PasswordSalt = PasswordService.GenerateSalt();
+                //companyDomain.User.PasswordHash = PasswordService.EncodePassword(companyView.User.Password,
+                //    companyView.User.PasswordSalt);
 
                 var userDomain = new User();
                 new Map().ViewToDomain(companyView.User, userDomain);
