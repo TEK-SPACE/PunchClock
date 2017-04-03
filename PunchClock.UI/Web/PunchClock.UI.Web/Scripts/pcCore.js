@@ -35,7 +35,7 @@ function postResponseRegistration(e) {
           "300px");
     }
     else if (e.user.UserId > 0) {
-        window.location.href = "/login";
+        window.location.href = "/";
     }
     console.log(e.user.UserId);
 }
