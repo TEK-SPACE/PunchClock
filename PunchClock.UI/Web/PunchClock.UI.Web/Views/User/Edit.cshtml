@@ -3,18 +3,15 @@
     ViewBag.Title = "Users Details";
 }
 @{ List<SelectListItem> accountType = new List<SelectListItem> {new SelectListItem {Text = "Employee", Value = Convert.ToString((int) PunchClock.Objects.Core.Enum.UserType.Employee)}, new SelectListItem {Text = "Manager", Value = Convert.ToString((int) PunchClock.Objects.Core.Enum.UserType.Manager)}}; }
-@*<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>You are at: @Html.DisplayTextFor(x => x.lastActivity_ip) @Html.Raw((string)ViewBag.Message)</h2>
-</hgroup>*@
 <div class="col-lg-6">
     <div class="well bs-component">
         @using (Ajax.BeginForm("Edit", "User", null,
-                                new AjaxOptions { HttpMethod = "POST", OnSuccess = "postResponseRegistration" },
+                                new AjaxOptions { HttpMethod = "POST", OnSuccess = "postUpdateUser" },
                                 new { @class = "form-horizontal" }))
         {
             <fieldset>
                 <legend>@ViewBag.Title</legend>
+                @Html.HiddenFor(x => x.Id)
                 @Html.HiddenFor(x => x.UserId)
                 <div class="form-group">
                     @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })
@@ -38,10 +35,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.Telephone, new { @class = "col-lg-2 control-label" })
+                    @Html.LabelFor(x => x.PhoneNumber, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Telephone)
+                        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.PhoneNumber)
                     </div>
                 </div>
                 @*   <li>

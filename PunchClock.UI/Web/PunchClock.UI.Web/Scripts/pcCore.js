@@ -1,5 +1,20 @@
 ﻿/// <reference path="jquery.maskedinput-1.3.1.js" />
 /// <reference path="jquery.inputmask/jquery.inputmask-2.4.15.js" />
+
+function postUpdateUser(e) {
+    if (e.user.UserId > 0) {
+        showDialog("Update Successful",
+            "You have successfully update user information.",
+            "400px",
+            "300px");
+    }
+    else if (e.user.UserId < 1) {
+        showDialog("Update Failed",
+           "Unfortunately we could not complete your request at this point of time. If this continue to happen again, please contact support team.",
+           "400px",
+           "300px");
+    }
+}
 function postResponseRegistration(e) {
     if (e.user.UserId == -3) {
         showDialog("User Name not available",
@@ -24,7 +39,6 @@ function postResponseRegistration(e) {
     }
     console.log(e.user.UserId);
 }
-
 
 $(function () {
 
@@ -215,7 +229,6 @@ $(function () {
                 console.warn("Error converting time", ex);
             }
         });
-
         utcDate();
     });
 
@@ -266,14 +279,12 @@ $(function () {
         return dbDate.toLocaleString();
     }
 
-
     function DateToUTC(punchDate) {
         //console.log(punchDate);
         var dbDate = new Date(parseInt(punchDate.substr(6)));
         console.log(dbDate.toISOString());
         return dbDate.toISOString();
     }
-
 
     function DayFromDate(jsonDate) {
         var date = new Date(parseInt(jsonDate.substr(6)));

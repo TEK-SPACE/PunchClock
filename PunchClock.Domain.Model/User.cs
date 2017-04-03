@@ -28,12 +28,10 @@ namespace PunchClock.Domain.Model
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public override string Email { get; set; }
-        public string Telephone { get; set; }
-        public override string UserName { get; set; }
-        public override string PasswordHash { get; set; }
+        [NotMapped]
         public string PasswordSalt { get; set; }
-        public DateTime? PasswordLastChanged { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime PasswordLastChanged { get; set; }
         public bool PasswordDisabled { get; set; }
         public string RegisteredTimeZone { get; set; }
         public bool IsActive { get; set; }
@@ -46,6 +44,8 @@ namespace PunchClock.Domain.Model
         public string RegisteredMacAddress { get; set; }
         public string LastActiveMacAddress { get; set; }
         public string LastActivityIp { get; set; }
+        //[Column(TypeName = "datetime2")]
+        //public string LockoutEndDateUtc { get; set; } 
 
         public virtual EmploymentType EmploymentType { get; set; }
         public virtual UserType UserType { get; set; }

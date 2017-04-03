@@ -7,6 +7,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PunchClock.Domain.Model;
 using PunchClock.UI.Web.Models;
+using System;
+using PunchClock.Common;
+using PunchClock.View.Model;
+using PunchClock.Implementation;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -16,9 +20,11 @@ namespace PunchClock.UI.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly CompanyService _companyService;
 
         public AccountController()
         {
+            _companyService = new CompanyService();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -136,7 +142,32 @@ namespace PunchClock.UI.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Edit", "User", new { userName = operatingUser.UserName });
+            UserView user = SetRegistrationContext(new UserView());
+            return View(user);
+        }
+
+        private UserView SetRegistrationContext(UserView user)
+        {
+            user.LastActivityIp = UserUserSession.IpAddress;
+            user.LastActiveMacAddress = UserUserSession.MacAddress;
+
+            var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
+            user.TimezonesList = (from t in systemTimeZones
+                                  orderby t.Id
+                                  select new SelectListItem
+                                  {
+                                      Value = t.Id,
+                                      Text = t.Id
+                                  }).ToList();
+            user.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
+
+            var userTypes = Get.UserTypes(adminCall: true);
+            if (user.UserTypeId > 0)
+                userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
+            ViewBag.UserTypes = userTypes;
+            return user;
         }
 
         //
@@ -144,29 +175,45 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterModel model)
+        public async Task<ActionResult> Register(UserView userView)
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.UserName, Email = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                userView.UserRegisteredIp = UserUserSession.IpAddress;
+                userView.RegisteredMacAddress = UserUserSession.MacAddress;
+                userView.LastActivityIp = UserUserSession.IpAddress;
+                userView.LastActiveMacAddress = UserUserSession.MacAddress;
+                userView.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+                userView.DateCreatedUtc = DateTimeOffset.UtcNow;
+                userView.LastActivityDateUtc = DateTimeOffset.UtcNow;
+                userView.LastUpdatedUtc = DateTimeOffset.UtcNow;
+                userView.PasswordLastChanged = DateTime.UtcNow;
+
+                CompanyView company = _companyService.Get(code: userView.RegistrationCode);
+                if(company == null || company.CompanyId < 1)
+                {
+                    ModelState.AddModelError("", $"Registration code {userView.RegistrationCode} doesn't match with any  Company in the system");
+                    SetRegistrationContext(userView);
+                    return View(userView);
+                }
+                userView.CompanyId = company.CompanyId;
+                userView.GlobalId = Guid.NewGuid();
+                userView.IsActive = true;
+
+                var user = new User();
+                new Model.Mapper.Map().ViewToDomain(userView, user);
+               
+                var result = await UserManager.CreateAsync(user, userView.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.UserId);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.UserId, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.UserId, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
-
+            SetRegistrationContext(userView);
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(userView);
         }
 
         //

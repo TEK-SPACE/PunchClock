@@ -29,13 +29,12 @@ namespace PunchClock.Model.Mapper
             domain.PasswordSalt = view.PasswordSalt;
             domain.RegisteredMacAddress =view.RegisteredMacAddress;
             domain.RegisteredTimeZone = view.RegisteredTimeZone;
-            domain.Telephone = view.Telephone;
-           // domain.Uid = view.UserId;
+            domain.PhoneNumber = view.PhoneNumber;
+            domain.Uid = view.UserId;
             domain.UserName = view.UserName;
             domain.UserRegisteredIp = view.UserRegisteredIp;
-          //  domain.UserType = view.UserType;
             domain.UserTypeId = view.UserTypeId;
-
+            domain.Id = view.Id;
         }
         public void DomainToView(View.Model.UserView view, Domain.Model.User domain)
         {
@@ -57,16 +56,17 @@ namespace PunchClock.Model.Mapper
             view.MiddleName = domain.MiddleName;
             view.PasswordDisabled = domain.PasswordDisabled;
             view.PasswordHash = domain.PasswordHash;
-            //view.PasswordLastChanged = domain.PasswordLastChanged;
             view.PasswordSalt = domain.PasswordSalt;
             view.RegisteredMacAddress = domain.RegisteredMacAddress;
             view.RegisteredTimeZone = domain.RegisteredTimeZone;
-            view.Telephone = domain.Telephone;
+            view.PhoneNumber = domain.PhoneNumber;
             view.UserName = domain.UserName;
             view.UserRegisteredIp = domain.UserRegisteredIp;
-            //  view.UserType = domain.UserType;
             view.UserTypeId = domain.UserTypeId;
             view.UserId = domain.Uid;
+            view.LastUpdatedUtc = domain.LastUpdatedUtc;
+            view.PasswordLastChanged = domain.PasswordLastChanged;
+            view.Id = domain.Id;
         }
         public void ViewToDomain(List<View.Model.UserView> views, List<Domain.Model.User> domains)
         {
