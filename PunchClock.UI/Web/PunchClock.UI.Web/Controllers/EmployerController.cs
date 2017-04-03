@@ -50,6 +50,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             obj.RegisterCode = Get.RandomNumber().ToString();
             obj.User.UserRegisteredIp = UserUserSession.IpAddress;
+            obj.GlobalId = Guid.NewGuid();
             obj.User.RegisteredMacAddress = UserUserSession.MacAddress;
             obj.User.LastActivityIp = UserUserSession.IpAddress;
             obj.User.LastActiveMacAddress = UserUserSession.MacAddress;
@@ -132,7 +133,7 @@ namespace PunchClock.UI.Web.Controllers
             if (operatingUser.UserTypeId == (int)UserType.CompanyAdmin)
             {
                 CompanyService cb = new CompanyService();
-                model = cb.Details(operatingUser.CompanyId);
+                model = cb.Get(operatingUser.CompanyId);
             }
             else
             {

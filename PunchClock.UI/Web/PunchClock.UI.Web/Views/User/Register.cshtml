@@ -2,18 +2,15 @@
 @{
     ViewBag.Title = "User Registration";
 }
-@*<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>You are at: @Html.DisplayTextFor(x => x.lastActivity_ip) @Html.Raw((string)ViewBag.Message)</h2></hgroup>
-    <hr />*@
-
 <div class="col-lg-6">
     <div class="well bs-component">
-        @using (Ajax.BeginForm("Register", "User", null,
+        @using (Ajax.BeginForm("Register", "Account", null,
                 new AjaxOptions { OnSuccess = "postResponseRegistration" },
                 new { @class = "form-horizontal" }))
         {
             <fieldset>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
                 <legend>@ViewBag.Title</legend>
                 <div class="form-group">
                     @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })
@@ -37,10 +34,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.Telephone, new { @class = "col-lg-2 control-label" })
+                    @Html.LabelFor(x => x.PhoneNumber, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Telephone)
+                        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.PhoneNumber)
                     </div>
                 </div>
                 <div class="form-group">

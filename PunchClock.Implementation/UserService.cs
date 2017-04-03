@@ -109,34 +109,35 @@ namespace PunchClock.Implementation
             }
             return userObjLibrary;
         }
-        public int Update(View.Model.UserView userObjLibrary, bool adminUpdate)
+        public int Update(View.Model.UserView userView, bool adminUpdate)
         {
             using (var unitOfWork = new UnitOfWork())
             {
-                User user = unitOfWork.UserRepository.GetById(userObjLibrary.UserId);
-                user.FirstName = userObjLibrary.FirstName;
-                user.LastName = userObjLibrary.LastName;
-                user.MiddleName = userObjLibrary.MiddleName;
-                user.Email = userObjLibrary.Email;
-                user.Telephone = userObjLibrary.Telephone;
+                User user = unitOfWork.UserRepository.GetById(userView.Id);
+                user.FirstName = userView.FirstName;
+                user.LastName = userView.LastName;
+                user.MiddleName = userView.MiddleName;
+                user.Email = userView.Email;
+                user.PhoneNumber = userView.PhoneNumber;
                 if (!adminUpdate)
                 {
-                    user.LastActiveMacAddress = userObjLibrary.LastActiveMacAddress;
-                    user.LastActivityIp = userObjLibrary.LastActivityIp;
+                    user.LastActiveMacAddress = userView.LastActiveMacAddress;
+                    user.LastActivityIp = userView.LastActivityIp;
                     user.LastActivityDateUtc = DateTime.UtcNow;
                 }
                 else
                 {
-                    user.RegisteredTimeZone = userObjLibrary.RegisteredTimeZone;
-                    if (userObjLibrary.UserTypeId > 0)
-                        user.UserTypeId = userObjLibrary.UserTypeId;
-                    if (userObjLibrary.EmploymentTypeId > 0)
-                        user.EmploymentType = (Domain.Model.EmploymentType)userObjLibrary.EmploymentTypeId;
+                    user.RegisteredTimeZone = userView.RegisteredTimeZone;
+                    if (userView.UserTypeId > 0)
+                        user.UserTypeId = userView.UserTypeId;
+                    if (userView.EmploymentTypeId > 0)
+                        user.EmploymentType = (Domain.Model.EmploymentType)userView.EmploymentTypeId;
                 }
                 unitOfWork.UserRepository.Update(user);
                 unitOfWork.Save();
+                userView.UserId = user.Uid;
             }
-            return userObjLibrary.UserId;
+            return userView.UserId;
         }
 
         public string GetTimeZoneOfUser(int userId)

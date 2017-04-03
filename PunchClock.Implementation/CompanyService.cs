@@ -26,6 +26,7 @@ namespace PunchClock.Implementation
                 var companyDomain = new Company();
                 new Map().ViewToDomain(companyView, companyDomain);
                 companyDomain.GlobalId = Guid.NewGuid();
+                companyDomain.CreatedBy = 2;
                 companyDomain.IsActive = false; // Admin needs to monitor and  activate
                 companyDomain.IsDeleted = false;
 
@@ -44,8 +45,17 @@ namespace PunchClock.Implementation
                 return companyDomain.Id;
             }
         }
-
-        public View.Model.CompanyView Details(int companyId)
+        public View.Model.CompanyView Get(string code)
+        {
+            var companyView = new View.Model.CompanyView();
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var company = unitOfWork.CompanyRepository.Get(x=>x.RegisterCode == code).FirstOrDefault();
+                new Map().DomainToView(companyView, company);
+            }
+            return companyView;
+        }
+        public View.Model.CompanyView Get(int companyId)
         {
             var companyView= new View.Model.CompanyView();
             using (var unitOfWork = new UnitOfWork())

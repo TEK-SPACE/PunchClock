@@ -8,6 +8,8 @@ namespace PunchClock.View.Model
     public class UserView
     {
         public PunchView LastPunch { get; set; } = new PunchView();
+        [ScaffoldColumn(false)]
+        public string Id { get; set; }
 
         [ScaffoldColumn(false)]
         public int UserId { get; set; }
@@ -38,7 +40,7 @@ namespace PunchClock.View.Model
          RegularExpression(@"^(\(?\d\d\d\)?)?( |-|\.)?\d\d\d( |-|\.)?\d{4,4}(( |-|\.)?[ext\.]+ ?\d+)?$",
              ErrorMessage = "Invalid {0}")]
 
-        public string Telephone { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Display(Name = "Middle Initial"),
          RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Invalid {0}"), StringLength(1, ErrorMessage = "Max {1} char")]

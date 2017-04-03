@@ -940,6 +940,8 @@
     <Content Include="Scripts\jquery.inputmask\jquery.inputmask.bundle.js" />
     <Content Include="Scripts\jquery.inputmask\jquery.inputmask.js" />
     <Content Include="Scripts\jquery.inputmask\jquery.inputmask.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1950,6 +1952,10 @@
     <ProjectReference Include="..\..\..\PunchClock.Implementation\PunchClock.Implementation.csproj">
       <Project>{40b7139d-1746-4aa3-a1f5-4687dca0bbac}</Project>
       <Name>PunchClock.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Model.Mapper\PunchClock.Model.Mapper.csproj">
+      <Project>{12e43f9a-e1e5-434f-bace-a48128dfc3e7}</Project>
+      <Name>PunchClock.Model.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Objects.Core\PunchClock.Objects.Core.csproj">
       <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
