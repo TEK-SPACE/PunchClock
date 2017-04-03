@@ -178,6 +178,20 @@ namespace PunchClock.Implementation
             return employees;
         }
 
+        public List<View.Model.UserView> Get(string username)
+        {
+            List<View.Model.UserView> userViews;
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var users = unitOfWork.UserRepository.Get(x => x.UserName == username);
+                userViews = users
+                    .Select(x =>
+                        new View.Model.UserView().InjectFrom(x))
+                        .Cast<View.Model.UserView>().ToList();
+            }
+            return userViews;
+        }
+
         public List<View.Model.UserView> GetAllUsers(int companyId)
         {
             List<View.Model.UserView> userObjLibraries;

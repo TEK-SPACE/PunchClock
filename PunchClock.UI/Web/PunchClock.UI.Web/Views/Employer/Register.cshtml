@@ -4,12 +4,17 @@
 }
 <div class="col-lg-6">
     <div class="well bs-component">
-        @using (Html.BeginForm("Register", "Employer",
-                        new { enctype = "multipart/form-data" },
-                         FormMethod.Post,
-                        new { @class = "form-horizontal" }))
+        @if (Model.CompanyId > 0)
         {
+            @Html.Raw((string)ViewBag.Message)
+        }
+        else
+        {
+            using (Html.BeginForm("Register", "Employer",null, FormMethod.Post,
+                               new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
+            {
             <fieldset>
+                @Html.ValidationSummary()
                 <legend>@ViewBag.Title</legend>
                 <div class="form-group">
                     @Html.LabelFor(x => x.Name, new { @class = "col-lg-2 control-label" })
@@ -92,6 +97,7 @@
                     <input type="submit" value="Sign up" class="btn btn-primary" />
                 </div>
             </fieldset>
+        }
         }
     </div>
 </div>

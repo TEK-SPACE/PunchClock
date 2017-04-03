@@ -1,6 +1,4 @@
-﻿using PunchClock.Common;
-using PunchClock.Implementation;
-using PunchClock.Objects.Core;
+﻿using PunchClock.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,16 +6,56 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using PunchClock.Objects.Core.Enum;
 using PunchClock.View.Model;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.Owin;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.UI.Web.Controllers
 {
     public class EmployerController : BaseController
     {
-        //
-        // GET: /Company/
+        private readonly UserService _userService;
+        private readonly CompanyService _companyService;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public EmployerController()
+        {
+            _userService = new UserService();
+            _companyService = new CompanyService();
+        }
+        public EmployerController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            _userService = new UserService();
+            _companyService = new CompanyService();
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+        private ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         public ActionResult Index()
         {
@@ -31,7 +69,7 @@ namespace PunchClock.UI.Web.Controllers
             model.User = new UserView();
             if (User.Identity.IsAuthenticated)
             {
-                if (operatingUser.UserTypeId == (int)UserType.CompanyAdmin)
+                if (operatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
                 {
                     return RedirectToAction("Details", "Employer", new { id = operatingUser.CompanyId });
                 }
@@ -46,17 +84,15 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(CompanyView obj, HttpPostedFileBase logo)
+        public ActionResult Register(CompanyView companyView, HttpPostedFileBase logo)
         {
-            obj.RegisterCode = Get.RandomNumber().ToString();
-            obj.User.UserRegisteredIp = UserUserSession.IpAddress;
-            obj.GlobalId = Guid.NewGuid();
-            obj.User.RegisteredMacAddress = UserUserSession.MacAddress;
-            obj.User.LastActivityIp = UserUserSession.IpAddress;
-            obj.User.LastActiveMacAddress = UserUserSession.MacAddress;
-            obj.User.RegistrationCode = obj.RegisterCode;
-            ViewBag.Message = "Successfully Added";
-            CompanyService cb = new CompanyService();
+
+            if (_userService.Get(username: companyView.User.UserName).Any())
+            {
+                ModelState.AddModelError("", $"Username { companyView.User.UserName} is already in use. Please try with a different username");
+                return View(companyView);
+            }
+
             // need to handle the file size
             if (logo != null && logo.ContentLength > 0 && logo.ContentType.Contains("image"))
             {
@@ -68,28 +104,61 @@ namespace PunchClock.UI.Web.Controllers
                         memoryStream = new MemoryStream();
                         inputStream.CopyTo(memoryStream);
                     }
-                    obj.LogoUrl = logo.FileName;
-                    obj.LogoBinary = memoryStream.ToArray();
+                    companyView.LogoUrl = logo.FileName;
+                    companyView.LogoBinary = memoryStream.ToArray();
                 }
             }
-            obj.CompanyId = cb.Add(obj);
-            if (obj.User.UserId == (int)RegistrationStatus.UserNameNotAvailable)
-                ViewBag.Message = "Username is already in use. Please try with a different username";
-            else if (obj.CompanyId == (int)RegistrationStatus.DuplicateCompany)
+            companyView.CompanyId = _companyService.Add(companyView);
+
+            if (companyView.CompanyId == (int)RegistrationStatus.DuplicateCompany)
             {
-                ViewBag.Message = "This company is already in system. Please contact admin to get access to managge";
+                ModelState.AddModelError("", $"Company {companyView.User.UserName} is already registerted");
+                return View(companyView);
             }
-            else
+            else if (companyView.CompanyId < 1)
             {
-                if (obj.CompanyId < 1)
-                    ViewBag.Message = "Sorry. Failed to Add your company";
-                if (obj.CompanyId > 0)
+                ViewBag.Message = "Sorry. Failed to Add your company";
+                return View(companyView);
+            }
+
+            companyView.User.UserRegisteredIp = UserUserSession.IpAddress;
+            companyView.User.RegisteredMacAddress = UserUserSession.MacAddress;
+            companyView.User.LastActivityIp = UserUserSession.IpAddress;
+            companyView.User.LastActiveMacAddress = UserUserSession.MacAddress;
+            companyView.User.RegistrationCode = companyView.RegisterCode;
+            companyView.User.UserTypeId = (int)Objects.Core.Enum.UserType.CompanyAdmin;
+            companyView.User.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly;
+            companyView.User.CompanyId = companyView.CompanyId;
+            companyView.CompanyId = companyView.CompanyId;
+
+            var user = new User();
+            new Model.Mapper.Map().ViewToDomain(companyView.User, user);
+            try
+            {
+                var result = UserManager.CreateAsync(user, companyView.User.Password).Result;
+                if (result.Succeeded)
                 {
-                    FormsAuthentication.SetAuthCookie(obj.User.UserName,true);
-                    ViewBag.Message = "Your company code <strong>" + obj.RegisterCode + "</strong>. Your employees need this code to sign up for their account.";
+                    SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
                 }
             }
-            return View(obj);
+            catch (Exception exception)
+            {
+                throw;
+            }
+
+            if (companyView.CompanyId >0)
+            {
+                _companyService.SetCreatedBy(companyId: companyView.CompanyId, userId: user.Uid);
+                ViewBag.Message = "Your company code <strong>" + companyView.RegisterCode + "</strong>. Your employees need this code to sign up for their account.";
+            }
+            return View(companyView);
         }
 
         [HttpGet]
@@ -130,7 +199,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             CompanyView model = new CompanyView();
             model.User = new UserView();
-            if (operatingUser.UserTypeId == (int)UserType.CompanyAdmin)
+            if (operatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
             {
                 CompanyService cb = new CompanyService();
                 model = cb.Get(operatingUser.CompanyId);

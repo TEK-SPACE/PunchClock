@@ -8,7 +8,7 @@ using PunchClock.Objects.Core.Enum;
 
 namespace PunchClock.Common
 {
-    public static class Get
+    public class Get
     {
         public static List<int> AdminUsers()
         {
@@ -21,7 +21,7 @@ namespace PunchClock.Common
             return uList;
         }
 
-        public static int RandomNumber()
+        public int RandomNumber()
         {
             int count = 0;
             Random random = new Random(100000);
@@ -36,6 +36,11 @@ namespace PunchClock.Common
                     nexRanNum = random.Next(999999);
                     if (count > 3)
                         isAny = false;
+
+                    if (!isAny)
+                    {
+                        isAny = unitOfWork.CompanyRepository.Get(x => x.RegisterCode == nexRanNum.ToString()).Any();
+                    }
                 }
             }
             return nexRanNum;
