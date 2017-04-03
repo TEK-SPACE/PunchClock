@@ -17,33 +17,30 @@ namespace PunchClock.Implementation
         {
             using (var unitOfWork = new UnitOfWork())
             {
-                if (
-                    unitOfWork.UserRepository.Get(x => x.UserName.ToLower() == companyView.User.UserName.ToLower())
-                        .Any())
-                    return (int) RegistrationStatus.UserNameNotAvailable;
                 if (unitOfWork.CompanyRepository.Get(x => x.Name.ToLower().Equals(companyView.Name.ToLower())).Any())
-                    return (int) RegistrationStatus.DuplicateCompany;
+                    return (int)RegistrationStatus.DuplicateCompany;
                 var companyDomain = new Company();
                 new Map().ViewToDomain(companyView, companyDomain);
+                companyView.RegisterCode = companyDomain.RegisterCode = new Common.Get().RandomNumber().ToString();
                 companyDomain.GlobalId = Guid.NewGuid();
-                companyDomain.CreatedBy = 2;
+                companyDomain.CreatedBy = 0; // User is not created yet so we dont have userId
                 companyDomain.IsActive = false; // Admin needs to monitor and  activate
                 companyDomain.IsDeleted = false;
 
                 unitOfWork.CompanyRepository.Insert(companyDomain);
-
-                //companyDomain.User.CompanyId = companyDomain.Id;
-                //companyDomain.User.UserTypeId = (int) UserType.CompanyAdmin;
-                //companyDomain.User.PasswordSalt = PasswordService.GenerateSalt();
-                //companyDomain.User.PasswordHash = PasswordService.EncodePassword(companyView.User.Password,
-                //    companyView.User.PasswordSalt);
-
-                var userDomain = new User();
-                new Map().ViewToDomain(companyView.User, userDomain);
-                unitOfWork.UserRepository.Insert(userDomain);
                 unitOfWork.Save();
                 return companyDomain.Id;
             }
+        }
+        public List<View.Model.CompanyView> GetBy(string name)
+        {
+            var companyViews = new List<View.Model.CompanyView>();
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var companies = unitOfWork.CompanyRepository.Get(x => x.Name == name).ToList();
+                new Map().DomainToView(companyViews, companies);
+            }
+            return companyViews;
         }
         public View.Model.CompanyView Get(string code)
         {
@@ -65,7 +62,16 @@ namespace PunchClock.Implementation
             }
             return companyView;
         }
-
+        public void SetCreatedBy(int companyId, int userId)
+        {
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var company = unitOfWork.CompanyRepository.GetById(companyId);
+                company.CreatedBy = userId;
+                unitOfWork.CompanyRepository.Update(company);
+                unitOfWork.Save();
+            }
+        }
         public int Update(View.Model.CompanyView obj)
         {
             using (var unitOfWork = new UnitOfWork())

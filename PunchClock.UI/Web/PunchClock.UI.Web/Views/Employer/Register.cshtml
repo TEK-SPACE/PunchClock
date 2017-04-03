@@ -4,12 +4,17 @@
 }
 <div class="col-lg-6">
     <div class="well bs-component">
-        @using (Html.BeginForm("Register", "Employer",
-                        new { enctype = "multipart/form-data" },
-                         FormMethod.Post,
-                        new { @class = "form-horizontal" }))
+        @if (Model.CompanyId > 0)
         {
+            @Html.Raw((string)ViewBag.Message)
+        }
+        else
+        {
+            using (Html.BeginForm("Register", "Employer",null, FormMethod.Post,
+                               new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
+            {
             <fieldset>
+                @Html.ValidationSummary()
                 <legend>@ViewBag.Title</legend>
                 <div class="form-group">
                     @Html.LabelFor(x => x.Name, new { @class = "col-lg-2 control-label" })
@@ -68,10 +73,10 @@
                     </div>
                     </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.User.Telephone, new { @class = "col-lg-2 control-label" })
+                    @Html.LabelFor(x => x.User.PhoneNumber, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.TextBoxFor(x => x.User.Telephone, new { placeholder = "(xxx) xxx-xxxx", @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.User.Telephone)
+                        @Html.TextBoxFor(x => x.User.PhoneNumber, new { placeholder = "(xxx) xxx-xxxx", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.User.PhoneNumber)
                     </div>
                 </div>
                 <div class="form-group">
@@ -92,6 +97,7 @@
                     <input type="submit" value="Sign up" class="btn btn-primary" />
                 </div>
             </fieldset>
+        }
         }
     </div>
 </div>

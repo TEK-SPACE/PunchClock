@@ -10,7 +10,7 @@
         {
             <fieldset>
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary()
+                @*@Html.ValidationSummary()*@
                 <legend>@ViewBag.Title</legend>
                 <div class="form-group">
                     @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })

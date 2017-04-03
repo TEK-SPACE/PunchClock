@@ -62,6 +62,8 @@ namespace PunchClock.UI.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -202,14 +204,21 @@ namespace PunchClock.UI.Web.Controllers
 
                 var user = new User();
                 new Model.Mapper.Map().ViewToDomain(userView, user);
-               
-                var result = await UserManager.CreateAsync(user, userView.Password);
-                if (result.Succeeded)
+                try
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    return RedirectToAction("Index", "Home");
+                    var result = await UserManager.CreateAsync(user, userView.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                catch (Exception exception)
+                {
+                    throw;
+                }
+               
             }
             SetRegistrationContext(userView);
             // If we got this far, something failed, redisplay form

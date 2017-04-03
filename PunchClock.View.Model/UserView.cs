@@ -97,7 +97,7 @@ namespace PunchClock.View.Model
         [Required]
         public string Password { get; set; }
 
-        [Display(Name = "Registration Code"), Required]
+        [Display(Name = "Registration Code"), Required(ErrorMessage ="{0} is Required")]
         public string RegistrationCode { get; set; }
 
         [Display(Name = "Timezone")]
