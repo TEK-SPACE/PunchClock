@@ -5,6 +5,9 @@ using PunchClock.Implementation;
 using PunchClock.Common;
 using PunchClock.Objects.Core.Enum;
 using PunchClock.View.Model;
+using PunchClock.UI.Web.Models;
+using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -57,6 +60,33 @@ namespace PunchClock.UI.Web.Controllers
             user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
             user.UserId = _userService.Add(user);
             return Json(new {user });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var success = UserService.Login(model.UserName, model.Password, UserUserSession.IpAddress, UserUserSession.MacAddress);
+            if (success)
+            {
+                FormsAuthentication.SetAuthCookie(model.UserName, true);
+                return RedirectToLocal(returnUrl);
+            }
+            return View(model);
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

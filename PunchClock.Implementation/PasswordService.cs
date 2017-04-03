@@ -17,7 +17,7 @@ namespace PunchClock.Implementation
 
         public static int ValidatePassword(string userName, string password, string ipAddress, string macAddress)
         {
-            View.Model.UserView userObjLibrary = new View.Model.UserView();
+            View.Model.UserView userView = new View.Model.UserView();
             using (var uow = new UnitOfWork())
             {
                 using (var userRepo = new UserRepository(uow))
@@ -29,11 +29,12 @@ namespace PunchClock.Implementation
                     user.LastActivityIp = ipAddress;
                     user.LastActiveMacAddress = macAddress;
                     userRepo.Update(user);
-                    uow.Save();
-                    userObjLibrary.InjectFrom(user);
+                    uow.Save(); 
+                    PunchClock.Model.Mapper.Map mapper = new Model.Mapper.Map();
+                    mapper.DomainToView(userView, user);
                 }
             }
-            return ValidatePassword(userObjLibrary,password) ? userObjLibrary.UserId : -2;
+            return ValidatePassword(userView, password) ? userView.UserId : -2;
         }
 
         public static string GenerateSalt()

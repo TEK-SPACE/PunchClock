@@ -18,7 +18,6 @@ namespace PunchClock.Domain.Model
         public int CreatedBy { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual User User { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

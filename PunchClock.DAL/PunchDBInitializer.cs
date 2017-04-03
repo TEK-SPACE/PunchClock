@@ -27,7 +27,20 @@ namespace PunchClock.DAL
             SeedCountry(context);
             SeedState(context);
 
+            SeedCompany(context);
             base.Seed(context);
+        }
+
+        private void SeedCompany(PunchClockDbContext context)
+        {
+            List<Company> companies = new List<Company>
+            {
+                new Company {Id=1,Name="Tekspace",RegisterCode="12345" ,GlobalId=Guid.NewGuid()}
+            };
+            foreach(var company in companies)
+            {
+                context.Companies.AddOrUpdate(company);
+            }
         }
 
         private void SeedState(PunchClockDbContext context)
@@ -560,10 +573,11 @@ namespace PunchClock.DAL
         {
             List<UserType> userTypes = new List<UserType>
             {
-                new UserType {Id = 1, Description="Employee"},
-                new UserType {Id = 2, Description = "Manager"},
-                new UserType {Id = 3, Description = "CompanyAdmin"},
-                new UserType {Id = 4, Description = "Admin"}
+                new UserType {Id = (int)Objects.Core.Enum.UserType.Employee, Description="Employee"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.Manager, Description = "Manager"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.Admin, Description = "Admin"},
+                new UserType {Id = (int)Objects.Core.Enum.UserType.HumanResources,Description="Human Resource" }
             };
             foreach (var userType in userTypes)
             {
@@ -595,12 +609,13 @@ namespace PunchClock.DAL
             List<EmploymentType> employementTypes = new List<EmploymentType>
             {
                 new EmploymentType {Id = 1, Name = "Full Time"},
-                new EmploymentType {Id = 2, Name = "Full Time Contractor"},
-                new EmploymentType {Id = 1, Name = "Part Time"}
+                new EmploymentType {Id = 2, Name = "Contract Hourly"},
+                new EmploymentType {Id = 3, Name = "Contract Flat"},
+                new EmploymentType {Id = 4, Name = "Part Time" }
             };
             foreach (var employmentType in employementTypes)
             {
-                context.EmploymentTypes.AddOrUpdate(employmentType);
+                context.EmploymentTypes.AddOrUpdate(x=>x.Id, employmentType);
             }
         }
     }
