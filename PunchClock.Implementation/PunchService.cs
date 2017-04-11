@@ -19,8 +19,12 @@ namespace PunchClock.Implementation
             {
                 var punch = unitOfWork.PunchRepository.Get(filter: x => x.UserId == opUserId && x.PunchOut == null).FirstOrDefault();
                 if (punch != null)
-                    punchObjectLibrary.InjectFrom(punch);
-
+                {
+                    new Map().DomainToView(punchObjectLibrary, punch);
+                   // punchObjectLibrary.InjectFrom(punch);
+                }
+                else
+                    return null;
             }
             return punchObjectLibrary;
         }

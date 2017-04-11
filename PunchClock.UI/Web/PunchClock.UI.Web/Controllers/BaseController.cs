@@ -19,8 +19,8 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (User != null && User.Identity.IsAuthenticated)
             {
-                UserService ub = new UserService();
-                operatingUser = ub.Details(User.Identity.Name);
+                UserService userService = new UserService();
+                operatingUser = userService.Details(User.Identity.Name);
             }
             base.OnActionExecuting(filterContext);
         }

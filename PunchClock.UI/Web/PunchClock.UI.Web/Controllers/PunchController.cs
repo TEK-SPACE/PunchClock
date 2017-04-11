@@ -21,9 +21,8 @@ namespace PunchClock.UI.Web.Controllers
 
         public ActionResult Index()
         {
-            PunchView obj = new PunchView();
-            PunchService pb = new PunchService();
-            obj = pb.OpUserOpenLog(operatingUser.UserId);
+            PunchService punchService = new PunchService();
+            PunchView obj = punchService.OpUserOpenLog(operatingUser.UserId);
             return View(obj);
         }
 
@@ -59,6 +58,7 @@ namespace PunchClock.UI.Web.Controllers
             }
             else if (InOut == "out")
             {
+                
                 message = pb.PunchOut(operatingUser.UserId, pId, punchTime, UserUserSession.IpAddress);
             }
 

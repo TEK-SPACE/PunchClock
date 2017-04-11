@@ -81,14 +81,13 @@ namespace PunchClock.Implementation
 
         public View.Model.UserView Details(string userName)
         {
-            View.Model.UserView userObjLibrary = new View.Model.UserView();
+            View.Model.UserView userView = new View.Model.UserView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var user = unitOfWork.UserRepository.Get(u => u.UserName.ToLower() == userName.ToLower()).SingleOrDefault();
-                if (user != null)
-                    userObjLibrary.InjectFrom(user);
+                new Map().DomainToView(userView, user);
             }
-            return userObjLibrary;
+            return userView;
         }
 
         public View.Model.UserView Details(int userId)

@@ -47,14 +47,14 @@ namespace PunchClock.Implementation
             var companyView = new View.Model.CompanyView();
             using (var unitOfWork = new UnitOfWork())
             {
-                var company = unitOfWork.CompanyRepository.Get(x=>x.RegisterCode == code).FirstOrDefault();
+                var company = unitOfWork.CompanyRepository.Get(x => x.RegisterCode == code).FirstOrDefault();
                 new Map().DomainToView(companyView, company);
             }
             return companyView;
         }
         public View.Model.CompanyView Get(int companyId)
         {
-            var companyView= new View.Model.CompanyView();
+            var companyView = new View.Model.CompanyView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var company = unitOfWork.CompanyRepository.GetById(companyId);
@@ -76,11 +76,15 @@ namespace PunchClock.Implementation
         {
             using (var unitOfWork = new UnitOfWork())
             {
-                Company company = new Company();
-                company.InjectFrom(obj);
-                unitOfWork.CompanyRepository.Insert(company);
+                var company = unitOfWork.CompanyRepository.GetById(obj.CompanyId);
+                company.Name = obj.Name;
+                company.Summary = obj.Summary;
+                company.DeltaPunchTime = obj.DeltaPunchTime;
+                unitOfWork.CompanyRepository.Update(company);
+                unitOfWork.Save();
+                obj.CompanyId = company.Id;
             }
-            return 0;
+            return obj.CompanyId;
         }
 
         public List<View.Model.EmployeePaidHolidayView> PaidHolidayPkg(int companyId)
@@ -89,18 +93,18 @@ namespace PunchClock.Implementation
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
                 employeePaidHolidays = (from et in context.EmploymentTypes
-                    join pk in context.EmployeePaidHolidays on et.Id equals pk.EmploymentTypeId into pkGroup
-                    from pkg in pkGroup.DefaultIfEmpty()
-                    join c in context.Companies on pkg.CompanyId equals c.Id into cGroup
-                    from cg in cGroup.DefaultIfEmpty()
-                    where cg.Id == companyId || cg.Id == 0
-                    select new View.Model.EmployeePaidHolidayView
-                    {
-                        CompanyId = cg.Id == 0 ? companyId : cg.Id,
-                        EmploymentTypeId = et.Id,
-                        IsHolidayPaid = pkg.IsHolidayPaid,
-                        EmploymentTypeName = et.Name
-                    }).ToList();
+                                        join pk in context.EmployeePaidHolidays on et.Id equals pk.EmploymentTypeId into pkGroup
+                                        from pkg in pkGroup.DefaultIfEmpty()
+                                        join c in context.Companies on pkg.CompanyId equals c.Id into cGroup
+                                        from cg in cGroup.DefaultIfEmpty()
+                                        where cg.Id == companyId || cg.Id == 0
+                                        select new View.Model.EmployeePaidHolidayView
+                                        {
+                                            CompanyId = cg.Id == 0 ? companyId : cg.Id,
+                                            EmploymentTypeId = et.Id,
+                                            IsHolidayPaid = pkg.IsHolidayPaid,
+                                            EmploymentTypeName = et.Name
+                                        }).ToList();
             }
             return employeePaidHolidays;
         }
@@ -138,21 +142,21 @@ namespace PunchClock.Implementation
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
                 companyHolidays = (from h in unitOfWork.HolidayRepository.Get()
-                                      join t in unitOfWork.HolidayTypeHolidayRepository.Get() on h.Id equals t.HolidayId
-                                      join ht in unitOfWork.HolidayTypeRepository.Get() on t.TypeId equals ht.Id
-                                      from ch in unitOfWork.CompanyHolidayRepository.Get(x => x.HolidayId == h.Id).DefaultIfEmpty()
-                                      where ch.CompanyId == companyId || ch.CompanyId == 0
-                                      select new View.Model.CompanyHolidayView
-                                      {
-                                          CompanyId = ch.CompanyId,
-                                          HolidayId = h.Id,
-                                          HolidayName = h.Name,
-                                          HolidayType = ht.Name,
-                                          HolidayDate = DbFunctions.CreateDateTime(
-                                                              DateTime.Now.Year, 
-                                                              h.HolidayMonth, 
-                                                              h.HolidayDay, 0, 0, 0)
-                                      }).ToList();
+                                   join t in unitOfWork.HolidayTypeHolidayRepository.Get() on h.Id equals t.HolidayId
+                                   join ht in unitOfWork.HolidayTypeRepository.Get() on t.TypeId equals ht.Id
+                                   from ch in unitOfWork.CompanyHolidayRepository.Get(x => x.HolidayId == h.Id).DefaultIfEmpty()
+                                   where ch.CompanyId == companyId || ch.CompanyId == 0
+                                   select new View.Model.CompanyHolidayView
+                                   {
+                                       CompanyId = ch.CompanyId,
+                                       HolidayId = h.Id,
+                                       HolidayName = h.Name,
+                                       HolidayType = ht.Name,
+                                       HolidayDate = DbFunctions.CreateDateTime(
+                                                           DateTime.Now.Year,
+                                                           h.HolidayMonth,
+                                                           h.HolidayDay, 0, 0, 0)
+                                   }).ToList();
             }
             return companyHolidays;
         }
