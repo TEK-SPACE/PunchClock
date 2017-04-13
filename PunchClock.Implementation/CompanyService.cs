@@ -77,7 +77,14 @@ namespace PunchClock.Implementation
             using (var unitOfWork = new UnitOfWork())
             {
                 var company = unitOfWork.CompanyRepository.GetById(obj.CompanyId);
-                company.Name = obj.Name;
+                if (unitOfWork.CompanyRepository.Get(x => x.Name.ToLower() == obj.Name.ToLower()).Any())
+                {
+                    company.Name = company.Name;
+                }
+                else
+                {
+                    company.Name = obj.Name;
+                }
                 company.Summary = obj.Summary;
                 company.DeltaPunchTime = obj.DeltaPunchTime;
                 if (!string.IsNullOrWhiteSpace(obj.LogoUrl))
