@@ -80,6 +80,16 @@ namespace PunchClock.Implementation
                 company.Name = obj.Name;
                 company.Summary = obj.Summary;
                 company.DeltaPunchTime = obj.DeltaPunchTime;
+                if (!string.IsNullOrWhiteSpace(obj.LogoUrl))
+                {
+                    company.LogoBinary = obj.LogoBinary;
+                    company.LogoBinary = obj.LogoBinary;
+                }
+                else
+                {
+                    company.LogoUrl = company.LogoUrl;
+                    company.LogoBinary = company.LogoBinary;
+                }
                 unitOfWork.CompanyRepository.Update(company);
                 unitOfWork.Save();
                 obj.CompanyId = company.Id;
