@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -21,7 +20,6 @@ namespace PunchClock.Domain.Model
         //[Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Uid { get; set; }
-        public Guid GlobalId { get; set; }
         public int UserTypeId { get; set; }
         public int EmploymentTypeId { get; set; }
         public int CompanyId { get; set; }

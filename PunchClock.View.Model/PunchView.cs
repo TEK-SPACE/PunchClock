@@ -23,5 +23,8 @@ namespace PunchClock.View.Model
         public string Comments { get; set; }
         public UserView User { get; set; }
         public TimeSpan Duration { get; set; }
+        public string IpAddress { get; set; }
+        public string MacAddress { get; set; }
+        public string UserGuid { set; get; }
     }
 }

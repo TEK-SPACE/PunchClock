@@ -24,6 +24,7 @@ namespace PunchClock.View.Model
         public string RegisterCode { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
+       
         public UserView User { get; set; }
     }
 }

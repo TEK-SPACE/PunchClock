@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using PunchClock.Domain.Model;
+using PunchClock.View.Model;
 
 namespace PunchClock.Model.Mapper
 {
@@ -13,7 +16,9 @@ namespace PunchClock.Model.Mapper
             domain.PunchOut = view.PunchOut;
             domain.RequestForApproval = view.RequestForApproval;
             domain.UserId = view.UserId;
-           
+            domain.IpAddress = view.IpAddress;
+            domain.MacAddress = view.MacAddress;
+            domain.UserGuid = view.UserGuid;
             //Todo: Need to Implement
         }
         public void DomainToView(View.Model.PunchView view, Domain.Model.Punch domain)
@@ -26,7 +31,8 @@ namespace PunchClock.Model.Mapper
             view.PunchOut = domain.PunchOut;
             view.RequestForApproval = domain.RequestForApproval;
             view.UserId = domain.UserId;
-
+            view.IpAddress = domain.IpAddress;
+            view.MacAddress = domain.MacAddress;
         }
         public void ViewToDomain(List<View.Model.PunchView> views, List<Domain.Model.Punch> domains)
         {

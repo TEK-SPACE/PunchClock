@@ -1,5 +1,6 @@
 ﻿
 using PunchClock.Implementation;
+using PunchClock.Model.Mapper;
 using PunchClock.Objects.Core;
 using System.Web.Mvc;
 
@@ -12,8 +13,7 @@ namespace PunchClock.UI.Web.Controllers
         public BaseController()
         {
             SessionService session = new SessionService();
-            UserUserSession = session.GetCurrentSession(HttpContext);
-            
+            UserUserSession = session.GetCurrentSession(HttpContext);  
         }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -21,6 +21,13 @@ namespace PunchClock.UI.Web.Controllers
             {
                 UserService userService = new UserService();
                 operatingUser = userService.Details(User.Identity.Name);
+                var companyView = new View.Model.CompanyView();
+                using (var unitOfWork = new DAL.UnitOfWork())
+                {
+                    var company = unitOfWork.CompanyRepository.GetById(operatingUser.CompanyId);
+                    new Map().DomainToView(companyView, company);
+                }
+                operatingUser.Company = companyView;
             }
             base.OnActionExecuting(filterContext);
         }

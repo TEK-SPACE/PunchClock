@@ -39,7 +39,6 @@ namespace PunchClock.Implementation
 
                 var user = new User();
                 new Map().ViewToDomain(userView, user);
-                user.GlobalId = Guid.NewGuid();
                 unitOfWork.UserRepository.Insert(user);
                 unitOfWork.Save();
             }
@@ -79,6 +78,16 @@ namespace PunchClock.Implementation
             }
         }
 
+        //public View.Model.UserView Details1(string guid)
+        //{
+        //    View.Model.UserView userView = new View.Model.UserView();
+        //    using (var unitOfWork = new UnitOfWork())
+        //    {
+        //        var user = unitOfWork.UserRepository.Get(u => u.Id == guid).SingleOrDefault();
+        //        new Map().DomainToView(userView, user);
+        //    }
+        //    return userView;
+        //}
         public View.Model.UserView Details(string userName)
         {
             View.Model.UserView userView = new View.Model.UserView();
@@ -92,12 +101,14 @@ namespace PunchClock.Implementation
 
         public View.Model.UserView Details(int userId)
         {
-            View.Model.UserView userObjLibrary = new View.Model.UserView ();
+            View.Model.UserView userObjLibrary = new View.Model.UserView();
             using (var unitOfWork = new UnitOfWork())
             {
-                var user = unitOfWork.UserRepository.GetById(userId);
+                var user = unitOfWork.UserRepository.Get(x => x.Uid == userId).SingleOrDefault();
                 if (user != null)
-                    userObjLibrary.InjectFrom(user);
+                {
+                    new Map().DomainToView(userObjLibrary, user);
+                }
                 if (user != null)
                 {
                     var punch = unitOfWork.PunchRepository.Get(p => p.UserId == userId);
@@ -108,6 +119,7 @@ namespace PunchClock.Implementation
             }
             return userObjLibrary;
         }
+       
         public int Update(View.Model.UserView userView, bool adminUpdate)
         {
             using (var unitOfWork = new UnitOfWork())
@@ -161,7 +173,7 @@ namespace PunchClock.Implementation
                                  select new SelectListItem
                                  {
                                      Text = $"{user.FirstName} {user.MiddleName} {user.LastName}",
-                                     Value = $"{user.Id}"
+                                     Value = $"{user.Uid}"
                                  }).ToList();
                 else
                     employees = (from user in users

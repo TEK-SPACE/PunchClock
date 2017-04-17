@@ -72,24 +72,29 @@ namespace PunchClock.Implementation
                 unitOfWork.Save();
             }
         }
-        public int Update(View.Model.CompanyView obj)
+        public CompanyTransaction Update(View.Model.CompanyView obj)
         {
             using (var unitOfWork = new UnitOfWork())
             {
                 var company = unitOfWork.CompanyRepository.GetById(obj.CompanyId);
-                if (unitOfWork.CompanyRepository.Get(x => x.Name.ToLower() == obj.Name.ToLower()).Any())
+                if (company.Name == obj.Name)
                 {
-                    company.Name = company.Name;
+                    company.Name = obj.Name;
                 }
                 else
                 {
-                    company.Name = obj.Name;
+                    if (unitOfWork.CompanyRepository.Get(x => x.Name.ToLower() == obj.Name.ToLower()).Any())
+                    {
+                        return CompanyTransaction.DuplicateName;
+                    }
+                    else
+                        company.Name = obj.Name;
                 }
                 company.Summary = obj.Summary;
                 company.DeltaPunchTime = obj.DeltaPunchTime;
                 if (!string.IsNullOrWhiteSpace(obj.LogoUrl))
                 {
-                    company.LogoBinary = obj.LogoBinary;
+                    company.LogoUrl = obj.LogoUrl;
                     company.LogoBinary = obj.LogoBinary;
                 }
                 else
@@ -101,7 +106,7 @@ namespace PunchClock.Implementation
                 unitOfWork.Save();
                 obj.CompanyId = company.Id;
             }
-            return obj.CompanyId;
+            return CompanyTransaction.Success;
         }
 
         public List<View.Model.EmployeePaidHolidayView> PaidHolidayPkg(int companyId)

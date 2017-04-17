@@ -1,6 +1,5 @@
 ﻿using PunchClock.Common;
 using PunchClock.Implementation;
-using PunchClock.Objects.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -54,12 +53,12 @@ namespace PunchClock.UI.Web.Controllers
             TimeSpan punchTime = reqDifferentTime ? punchDateTime.TimeOfDay : TimeSpan.MinValue;
             if (InOut == "in")
             {
-                message = pb.PunchIn(operatingUser.UserId, punchTime, UserUserSession.IpAddress);
+                message = pb.PunchIn(operatingUser.UserId, punchTime, UserUserSession.IpAddress,UserUserSession.MacAddress);
             }
             else if (InOut == "out")
             {
                 
-                message = pb.PunchOut(operatingUser.UserId, pId, punchTime, UserUserSession.IpAddress);
+                message = pb.PunchOut(operatingUser.UserId, pId, punchTime, UserUserSession.IpAddress,UserUserSession.MacAddress);
             }
 
             return Json(message);
@@ -79,8 +78,10 @@ namespace PunchClock.UI.Web.Controllers
 
 
         [HttpPost]
-        public JsonResult Report(DateTime? stDate, DateTime? enDate, int userId = 0)
+        public JsonResult Report(FormCollection collection,DateTime? stDate, DateTime? enDate, int userId=0)
         {
+            //stDate = Convert.ToDateTime(collection[stDate]);
+            // enDate = Convert.ToDateTime(collection[enDate]);
             ViewBag.Message = "Enter your search criteria";
             List<PunchView> obj = new List<PunchView>();
             if (userId == 0)

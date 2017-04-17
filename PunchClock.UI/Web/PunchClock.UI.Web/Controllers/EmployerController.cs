@@ -78,7 +78,15 @@ namespace PunchClock.UI.Web.Controllers
                     return RedirectToAction("Index", "Home", null);
                 }
             }
-
+            var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
+            model.User.TimezonesList = (from t in systemTimeZones
+                                  orderby t.Id
+                                  select new SelectListItem
+                                  {
+                                      Value = t.Id,
+                                      Text = t.Id
+                                  }).ToList();
+            model.User.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
             ViewBag.Message = "Please enter your company information";
             return View(model);
         }
@@ -130,7 +138,6 @@ namespace PunchClock.UI.Web.Controllers
             companyView.User.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly;
             companyView.User.CompanyId = companyView.CompanyId;
             companyView.CompanyId = companyView.CompanyId;
-
             var user = new User();
             new Model.Mapper.Map().ViewToDomain(companyView.User, user);
             try
@@ -272,7 +279,7 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost][Authorize]
-        public RedirectResult Edit(View.Model.CompanyView obj, HttpPostedFileBase logo)
+        public ActionResult Edit(View.Model.CompanyView companyView, HttpPostedFileBase logo)
         {
             ViewBag.Message = "Successfully Updated";
             CompanyService cb = new CompanyService();
@@ -287,12 +294,28 @@ namespace PunchClock.UI.Web.Controllers
                         memoryStream = new MemoryStream();
                         inputStream.CopyTo(memoryStream);
                     }
-                    obj.LogoUrl = logo.FileName;
-                    obj.LogoBinary = memoryStream.ToArray();
+                    companyView.LogoUrl = logo.FileName;
+                    companyView.LogoBinary = memoryStream.ToArray();
                 }
             }
-            obj.CompanyId = cb.Update(obj);
-            return Redirect(Url.Action("Details", "Employer", new { id = obj.CompanyId }));
+            CompanyTransaction transaction =  cb.Update(companyView);
+            if (transaction == CompanyTransaction.Success)
+            {
+                return Redirect(Url.Action("Details", "Employer", new { id = companyView.CompanyId }));
+
+            }
+            switch (transaction)
+            {
+                case CompanyTransaction.DuplicateName:
+                    ModelState.AddModelError(nameof(companyView.Name), "is duplicate");
+                    break;
+                case CompanyTransaction.Error:
+                    break;
+                case CompanyTransaction.WrongImageType:
+                    ModelState.AddModelError(nameof(companyView.LogoBinary), "Wrong image");
+                    break;
+            }
+            return View("_Edit", companyView);
         }
     }
 }

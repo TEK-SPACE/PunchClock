@@ -13,7 +13,6 @@ namespace PunchClock.Model.Mapper
             domain.Email = view.Email;
             domain.EmploymentTypeId = view.EmploymentTypeId;
             domain.FirstName = view.FirstName;
-            domain.GlobalId = view.GlobalId;
             domain.IsActive = view.IsActive;
             domain.IsAdmin = view.IsAdmin;
             domain.IsDeleted = view.IsDeleted;
@@ -46,7 +45,6 @@ namespace PunchClock.Model.Mapper
             view.Email = domain.Email;
             view.EmploymentTypeId = domain.EmploymentTypeId;
             view.FirstName = domain.FirstName;
-            view.GlobalId = domain.GlobalId;
             view.IsActive = domain.IsActive;
             view.IsAdmin = domain.IsAdmin;
             view.IsDeleted = domain.IsDeleted;
