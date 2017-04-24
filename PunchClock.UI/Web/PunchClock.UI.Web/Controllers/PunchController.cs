@@ -80,8 +80,10 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         public JsonResult Report(FormCollection collection,DateTime? stDate, DateTime? enDate, int userId=0)
         {
-            //stDate = Convert.ToDateTime(collection[stDate]);
-            // enDate = Convert.ToDateTime(collection[enDate]);
+            //stDate = Convert.ToDateTime(collection["stDate"]);
+            //enDate = Convert.ToDateTime(collection["enDate"]);
+            string date1 = collection["enDate"];
+            enDate = DateTime.Parse(date1, new CultureInfo("en-US", true));
             ViewBag.Message = "Enter your search criteria";
             List<PunchView> obj = new List<PunchView>();
             if (userId == 0)

@@ -38,10 +38,10 @@
                         </label>
                     </div>
                     <div class="col-lg-10">
-                        @Html.TextBox("stDate", null, htmlAttributes: new { type = "date", @class = "pDate form-control reportDate", id = "stDate" })
+                        @Html.TextBox("stDate", null, htmlAttributes: new { id = "stDate", type = "date",  @class = "pDate form-control reportDate",  })
                         @Html.ValidationMessage("stDate", "Required")
                         -
-                        @Html.TextBox("enDate", null, htmlAttributes: new { type = "date", @class = "pDate form-control reportDate", id = "enDate" })
+                        @Html.TextBox("enDate", null, htmlAttributes: new { type = "date", id = "enDate", @class = "pDate form-control reportDate", })
                         @Html.ValidationMessage("enDate", "Required")
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     </li>*@
 
                 <div class="col-lg-10 col-lg-offset-2">
-                    <input type="submit" value="Search" id ="Search" class="btn btn-primary" />
+                    <input type="submit" value="Search" id ="search" class="btn btn-primary" />
                 </div>
             </fieldset>
         }
@@ -83,20 +83,7 @@
     </section>
 </section>
 
-<script>
-    $("#Search").click(function ()
-{
-var stime=$('stDate').val();
-var stime=$('enDate').val();
- $.ajax({
- url: "Punch/Report",
-data: { 'stDate' : stime, 'enDate' : enDate },
-dataType: "json",
-type: "post",
-      cache: false,
-    });
-});
-</script>
+
 <script>
     function showGridResults(data) {
         $(".resultGridSection").show();
@@ -235,4 +222,5 @@ type: "post",
     </div>
 </script>
 <script>
-    $("#reportForm").find("span.field-validation-valid").hide();</script>
+    $("#reportForm").find("span.field-validation-valid").hide();
+</script>
