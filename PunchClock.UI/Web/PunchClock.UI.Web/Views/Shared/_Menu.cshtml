@@ -4,7 +4,7 @@
         <ul class="dropdown-menu" aria-labelledby="themes">
             <li>@Html.ActionLink("Users", "Register", "User", null, null)</li>
             <li>@Html.ActionLink("Employer", "Register", "Employer", null, null)</li>
-            <li>@Html.ActionLink("Punches", "Index", "Punch", null, null)</li>
+            <li>@Html.ActionLink("Punch", "Index", "Punch", null, null)</li>
             @if (PunchClock.UI.Web.Helpers.UserHelpers.IsAdmin(user: User) && !PunchClock.UI.Web.Helpers.UserHelpers.IsHumanResource(user: User))
             {
                 <li>@Html.ActionLink("Approve", "Logs", "Manage", null, null)</li>

@@ -69,9 +69,9 @@ namespace PunchClock.UI.Web.Controllers
             model.User = new UserView();
             if (User.Identity.IsAuthenticated)
             {
-                if (operatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
+                if (OperatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
                 {
-                    return RedirectToAction("Details", "Employer", new { id = operatingUser.CompanyId });
+                    return RedirectToAction("Details", "Employer", new { id = OperatingUser.CompanyId });
                 }
                 else
                 {
@@ -129,10 +129,10 @@ namespace PunchClock.UI.Web.Controllers
                 return View(companyView);
             }
 
-            companyView.User.UserRegisteredIp = UserUserSession.IpAddress;
-            companyView.User.RegisteredMacAddress = UserUserSession.MacAddress;
-            companyView.User.LastActivityIp = UserUserSession.IpAddress;
-            companyView.User.LastActiveMacAddress = UserUserSession.MacAddress;
+            companyView.User.UserRegisteredIp = UserSession.IpAddress;
+            companyView.User.RegisteredMacAddress = UserSession.MacAddress;
+            companyView.User.LastActivityIp = UserSession.IpAddress;
+            companyView.User.LastActiveMacAddress = UserSession.MacAddress;
             companyView.User.RegistrationCode = companyView.RegisterCode;
             companyView.User.UserTypeId = (int)Objects.Core.Enum.UserType.CompanyAdmin;
             companyView.User.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly;
@@ -206,10 +206,10 @@ namespace PunchClock.UI.Web.Controllers
         {
             CompanyView model = new CompanyView();
             model.User = new UserView();
-            if (operatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
+            if (OperatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
             {
                 CompanyService cb = new CompanyService();
-                model = cb.Get(operatingUser.CompanyId);
+                model = cb.Get(OperatingUser.CompanyId);
             }
             else
             {

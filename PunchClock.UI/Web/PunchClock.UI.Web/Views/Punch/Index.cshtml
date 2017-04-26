@@ -2,13 +2,12 @@
 @{
     ViewBag.Title = "Punches In-Out";
 }
-@Scripts.Render("~/bundles/jqueryMask")
 <div class="col-lg-6">
     <div class="well bs-component">
         @if (Model != null)
         {
             using (Ajax.BeginForm("InOut", "Punch",
-                new { pId = Model.PunchId, inOut = "out" },
+                new { punchId = Model.PunchId, inOrOut = "out" },
                 new AjaxOptions
                 {
                     HttpMethod = "POST",
@@ -33,7 +32,7 @@
                     <div class="form-group">
                         <div class="col-lg-10">
 
-                            @Html.TextBox("pTime", null,
+                            @Html.TextBox("differentTime", null,
                    htmlAttributes: new
                    {
                        type = "time",
@@ -56,7 +55,7 @@
         else if (Model == null)
         {
             using (Ajax.BeginForm("InOut", "Punch",
-                    new { pId = 0, inOut = "in" },
+                    new { punchId = 0, inOrOut = "in" },
                     new AjaxOptions
                     {
                         HttpMethod = "POST",

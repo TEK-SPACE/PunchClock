@@ -45,13 +45,13 @@ namespace PunchClock.UI.Web.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        private ApplicationUserManager UserManager
         {
             get
             {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set
+            set
             {
                 _userManager = value;
             }
@@ -145,15 +145,15 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Edit", "User", new { userName = operatingUser.UserName });
+                return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
             UserView user = SetRegistrationContext(new UserView());
             return View(user);
         }
 
         private UserView SetRegistrationContext(UserView user)
         {
-            user.LastActivityIp = UserUserSession.IpAddress;
-            user.LastActiveMacAddress = UserUserSession.MacAddress;
+            user.LastActivityIp = UserSession.IpAddress;
+            user.LastActiveMacAddress = UserSession.MacAddress;
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
             user.TimezonesList = (from t in systemTimeZones
@@ -181,10 +181,10 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                userView.UserRegisteredIp = UserUserSession.IpAddress;
-                userView.RegisteredMacAddress = UserUserSession.MacAddress;
-                userView.LastActivityIp = UserUserSession.IpAddress;
-                userView.LastActiveMacAddress = UserUserSession.MacAddress;
+                userView.UserRegisteredIp = UserSession.IpAddress;
+                userView.RegisteredMacAddress = UserSession.MacAddress;
+                userView.LastActivityIp = UserSession.IpAddress;
+                userView.LastActiveMacAddress = UserSession.MacAddress;
                 userView.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
                 userView.DateCreatedUtc = DateTimeOffset.UtcNow;
                 userView.LastActivityDateUtc = DateTimeOffset.UtcNow;
@@ -204,21 +204,13 @@ namespace PunchClock.UI.Web.Controllers
 
                 var user = new User();
                 new Model.Mapper.Map().ViewToDomain(userView, user);
-                try
+                var result = await UserManager.CreateAsync(user, userView.Password);
+                if (result.Succeeded)
                 {
-                    var result = await UserManager.CreateAsync(user, userView.Password);
-                    if (result.Succeeded)
-                    {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToAction("Index", "Home");
-                    }
-                    AddErrors(result);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    return RedirectToAction("Index", "Home");
                 }
-                catch (Exception exception)
-                {
-                    throw;
-                }
-               
+                AddErrors(result);
             }
             SetRegistrationContext(userView);
             // If we got this far, something failed, redisplay form
@@ -479,13 +471,7 @@ namespace PunchClock.UI.Web.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -504,23 +490,18 @@ namespace PunchClock.UI.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        internal class ChallengeResult : HttpUnauthorizedResult
+        private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
+            public ChallengeResult(string provider, string redirectUri, string userId = null)
             {
                 LoginProvider = provider;
                 RedirectUri = redirectUri;
                 UserId = userId;
             }
 
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
+            private string LoginProvider { get; }
+            private string RedirectUri { get; }
+            private string UserId { get; }
 
             public override void ExecuteResult(ControllerContext context)
             {

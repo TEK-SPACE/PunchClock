@@ -35,7 +35,7 @@ namespace PunchClock.DAL
         {
             List<Company> companies = new List<Company>
             {
-                new Company {Id=1,Name="Tekspace",RegisterCode="12345" ,GlobalId=Guid.NewGuid()}
+                new Company {Id=1,Name="Tekspace",RegisterCode="7493582" ,GlobalId=Guid.NewGuid()}
             };
             foreach(var company in companies)
             {

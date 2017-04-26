@@ -1,5 +1,4 @@
-﻿/// <reference path="jquery.maskedinput-1.3.1.js" />
-/// <reference path="jquery.inputmask/jquery.inputmask-2.4.15.js" />
+﻿/// <reference path="jquery.inputmask/inputmask.js" />
 
 function postUpdateUser(e) {
     if (e.user.UserId > 0) {
@@ -107,7 +106,7 @@ $(function () {
         var d = new Date();
         if ($(this).is(":checked")) {
             $pTime = $(".pTime");
-            $pTime.mask("99:99 aa");
+            $pTime.inputmask("99:99 aa");
             $pTime.show().attr("required", "required");
             if (!$pTime.parent().hasClass("k-picker-wrap")) {
                 if ($pTime.attr("id") == "pTimePunchOut") {

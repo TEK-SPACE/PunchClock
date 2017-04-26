@@ -8,10 +8,10 @@ namespace PunchClock.View.Model
         [UIHint("TimeSpan")]
         public TimeSpan PunchIn { get; set; }
         [UIHint("TimeSpan")]
-        public TimeSpan? PunchOut { get; set; }
+        public TimeSpan PunchOut { get; set; }
         public int? Hours { get; set; }
 
         public string HolidayName { get; set; }
-        public DateTime? HolidayDate { get; set; }
+        public DateTime HolidayDate { get; set; }
     }
 }

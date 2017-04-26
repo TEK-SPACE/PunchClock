@@ -5,9 +5,6 @@ using PunchClock.Implementation;
 using PunchClock.Common;
 using PunchClock.Objects.Core.Enum;
 using PunchClock.View.Model;
-using PunchClock.UI.Web.Models;
-using System.Threading.Tasks;
-using System.Web.Security;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -25,139 +22,142 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Edit", "User", new { userName = operatingUser.UserName });
-            UserView user = new UserView
+                return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
+            UserView userView = new UserView
             {
-                LastActivityIp = UserUserSession.IpAddress,
-                LastActiveMacAddress = UserUserSession.MacAddress
+                LastActivityIp = UserSession.IpAddress,
+                LastActiveMacAddress = UserSession.MacAddress
             };
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
-            user.TimezonesList = (from t in systemTimeZones
+            userView.TimezonesList = (from t in systemTimeZones
                                   orderby t.Id
                                   select new SelectListItem
                                   {
                                        Value = t.Id,
                                        Text = t.Id
                                   }).ToList();
-            user.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
+            userView.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
 
-            var userTypes = Get.UserTypes(adminCall: true);
-            if (user.UserTypeId > 0)
-                userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
+            var userTypes = Get.UserTypes(true);
+            if (userView.UserTypeId > 0)
+                userTypes.First(x => x.Value == userView.UserTypeId.ToString()).Selected = true;
             ViewBag.UserTypes = userTypes;
 
-            return View(user);
+            return View(userView);
         }
 
         [HttpPost]
-        public JsonResult Register(UserView user, FormCollection coll)
+        public JsonResult Register(UserView userView)
         {
-            user.UserRegisteredIp = UserUserSession.IpAddress;
-            user.RegisteredMacAddress= UserUserSession.MacAddress;
-            user.LastActivityIp = UserUserSession.IpAddress;
-            user.LastActiveMacAddress = UserUserSession.MacAddress;
-            user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
-            user.UserId = _userService.Add(user);
-            return Json(new {user });
+            userView.UserRegisteredIp = UserSession.IpAddress;
+            userView.RegisteredMacAddress= UserSession.MacAddress;
+            userView.LastActivityIp = UserSession.IpAddress;
+            userView.LastActiveMacAddress = UserSession.MacAddress;
+            userView.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+            userView.UserId = _userService.Add(userView);
+            return Json(new { userView });
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var success = UserService.Login(model.UserName, model.Password, UserUserSession.IpAddress, UserUserSession.MacAddress);
-            if (success)
-            {
-                FormsAuthentication.SetAuthCookie(model.UserName, true);
-                return RedirectToLocal(returnUrl);
-            }
-            return View(model);
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Login(LoginModel model, string returnUrl)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var success = UserService.Login(model.UserName, model.Password, UserUserSession.IpAddress, UserUserSession.MacAddress);
+        //    if (success)
+        //    {
+        //        FormsAuthentication.SetAuthCookie(model.UserName, true);
+        //        return RedirectToLocal(returnUrl);
+        //    }
+        //    return View(model);
+        //}
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
-        }
+        //private ActionResult RedirectToLocal(string returnUrl)
+        //{
+        //    if (Url.IsLocalUrl(returnUrl))
+        //    {
+        //        return Redirect(returnUrl);
+        //    }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         [HttpGet]
         [Authorize]
         public ActionResult Edit(string userName)
         {
             if (string.IsNullOrEmpty(userName))
-                userName = operatingUser.UserName;
-            var user = _userService.Details(userName);
-            user.UserRegisteredIp = UserUserSession.IpAddress;
-            user.RegisteredMacAddress = UserUserSession.MacAddress;
-            user.LastActivityIp = UserUserSession.IpAddress;
-            user.LastActiveMacAddress = UserUserSession.MacAddress;
-            return View(user);
+                userName = OperatingUser.UserName;
+            var userView = _userService.Details(userName);
+            userView.UserRegisteredIp = UserSession.IpAddress;
+            userView.RegisteredMacAddress = UserSession.MacAddress;
+            userView.LastActivityIp = UserSession.IpAddress;
+            userView.LastActiveMacAddress = UserSession.MacAddress;
+            return View(userView);
         }
 
         [HttpPost]
         [Authorize]
-        public JsonResult Edit(UserView user)
+        public JsonResult Edit(UserView userView)
         {
-            user.UserRegisteredIp = UserUserSession.IpAddress;
-            user.RegisteredMacAddress = UserUserSession.MacAddress;
-            user.LastActivityIp = UserUserSession.IpAddress;
-            user.LastActiveMacAddress = UserUserSession.MacAddress;
-            user.UserId = _userService.Update(user, false);
-            return Json(new {user });
+            userView.UserRegisteredIp = UserSession.IpAddress;
+            userView.RegisteredMacAddress = UserSession.MacAddress;
+            userView.LastActivityIp = UserSession.IpAddress;
+            userView.LastActiveMacAddress = UserSession.MacAddress;
+            userView.UserId = _userService.Update(userView, false);
+            return Json(new { userView });
         }
+
         [HttpGet]
         [Authorize]
         public ActionResult Details(int id)
         {
-           var user = _userService.Details(userId: id);
+            var userView = _userService.Details(id);
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
-            user.TimezonesList = (from t in systemTimeZones
-                                  orderby t.Id
-                                  select new SelectListItem
-                                  {
-                                      Value = t.Id,
-                                      Text = t.Id
-                                  }).ToList();
-            user.TimezonesList.Single(x => x.Value == user.RegisteredTimeZone).Selected = true;
+            userView.TimezonesList = (from t in systemTimeZones
+                orderby t.Id
+                select new SelectListItem
+                {
+                    Value = t.Id,
+                    Text = t.Id
+                }).ToList();
+            userView.TimezonesList.Single(x => x.Value == userView.RegisteredTimeZone).Selected = true;
             var employmentTypes = Get.EmploymentTypes();
-            employmentTypes.First(x => x.Value == user.EmploymentTypeId.ToString()).Selected = true;
+            employmentTypes.First(x => x.Value == userView.EmploymentTypeId.ToString()).Selected = true;
             ViewBag.EmploymentType = employmentTypes;
 
-            var userTypes = Get.UserTypes(adminCall: true);
-            userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
+            var userTypes = Get.UserTypes(true);
+            userTypes.First(x => x.Value == userView.UserTypeId.ToString()).Selected = true;
             ViewBag.UserTypes = userTypes;
 
-            if (user.LastPunch.PunchIn != TimeSpan.MinValue)
+            if (userView.LastPunch.PunchIn != TimeSpan.MinValue)
             {
-                user.LastPunch.PunchIn = 
-                    TimeZoneInfo.ConvertTimeFromUtc( user.LastPunch.PunchDate.Date +  user.LastPunch.PunchIn, TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)).TimeOfDay;
+                userView.LastPunch.PunchIn =
+                    TimeZoneInfo.ConvertTimeFromUtc(userView.LastPunch.PunchDate.Date + userView.LastPunch.PunchIn,
+                            TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
+                        .TimeOfDay;
             }
-            if (user.LastPunch.PunchOut != null && user.LastPunch.PunchOut != TimeSpan.MinValue)
+            if (userView.LastPunch.PunchOut != null && userView.LastPunch.PunchOut != TimeSpan.MinValue)
             {
-                user.LastPunch.PunchOut = TimeZoneInfo.ConvertTimeFromUtc(user.LastPunch.PunchDate.Date + user.LastPunch.PunchOut.Value, 
-                    TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone)).TimeOfDay;
+                userView.LastPunch.PunchOut = TimeZoneInfo
+                    .ConvertTimeFromUtc(userView.LastPunch.PunchDate.Date + userView.LastPunch.PunchOut.Value,
+                        TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
+                    .TimeOfDay;
             }
-
-
-            return PartialView("_Details", user);
+            return PartialView("_Details", userView);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult Details(UserView obj, bool adminUpdate = false)
+        public ActionResult Details(UserView userView, bool adminUpdate = false)
         {
-            _userService.Update(obj, adminUpdate);
-            return Json(new { user = obj });
+            _userService.Update(userView, adminUpdate);
+            return Json(new { user = userView });
         }
     }
 }
