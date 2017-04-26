@@ -37,7 +37,6 @@ namespace PunchClock.DAL.Models
 
         public void Insert(User user)
         {
-            user.GlobalId = Guid.NewGuid();
             user.DateCreatedUtc = DateTime.UtcNow;
             user.LastActivityDateUtc = DateTime.UtcNow;
             user.IsActive = true;

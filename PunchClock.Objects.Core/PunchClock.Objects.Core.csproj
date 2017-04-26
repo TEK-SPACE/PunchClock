@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\CompanyTransaction.cs" />
     <Compile Include="Enum\EmploymentType.cs" />
     <Compile Include="GeoPlugin.cs" />
     <Compile Include="UserSession.cs" />

@@ -34,6 +34,13 @@ function postResponseRegistration(e) {
           "400px",
           "300px");
     }
+    else if(e.user.UserId==-4)
+    {
+        showDialog("Duplicate Company",
+          "The Company Which is Entered is Already Register.",
+          "400px",
+          "300px");
+    }
     else if (e.user.UserId > 0) {
         window.location.href = "/";
     }
@@ -182,8 +189,6 @@ $(function () {
 
     }
     $(".resultGridSection").hide();
-
-    $("#reportForm").find("span.field-validation-valid").hide();
     $(".ckdPunchReport").on("click", function (e) {
         // console.log(this.value);
         if (this.value == "1") {
@@ -197,17 +202,24 @@ $(function () {
         }
     });
     $(".reportDate").blur(function () {
+        var inputValue = $(this).val();
+        if (inputValue === null || inputValue === undefined || inputValue.length === 0) {
+            $(this).val("");
+            $(this).focus();
+            return;
+        }
         var d = new Date($(this).val());
         if (isNaN(d.getTime())) {
-            alert($(this).val() + " is not a valid date.\nPlease enter valid date");
+            alert($(this).val() + "is not a valid date.\nPlease enter valid date");
             $(this).val("");
         }
         else {
             $(this).removeAttr("required");
         }
     })
-});
 
+    
+});
 
     $(function () {
         var d = new Date();

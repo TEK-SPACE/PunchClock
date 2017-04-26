@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Omu.ValueInjecter;
 using System.Data.Entity;
 using PunchClock.Domain.Model;
 using PunchClock.Model.Mapper;
@@ -11,6 +10,8 @@ namespace PunchClock.Implementation
 {
     public class PunchService
     {
+        public object UserUserSession { get; private set; }
+
         public View.Model.PunchView OpUserOpenLog(int opUserId)
         {
             View.Model.PunchView punchObjectLibrary = new View.Model.PunchView();
@@ -19,8 +20,12 @@ namespace PunchClock.Implementation
             {
                 var punch = unitOfWork.PunchRepository.Get(filter: x => x.UserId == opUserId && x.PunchOut == null).FirstOrDefault();
                 if (punch != null)
-                    punchObjectLibrary.InjectFrom(punch);
-
+                {
+                    new Map().DomainToView(punchObjectLibrary, punch);
+                   // punchObjectLibrary.InjectFrom(punch);
+                }
+                else
+                    return null;
             }
             return punchObjectLibrary;
         }
@@ -55,7 +60,7 @@ namespace PunchClock.Implementation
             return punchList;
         }
 
-        public string PunchIn(int userId, TimeSpan punchTime, string ipAddress)
+        public string PunchIn(int userId, TimeSpan punchTime, string ipAddress,string MacAdress)
         {
             string message = "Successfully punched in";
             using (var unitOfWork = new UnitOfWork())
@@ -65,7 +70,8 @@ namespace PunchClock.Implementation
                 {
                     UserId = userId,
                     PunchDate = DateTime.UtcNow,
-                    PunchIn = punchTime != TimeSpan.MinValue ? punchTime : DateTime.Now.ToUniversalTime().TimeOfDay
+                    PunchIn = punchTime != TimeSpan.MinValue ?   punchTime : DateTime.Now.ToUniversalTime().TimeOfDay,
+                    
                 };
                 if (punchTime != TimeSpan.MinValue)
                 {
@@ -82,6 +88,9 @@ namespace PunchClock.Implementation
                     punch.RequestForApproval = true;
                 }
                 var punchDomain = new Punch();
+                punch.IpAddress = ipAddress;
+                punch.MacAddress = MacAdress;
+                punch.UserGuid = user.Id;
                 new Map().ViewToDomain(punch, punchDomain);
                 unitOfWork.PunchRepository.Insert(punchDomain);
                 try
@@ -100,7 +109,7 @@ namespace PunchClock.Implementation
             return message;
         }
 
-        public string PunchOut(int userId, int punchId, TimeSpan punchTime, string ipAddress)
+        public string PunchOut(int userId, int punchId, TimeSpan punchTime, string ipAddress,string MacAdress)
         {
             string message = "Successfully punched Out";
             using (var unitOfWork = new UnitOfWork())
@@ -135,6 +144,8 @@ namespace PunchClock.Implementation
                         punch.RequestForApproval = true;
                     }
                 }
+                punch.IpAddress = ipAddress;
+                punch.MacAddress = MacAdress;
                 try
                 {
                     unitOfWork.Save();

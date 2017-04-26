@@ -1,0 +1,1 @@
+﻿1>------ Build started: Project: PunchClock.UI.Web, Configuration: Debug Any CPU ------

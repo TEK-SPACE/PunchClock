@@ -9,6 +9,7 @@
                 new { @class = "form-horizontal" }))
         {
             <fieldset>
+                @Html.ValidationSummary()
                 @Html.AntiForgeryToken()
                 @*@Html.ValidationSummary()*@
                 <legend>@ViewBag.Title</legend>

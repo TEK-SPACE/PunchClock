@@ -5,7 +5,7 @@
 <div class="col-lg-6">
     <div class="well bs-component">
         @using (Ajax.BeginForm("Report", "Punch", null,
-                                    new AjaxOptions { HttpMethod = "POST", OnSuccess = "showGridResults" },
+                                    new AjaxOptions { HttpMethod = "POST", OnSuccess = "showGridResults"},
                                     new { @class = "form-horizontal", id = "reportForm" }))
         {
             <fieldset>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-lg-10">
                         @Html.DropDownList("Month", (IEnumerable<SelectListItem>)(ViewBag.Months), htmlAttributes: new { required = "required", @class = "form-control" })
-                        @Html.ValidationMessage("Months", "Please select employee")
+                        @Html.ValidationMessage("Months", "Please select Month")
                     </div>
                 </div>
 
@@ -38,10 +38,10 @@
                         </label>
                     </div>
                     <div class="col-lg-10">
-                        @Html.TextBox("stDate", null, htmlAttributes: new { type = "date", @class = "pDate form-control reportDate", id = "stDate" })
+                        @Html.TextBox("stDate", null, htmlAttributes: new { id = "stDate", type = "date",  @class = "pDate form-control reportDate",  })
                         @Html.ValidationMessage("stDate", "Required")
                         -
-                        @Html.TextBox("enDate", null, htmlAttributes: new { type = "date", @class = "pDate form-control reportDate", id = "enDate" })
+                        @Html.TextBox("enDate", null, htmlAttributes: new { type = "date", id = "enDate", @class = "pDate form-control reportDate", })
                         @Html.ValidationMessage("enDate", "Required")
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     </li>*@
 
                 <div class="col-lg-10 col-lg-offset-2">
-                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <input type="submit" value="Search" id ="search" class="btn btn-primary" />
                 </div>
             </fieldset>
         }
@@ -83,6 +83,7 @@
     </section>
 </section>
 
+
 <script>
     function showGridResults(data) {
         $(".resultGridSection").show();
@@ -92,23 +93,24 @@
         }
         //$("#resultGrid").parent().html("<section id=\"resultGrid\"></section>");
         $("#resultGrid").kendoGrid({
-            columns: [{ field: "PunchesUserId", title: "id", hidden: true },
+            columns: [{ field: "PunchId", title: "id",hidden: true },
                 {
-                    field: "PunchesDate",// create a column bound to the "name" field
-                    title: "Date", // set its title to "Name"
+                    field: "PunchDate",// create a column bound to the "name" field
+                    title: "Date", //format: "{0:dd-MMM-yyyy}
                     type: "date",
-                    format: "{0:dd-MMM-yyyy}",
-                    footerTemplate: "#: kendo.toString(min, 'd') # - #: kendo.toString(max, 'd')#"
+                    format: "{dd-MMM-yyyy}",
+                    //footerTemplate: "#: kendo.toString(min, 'd') # - #: kendo.toString(max, 'd')#"
                 }, {
-                    field: "PunchesDay",// create a column bound to the "age" field
-                    //format: "{0:dd-MMM-yyyy}",
-                    title: "Day" // set its title to "Age"
+                    field: "PunchDay",// create a column bound to the "age" field
+                    type: "day",    // set its title to "Name"                 
+                    title: "Day"
+                    // set its title to "Age"
                 }, {
-                    field: "PunchesIn",// create a column bound to the "age" field
+                    field: "PunchIn",// create a column bound to the "age" field
                     title: "In-Time" // set its title to "Age"
                 },
             {
-                field: "PunchesOut",// create a column bound to the "age" field
+                field: "PunchOut",// create a column bound to the "age" field
                 title: "Out-Time" // set its title to "Age"
             },
             {
@@ -120,7 +122,7 @@
             {
                 field: "HoursNew",// create a column bound to the "age" field
                 title: "Hours", // set its title to "Age"
-                footerTemplate: "Total:<span id='totalHours'>#: computeHoursRange(data.ApprovedHours.sum) #</span>"
+                //footerTemplate: "Total:<span id='totalHours'>#: computeHoursRange(data.ApprovedHours.sum) #</span>"
                 // groupFooterTemplate: "Average: #: sum #",
                 //groupable: false
                 // aggregates: [ "sum", "min", "max" ]
@@ -132,12 +134,13 @@
                     parse: function (response) {
                         $.each(response, function (idx, elem) {
                             elem.PunchIn = UTCToClientLocal(elem.PunchIn.Hours + ":" + elem.PunchIn.Minutes + ":" + elem.PunchIn.Seconds);
-                            elem.PunchDay = DayFromDate(elem.PunchDate);
+                            //elem.PunchDate = DayFromDate(elem.PunchDate);
                             elem.PunchOut = UTCToClientLocal(elem.PunchOut.Hours + ":" + elem.PunchOut.Minutes + ":" + elem.PunchOut.Seconds);
-                            //elem.punchDate = elem.punchUserId != -69 ? UTCDateToClientLocalDate(elem.punchDate) : elem.punchDate;
-                            //elem.punchDate = elem.punchUserId != -69 ? DateToUTC(elem.punchDate) : elem.punchDate;
                             elem.HoursNew = MinutesToTime(elem.Hours);
                             elem.Hours = elem.Hours;
+                            // elem.punchDate = elem.punchId != -69 ? UTCDateToClientLocalDate(elem.punchDate) : elem.punchDate;
+                           // elem.punchDate = elem.punchId != -69 ? DateToUTC(elem.punchDate) : elem.punchDate;
+                            
                         });
                         return response;
                     }
@@ -146,7 +149,7 @@
                     { field: "Hours", aggregate: "sum" },
                     { fielP: "ApprovedHours", aggregate: "sum" },
                 { field: "punchDate", aggregate: "min", format: "{0:dd-MMM-yyyy}" },
-                { field: "PunchesDate", aggregate: "max", format: "{0:dd-MMM-yyyy}" }]
+                { field: "PunchDate", aggregate: "max", format: "{0:dd-MMM-yyyy}" }]
             },
             toolbar: kendo.template($("#ToolBarTemplate").html()),
             rowTemplate: kendo.template($("#rowTemplate").html()),
@@ -165,22 +168,22 @@
     }
 </script>
 <script id="rowTemplate" type="text/x-kendo-tmpl">
-    # if (PunchesUserId == -69){ #
+    # if (PunchId == -69){ #
     <tr role="row" class="holidayRow success">
         # } else  if(!RequestForApproval || (RequestForApproval && IsManagerAccepted)){ #
     <tr role="row">
         # } else { #
     <tr role="row" class="pendingApproval warning">
         # } #
-        <td style="display:none" role="gridcell">#: PunchesUserId #</td>
-        <td role="gridcell">#: kendo.toString(PunchesDate, 'd') # </td>
-        <td role="gridcell">#: PunchesDay #</td>
-        # if (PunchesUserId == -69){ #
+        <td style="display:none" role="gridcell">#: PunchId #</td>
+        <td role="gridcell">#: kendo.toString(PunchDate, 'd') # </td>
+        <td role="gridcell">#: PunchDate #</td>
+        # if (PunchId == -69){ #
         <td role="gridcell">N/A</td>
         <td role="gridcell">N/A</td>
         # } else { #
-        <td role="gridcell">#: PunchesIn #</td>
-        <td role="gridcell">#: PunchesOut #</td>
+        <td role="gridcell">#: PunchIn #</td>
+        <td role="gridcell">#: PunchOut #</td>
         # } #
 
         <td style="display:none" role="gridcell">#: Hours #</td>
@@ -190,30 +193,34 @@
 
 </script>
 <script id="altRowTemplate" type="text/x-kendo-tmpl">
-    # if (PunchesUserId == -69){ #
+    # if (PunchId == -69){ #
     <tr role="row" class="k-alt holidayRow success">
         # } else  if(!RequestForApproval || (RequestForApproval && IsManagerAccepted)){ #
     <tr role="row" class="k-alt">
         # } else { #
     <tr role="row" class="k-alt pendingApproval warning">
         # } #
-        <td style="display:none" role="gridcell">#: PunchesUserId #</td>
-        <td role="gridcell">#: kendo.toString(PunchesDate, 'd') #</td>
-        <td role="gridcell">#: PunchesDay #</td>
-        # if (PunchesUserId == -69){ #
+        <td style="display:none" role="gridcell">#: PunchId #</td>
+        <td role="gridcell">#: kendo.toString(PunchDate, 'd') #</td>
+        <td role="gridcell">#: PunchDate #</td>
+        # if (PunchId == -69){ #
         <td role="gridcell">N/A</td>
         <td role="gridcell">N/A</td>
         # } else { #
-        <td role="gridcell">#: PunchesIn #</td>
-        <td role="gridcell">#: PunchesOut #</td>
+        <td role="gridcell">#: PunchIn #</td>
+        <td role="gridcell">#: PunchOut #</td>
         # } #
         <td style="display:none" role="gridcell">#: Hours #</td>
         <td role="gridcell">#: HoursNew#</td>
 
     </tr>
 </script>
+
 <script type="text/x-kendo-template" id="ToolBarTemplate">
     <div class="toolbar">
         @Html.ActionLink("Export", "Export", "Punches", new { @class = "k-button" })
     </div>
+</script>
+<script>
+    $("#reportForm").find("span.field-validation-valid").hide();
 </script>
