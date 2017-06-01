@@ -1,6 +1,6 @@
-﻿using PunchClock.Implementation;
+﻿using PunchClock.Core.Implementation;
 using System.Security.Principal;
-using PunchClock.Objects.Core.Enum;
+using PunchClock.Core.Models.Common.Enum;
 
 namespace PunchClock.UI.Web.Helpers
 {

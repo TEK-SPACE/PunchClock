@@ -33,7 +33,7 @@ function postResponseRegistration(e) {
           "400px",
           "300px");
     }
-    else if(e.user.UserId==-4)
+    else if(e.user.UserId===-4)
     {
         showDialog("Duplicate Company",
           "The Company Which is Entered is Already Register.",

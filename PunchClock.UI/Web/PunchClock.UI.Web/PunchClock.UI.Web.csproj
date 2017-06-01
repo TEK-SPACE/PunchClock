@@ -1937,33 +1937,33 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PunchClock.Common\PunchClock.Common.csproj">
-      <Project>{d813b844-c001-4661-b236-5f08e0eb27bc}</Project>
-      <Name>PunchClock.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.DAL\PunchClock.DAL.csproj">
-      <Project>{35b3bfcb-e505-4abf-bc2a-6673b759f77a}</Project>
-      <Name>PunchClock.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
+    <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
       <Name>PunchClock.Domain.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Implementation\PunchClock.Implementation.csproj">
-      <Project>{40b7139d-1746-4aa3-a1f5-4687dca0bbac}</Project>
-      <Name>PunchClock.Implementation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Model.Mapper\PunchClock.Model.Mapper.csproj">
-      <Project>{12e43f9a-e1e5-434f-bace-a48128dfc3e7}</Project>
-      <Name>PunchClock.Model.Mapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Objects.Core\PunchClock.Objects.Core.csproj">
-      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
-      <Name>PunchClock.Objects.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.View.Model\PunchClock.View.Model.csproj">
+    <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.View.Model\PunchClock.View.Model.csproj">
       <Project>{631a7b90-04a6-40e7-af7b-57f4fac236ce}</Project>
       <Name>PunchClock.View.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Common\PunchClock.Model.Mapper\PunchClock.Model.Mapper.csproj">
+      <Project>{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}</Project>
+      <Name>PunchClock.Model.Mapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.DataAccess\PunchClock.Core.DataAccess.csproj">
+      <Project>{35B3BFCB-E505-4ABF-BC2A-6673B759F77A}</Project>
+      <Name>PunchClock.Core.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Implementation\PunchClock.Core.Implementation.csproj">
+      <Project>{40b7139d-1746-4aa3-a1f5-4687dca0bbac}</Project>
+      <Name>PunchClock.Core.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
+      <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
+      <Name>PunchClock.Core.Models.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Helpers\PunchClock.Helper.Common\PunchClock.Helper.Common.csproj">
+      <Project>{d813b844-c001-4661-b236-5f08e0eb27bc}</Project>
+      <Name>PunchClock.Helper.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

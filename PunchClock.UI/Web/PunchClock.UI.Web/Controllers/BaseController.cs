@@ -1,7 +1,8 @@
-﻿using PunchClock.Implementation;
-using PunchClock.Model.Mapper;
-using PunchClock.Objects.Core;
+﻿using PunchClock.Model.Mapper;
 using System.Web.Mvc;
+using PunchClock.Core.DataAccess;
+using PunchClock.Core.Implementation;
+using PunchClock.Core.Models.Common;
 using PunchClock.View.Model;
 
 namespace PunchClock.UI.Web.Controllers
@@ -21,7 +22,7 @@ namespace PunchClock.UI.Web.Controllers
                 UserService userService = new UserService();
                 OperatingUser = userService.Details(User.Identity.Name);
                 var companyView = new CompanyView();
-                using (var unitOfWork = new DAL.UnitOfWork())
+                using (var unitOfWork = new UnitOfWork())
                 {
                     var company = unitOfWork.CompanyRepository.GetById(OperatingUser.CompanyId);
                     new Map().DomainToView(companyView, company);

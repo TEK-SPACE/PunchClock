@@ -3,11 +3,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
-using PunchClock.DAL;
+using PunchClock.Core.DataAccess;
 using PunchClock.Domain.Model;
-using PunchClock.UI.Web.Models;
 
 namespace PunchClock.UI.Web
 {

@@ -6,9 +6,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using PunchClock.DAL;
+using PunchClock.Core.DataAccess;
 using PunchClock.Domain.Model;
-using PunchClock.UI.Web.Models;
 
 namespace PunchClock.UI.Web
 {

@@ -1,16 +1,15 @@
-﻿using PunchClock.Implementation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PunchClock.Objects.Core.Enum;
 using PunchClock.View.Model;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
 using PunchClock.Domain.Model;
+using PunchClock.Core.Implementation;
+using PunchClock.Core.Models.Common.Enum;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -69,7 +68,7 @@ namespace PunchClock.UI.Web.Controllers
             model.User = new UserView();
             if (User.Identity.IsAuthenticated)
             {
-                if (OperatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
+                if (OperatingUser.UserTypeId == (int)Core.Models.Common.Enum.UserType.CompanyAdmin)
                 {
                     return RedirectToAction("Details", "Employer", new { id = OperatingUser.CompanyId });
                 }
@@ -134,8 +133,8 @@ namespace PunchClock.UI.Web.Controllers
             companyView.User.LastActivityIp = UserSession.IpAddress;
             companyView.User.LastActiveMacAddress = UserSession.MacAddress;
             companyView.User.RegistrationCode = companyView.RegisterCode;
-            companyView.User.UserTypeId = (int)Objects.Core.Enum.UserType.CompanyAdmin;
-            companyView.User.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly;
+            companyView.User.UserTypeId = (int)Core.Models.Common.Enum.UserType.CompanyAdmin;
+            companyView.User.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly;
             companyView.User.CompanyId = companyView.CompanyId;
             companyView.CompanyId = companyView.CompanyId;
             var user = new User();
@@ -206,7 +205,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             CompanyView model = new CompanyView();
             model.User = new UserView();
-            if (OperatingUser.UserTypeId == (int)Objects.Core.Enum.UserType.CompanyAdmin)
+            if (OperatingUser.UserTypeId == (int)Core.Models.Common.Enum.UserType.CompanyAdmin)
             {
                 CompanyService cb = new CompanyService();
                 model = cb.Get(OperatingUser.CompanyId);

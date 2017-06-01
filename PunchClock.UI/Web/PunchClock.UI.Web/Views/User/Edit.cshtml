@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Users Details";
 }
-@{ List<SelectListItem> accountType = new List<SelectListItem> {new SelectListItem {Text = "Employee", Value = Convert.ToString((int) PunchClock.Objects.Core.Enum.UserType.Employee)}, new SelectListItem {Text = "Manager", Value = Convert.ToString((int) PunchClock.Objects.Core.Enum.UserType.Manager)}}; }
+@{ List<SelectListItem> accountType = new List<SelectListItem> {new SelectListItem {Text = "Employee", Value = Convert.ToString((int) PunchClock.Core.Models.Common.Enum.UserType.Employee)}, new SelectListItem {Text = "Manager", Value = Convert.ToString((int) PunchClock.Core.Models.Common.Enum.UserType.Manager)}}; }
 <div class="col-lg-6">
     <div class="well bs-component">
         @using (Ajax.BeginForm("Edit", "User", null,

@@ -1,5 +1,4 @@
-﻿using PunchClock.Common;
-using PunchClock.Implementation;
+﻿using PunchClock.Core.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,8 +7,9 @@ using System.Linq;
 using System.Web.Mvc;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using PunchClock.Objects.Core;
 using PunchClock.View.Model;
+using PunchClock.Core.Implementation;
+using PunchClock.Helper.Common;
 
 namespace PunchClock.UI.Web.Controllers
 {

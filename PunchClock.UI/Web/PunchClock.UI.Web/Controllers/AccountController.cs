@@ -8,9 +8,9 @@ using Microsoft.Owin.Security;
 using PunchClock.Domain.Model;
 using PunchClock.UI.Web.Models;
 using System;
-using PunchClock.Common;
+using PunchClock.Core.Implementation;
+using PunchClock.Helper.Common;
 using PunchClock.View.Model;
-using PunchClock.Implementation;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -177,7 +177,7 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(UserView userView)
+        public async Task<JsonResult> Register(UserView userView)
         {
             if (ModelState.IsValid)
             {
@@ -185,7 +185,7 @@ namespace PunchClock.UI.Web.Controllers
                 userView.RegisteredMacAddress = UserSession.MacAddress;
                 userView.LastActivityIp = UserSession.IpAddress;
                 userView.LastActiveMacAddress = UserSession.MacAddress;
-                userView.EmploymentTypeId = (int)Objects.Core.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+                userView.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
                 userView.DateCreatedUtc = DateTimeOffset.UtcNow;
                 userView.LastActivityDateUtc = DateTimeOffset.UtcNow;
                 userView.LastUpdatedUtc = DateTimeOffset.UtcNow;
@@ -194,9 +194,12 @@ namespace PunchClock.UI.Web.Controllers
                 CompanyView company = _companyService.Get(code: userView.RegistrationCode);
                 if(company == null || company.CompanyId < 1)
                 {
-                    ModelState.AddModelError("", $"Registration code {userView.RegistrationCode} doesn't match with any  Company in the system");
+                    var errorMessage =
+                        $"Registration code {userView.RegistrationCode} doesn't match with any  Company in the system";
+                    ModelState.AddModelError("", errorMessage);
                     SetRegistrationContext(userView);
-                    return View(userView);
+                    //return View(userView);
+                    return Json(userView);
                 }
                 userView.CompanyId = company.CompanyId;
                 userView.GlobalId = Guid.NewGuid();
@@ -208,13 +211,15 @@ namespace PunchClock.UI.Web.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                    return Json(userView);
                 }
                 AddErrors(result);
             }
             SetRegistrationContext(userView);
             // If we got this far, something failed, redisplay form
-            return View(userView);
+            //return View(userView);
+            return Json(userView);
         }
 
         //

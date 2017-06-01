@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using PunchClock.Implementation;
-using PunchClock.Common;
-using PunchClock.Objects.Core.Enum;
+using PunchClock.Core.Implementation;
+using PunchClock.Core.Models.Common.Enum;
+using PunchClock.Helper.Common;
 using PunchClock.View.Model;
 
 namespace PunchClock.UI.Web.Controllers
