@@ -119,8 +119,8 @@
       <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -921,6 +921,7 @@
     </Content>
     <Content Include="Content\kendo\2014.1.318\images\kendoui.ttf" />
     <Content Include="Content\kendo\2014.1.318\images\kendoui.woff" />
+    <None Include="Properties\PublishProfiles\PunchClock-Prod.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1946,7 +1947,7 @@
       <Name>PunchClock.View.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Common\PunchClock.Model.Mapper\PunchClock.Model.Mapper.csproj">
-      <Project>{12E43F9A-E1E5-434F-BACE-A48128DFC3E7}</Project>
+      <Project>{12e43f9a-e1e5-434f-bace-a48128dfc3e7}</Project>
       <Name>PunchClock.Model.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.DataAccess\PunchClock.Core.DataAccess.csproj">
