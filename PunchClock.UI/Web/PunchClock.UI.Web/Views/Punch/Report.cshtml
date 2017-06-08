@@ -1,4 +1,5 @@
-﻿@model PunchClock.View.Model.UserView
+﻿@using System.Web.Mvc.Html
+@model PunchClock.View.Model.UserView
 @{
     ViewBag.Title = "Punches Reports";
 }
@@ -88,7 +89,7 @@
     function showGridResults(data) {
         $(".resultGridSection").show();
         if ($(".k-grid").length) {
-            $(".k-grid").after("<section id=\"resultGrid\" class='reCreated'></section>")
+            $(".k-grid").after("<section id=\"resultGrid\" class='reCreated'></section>");
             $(".k-grid").remove();
         }
         //$("#resultGrid").parent().html("<section id=\"resultGrid\"></section>");

@@ -41,6 +41,7 @@ namespace PunchClock.Core.Implementation
                 new Map().ViewToDomain(userView, user);
                 unitOfWork.UserRepository.Insert(user);
                 unitOfWork.Save();
+                userView.UserId = user.Uid;
             }
             return userView.UserId;
         }
@@ -99,6 +100,23 @@ namespace PunchClock.Core.Implementation
             return userView;
         }
 
+        public void Update(string userId, string password)
+        {
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var user = unitOfWork.UserRepository.GetById(userId);
+                user.PasswordSalt = PasswordService.GenerateSalt();
+                user.PasswordHash = PasswordService.EncodePassword(password, user.PasswordSalt);
+              
+                user.LastActivityDateUtc = DateTimeOffset.UtcNow;
+                user.LastUpdatedUtc = DateTimeOffset.UtcNow;
+                user.PasswordLastChanged = DateTime.UtcNow;
+
+                unitOfWork.UserRepository.Update(user);
+                unitOfWork.Save();
+            }
+        }
+
         public View.Model.UserView Details(int userId)
         {
             View.Model.UserView userObjLibrary = new View.Model.UserView();
@@ -119,7 +137,28 @@ namespace PunchClock.Core.Implementation
             }
             return userObjLibrary;
         }
-       
+
+        public View.Model.UserView ByEmail(string email)
+        {
+            View.Model.UserView userObjLibrary = new View.Model.UserView();
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var user = unitOfWork.UserRepository.Get(x => x.Email == email).SingleOrDefault();
+                if (user != null)
+                {
+                    new Map().DomainToView(userObjLibrary, user);
+                }
+                if (user != null)
+                {
+                    var punch = unitOfWork.PunchRepository.Get(p => p.UserId == user.Uid);
+                    if (punch == null) return userObjLibrary;
+                    userObjLibrary.LastPunch = new View.Model.PunchView();
+                    new Map().DomainToView(userObjLibrary.LastPunch, punch.Last());
+                }
+            }
+            return userObjLibrary;
+        }
+
         public int Update(View.Model.UserView userView, bool adminUpdate)
         {
             using (var unitOfWork = new UnitOfWork())
@@ -215,6 +254,30 @@ namespace PunchClock.Core.Implementation
                         .Cast<View.Model.UserView>().ToList();
             }
             return userObjLibraries;
+        }
+
+        public string SeedPasswordReset(string userId)
+        {
+            var randomString = RandomString();
+
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var user = unitOfWork.UserRepository.GetById(userId);
+                user.PasswordResetCode = randomString;
+                user.PasswordResetValidityTill = DateTime.Now.AddHours(3);
+                unitOfWork.UserRepository.Update(user);
+                unitOfWork.Save();
+            }
+            return randomString;
+        }
+
+        public string RandomString()
+        {
+            Random random = new Random();
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var randomString = new string(Enumerable.Repeat(chars, 6)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            return randomString;
         }
     }
 }

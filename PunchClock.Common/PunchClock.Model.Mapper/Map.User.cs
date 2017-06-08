@@ -66,6 +66,8 @@ namespace PunchClock.Model.Mapper
             view.LastUpdatedUtc = domain.LastUpdatedUtc;
             view.PasswordLastChanged = domain.PasswordLastChanged;
             view.Id = domain.Id;
+            view.PasswordResetCode = domain.PasswordResetCode;
+            view.PasswordResetValidityTill = domain.PasswordResetValidityTill;
         }
         public void ViewToDomain(List<View.Model.UserView> views, List<Domain.Model.User> domains)
         {

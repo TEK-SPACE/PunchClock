@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
 using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Helper.Common;
+using PunchClock.UI.Web.Models;
 using PunchClock.View.Model;
 
 namespace PunchClock.UI.Web.Controllers
@@ -13,10 +18,11 @@ namespace PunchClock.UI.Web.Controllers
         //
         // GET: /Register/
         private readonly UserService _userService;
-
+        private readonly IEmailRepository _emailRepository;
         public UserController()
         {
             _userService = new UserService();
+            _emailRepository = new PunchClock.Core.Implementation.EmailService();
         }
 
         public ActionResult Register()
@@ -58,6 +64,53 @@ namespace PunchClock.UI.Web.Controllers
             userView.UserId = _userService.Add(userView);
             return Json(new { userView });
         }
+
+        //
+        // GET: /Account/ForgotPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userService.ByEmail(model.Email);
+                if (user != null)
+                {
+                    var resetCode = _userService.SeedPasswordReset(user.Id);
+                    StringBuilder resetBuilder = new StringBuilder();
+                    resetBuilder.AppendLine("Please use the link to reset your password");
+                    resetBuilder.AppendLine($"{System.Web.HttpContext.Current.Request.Url.Scheme}://{System.Web.HttpContext.Current.Request.Url.Host}{Url.Action("ResetPassword", "User", new { id = user.Id, code = resetCode })}");
+                    _emailRepository.SendEmail(resetBuilder.ToString(), "PunchClock Password Reset Link", new[] {user.Email});
+                    return View("ForgotPasswordConfirmation");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string id, string code)
+        {
+            var user = _userService.Details(id);
+            if (user.PasswordResetCode.Equals(code, StringComparison.OrdinalIgnoreCase))
+            {
+                var newPassword = _userService.RandomString();
+                _userService.Update(userId: id, password: newPassword);
+                return View(newPassword);
+            }
+            return View("Invalid code");
+        }
+
 
         //[HttpPost]
         //[AllowAnonymous]

@@ -45,6 +45,9 @@ namespace PunchClock.Domain.Model
         //[Column(TypeName = "datetime2")]
         //public string LockoutEndDateUtc { get; set; } 
 
+        public string PasswordResetCode { get; set; }
+        public DateTime? PasswordResetValidityTill { get; set; }
+
         public virtual EmploymentType EmploymentType { get; set; }
         public virtual UserType UserType { get; set; }
         public virtual Company Company { get; set; }

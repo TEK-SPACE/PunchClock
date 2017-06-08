@@ -109,5 +109,7 @@ namespace PunchClock.View.Model
         public CompanyView Company { get; set; }
         public ICollection<PunchView> Punch { get; set; }
         public Core.Models.Common.Enum.UserType UserType { get; set; }
+        public string PasswordResetCode { get; set; }
+        public DateTime? PasswordResetValidityTill { get; set; }
     }
 }
