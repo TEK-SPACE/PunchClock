@@ -99,6 +99,16 @@ namespace PunchClock.Core.Implementation
             }
             return userView;
         }
+        public View.Model.UserView ByGuid(string guid)
+        {
+            View.Model.UserView userView = new View.Model.UserView();
+            using (var unitOfWork = new UnitOfWork())
+            {
+                var user = unitOfWork.UserRepository.Get(u => u.Id.ToLower() == guid.ToLower()).SingleOrDefault();
+                new Map().DomainToView(userView, user);
+            }
+            return userView;
+        }
 
         public void Update(string userId, string password)
         {
@@ -274,10 +284,15 @@ namespace PunchClock.Core.Implementation
         public string RandomString()
         {
             Random random = new Random();
-            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var randomString = new string(Enumerable.Repeat(chars, 6)
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+            var randomString = new string(Enumerable.Repeat(chars, 5)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
             return randomString;
+        }
+        public string RandomNumber()
+        {
+            Random rnd = new Random();
+            return rnd.Next(1, 13).ToString();
         }
     }
 }

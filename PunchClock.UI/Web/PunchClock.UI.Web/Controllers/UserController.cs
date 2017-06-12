@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
-using PunchClock.Core.Models.Common.Enum;
+using PunchClock.Domain.Model;
 using PunchClock.Helper.Common;
 using PunchClock.UI.Web.Models;
 using PunchClock.View.Model;
+using EmploymentType = PunchClock.Core.Models.Common.Enum.EmploymentType;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -19,6 +23,31 @@ namespace PunchClock.UI.Web.Controllers
         // GET: /Register/
         private readonly UserService _userService;
         private readonly IEmailRepository _emailRepository;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        private ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            set
+            {
+                _signInManager = value;
+            }
+        }
+        private ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            set
+            {
+                _userManager = value;
+            }
+        }
+
         public UserController()
         {
             _userService = new UserService();
@@ -88,7 +117,7 @@ namespace PunchClock.UI.Web.Controllers
                     var resetCode = _userService.SeedPasswordReset(user.Id);
                     StringBuilder resetBuilder = new StringBuilder();
                     resetBuilder.AppendLine("Please use the link to reset your password");
-                    resetBuilder.AppendLine($"{System.Web.HttpContext.Current.Request.Url.Scheme}://{System.Web.HttpContext.Current.Request.Url.Host}{Url.Action("ResetPassword", "User", new { id = user.Id, code = resetCode })}");
+                    resetBuilder.AppendLine($"{System.Web.HttpContext.Current.Request.Url.Scheme}://{System.Web.HttpContext.Current.Request.Url.Host}{Url.Action("ResetPassword", "User", new { uid = user.Id, code = resetCode })}");
                     _emailRepository.SendEmail(resetBuilder.ToString(), "PunchClock Password Reset Link", new[] {user.Email});
                     return View("ForgotPasswordConfirmation");
                 }
@@ -99,16 +128,24 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ResetPassword(string id, string code)
+        public ActionResult ResetPassword(string uid, string code)
         {
-            var user = _userService.Details(id);
-            if (user.PasswordResetCode.Equals(code, StringComparison.OrdinalIgnoreCase))
+            object retMessage = "Invalid code";
+            var user = _userService.ByGuid(uid);
+            if (!string.IsNullOrWhiteSpace(user.PasswordResetCode) 
+                && user.PasswordResetCode.Equals(code, StringComparison.OrdinalIgnoreCase))
             {
-                var newPassword = _userService.RandomString();
-                _userService.Update(userId: id, password: newPassword);
-                return View(newPassword);
+                var newPassword = $"^{_userService.RandomString().ToUpper()}-{_userService.RandomString().ToLower()}{_userService.RandomNumber()}";
+                UserManager.RemovePasswordAsync(uid).Wait();
+                var result = UserManager.AddPasswordAsync(uid, newPassword).Result;
+                if (!result.Succeeded)
+                {
+                    throw  new Exception($"this is the password: {newPassword} {string.Join("|", result.Errors)}");
+                }
+                //_userService.Update(userId: uid, password: newPassword);
+                retMessage = newPassword;
             }
-            return View("Invalid code");
+            return View(retMessage);
         }
 
 
