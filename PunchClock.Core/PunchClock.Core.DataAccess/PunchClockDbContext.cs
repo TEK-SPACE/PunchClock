@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Domain.Model;
+using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Core.DataAccess
 {
-    public class PunchClockDbContext: IdentityDbContext<User> 
+    public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
     {
         public PunchClockDbContext() : base("DefaultConnection")
         {
@@ -29,6 +31,8 @@ namespace PunchClock.Core.DataAccess
         public DbSet<State> States { get; set; }
         //public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
         public List<Holiday> GetCompanyHolidays(int companyId)
         {

@@ -114,6 +114,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Ticketing\PunchClock.Ticketing.Model\PunchClock.Ticketing.Model.csproj">
+      <Project>{8df6e84e-73c8-4bdc-80ea-b0ec0d55776a}</Project>
+      <Name>PunchClock.Ticketing.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
       <Name>PunchClock.Domain.Model</Name>

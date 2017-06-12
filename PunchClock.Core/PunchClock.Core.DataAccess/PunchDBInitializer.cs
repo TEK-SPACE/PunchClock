@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using PunchClock.Domain.Model;
 using System.Linq;
+using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Core.DataAccess
 {
@@ -28,7 +29,50 @@ namespace PunchClock.Core.DataAccess
             SeedState(context);
 
             SeedCompany(context);
+
+
+            #region CMS
+
+
+
+            #endregion
+
+
+            #region Ticketing
+
+            SeedStatus(context);
+
+            #endregion
+
             base.Seed(context);
+        }
+        private void SeedStatus(PunchClockDbContext context)
+        {
+          var  satuses = new List<Status>
+            {
+                new Status
+                {
+                    Id = 1,
+                    Name = "New",
+                    Description = "",
+                    CreatedDate = DateTime.Now,
+                    LastModifiedBy = 0,
+                    ModifiedDate = DateTime.Now
+                },
+                new Status
+                {
+                    Id = 2,
+                    Name = "Active",
+                    Description = "",
+                    CreatedDate = DateTime.Now,
+                    LastModifiedBy = 0,
+                    ModifiedDate = DateTime.Now
+                }
+            };
+            foreach (var satus in satuses)
+            {
+                context.Statuses.AddOrUpdate(satus);
+            }
         }
 
         private void SeedCompany(PunchClockDbContext context)
