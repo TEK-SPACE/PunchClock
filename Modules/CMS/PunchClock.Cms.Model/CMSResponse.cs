@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace PunchClock.Cms.Model
 {
-    class Type
+   public class CMSResponse
     {
+        public bool Success { get; set; }
+        public string ResponseText { get; set; }
     }
 }
