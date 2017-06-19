@@ -1,7 +1,7 @@
-﻿@model PunchClock.View.Model.UserView
+﻿@model PunchClock.Domain.Model.User
 @using (Ajax.BeginForm("Details", "User", new { adminUpdate = true }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "postResponseUpdate" }, new { }))
 {
-     @Html.HiddenFor(x => x.UserId)
+     @Html.HiddenFor(x => x.Uid)
     <ul class="commonForm">
         <li>
             @Html.LabelFor(x => x.FirstName)
@@ -19,9 +19,9 @@
             @Html.ValidationMessageFor(x => x.Email)
         </li>
         <li>
-            @Html.LabelFor(x => x.Telephone)
-            @Html.TextBoxFor(x => x.Telephone)
-            @Html.ValidationMessageFor(x => x.Telephone)
+            @Html.LabelFor(x => x.PhoneNumber)
+            @Html.TextBoxFor(x => x.PhoneNumber)
+            @Html.ValidationMessageFor(x => x.PhoneNumber)
         </li>
         @*   <li>
             @Html.LabelFor(x => x.password)
@@ -49,10 +49,10 @@
             @Html.DropDownListFor(x => x.RegisteredTimeZone, (IEnumerable<SelectListItem>)Model.TimezonesList, "--Select--", new { @class = "k-dropdownTimeZones" })
             @Html.ValidationMessageFor(x => x.RegisteredTimeZone)
         </li>
-        <li>
+        @*<li>
               @Html.Raw(string.Format("last punched in at <strong>{1}</strong> on {0} and punched out at <strong>{2}</strong> ", Model.LastPunch.PunchDate.ToLongDateString(),
          Model.LastPunch.PunchIn, Model.LastPunch.PunchOut))
-        </li>
+        </li>*@
     </ul>
     <input type="submit" value="Update" class="k-button" />
 }

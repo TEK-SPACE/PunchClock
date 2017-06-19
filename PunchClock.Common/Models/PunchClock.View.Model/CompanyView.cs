@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.View.Model
 {
@@ -25,6 +26,6 @@ namespace PunchClock.View.Model
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
        
-        public UserView User { get; set; }
+        public User User { get; set; }
     }
 }

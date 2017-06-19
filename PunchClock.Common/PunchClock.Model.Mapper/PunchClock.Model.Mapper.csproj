@@ -58,8 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Map.Company.cs" />
-    <Compile Include="Map.Punch.cs" />
-    <Compile Include="Map.User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

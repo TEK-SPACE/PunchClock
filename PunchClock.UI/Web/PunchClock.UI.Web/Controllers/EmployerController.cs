@@ -64,8 +64,7 @@ namespace PunchClock.UI.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            CompanyView model = new CompanyView();
-            model.User = new UserView();
+            CompanyView model = new CompanyView {User = new User()};
             if (User.Identity.IsAuthenticated)
             {
                 if (OperatingUser.UserTypeId == (int)Core.Models.Common.Enum.UserType.CompanyAdmin)
@@ -94,7 +93,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Register(CompanyView companyView, HttpPostedFileBase logo)
         {
 
-            if (_userService.Get(username: companyView.User.UserName).Any())
+            if (_userService.Get(userName: companyView.User.UserName).Any())
             {
                 ModelState.AddModelError("", $"Username { companyView.User.UserName} is already in use. Please try with a different username");
                 return View(companyView);
@@ -137,14 +136,13 @@ namespace PunchClock.UI.Web.Controllers
             companyView.User.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly;
             companyView.User.CompanyId = companyView.CompanyId;
             companyView.CompanyId = companyView.CompanyId;
-            var user = new User();
-            new Model.Mapper.Map().ViewToDomain(companyView.User, user);
+         
             try
             {
-                var result = UserManager.CreateAsync(user, companyView.User.Password).Result;
+                var result = UserManager.CreateAsync(companyView.User, companyView.User.Password).Result;
                 if (result.Succeeded)
                 {
-                    SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+                    SignInManager.SignIn(companyView.User, isPersistent: false, rememberBrowser: false);
                 }
                 else
                 {
@@ -161,7 +159,7 @@ namespace PunchClock.UI.Web.Controllers
 
             if (companyView.CompanyId >0)
             {
-                _companyService.SetCreatedBy(companyId: companyView.CompanyId, userId: user.Uid);
+                _companyService.SetCreatedBy(companyId: companyView.CompanyId, userId: companyView.User.Uid);
                 ViewBag.Message = "Your company code <strong>" + companyView.RegisterCode + "</strong>. Your employees need this code to sign up for their account.";
             }
             return View(companyView);
@@ -179,7 +177,7 @@ namespace PunchClock.UI.Web.Controllers
             //                     Value = t.UserId,
             //                     Text = t.UserId
             //                 }).ToList();
-            List<UserView> _employees = new List<UserView>();
+            List<User> _employees = new List<User>();
             //foreach (var u in _employees)
             //{
             //    u.timezonesList = _timezones;
@@ -204,7 +202,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Edit(string id)
         {
             CompanyView model = new CompanyView();
-            model.User = new UserView();
+            model.User = new User();
             if (OperatingUser.UserTypeId == (int)Core.Models.Common.Enum.UserType.CompanyAdmin)
             {
                 CompanyService cb = new CompanyService();

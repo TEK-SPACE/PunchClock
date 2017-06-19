@@ -9,7 +9,11 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PunchClock.View.Model;
 using PunchClock.Core.Implementation;
+using PunchClock.Domain.Model;
 using PunchClock.Helper.Common;
+using PunchClock.TimeTracker.Contract;
+using PunchClock.TimeTracker.Model;
+using PunchClock.TimeTracker.Service;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -17,7 +21,7 @@ namespace PunchClock.UI.Web.Controllers
     public class PunchController : BaseController
     {
         private readonly UserService _userService;
-        private readonly PunchService _punchService;
+        private readonly IPunch _punchService;
         private readonly CompanyService _companyService;
 
         public PunchController()
@@ -31,15 +35,14 @@ namespace PunchClock.UI.Web.Controllers
 
         public ActionResult Index()
         {
-            PunchService punchService = new PunchService();
-            PunchView obj = punchService.OpUserOpenLog(OperatingUser.UserId);
-            return View(obj);
+            Punch punch = _punchService.OpenLogByUser(OperatingUser.Uid);
+            return View(punch);
         }
 
         [HttpPost]
-        public ActionResult Index(PunchView obj)
+        public ActionResult Index(Punch punch)
         {
-            return View(obj);
+            return View(punch);
         }
 
         [HttpPost]
@@ -65,10 +68,10 @@ namespace PunchClock.UI.Web.Controllers
             switch (inOrOut)
             {
                 case "in":
-                    message = _punchService.PunchIn(OperatingUser.UserId, punchTime, UserSession.IpAddress, UserSession.MacAddress);
+                    message = _punchService.PunchIn(OperatingUser.Uid, punchTime, UserSession.IpAddress, UserSession.MacAddress);
                     break;
                 case "out":
-                    message = _punchService.PunchOut(OperatingUser.UserId, punchId, punchTime, UserSession.IpAddress, UserSession.MacAddress);
+                    message = _punchService.PunchOut(OperatingUser.Uid, punchId, punchTime, UserSession.IpAddress, UserSession.MacAddress);
                     break;
             }
             return Json(message);
@@ -80,7 +83,7 @@ namespace PunchClock.UI.Web.Controllers
             ViewBag.Message = "Enter your search criteria";
             List<SelectListItem> months =  Get.YearMonths();
             var users = _userService.GetAllCompanyEmployees(companyId: OperatingUser.CompanyId, opUserTypeId: OperatingUser.UserTypeId);
-            ViewBag.users = new SelectList(users, "Value", "Text", OperatingUser.UserId);
+            ViewBag.users = new SelectList(users, "Value", "Text", OperatingUser.Uid);
             ViewBag.Months = months;
             return View();
         }
@@ -91,7 +94,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             ViewBag.Message = "Enter your search criteria";
             if (userId == 0)
-                userId = OperatingUser.UserId;
+                userId = OperatingUser.Uid;
             switch (Request.Form["searchType"])
             {
                 case Constants.MonthlyReport:
@@ -110,19 +113,19 @@ namespace PunchClock.UI.Web.Controllers
             }
 
             if (startDate == null || endDate == null) return null;
-            var punchViews = _punchService.Search(operatingUserId: OperatingUser.UserId, userId: userId,
+            var punches = _punchService.Search(opUserId: OperatingUser.Uid, userId: userId,
                 stDate: startDate.Value,
                 enDate: endDate.Value);
 
             List<HolidayView> holidayViews = _companyService.GetCompanyHolidays(companyId: OperatingUser.CompanyId,
-                userId: userId == 0 ? OperatingUser.UserId : userId, stDate: startDate.Value, enDate: endDate.Value);
-            // var userCulture = TimeZoneInfo.FindSystemTimeZoneById(operatingUser.RegisteredTimeZone);
-            punchViews.AddRange(from holiday in holidayViews
+                userId: userId == 0 ? OperatingUser.Uid : userId, stDate: startDate.Value, enDate: endDate.Value);
+
+            punches.AddRange(from holiday in holidayViews
                 let nameOfTheDay = holiday.HolidayDate.ToString("dddd").ToLower()
                 where nameOfTheDay != "sunday" && nameOfTheDay != "saturday"
-                select new PunchView
+                select new Punch
                 {
-                    PunchId = Constants.PunchIdForPaidHoliday,
+                    Id = Constants.PunchIdForPaidHoliday,
                     PunchDate = TimeZoneInfo.ConvertTimeToUtc(holiday.HolidayDate.Date,
                         TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone)),
                     PunchIn = TimeZoneInfo.ConvertTimeToUtc(holiday.HolidayDate.Date + holiday.PunchIn,
@@ -132,12 +135,12 @@ namespace PunchClock.UI.Web.Controllers
                         .ConvertTimeToUtc(holiday.HolidayDate.Date + holiday.PunchOut,
                             TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
                         .TimeOfDay,
-                    Hours = holiday.Hours,
+                    Hours = holiday.Hours ?? 0,
                     Comments = holiday.HolidayName
                 });
-            foreach (var punch in punchViews)
+            foreach (var punch in punches)
             {
-                if (punch.PunchId != Constants.PunchIdForPaidHoliday)
+                if (punch.Id != Constants.PunchIdForPaidHoliday)
                     punch.PunchDate = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate,
                         TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone));
                 var pIn = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate.Date + punch.PunchIn,
@@ -153,28 +156,28 @@ namespace PunchClock.UI.Web.Controllers
                 int tmpHoursInSecs;
                 int.TryParse(punch.Duration.TotalSeconds.ToString(CultureInfo.InvariantCulture), out tmpHoursInSecs);
                 punch.Hours = tmpHoursInSecs;
-                if (punch.RequestForApproval && !punch.IsManagerAccepted)
+                if (punch.RequestForApproval && !punch.ManagerAccepted)
                     punch.ApprovedHours = 0;
                 else
                     punch.ApprovedHours = tmpHoursInSecs;
             }
-            punchViews = punchViews.OrderBy(x => x.PunchDate).ToList();
-            Session.Add("punchObjectLibrary", punchViews);
-            return Json(punchViews);
+            punches = punches.OrderBy(x => x.PunchDate).ToList();
+            Session.Add("SessionPunchResult", punches);
+            return Json(punches);
         }
 
         public FileResult Export()
         {
-            List<PunchView> punchViews;
-            if (Session["punchObjectLibrary"] != null)
-                punchViews = (List<PunchView>) Session["punchObjectLibrary"];
+            List<Punch> punches;
+            if (Session["SessionPunchResult"] != null)
+                punches = (List<Punch>) Session["SessionPunchResult"];
             else
                 return File("", "application/pdf", "NoDataFound.pdf");
 
-            if (!punchViews.Any())
+            if (!punches.Any())
                 return null;
 
-            var userId = punchViews.First().UserId;
+            var userId = punches.First().UserId;
 
             // step 1: creation of a document-object
             var document = new Document(PageSize.A4, 10, 10, 10, 10);
@@ -194,7 +197,7 @@ namespace PunchClock.UI.Web.Controllers
 
             dataTable.DefaultCell.BorderWidth = 2;
             dataTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            UserView userDetails = _userService.Details(userId);
+            User userDetails = _userService.Details(userId);
             var employeeName = $"{userDetails.FirstName} {userDetails.MiddleName} {userDetails.LastName}";
 
             //Adding Company
@@ -228,8 +231,8 @@ namespace PunchClock.UI.Web.Controllers
                 new Phrase(employeeName + "\n" +
                            (!string.IsNullOrEmpty(Session["MonthName"]?.ToString())
                                ? Session["MonthName"] + " " + DateTime.Now.Year
-                               : punchViews.First().PunchDate.ToString("d") + " - " +
-                                 punchViews.Last().PunchDate.ToString("d"))
+                               : punches.First().PunchDate.ToString("d") + " - " +
+                                 punches.Last().PunchDate.ToString("d"))
                 ))
             {
                 Colspan = 2,
@@ -285,7 +288,7 @@ namespace PunchClock.UI.Web.Controllers
             dataTable.HeaderRows = 1;
             dataTable.DefaultCell.BorderWidth = 1;
             List<TimeSpan> timeSpanCollection = new List<TimeSpan>();
-            foreach (PunchView punch in punchViews)
+            foreach (Punch punch in punches)
             {
 
                 var pIn = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate.Date + punch.PunchIn,
@@ -294,7 +297,7 @@ namespace PunchClock.UI.Web.Controllers
                     ? TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate.Date + punch.PunchOut.Value,
                         TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
                     : DateTime.MinValue;
-                if (punch.PunchId == -69)
+                if (punch.Id == -69)
                 {
                     dataTable.AddCell(punch.PunchDate.ToString("d"));
                     dataTable.AddCell("N/A");
@@ -314,7 +317,7 @@ namespace PunchClock.UI.Web.Controllers
                 if (punch.Duration.TotalMinutes > 0)
                 {
 
-                    if (punch.RequestForApproval && !punch.IsManagerAccepted)
+                    if (punch.RequestForApproval && !punch.ManagerAccepted)
                         dataTable.AddCell(new PdfPCell(new Phrase(punch.Duration.ToString(@"hh\:mm\:ss")))
                         {
                             BackgroundColor = new BaseColor(233, 50, 50),
@@ -332,7 +335,7 @@ namespace PunchClock.UI.Web.Controllers
                 }
                 else
                     dataTable.AddCell("");
-                if (punch.PunchId == -69)
+                if (punch.Id == -69)
                     dataTable.AddCell(new PdfPCell(new Phrase(punch.Comments))
                     {
                         BackgroundColor = new BaseColor(186, 248, 189),
@@ -342,7 +345,7 @@ namespace PunchClock.UI.Web.Controllers
                         PaddingBottom = 3,
                         HorizontalAlignment = Element.ALIGN_CENTER
                     });
-                else if (punch.RequestForApproval && !punch.IsManagerAccepted)
+                else if (punch.RequestForApproval && !punch.ManagerAccepted)
                     dataTable.AddCell("Req. Approval");
                 else
                     dataTable.AddCell("");
@@ -429,23 +432,5 @@ namespace PunchClock.UI.Web.Controllers
             }
             return TimeSpan.FromSeconds(totalSeconds);
         }
-
-        //[HttpGet]
-        //public ActionResult Test()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public ContentResult Test(DateTime punchIn)
-        //{
-        //    TimeZone localZone = TimeZone.CurrentTimeZone;
-            
-        //    bool reqDifferentTime;
-        //    DateTime punchDateTime = DateTime.MinValue;
-        //    punchDateTime = punchIn.ToUniversalTime();
-        //    return Content(localZone.StandardName+ " " + punchIn.ToString() + " " + punchDateTime.TimeOfDay.ToString(), "text");
-        //}
-
     }
 }

@@ -1,13 +1,13 @@
-﻿@model PunchClock.View.Model.PunchView
+﻿@model PunchClock.TimeTracker.Model.Punch
 @{
-    ViewBag.Title = "Punches In-Out";
+    ViewBag.Title = "Punch-In or Punch-Out";
 }
 <div class="col-lg-6">
     <div class="well bs-component">
         @if (Model != null)
         {
             using (Ajax.BeginForm("InOut", "Punch",
-                new { punchId = Model.PunchId, inOrOut = "out" },
+                new { punchId = Model.Id, inOrOut = "out" },
                 new AjaxOptions
                 {
                     HttpMethod = "POST",
@@ -31,16 +31,27 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10">
-
-                            @Html.TextBox("differentTime", null,
+                            @(Html.Kendo().DateTimePicker()
+                    .Name("differentTime")
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0)) 
+                                  .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
+                                  .Value(DateTime.Now) //Set the value of the DateTimePicker.
+                    .HtmlAttributes(new
+                            {
+                                type = "time",
+                                @class = "pTime",
+                                style = "display:none;",
+                                id = "pTimePunchesOut"
+                            }))
+                            @*@Html.TextBox("differentTime", null,
                    htmlAttributes: new
                    {
                        type = "time",
                        @class = "pTime",
                        style = "width: 120px; display:none;",
                        id = "pTimePunchesOut"
-                   })
-                            <input type="submit" value="Punches Out Now" class="btn btn-success" />
+                   })*@
+                            <input type="submit" value="Punch Out Now" class="btn btn-success" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -81,7 +92,7 @@
                        style = "width: 120px;  display:none;",
                        id = "pTimePunchesIn"
                    })
-                            <input type="submit" value="Punches In" class="btn btn-success" />
+                            <input type="submit" value="Punch In" class="btn btn-success" />
                         </div>
                     </div>
                     <div class="form-group">

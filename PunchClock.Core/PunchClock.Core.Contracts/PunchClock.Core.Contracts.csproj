@@ -60,7 +60,6 @@
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="IGeoRepository.cs" />
     <Compile Include="IEntityRepository.cs" />
-    <Compile Include="IPunchRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

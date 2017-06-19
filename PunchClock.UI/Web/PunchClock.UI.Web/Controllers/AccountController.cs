@@ -146,11 +146,11 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
-            UserView user = SetRegistrationContext(new UserView());
+            User user = SetRegistrationContext(new User());
             return View(user);
         }
 
-        private UserView SetRegistrationContext(UserView user)
+        private User SetRegistrationContext(User user)
         {
             user.LastActivityIp = UserSession.IpAddress;
             user.LastActiveMacAddress = UserSession.MacAddress;
@@ -177,49 +177,44 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> Register(UserView userView)
+        public async Task<JsonResult> Register(User user)
         {
             if (ModelState.IsValid)
             {
-                userView.UserRegisteredIp = UserSession.IpAddress;
-                userView.RegisteredMacAddress = UserSession.MacAddress;
-                userView.LastActivityIp = UserSession.IpAddress;
-                userView.LastActiveMacAddress = UserSession.MacAddress;
-                userView.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
-                userView.DateCreatedUtc = DateTimeOffset.UtcNow;
-                userView.LastActivityDateUtc = DateTimeOffset.UtcNow;
-                userView.LastUpdatedUtc = DateTimeOffset.UtcNow;
-                userView.PasswordLastChanged = DateTime.UtcNow;
+                user.UserRegisteredIp = UserSession.IpAddress;
+                user.RegisteredMacAddress = UserSession.MacAddress;
+                user.LastActivityIp = UserSession.IpAddress;
+                user.LastActiveMacAddress = UserSession.MacAddress;
+                user.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+                user.DateCreatedUtc = DateTimeOffset.UtcNow;
+                user.LastActivityDateUtc = DateTimeOffset.UtcNow;
+                user.LastUpdatedUtc = DateTimeOffset.UtcNow;
+                user.PasswordLastChanged = DateTime.UtcNow;
 
-                CompanyView company = _companyService.Get(code: userView.RegistrationCode);
+                CompanyView company = _companyService.Get(code: user.RegistrationCode);
                 if(company == null || company.CompanyId < 1)
                 {
                     var errorMessage =
-                        $"Registration code {userView.RegistrationCode} doesn't match with any  Company in the system";
+                        $"Registration code {user.RegistrationCode} doesn't match with any  Company in the system";
                     ModelState.AddModelError("", errorMessage);
-                    SetRegistrationContext(userView);
-                    //return View(userView);
-                    return Json(userView);
+                    SetRegistrationContext(user);
+                    return Json(user);
                 }
-                userView.CompanyId = company.CompanyId;
-                userView.GlobalId = Guid.NewGuid();
-                userView.IsActive = true;
+                user.CompanyId = company.CompanyId;
+                user.IsActive = true;
 
-                var user = new User();
-                new Model.Mapper.Map().ViewToDomain(userView, user);
-                var result = await UserManager.CreateAsync(user, userView.Password);
+                var result = await UserManager.CreateAsync(user, user.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     //return RedirectToAction("Index", "Home");
-                    return Json(userView);
+                    return Json(user);
                 }
                 AddErrors(result);
             }
-            SetRegistrationContext(userView);
+            SetRegistrationContext(user);
             // If we got this far, something failed, redisplay form
-            //return View(userView);
-            return Json(userView);
+            return Json(user);
         }
 
         //

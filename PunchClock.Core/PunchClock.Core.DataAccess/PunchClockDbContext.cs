@@ -7,6 +7,7 @@ using PunchClock.Configuration.Model;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
+using PunchClock.TimeTracker.Model;
 
 namespace PunchClock.Core.DataAccess
 {
@@ -17,7 +18,7 @@ namespace PunchClock.Core.DataAccess
             //Database.SetInitializer(new PunchDbInitializer());
             //Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
             this.Configuration.LazyLoadingEnabled = true;
-            this.Configuration.ProxyCreationEnabled = true;
+            this.Configuration.ProxyCreationEnabled = false;
         }
         public static PunchClockDbContext Create()
         {

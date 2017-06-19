@@ -1,5 +1,5 @@
 ﻿@using SelectListItem = System.Web.Mvc.SelectListItem
-@model PunchClock.View.Model.UserView
+@model PunchClock.Domain.Model.User
 @{
     ViewBag.Title = "User Registration";
 }
@@ -73,7 +73,7 @@
                 <div class="form-group">
                     @Html.LabelFor(x => x.RegisteredTimeZone, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.DropDownListFor(x => x.RegisteredTimeZone, (IEnumerable<SelectListItem>)Model.TimezonesList, "--Select--", new { @class = "k-dropdownTimeZones form-control" })
+                        @Html.DropDownListFor(x => x.RegisteredTimeZone, Model.TimezonesList, "--Select--", new { @class = "k-dropdownTimeZones form-control" })
                         @Html.ValidationMessageFor(x => x.RegisteredTimeZone)
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 ﻿@using System.Web.Mvc.Html
-@model PunchClock.View.Model.UserView
+@model PunchClock.Domain.Model.User
 @{
     ViewBag.Title = "Punches Reports";
 }
@@ -54,7 +54,7 @@
                                 Employee
                             </label>*@
                         <div class="col-lg-10">
-                            @Html.DropDownListFor(x => x.UserId, (IEnumerable<SelectListItem>)(ViewBag.users), htmlAttributes: new { required = "required", @class = "form-control" })
+                            @Html.DropDownListFor(x => x.Uid, (IEnumerable<SelectListItem>)(ViewBag.users), htmlAttributes: new { required = "required", @class = "form-control" })
                             @Html.ValidationMessage("userObjLibraryUserId_listbox", "Please select employee")
                         </div>
                     </div>
@@ -122,12 +122,7 @@
             },
             {
                 field: "HoursNew",// create a column bound to the "age" field
-                title: "Hours", // set its title to "Age"
-                //footerTemplate: "Total:<span id='totalHours'>#: computeHoursRange(data.ApprovedHours.sum) #</span>"
-                // groupFooterTemplate: "Average: #: sum #",
-                //groupable: false
-                // aggregates: [ "sum", "min", "max" ]
-                //groupFooterTemplate: "<div>Day Hours:<b> #: sum #</b></div>" //"Day Hours: #: sum #"//, min: #: min #, max: #: max #"
+                title: "Hours" // set its title to "Age"
             }],
             dataSource: {
                 data: data,
@@ -135,12 +130,9 @@
                     parse: function (response) {
                         $.each(response, function (idx, elem) {
                             elem.PunchIn = UTCToClientLocal(elem.PunchIn.Hours + ":" + elem.PunchIn.Minutes + ":" + elem.PunchIn.Seconds);
-                            //elem.PunchDate = DayFromDate(elem.PunchDate);
                             elem.PunchOut = UTCToClientLocal(elem.PunchOut.Hours + ":" + elem.PunchOut.Minutes + ":" + elem.PunchOut.Seconds);
                             elem.HoursNew = MinutesToTime(elem.Hours);
                             elem.Hours = elem.Hours;
-                            // elem.punchDate = elem.punchId != -69 ? UTCDateToClientLocalDate(elem.punchDate) : elem.punchDate;
-                           // elem.punchDate = elem.punchId != -69 ? DateToUTC(elem.punchDate) : elem.punchDate;
                             
                         });
                         return response;
@@ -158,35 +150,29 @@
             pageable: {
                 pageSize: 10
             },
-            //pageable: true,
             scrollable: true,
-            sortable: true,
-            // groupable: true,
-            // height: 400,
+            sortable: true
         });
-
-        //$("table[role='grid']").addClass("table table-striped table-hover ");
     }
 </script>
 <script id="rowTemplate" type="text/x-kendo-tmpl">
-    # if (PunchId == -69){ #
+    # if (Id == -69){ #
     <tr role="row" class="holidayRow success">
-        # } else  if(!RequestForApproval || (RequestForApproval && IsManagerAccepted)){ #
+        # } else  if(!RequestForApproval || (RequestForApproval && ManagerAccepted)){ #
     <tr role="row">
         # } else { #
     <tr role="row" class="pendingApproval warning">
         # } #
-        <td style="display:none" role="gridcell">#: PunchId #</td>
+        <td style="display:none" role="gridcell">#: Id #</td>
         <td role="gridcell">#: kendo.toString(PunchDate, 'd') # </td>
         <td role="gridcell">#: PunchDate #</td>
-        # if (PunchId == -69){ #
+        # if (Id == -69){ #
         <td role="gridcell">N/A</td>
         <td role="gridcell">N/A</td>
         # } else { #
         <td role="gridcell">#: PunchIn #</td>
         <td role="gridcell">#: PunchOut #</td>
         # } #
-
         <td style="display:none" role="gridcell">#: Hours #</td>
         <td role="gridcell">#: HoursNew#</td>
 
@@ -194,17 +180,17 @@
 
 </script>
 <script id="altRowTemplate" type="text/x-kendo-tmpl">
-    # if (PunchId == -69){ #
+    # if (Id == -69){ #
     <tr role="row" class="k-alt holidayRow success">
-        # } else  if(!RequestForApproval || (RequestForApproval && IsManagerAccepted)){ #
+        # } else  if(!RequestForApproval || (RequestForApproval && ManagerAccepted)){ #
     <tr role="row" class="k-alt">
         # } else { #
     <tr role="row" class="k-alt pendingApproval warning">
         # } #
-        <td style="display:none" role="gridcell">#: PunchId #</td>
+        <td style="display:none" role="gridcell">#: Id #</td>
         <td role="gridcell">#: kendo.toString(PunchDate, 'd') #</td>
         <td role="gridcell">#: PunchDate #</td>
-        # if (PunchId == -69){ #
+        # if (Id == -69){ #
         <td role="gridcell">N/A</td>
         <td role="gridcell">N/A</td>
         # } else { #
@@ -212,7 +198,7 @@
         <td role="gridcell">#: PunchOut #</td>
         # } #
         <td style="display:none" role="gridcell">#: Hours #</td>
-        <td role="gridcell">#: HoursNew#</td>
+        <td role="gridcell">#: HoursNew #</td>
 
     </tr>
 </script>

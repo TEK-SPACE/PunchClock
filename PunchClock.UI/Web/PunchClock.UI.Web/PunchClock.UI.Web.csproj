@@ -775,6 +775,18 @@
       <Project>{9c9b8b56-1fc8-4de5-8fdd-f255073d039a}</Project>
       <Name>PunchClock.Configuration.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\TimeTracker\PunchClock.TimeTracker.Contract\PunchClock.TimeTracker.Contract.csproj">
+      <Project>{7f05f4d4-e221-45e1-be22-33d55011da4e}</Project>
+      <Name>PunchClock.TimeTracker.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\TimeTracker\PunchClock.TimeTracker.Model\PunchClock.TimeTracker.Model.csproj">
+      <Project>{874b5555-291d-428c-b5b4-f457c7ea71a0}</Project>
+      <Name>PunchClock.TimeTracker.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\TimeTracker\PunchClock.TimeTracker.Service\PunchClock.TimeTracker.Service.csproj">
+      <Project>{D1A2FB65-B66F-414D-9123-9EFB8BDBB94A}</Project>
+      <Name>PunchClock.TimeTracker.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
       <Name>PunchClock.Domain.Model</Name>
