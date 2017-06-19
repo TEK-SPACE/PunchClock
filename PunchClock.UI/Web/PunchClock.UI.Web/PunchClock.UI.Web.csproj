@@ -334,6 +334,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CMSController.cs" />
     <Compile Include="Controllers\EmployerController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CmsHelpers.cs" />
     <Compile Include="Helpers\UserHelpers.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1783,7 +1785,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1926,6 +1930,7 @@
     <Content Include="Views\User\ForgotPassword.cshtml" />
     <Content Include="Views\User\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\CMS\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1941,6 +1946,18 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Modules\CMS\PunchClock.Cms.Contract\PunchClock.Cms.Contract.csproj">
+      <Project>{e190c8ea-4ec4-43aa-9a28-b84a1fa89004}</Project>
+      <Name>PunchClock.Cms.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\CMS\PunchClock.Cms.Model\PunchClock.Cms.Model.csproj">
+      <Project>{1adf9c27-b460-46bb-b2be-379a7e3f5321}</Project>
+      <Name>PunchClock.Cms.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\CMS\PunchClock.Cms.Service\PunchClock.Cms.Service.csproj">
+      <Project>{7ee33cbc-c9aa-4acc-97c1-b8edd4acaafb}</Project>
+      <Name>PunchClock.Cms.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
       <Name>PunchClock.Domain.Model</Name>

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PunchClock.Cms.Model;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
-
+using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 namespace PunchClock.Core.DataAccess
 {
     public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
@@ -13,6 +14,8 @@ namespace PunchClock.Core.DataAccess
         public PunchClockDbContext() : base("DefaultConnection")
         {
             //Database.SetInitializer(new PunchDbInitializer());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
+
         }
         public static PunchClockDbContext Create()
         {
@@ -34,6 +37,11 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Status> Statuses { get; set; }
 
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Category> Categrories { get; set; }
+        public DbSet<ArticleComments> ArticleComments { get; set; }
+        public DbSet<ArticleTag> ArticleTags { get; set; }
+        public DbSet<ArticleType> ArticleTypes { get; set; }
         public List<Holiday> GetCompanyHolidays(int companyId)
         {
             return (from h in Holidays
