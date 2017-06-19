@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Configuration.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunchClock.Configuration.Testing", "Modules\Configuration\PunchClock.Configuration.Testing\PunchClock.Configuration.Testing.csproj", "{2AAE58E0-AAB1-442A-888D-6B1A2CECC746}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Language", "Language", "{16DB2FC3-10B1-49C9-8002-A0F543566A6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -253,5 +255,6 @@ Global
 		{DD8B80C3-F1D5-41FB-B4B6-E06B25DED4BA} = {F3A955B0-35E4-4028-8590-C67E572548A8}
 		{9C9B8B56-1FC8-4DE5-8FDD-F255073D039A} = {F3A955B0-35E4-4028-8590-C67E572548A8}
 		{2AAE58E0-AAB1-442A-888D-6B1A2CECC746} = {F3A955B0-35E4-4028-8590-C67E572548A8}
+		{16DB2FC3-10B1-49C9-8002-A0F543566A6A} = {563F7892-8D4C-42A9-BBFA-5548844B5755}
 	EndGlobalSection
 EndGlobal

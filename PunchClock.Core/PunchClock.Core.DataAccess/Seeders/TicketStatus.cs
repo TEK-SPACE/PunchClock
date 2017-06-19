@@ -17,7 +17,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     Name = "New",
                     Description = "",
                     CreatedDate = DateTime.Now,
-                    LastModifiedBy = 0,
+                    LastModifiedByGuid = null,
                     ModifiedDate = DateTime.Now
                 },
                 new Status
@@ -26,7 +26,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     Name = "Active",
                     Description = "",
                     CreatedDate = DateTime.Now,
-                    LastModifiedBy = 0,
+                    LastModifiedByGuid = null,
                     ModifiedDate = DateTime.Now
                 }
             };

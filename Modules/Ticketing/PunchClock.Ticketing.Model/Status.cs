@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Model
 {
-    [Table("TicketStatus")]
+    [Table("TicketStatus", Schema = "dbo")]
     public class Status
     {
         [Key]
@@ -14,6 +15,8 @@ namespace PunchClock.Ticketing.Model
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public int LastModifiedBy { get; set; }
+        public string LastModifiedByGuid { get; set; }
+        [ForeignKey("LastModifiedByGuid")]
+        public virtual User User { get; set; }
     }
 }

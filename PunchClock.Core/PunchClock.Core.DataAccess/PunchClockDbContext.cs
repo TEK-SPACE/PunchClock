@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Cms.Model;
 using PunchClock.Configuration.Model;
+using PunchClock.Core.DataAccess.Seeders;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
@@ -16,7 +17,7 @@ namespace PunchClock.Core.DataAccess
         public PunchClockDbContext() : base("DefaultConnection")
         {
             //Database.SetInitializer(new PunchDbInitializer());
-            Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
 
         }
         public static PunchClockDbContext Create()

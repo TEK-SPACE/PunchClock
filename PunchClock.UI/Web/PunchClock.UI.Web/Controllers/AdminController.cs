@@ -9,9 +9,6 @@ namespace PunchClock.UI.Web.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        public ActionResult Config()
-        {
-            return View();
-        }
+     
     }
 }
