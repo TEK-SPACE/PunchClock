@@ -69,6 +69,10 @@
       <Project>{35B3BFCB-E505-4ABF-BC2A-6673B759F77A}</Project>
       <Name>PunchClock.Core.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
+      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
+      <Name>PunchClock.Core.Models.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ticketing\PunchClock.Ticketing.Contracts\PunchClock.Ticketing.Contracts.csproj">
       <Project>{1d64b484-3ba8-4b3a-9196-20375c8046e5}</Project>
       <Name>PunchClock.Ticketing.Contracts</Name>

@@ -150,14 +150,7 @@ namespace PunchClock.TimeTracker.Service
         private static bool IsUserAuthorizedTo(int opUserId, PunchClockDbContext context)
         {
             var user = context.Users.FirstOrDefault(x => x.Uid == opUserId);
-            if (user == null) return true;
-            var eligibleRoles = context.Roles.Where(x => x.Name.Equals("Admin", StringComparison.OrdinalIgnoreCase))
-                .Select(x => x.Id).ToList();
-            // ReSharper disable once RedundantAssignment
-            var isEligible = user.Roles.Any(x => eligibleRoles.Any(r => r.Equals(x.RoleId)));
-            isEligible = true; //Todo: Need to implement roles work
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            return isEligible;
+            return user?.UserTypeId != (int)Core.Models.Common.Enum.UserType.Employee;
         }
 
         private static void ExplicitPunchTimeCheck(TimeSpan punchTime, Punch punch)
