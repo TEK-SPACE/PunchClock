@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+using PunchClock.Configuration.Contract;
+using PunchClock.Configuration.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Models.Common;
+using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
 using PunchClock.View.Model;
 
@@ -16,6 +16,7 @@ namespace PunchClock.Core.Implementation
 {
     public class EmailService : IEmailRepository
     {
+        private readonly IAppSetting _appSettingService = new AppSettingService();
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -60,10 +61,14 @@ namespace PunchClock.Core.Implementation
 
         public bool SendEmail(string msgBody, string msgSubject, string[] recipients)
         {
+            var appSettings =_appSettingService.GetByModule(moduleId: (int) ModuleType.Core);
+
             MailMessage msg = new MailMessage
             {
                 //ConfigurationManager.AppSettings["EmailFromTitle"]
-                From = new MailAddress(ConfigurationManager.AppSettings["EmailFrom"], "PunchClock"),
+                From = new MailAddress(
+                    appSettings.First(x => x.Key.Equals("CoreEmailFrom", StringComparison.OrdinalIgnoreCase)).Value,
+                    appSettings.First(x => x.Key.Equals("CoreEmailFromTitle", StringComparison.OrdinalIgnoreCase)).Value),
                 Subject = msgSubject,
                 Body = msgBody,
                 IsBodyHtml = true
@@ -72,18 +77,27 @@ namespace PunchClock.Core.Implementation
             {
                 msg.To.Add(recipient);
             }
-            msg.Bcc.Add(ConfigurationManager.AppSettings["CompanyEMail"]);
+            if (Convert.ToBoolean(appSettings
+                .First(x => x.Key.Equals("CoreNotifyingEnabled", StringComparison.OrdinalIgnoreCase)).Value))
+            {
+                foreach (var recipient in appSettings
+                    .First(x => x.Key.Equals("CoreNotifyingList", StringComparison.OrdinalIgnoreCase)).Value.Split(','))
+                {
+                    msg.Bcc.Add(recipient);
+                }
+            }
 
             SmtpClient client = new SmtpClient
             {
                 UseDefaultCredentials = false,
-                Host = "smtp.gmail.com",
-                Port = 587,
+                Host = appSettings.First(x => x.Key.Equals("CoreSmtpHost", StringComparison.OrdinalIgnoreCase)).Value,
+                Port = Convert.ToInt32(appSettings.First(x => x.Key.Equals("CoreSmtpPort", StringComparison.OrdinalIgnoreCase)).Value),
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Credentials =
-                    new NetworkCredential(ConfigurationManager.AppSettings["EmailFrom"],
-                        ConfigurationManager.AppSettings["SalesEmailPassword"]),
+                    new NetworkCredential(
+                        appSettings.First(x => x.Key.Equals("CoreEmailFrom", StringComparison.OrdinalIgnoreCase)).Value,
+                        appSettings.First(x => x.Key.Equals("CoreEmailPassword", StringComparison.OrdinalIgnoreCase)).Value),
                 Timeout = 20000
             };
 

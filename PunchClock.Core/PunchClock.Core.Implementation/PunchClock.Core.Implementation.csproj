@@ -114,6 +114,18 @@
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Configuration\PunchClock.Configuration.Contract\PunchClock.Configuration.Contract.csproj">
+      <Project>{67683da0-dcab-48e0-bcec-73c2b0eb2787}</Project>
+      <Name>PunchClock.Configuration.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Configuration\PunchClock.Configuration.Model\PunchClock.Configuration.Model.csproj">
+      <Project>{dd8b80c3-f1d5-41fb-b4b6-e06b25ded4ba}</Project>
+      <Name>PunchClock.Configuration.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Configuration\PunchClock.Configuration.Service\PunchClock.Configuration.Service.csproj">
+      <Project>{9c9b8b56-1fc8-4de5-8fdd-f255073d039a}</Project>
+      <Name>PunchClock.Configuration.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
       <Name>PunchClock.Domain.Model</Name>

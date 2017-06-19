@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using PunchClock.Core.DataAccess;
+using PunchClock.Core.DataAccess.Seeders;
 
 namespace PunchClock.UI.Web
 {
