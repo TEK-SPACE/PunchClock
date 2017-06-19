@@ -5,8 +5,8 @@ namespace PunchClock.Cms.Contract
 {
     public interface ICommentService
     {
-        Comment Add(Comment comment);
-        Comment Update(Comment comments);
+        ArticleComment Add(ArticleComment comment);
+        ArticleComment Update(ArticleComment comments);
         AjaxResponse Delete(int id);
     }
 }

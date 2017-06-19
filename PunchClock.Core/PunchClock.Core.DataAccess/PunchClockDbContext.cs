@@ -36,16 +36,14 @@ namespace PunchClock.Core.DataAccess
         //public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
        
-        public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<Status> Statuses { get; set; }
-
-
+        public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
+        public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
         public DbSet<Cms.Model.Article> Articles { get; set; }
-        public DbSet<Cms.Model.Category> ArticleCategrories { get; set; }
-        public DbSet<Cms.Model.Comment> ArticleComments { get; set; }
-        public DbSet<Cms.Model.Tag> ArticleTags { get; set; }
-        public DbSet<Cms.Model.Type> ArticleTypes { get; set; }
+        public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }
+        public DbSet<Cms.Model.ArticleComment> ArticleComments { get; set; }
+        public DbSet<Cms.Model.ArticleTag> ArticleTags { get; set; }
+        public DbSet<Cms.Model.ArticleType> ArticleTypes { get; set; }
 
 
         public DbSet<Module> Modules { get; set; }

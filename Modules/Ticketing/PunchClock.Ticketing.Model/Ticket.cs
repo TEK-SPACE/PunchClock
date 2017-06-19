@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PunchClock.Ticketing.Model
 {
@@ -19,8 +15,8 @@ namespace PunchClock.Ticketing.Model
         public string Description { get; set; }
         public int StatusId { get; set; }
         [ForeignKey("StatusId")]
-        public virtual Status Status { get; set; }
+        public virtual TicketStatus Status { get; set; }
 
-        public virtual List<Comment> Comments { get; set; }
+        public virtual List<TicketComment> Comments { get; set; }
     }
 }

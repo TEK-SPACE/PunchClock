@@ -18,12 +18,12 @@ namespace PunchClock.Cms.Testing
        [Test]
         public void Add()
         {
-            var tag = new Tag()
+            var tag = new ArticleTag()
             {
 
                 Description = "Test data",
                 Name = "Test",
-                LastModifiedBy = 1
+                LastModifiedBy = null
             };
             var result = _tagService.Add(tag);
             Assert.IsNotNull(result);
@@ -31,13 +31,13 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-           var tag = new Tag()
+           var tag = new ArticleTag()
             {
                 Id=1,
                 Description = "Test11 data",
                 Name = "Tests",
-                LastModifiedBy = 1
-            };
+                LastModifiedBy = null
+           };
             var result = _tagService.Update(tag);
             Assert.IsNotNull(result);
         }

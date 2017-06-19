@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using PunchClock.Domain.Model;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Model
 {
-    [Table("ArticleTag")]
-   public class Tag:CommonEntity
+    public class ArticleCategory:CommonEntity
     {
         [Key]
         public int Id { get; set; }

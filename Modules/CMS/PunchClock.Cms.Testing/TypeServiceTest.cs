@@ -18,11 +18,11 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Add()
         {
-            var type = new Type()
+            var type = new ArticleType()
             {
                 Description = "Test data",
                 Name = "Test",
-                LastModifiedBy = 1
+                LastModifiedBy = null
             };
             var result = _tagService.Add(type);
             Assert.IsNotNull(result);
@@ -30,12 +30,12 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-            var type = new Type()
+            var type = new ArticleType()
             {
                 Id=1,
                 Description = "Test11 data",
                 Name = "Tests",
-                LastModifiedBy = 1
+                LastModifiedBy = null
             };
             var result = _tagService.Update(type);
             Assert.IsNotNull(result);

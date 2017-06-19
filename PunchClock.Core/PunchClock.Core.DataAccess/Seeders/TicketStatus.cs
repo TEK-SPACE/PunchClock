@@ -9,9 +9,9 @@ namespace PunchClock.Core.DataAccess.Seeders
     {
         private void SeedStatus(PunchClockDbContext context)
         {
-            var satuses = new List<Status>
+            var satuses = new List<TicketStatus>
             {
-                new Status
+                new TicketStatus
                 {
                     Id = 1,
                     Name = "New",
@@ -20,7 +20,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     LastModifiedByGuid = null,
                     ModifiedDate = DateTime.Now
                 },
-                new Status
+                new TicketStatus
                 {
                     Id = 2,
                     Name = "Active",
@@ -32,7 +32,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             };
             foreach (var satus in satuses)
             {
-                context.Statuses.AddOrUpdate(satus);
+                context.TicketStatuses.AddOrUpdate(satus);
             }
         }
     }

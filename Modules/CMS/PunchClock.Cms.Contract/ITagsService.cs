@@ -5,8 +5,8 @@ namespace PunchClock.Cms.Contract
 {
     public interface ITagsService
     {
-        Tag Add(Tag articleTag);
-        Tag Update(Tag articleTag);
+        ArticleTag Add(ArticleTag articleTag);
+        ArticleTag Update(ArticleTag articleTag);
         AjaxResponse Delete(int id);
     }
 }

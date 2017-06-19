@@ -1,22 +1,21 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Model
 {
-    [Table("TicketComments")]
-    public class Comment
+    public class TicketStatus
     {
         [Key]
         public int Id { get; set; }
 
+        public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public int LastModifiedBy { get; set; }
-        public int TicketId { get; set; }
-
-        [ForeignKey("TicketId")]
-        public virtual Ticket Ticket { get; set; }
+        public string LastModifiedByGuid { get; set; }
+        [ForeignKey("LastModifiedByGuid")]
+        public virtual User User { get; set; }
     }
 }

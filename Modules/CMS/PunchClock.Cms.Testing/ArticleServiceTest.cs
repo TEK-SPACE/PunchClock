@@ -25,7 +25,7 @@ namespace PunchClock.Cms.Testing
                 Description = "Test data",
                 CategoryId = 1,
                  Tags = "title",
-                LastModifiedBy = 1
+                LastModifiedBy = null
             };
             var record= _articleService.Add(article);
             Assert.IsNotNull(record);
@@ -40,7 +40,7 @@ namespace PunchClock.Cms.Testing
                 Description = "Test updated",
                 CategoryId = 2,
                 Tags = "updated",
-                LastModifiedBy = 2
+                LastModifiedBy = null
             };
             var record = _articleService.Update(article);
             Assert.IsNotNull(record);

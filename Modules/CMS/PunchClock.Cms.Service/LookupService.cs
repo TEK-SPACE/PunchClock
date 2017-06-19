@@ -4,7 +4,7 @@ using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
-using Type = PunchClock.Cms.Model.Type;
+using ArticleType = PunchClock.Cms.Model.ArticleType;
 
 namespace PunchClock.Cms.Service
 {
@@ -25,35 +25,35 @@ namespace PunchClock.Cms.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Comment> GetCommentsByArticleId(int artcileId)
+        public IEnumerable<ArticleComment> GetCommentsByArticleId(int artcileId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Tag> GetAllTags()
+        public IEnumerable<ArticleTag> GetAllTags()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Tag> GetTagsByCompany(int id)
+        public IEnumerable<ArticleTag> GetTagsByCompany(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Tag> GetTagById(int id)
+        public IEnumerable<ArticleTag> GetTagById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Type> GetTypes()
+        public IEnumerable<ArticleType> GetTypes()
         {
             throw new NotImplementedException();
         }
 
-        public List<Category> GetAllCategories()
+        public List<ArticleCategory> GetAllCategories()
         {
 
-            List<Category> categories;
+            List<ArticleCategory> categories;
              using (var context = new PunchClockDbContext())
             {
               var  categorys = from category in context.ArticleCategrories

@@ -9,7 +9,7 @@ namespace PunchClock.Cms.Service
 {
    public class TagService: ITagsService
     {
-        public Tag Add(Tag articleTag)
+        public ArticleTag Add(ArticleTag articleTag)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -22,7 +22,7 @@ namespace PunchClock.Cms.Service
             return articleTag;
         }
 
-        public Tag Update(Tag articleTag)
+        public ArticleTag Update(ArticleTag articleTag)
         {
             using (var context = new PunchClockDbContext())
             {

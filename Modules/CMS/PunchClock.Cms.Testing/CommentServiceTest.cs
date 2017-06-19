@@ -18,11 +18,11 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Add()
         {
-            var comment = new Comment()
+            var comment = new ArticleComment()
             {
                 Description = "Test data",
                 ArticleId = 1,
-                LastModifiedBy = 1
+                LastModifiedBy = null
             };
             var result = _commentService.Add(comment);
             Assert.IsNotNull(result);
@@ -30,12 +30,12 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-            var comment = new Comment()
+            var comment = new ArticleComment()
             {
                 Description = "Test datass",
                 ArticleId = 1,
                 Id = 1,
-                LastModifiedBy = 1
+                LastModifiedBy = null
             };
             var result = _commentService.Update(comment);
             Assert.IsNotNull(result);

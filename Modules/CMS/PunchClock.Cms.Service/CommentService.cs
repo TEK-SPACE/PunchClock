@@ -10,7 +10,7 @@ namespace PunchClock.Cms.Service
    public class CommentService: ICommentService
     {
 
-        public Comment Add(Comment comment)
+        public ArticleComment Add(ArticleComment comment)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -22,7 +22,7 @@ namespace PunchClock.Cms.Service
             return comment;
         }
 
-        public Comment Update(Comment comments)
+        public ArticleComment Update(ArticleComment comments)
         {
             using (var context = new PunchClockDbContext())
             {

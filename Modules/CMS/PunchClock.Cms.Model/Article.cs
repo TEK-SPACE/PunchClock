@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Model
 {
-    public class Article:CommonEntity
+    [Table("Articles", Schema = "cms")]
+    public class Article: CommonEntity
     {
         [Key]
         public int Id { get; set; }
@@ -16,7 +18,7 @@ namespace PunchClock.Cms.Model
     
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
-        public virtual List<Comment> Comments { get; set; }
+        public virtual ArticleCategory Category { get; set; }
+        public virtual List<ArticleComment> Comments { get; set; }
     }
 }

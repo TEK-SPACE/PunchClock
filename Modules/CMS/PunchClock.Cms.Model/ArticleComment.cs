@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Model
 {
-  [Table("ArticleComments")]
-    public  class Comment:CommonEntity
+    public  class ArticleComment:CommonEntity
     {
         [Key]
         public int Id { get; set; }

@@ -3,13 +3,13 @@ using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Models.Common;
-using Type = PunchClock.Cms.Model.Type;
+using ArticleType = PunchClock.Cms.Model.ArticleType;
 
 namespace PunchClock.Cms.Service
 {
     public class TypeService:ITypeService
     {
-        public Type Add(Type articleType)
+        public ArticleType Add(ArticleType articleType)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -21,7 +21,7 @@ namespace PunchClock.Cms.Service
             return articleType;
         }
 
-        public Type Update(Type articleType)
+        public ArticleType Update(ArticleType articleType)
         {
             using (var context = new PunchClockDbContext())
             {

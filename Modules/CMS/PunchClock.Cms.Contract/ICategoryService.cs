@@ -5,8 +5,8 @@ namespace PunchClock.Cms.Contract
 {
    public interface ICategoryService
    {
-        Category Add(Category category);
-        Category Update(Category category);
+        ArticleCategory Add(ArticleCategory category);
+        ArticleCategory Update(ArticleCategory category);
        AjaxResponse Delete(int catgeoryId);
    }
 }

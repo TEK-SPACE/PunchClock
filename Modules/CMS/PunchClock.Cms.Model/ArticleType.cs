@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using PunchClock.Domain.Model;
 using PunchClock.Language.Model;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Model
 {
-    [Table("ArticleType")]
-  public  class Type:CommonEntity
+    public  class ArticleType:CommonEntity
     {
         [Key]
         public int Id { get; set; }

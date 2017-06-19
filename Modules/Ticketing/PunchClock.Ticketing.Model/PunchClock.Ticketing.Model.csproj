@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attachment.cs" />
-    <Compile Include="Category.cs" />
-    <Compile Include="Comment.cs" />
-    <Compile Include="Priority.cs" />
-    <Compile Include="Status.cs" />
+    <Compile Include="TicketAttachment.cs" />
+    <Compile Include="TicketCategory.cs" />
+    <Compile Include="TicketComment.cs" />
+    <Compile Include="TicketPriority.cs" />
+    <Compile Include="TicketStatus.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

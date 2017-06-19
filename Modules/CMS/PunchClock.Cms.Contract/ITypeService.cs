@@ -1,12 +1,12 @@
 ﻿using PunchClock.Core.Models.Common;
-using Type = PunchClock.Cms.Model.Type;
+using ArticleType = PunchClock.Cms.Model.ArticleType;
 
 namespace PunchClock.Cms.Contract
 {
     public interface ITypeService
     {
-        Type Add(Model.Type articleType);
-        Type Update(Model.Type articleType);
+        ArticleType Add(Model.ArticleType articleType);
+        ArticleType Update(Model.ArticleType articleType);
         AjaxResponse Delete(int id);
     }
 }

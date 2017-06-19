@@ -22,11 +22,11 @@ namespace PunchClock.Cms.Testing
             var categoryArray = new string[] {"CMS","Ticketing","Admin","RB"};
             foreach (var categoryName in categoryArray)
             {
-                var newCategory = new Category
+                var newCategory = new ArticleCategory
                 {
                     Name = categoryName,
                     Description = categoryName,
-                    LastModifiedBy = 1
+                    LastModifiedBy = null
                 };
                var  result= _categoryService.Add(newCategory);
                 Assert.IsNotNull(result);
@@ -37,13 +37,13 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-           var category = new Category
+           var category = new ArticleCategory
             {
                 Id=6,
                 Name = "Admin1",
                 Description = "Admins data",
-                LastModifiedBy = 2
-            };
+                LastModifiedBy = null
+           };
             var result = _categoryService.Update(category);
             Assert.IsNotNull(result);
         }

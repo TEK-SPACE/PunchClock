@@ -9,7 +9,7 @@ namespace PunchClock.Cms.Service
 {
     public class CategoryService: ICategoryService
     {
-        public Category Add(Category category)
+        public ArticleCategory Add(ArticleCategory category)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -21,7 +21,7 @@ namespace PunchClock.Cms.Service
             return category;
         }
 
-        public Category Update(Category category)
+        public ArticleCategory Update(ArticleCategory category)
         {
             using (var context = new PunchClockDbContext())
             {

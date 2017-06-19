@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using PunchClock.Cms.Model;
-using Type = PunchClock.Cms.Model.Type;
+using ArticleType = PunchClock.Cms.Model.ArticleType;
 
 namespace PunchClock.Cms.Contract
 {
@@ -8,13 +8,13 @@ namespace PunchClock.Cms.Contract
     {
         Article GetOneArticle(int articleId);
         IEnumerable<Article> GetManyArticles();
-        IEnumerable<Comment> GetCommentsByArticleId(int artcileId);
+        IEnumerable<ArticleComment> GetCommentsByArticleId(int artcileId);
 
-        IEnumerable<Tag> GetAllTags();
-        IEnumerable<Tag> GetTagsByCompany(int id);
-        IEnumerable<Tag> GetTagById(int id);
+        IEnumerable<ArticleTag> GetAllTags();
+        IEnumerable<ArticleTag> GetTagsByCompany(int id);
+        IEnumerable<ArticleTag> GetTagById(int id);
 
-        IEnumerable<Type> GetTypes();
-        List<Category> GetAllCategories();
+        IEnumerable<ArticleType> GetTypes();
+        List<ArticleCategory> GetAllCategories();
     }
 }
