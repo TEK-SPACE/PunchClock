@@ -12,5 +12,6 @@ namespace PunchClock.Configuration.Contract
         int Add(AppSetting appSetting);
         bool Update(AppSetting appSetting);
         bool Delete(int id);
+        bool Delete(AppSetting appSetting);
     }
 }

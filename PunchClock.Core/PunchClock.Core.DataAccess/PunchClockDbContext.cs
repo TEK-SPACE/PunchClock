@@ -10,13 +10,14 @@ using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Core.DataAccess
 {
-    public class PunchClockDbContext: IdentityDbContext<User>
+    public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
     {
         public PunchClockDbContext() : base("DefaultConnection")
         {
             //Database.SetInitializer(new PunchDbInitializer());
             //Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
-
+            this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.ProxyCreationEnabled = true;
         }
         public static PunchClockDbContext Create()
         {

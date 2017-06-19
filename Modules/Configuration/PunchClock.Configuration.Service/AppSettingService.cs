@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using PunchClock.Configuration.Contract;
 using PunchClock.Configuration.Model;
@@ -29,7 +30,7 @@ namespace PunchClock.Configuration.Service
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.AppSettings.ToList();
+                return context.AppSettings.Include(x=>x.Module).ToList();
             }
         }
 
@@ -70,12 +71,16 @@ namespace PunchClock.Configuration.Service
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                var appSetting =  context.AppSettings.FirstOrDefault(x => x.Id == id);
+                var appSetting =  context.AppSettings.Where(x=> !x.IsDeleted).FirstOrDefault(x => x.Id == id);
                 if (appSetting == null) return false;
                 appSetting.IsDeleted = true;
                 context.SaveChanges();
                 return true;
             }
+        }
+        public bool Delete(AppSetting appSetting)
+        {
+           return Delete(appSetting.Id);
         }
     }
 }

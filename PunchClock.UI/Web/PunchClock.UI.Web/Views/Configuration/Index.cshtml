@@ -3,29 +3,37 @@
     ViewBag.Title = "Configuration";
 }
 
-@(Html.Kendo().Grid<PunchClock.Configuration.Model.AppSetting>()
+@(Html.Kendo().Grid(Model)
       .Name("ConfigurationGrid")
       .Columns(columns =>
       {
-          columns.Bound(c => c.Module.Name).ClientTemplate(
-              @"<div class='customer-photo'
-                        style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></div>
-                    <div class='customer-name'>#: ContactName #</div>")
-              .Width(240);
+          columns.Bound(c => c.Module.Name);
           columns.Bound(c => c.Key);
           columns.Bound(c => c.Value);
+          columns.Command(command => { command.Edit(); command.Destroy(); }).Width(250);
       })
       .HtmlAttributes(new { style = "height: 550px;" })
       .Scrollable()
       .Groupable()
       .Sortable()
+      .ToolBar(toolbar => toolbar.Create())
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable(pageable => pageable
           .Refresh(true)
           .PageSizes(true)
           .ButtonCount(5))
       .DataSource(dataSource => dataSource
           .Ajax()
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(x => x.Module.Name).Editable(false);
+              model.Field(x => x.Key).Editable(false);
+          })
           .Read(read => read.Action("Read", "Configuration"))
+          .Create(update => update.Action("Add", "Configuration"))
+          .Update(update => update.Action("Update", "Configuration"))
+          .Destroy(update => update.Action("Delete", "Configuration"))
           .PageSize(20)
       )
 )
