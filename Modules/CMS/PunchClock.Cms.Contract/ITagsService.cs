@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PunchClock.Cms.Model;
+﻿using PunchClock.Cms.Model;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Contract
 {
     public interface ITagsService
     {
-        ArticleTag Add(ArticleTag articleTag);
-        ArticleTag Update(ArticleTag articleTag);
-        CmsResponse Delete(int id);
+        Tag Add(Tag articleTag);
+        Tag Update(Tag articleTag);
+        AjaxResponse Delete(int id);
     }
 }

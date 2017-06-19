@@ -3,16 +3,17 @@ using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Service
 {
-   public class TagService:ITagsService
+   public class TagService: ITagsService
     {
-        public ArticleTag Add(ArticleTag articleTag)
+        public Tag Add(Tag articleTag)
         {
             using (var context = new PunchClockDbContext())
             {
-                articleTag.CreatedDate=DateTime.Now;;
+                articleTag.CreatedDate=DateTime.Now;
                 articleTag.IsDeleted = false;
                 context.ArticleTags.Add(articleTag);
                 context.SaveChanges();
@@ -21,7 +22,7 @@ namespace PunchClock.Cms.Service
             return articleTag;
         }
 
-        public ArticleTag Update(ArticleTag articleTag)
+        public Tag Update(Tag articleTag)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -29,7 +30,7 @@ namespace PunchClock.Cms.Service
                 if (existingTag == null) return articleTag;
                 existingTag.Name = articleTag.Name;
                 existingTag.Description = articleTag.Description;
-                existingTag.ModifiedDate = DateTime.Now; ;
+                existingTag.ModifiedDate = DateTime.Now;
                 existingTag.IsDeleted = false;
                 context.SaveChanges();
 
@@ -37,9 +38,9 @@ namespace PunchClock.Cms.Service
             return articleTag;
         }
 
-        public CmsResponse Delete(int id)
+        public AjaxResponse Delete(int id)
         {
-            var response = new CmsResponse
+            var response = new AjaxResponse
             {
                 ResponseId = id,
                 ResponseText = "Record is not deleted",

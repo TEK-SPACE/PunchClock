@@ -4,7 +4,7 @@ using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
-using ArticleType = PunchClock.Cms.Model.ArticleType;
+using Type = PunchClock.Cms.Model.Type;
 
 namespace PunchClock.Cms.Service
 {
@@ -25,17 +25,17 @@ namespace PunchClock.Cms.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ArticleComments> GetCommentsByArticleId(int artcileId)
+        public IEnumerable<Comment> GetCommentsByArticleId(int artcileId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ArticleTag> GeTags()
+        public IEnumerable<Tag> GeTags()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ArticleType> GetTypes()
+        public IEnumerable<Type> GetTypes()
         {
             throw new NotImplementedException();
         }

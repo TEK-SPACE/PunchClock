@@ -65,6 +65,10 @@
     <Compile Include="TypeServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
+      <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
+      <Name>PunchClock.Core.Models.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PunchClock.Cms.Contract\PunchClock.Cms.Contract.csproj">
       <Project>{e190c8ea-4ec4-43aa-9a28-b84a1fa89004}</Project>
       <Name>PunchClock.Cms.Contract</Name>

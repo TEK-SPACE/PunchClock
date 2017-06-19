@@ -1,4 +1,5 @@
 ﻿using PunchClock.Cms.Model;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Contract
 {
@@ -6,6 +7,6 @@ namespace PunchClock.Cms.Contract
    {
         Category Add(Category category);
         Category Update(Category category);
-        CmsResponse Delete(int catgeoryId);
+       AjaxResponse Delete(int catgeoryId);
    }
 }

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PunchClock.Cms.Model;
+﻿using PunchClock.Core.Models.Common;
+using Type = PunchClock.Cms.Model.Type;
 
 namespace PunchClock.Cms.Contract
 {
-   public interface ITypeService
-   {
-        ArticleType Add(ArticleType articleType);
-        ArticleType Update(ArticleType articleType);
-        CmsResponse Delete(int id);
-   }
+    public interface ITypeService
+    {
+        Type Add(Model.Type articleType);
+        Type Update(Model.Type articleType);
+        AjaxResponse Delete(int id);
+    }
 }

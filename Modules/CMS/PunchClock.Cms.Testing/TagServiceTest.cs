@@ -18,7 +18,7 @@ namespace PunchClock.Cms.Testing
        [Test]
         public void Add()
         {
-            var tag = new ArticleTag()
+            var tag = new Tag()
             {
 
                 Description = "Test data",
@@ -31,7 +31,7 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-           var tag = new ArticleTag()
+           var tag = new Tag()
             {
                 Id=1,
                 Description = "Test11 data",

@@ -4,8 +4,8 @@ using PunchClock.Domain.Model;
 
 namespace PunchClock.Cms.Model
 {
-    [Table("ArticleCategory")]
-    public class Category:CommonEntity
+    [Table("ArticleTag")]
+   public class Tag:CommonEntity
     {
         [Key]
         public int Id { get; set; }

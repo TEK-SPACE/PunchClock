@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Cms.Model
 {
-  
-    public  class ArticleComments:CommonEntity
+  [Table("ArticleComments")]
+    public  class Comment:CommonEntity
     {
         [Key]
         public int Id { get; set; }

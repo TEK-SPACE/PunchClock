@@ -1,4 +1,5 @@
 ﻿using PunchClock.Cms.Model;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Contract
 {
@@ -6,6 +7,6 @@ namespace PunchClock.Cms.Contract
    {
        Article Add(Article article);
         Article Update(Article article);
-        CmsResponse Delete(int articleId);
+       AjaxResponse Delete(int articleId);
    }
 }

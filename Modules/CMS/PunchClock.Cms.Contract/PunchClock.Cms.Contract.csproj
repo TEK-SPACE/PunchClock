@@ -50,6 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
+      <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
+      <Name>PunchClock.Core.Models.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PunchClock.Cms.Model\PunchClock.Cms.Model.csproj">
       <Project>{1adf9c27-b460-46bb-b2be-379a7e3f5321}</Project>
       <Name>PunchClock.Cms.Model</Name>

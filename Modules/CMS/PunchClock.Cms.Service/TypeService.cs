@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq;
 using PunchClock.Cms.Contract;
-using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
+using PunchClock.Core.Models.Common;
+using Type = PunchClock.Cms.Model.Type;
 
 namespace PunchClock.Cms.Service
 {
     public class TypeService:ITypeService
     {
-        public ArticleType Add(ArticleType articleType)
+        public Type Add(Type articleType)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -20,7 +21,7 @@ namespace PunchClock.Cms.Service
             return articleType;
         }
 
-        public ArticleType Update(ArticleType articleType)
+        public Type Update(Type articleType)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -35,9 +36,9 @@ namespace PunchClock.Cms.Service
             return articleType;
         }
 
-        public CmsResponse Delete(int id)
+        public AjaxResponse Delete(int id)
         {
-            var response = new CmsResponse
+            var response = new AjaxResponse
             {
                 ResponseId = id,
                 ResponseText = "Record is not deleted",

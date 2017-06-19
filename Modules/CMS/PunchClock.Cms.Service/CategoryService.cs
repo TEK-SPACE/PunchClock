@@ -3,6 +3,7 @@ using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
+using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Service
 {
@@ -35,9 +36,9 @@ namespace PunchClock.Cms.Service
             return category;
         }
 
-        public CmsResponse Delete(int catgeoryId)
+        public AjaxResponse Delete(int catgeoryId)
         {
-            var response = new CmsResponse
+            var response = new AjaxResponse
             {
                 ResponseId = catgeoryId,
                 ResponseText = "Record is not deleted",

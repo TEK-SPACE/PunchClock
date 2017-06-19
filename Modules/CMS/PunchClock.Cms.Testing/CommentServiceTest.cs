@@ -18,7 +18,7 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Add()
         {
-            var comment = new ArticleComments()
+            var comment = new Comment()
             {
                 Description = "Test data",
                 ArticleId = 1,
@@ -30,7 +30,7 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-            var comment = new ArticleComments()
+            var comment = new Comment()
             {
                 Description = "Test datass",
                 ArticleId = 1,

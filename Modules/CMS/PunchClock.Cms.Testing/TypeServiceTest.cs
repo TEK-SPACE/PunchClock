@@ -18,7 +18,7 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Add()
         {
-            var type = new ArticleType()
+            var type = new Type()
             {
                 Description = "Test data",
                 Name = "Test",
@@ -30,7 +30,7 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Update()
         {
-            var type = new ArticleType()
+            var type = new Type()
             {
                 Id=1,
                 Description = "Test11 data",

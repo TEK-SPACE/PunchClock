@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AjaxResponse.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Enum\CompanyTransaction.cs" />
     <Compile Include="Enum\EmploymentType.cs" />
