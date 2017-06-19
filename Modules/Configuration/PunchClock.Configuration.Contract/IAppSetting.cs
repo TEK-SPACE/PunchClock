@@ -9,5 +9,8 @@ namespace PunchClock.Configuration.Contract
         List<AppSetting> GetByModule(int moduleId);
         List<AppSetting> All();
         AppSetting GetByKey(int moduleId, string keyName);
+        int Add(AppSetting appSetting);
+        bool Update(AppSetting appSetting);
+        bool Delete(int id);
     }
 }
