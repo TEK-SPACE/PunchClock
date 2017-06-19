@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PunchClock.Configuration.Testing
+namespace PunchClock.TimeTracker.Model
 {
     public class Class1
     {

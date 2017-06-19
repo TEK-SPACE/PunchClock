@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PunchClock.Configuration.Testing")]
+[assembly: AssemblyTitle("PunchClock.TimeTracker.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PunchClock.Configuration.Testing")]
+[assembly: AssemblyProduct("PunchClock.TimeTracker.Service")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("818fbdc5-f648-42b7-b6b3-3a73c1a2e33f")]
+[assembly: Guid("d1a2fb65-b66f-414d-9123-9efb8bdbb94a")]
 
 // Version information for an assembly consists of the following four values:
 //
