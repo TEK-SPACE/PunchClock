@@ -8,7 +8,7 @@ using Type = PunchClock.Cms.Model.Type;
 
 namespace PunchClock.Cms.Service
 {
-   public class LookupService:ILookupService
+   public class LookupService: ILookupService
     {
         public Article GetOneArticle(int articleId)
         {
@@ -30,7 +30,17 @@ namespace PunchClock.Cms.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Tag> GeTags()
+        public IEnumerable<Tag> GetAllTags()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Tag> GetTagsByCompany(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Tag> GetTagById(int id)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +56,7 @@ namespace PunchClock.Cms.Service
             List<Category> categories;
              using (var context = new PunchClockDbContext())
             {
-              var  categorys = from category in context.Categrories
+              var  categorys = from category in context.ArticleCategrories
                                where category.IsDeleted == false
                                select category;
                 categories = categorys.ToList();

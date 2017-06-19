@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
-using PunchClock.Cms.Model;
 using PunchClock.Configuration.Model;
-using PunchClock.Core.DataAccess.Seeders;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
-using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+
 namespace PunchClock.Core.DataAccess
 {
-    public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
+    public class PunchClockDbContext: IdentityDbContext<User>
     {
         public PunchClockDbContext() : base("DefaultConnection")
         {
@@ -44,10 +42,11 @@ namespace PunchClock.Core.DataAccess
 
 
         public DbSet<Cms.Model.Article> Articles { get; set; }
-        public DbSet<Cms.Model.Category> Categrories { get; set; }
+        public DbSet<Cms.Model.Category> ArticleCategrories { get; set; }
         public DbSet<Cms.Model.Comment> ArticleComments { get; set; }
         public DbSet<Cms.Model.Tag> ArticleTags { get; set; }
         public DbSet<Cms.Model.Type> ArticleTypes { get; set; }
+
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }

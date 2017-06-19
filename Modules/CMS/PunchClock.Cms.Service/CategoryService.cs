@@ -15,7 +15,7 @@ namespace PunchClock.Cms.Service
             {
                 category.CreatedDate = DateTime.Now;
                 category.IsDeleted = false;
-                context.Categrories.Add(category);
+                context.ArticleCategrories.Add(category);
                 context.SaveChanges();
             }
             return category;
@@ -25,7 +25,7 @@ namespace PunchClock.Cms.Service
         {
             using (var context = new PunchClockDbContext())
             {
-                var existCategory = context.Categrories.FirstOrDefault(x => x.Id == category.Id);
+                var existCategory = context.ArticleCategrories.FirstOrDefault(x => x.Id == category.Id);
                 if (existCategory == null) return category;
                 existCategory.ModifiedDate = DateTime.Now;
                 existCategory.IsDeleted = false;
@@ -46,7 +46,7 @@ namespace PunchClock.Cms.Service
             };
             using (var context = new PunchClockDbContext())
             {
-                var category = context.Categrories.FirstOrDefault(x => x.Id == catgeoryId);
+                var category = context.ArticleCategrories.FirstOrDefault(x => x.Id == catgeoryId);
                 if (category == null) return response;
                 category.ModifiedDate = DateTime.Now;
                 category.IsDeleted = true;
