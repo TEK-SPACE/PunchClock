@@ -6,9 +6,9 @@ using PunchClock.Core.DataAccess;
 
 namespace PunchClock.Cms.Service
 {
-    public class CategoryService: ICategory
+    public class CategoryService: ICategoryService
     {
-        public int Add(Category category)
+        public Category Add(Category category)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -17,31 +17,42 @@ namespace PunchClock.Cms.Service
                 context.Categrories.Add(category);
                 context.SaveChanges();
             }
-            return category.Id;
+            return category;
         }
 
-        public int Update(Category category)
+        public Category Update(Category category)
         {
             using (var context = new PunchClockDbContext())
             {
-                category.ModifiedDate = DateTime.Now;
-                category.IsDeleted = false;
+                var existCategory = context.Categrories.FirstOrDefault(x => x.Id == category.Id);
+                if (existCategory == null) return category;
+                existCategory.ModifiedDate = DateTime.Now;
+                existCategory.IsDeleted = false;
+                existCategory.Description = category.Description;
+                existCategory.Name = category.Name;
                 context.SaveChanges();
             }
-            return category.Id;
+            return category;
         }
 
-        public bool Delete(int catgeoryId)
+        public CmsResponse Delete(int catgeoryId)
         {
-
+            var response = new CmsResponse
+            {
+                ResponseId = catgeoryId,
+                ResponseText = "Record is not deleted",
+                Success = false
+            };
             using (var context = new PunchClockDbContext())
             {
                 var category = context.Categrories.FirstOrDefault(x => x.Id == catgeoryId);
-                if (category == null) return false;
+                if (category == null) return response;
                 category.ModifiedDate = DateTime.Now;
                 category.IsDeleted = true;
                 context.SaveChanges();
-                return true;
+                response.ResponseText = "Category is Deleted.";
+                response.Success = true;
+                return response;
             }
            
         }

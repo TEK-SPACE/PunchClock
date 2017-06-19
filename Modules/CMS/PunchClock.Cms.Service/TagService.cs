@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
 
 namespace PunchClock.Cms.Service
 {
-   public class TagService:ITags
+   public class TagService:ITagsService
     {
-        public int Add(ArticleTag articleTag)
+        public ArticleTag Add(ArticleTag articleTag)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -21,31 +18,43 @@ namespace PunchClock.Cms.Service
                 context.SaveChanges();
 
             }
-            return articleTag.Id;
+            return articleTag;
         }
 
-        public int Update(ArticleTag articleTag)
+        public ArticleTag Update(ArticleTag articleTag)
         {
             using (var context = new PunchClockDbContext())
             {
-                articleTag.ModifiedDate = DateTime.Now; ;
-                articleTag.IsDeleted = false;
+                var existingTag = context.ArticleTags.FirstOrDefault(x => x.Id == articleTag.Id);
+                if (existingTag == null) return articleTag;
+                existingTag.Name = articleTag.Name;
+                existingTag.Description = articleTag.Description;
+                existingTag.ModifiedDate = DateTime.Now; ;
+                existingTag.IsDeleted = false;
                 context.SaveChanges();
 
             }
-            return articleTag.Id;
+            return articleTag;
         }
 
-        public bool Delete(int id)
+        public CmsResponse Delete(int id)
         {
+            var response = new CmsResponse
+            {
+                ResponseId = id,
+                ResponseText = "Record is not deleted",
+                Success = false
+            };
             using (var context = new PunchClockDbContext())
             {
                 var tags = context.ArticleTags.FirstOrDefault(x => x.Id == id);
-                if (tags == null) return false;
+                if (tags == null) return response;
                 tags.IsDeleted = true;
                 tags.ModifiedDate = DateTime.Now;
                 context.SaveChanges();
-                return true;
+                response.ResponseText = "Tag is Deleted.";
+                response.Success = true;
+                return response;
             }
         }
     }

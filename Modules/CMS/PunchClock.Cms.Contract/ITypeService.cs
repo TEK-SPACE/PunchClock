@@ -7,10 +7,10 @@ using PunchClock.Cms.Model;
 
 namespace PunchClock.Cms.Contract
 {
-   public interface IType
+   public interface ITypeService
    {
-       int Add(ArticleType articleType);
-       int Update(ArticleType articleType);
-       bool Delete(int id);
+        ArticleType Add(ArticleType articleType);
+        ArticleType Update(ArticleType articleType);
+        CmsResponse Delete(int id);
    }
 }

@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
 
 namespace PunchClock.Cms.Service
 {
-   public class CommentService:IComment
+   public class CommentService:ICommentService
     {
 
-        public int Add(ArticleComments comment)
+        public ArticleComments Add(ArticleComments comment)
         {
             using (var context = new PunchClockDbContext())
             {
@@ -21,31 +18,42 @@ namespace PunchClock.Cms.Service
                 context.ArticleComments.Add(comment);
                 context.SaveChanges();
             }
-            return comment.Id;
+            return comment;
         }
 
-        public int Update(ArticleComments comments)
+        public ArticleComments Update(ArticleComments comments)
         {
             using (var context = new PunchClockDbContext())
             {
-
-                comments.ModifiedDate = DateTime.Now;
-                comments.IsDeleted = false;
+                var existingComment = context.ArticleComments.FirstOrDefault(x => x.Id == comments.Id);
+                if (existingComment == null) return comments;
+                existingComment.ModifiedDate = DateTime.Now;
+                existingComment.Description = comments.Description;
+                existingComment.ArticleId = comments.ArticleId;
+                existingComment.IsDeleted = false;
                 context.SaveChanges();
             }
-            return comments.Id;
+            return comments;
         }
 
-      public bool Delete(int id)
+      public CmsResponse Delete(int id)
         {
+            var response = new CmsResponse
+            {
+                ResponseId = id,
+                ResponseText = "Record is not deleted",
+                Success = false
+            };
             using (var context = new PunchClockDbContext())
             {
                 var comment = context.ArticleComments.FirstOrDefault(x => x.Id == id);
-                if (comment == null) return false;
+                if (comment == null) return response;
                 comment.ModifiedDate = DateTime.Now;
                 comment.IsDeleted = true;
                 context.SaveChanges();
-                return true;
+                response.ResponseText = "Comment is Deleted.";
+                response.Success = true;
+                return response;
             }
         }
     }

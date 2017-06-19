@@ -7,10 +7,10 @@ using PunchClock.Cms.Model;
 
 namespace PunchClock.Cms.Contract
 {
-    public interface ITags
+    public interface ICommentService
     {
-        int Add(ArticleTag articleTag);
-        int Update(ArticleTag articleTag);
-        bool Delete(int id);
+        ArticleComments Add(ArticleComments comment);
+        ArticleComments Update(ArticleComments comments);
+        CmsResponse Delete(int id);
     }
 }

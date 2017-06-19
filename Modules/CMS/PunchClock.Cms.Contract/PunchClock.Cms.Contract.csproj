@@ -41,12 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IArticle.cs" />
-    <Compile Include="ICategory.cs" />
-    <Compile Include="IComment.cs" />
-    <Compile Include="ILookup.cs" />
-    <Compile Include="ITags.cs" />
-    <Compile Include="IType.cs" />
+    <Compile Include="IArticleService.cs" />
+    <Compile Include="ICategoryService.cs" />
+    <Compile Include="ICommentService.cs" />
+    <Compile Include="ILookupService.cs" />
+    <Compile Include="ITagsService.cs" />
+    <Compile Include="ITypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Cms.Model;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
-
+using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 namespace PunchClock.Core.DataAccess
 {
     public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
@@ -14,6 +14,7 @@ namespace PunchClock.Core.DataAccess
         public PunchClockDbContext() : base("DefaultConnection")
         {
             //Database.SetInitializer(new PunchDbInitializer());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
 
         }
         public static PunchClockDbContext Create()
