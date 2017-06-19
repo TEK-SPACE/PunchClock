@@ -102,13 +102,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Seeders\Company.cs" />
+    <Compile Include="Seeders\AppSetting.cs" />
     <Compile Include="Models\GenericRepository.cs" />
     <Compile Include="Models\PunchRepository.cs" />
     <Compile Include="Models\CompanyRepository.cs" />
     <Compile Include="Models\ComplexTypeRepository.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="PunchClockDbContext.cs" />
-    <Compile Include="PunchDBInitializer.cs" />
+    <Compile Include="Seeders\Employement.cs" />
+    <Compile Include="Seeders\Geo.cs" />
+    <Compile Include="Seeders\Holidays.cs" />
+    <Compile Include="Seeders\Module.cs" />
+    <Compile Include="Seeders\PunchDBInitializer.cs" />
+    <Compile Include="Seeders\TicketStatus.cs" />
+    <Compile Include="Seeders\User.cs" />
     <Compile Include="StateHelper.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +125,10 @@
     <ProjectReference Include="..\..\Modules\CMS\PunchClock.Cms.Model\PunchClock.Cms.Model.csproj">
       <Project>{1adf9c27-b460-46bb-b2be-379a7e3f5321}</Project>
       <Name>PunchClock.Cms.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Configuration\PunchClock.Configuration.Model\PunchClock.Configuration.Model.csproj">
+      <Project>{dd8b80c3-f1d5-41fb-b4b6-e06b25ded4ba}</Project>
+      <Name>PunchClock.Configuration.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Modules\Ticketing\PunchClock.Ticketing.Model\PunchClock.Ticketing.Model.csproj">
       <Project>{8df6e84e-73c8-4bdc-80ea-b0ec0d55776a}</Project>

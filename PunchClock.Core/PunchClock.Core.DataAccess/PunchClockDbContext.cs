@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Cms.Model;
+using PunchClock.Configuration.Model;
+using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
@@ -42,6 +44,10 @@ namespace PunchClock.Core.DataAccess
         public DbSet<ArticleComments> ArticleComments { get; set; }
         public DbSet<ArticleTag> ArticleTags { get; set; }
         public DbSet<ArticleType> ArticleTypes { get; set; }
+
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<AppSetting> AppSettings { get; set; }
+
         public List<Holiday> GetCompanyHolidays(int companyId)
         {
             return (from h in Holidays

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Ticketing.Model
 {
+    [Table("TicketStatus")]
     public class Status
     {
         [Key]

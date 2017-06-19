@@ -333,6 +333,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CMSController.cs" />
     <Compile Include="Controllers\EmployerController.cs" />
@@ -1931,6 +1932,7 @@
     <Content Include="Views\User\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\CMS\Index.cshtml" />
+    <Content Include="Views\Admin\Config.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1957,6 +1959,10 @@
     <ProjectReference Include="..\..\..\Modules\CMS\PunchClock.Cms.Service\PunchClock.Cms.Service.csproj">
       <Project>{7ee33cbc-c9aa-4acc-97c1-b8edd4acaafb}</Project>
       <Name>PunchClock.Cms.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\Configuration\PunchClock.Configuration.Model\PunchClock.Configuration.Model.csproj">
+      <Project>{dd8b80c3-f1d5-41fb-b4b6-e06b25ded4ba}</Project>
+      <Name>PunchClock.Configuration.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
