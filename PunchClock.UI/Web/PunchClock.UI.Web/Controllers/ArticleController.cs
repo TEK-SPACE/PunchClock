@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    public class CMSController : Controller
+    public class ArticleController : Controller
     {
         // GET: CMS
-        public ActionResult Index()
+        public ActionResult Add()
         {
             return View();
         }
