@@ -356,3 +356,8 @@ $(function () {
             return days[this.getDay()];
         };
     })();
+
+function appSettingEditable(dataItem) {
+    // do not allow editing for product with ProductID=3
+    return dataItem.IsEditable;
+}

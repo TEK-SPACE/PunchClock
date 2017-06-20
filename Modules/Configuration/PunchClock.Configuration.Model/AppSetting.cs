@@ -19,6 +19,7 @@ namespace PunchClock.Configuration.Model
         public KeyValueType ValueType { get; set; }
         public bool IsPrivate { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public bool IsEditable { get; set; } = true;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime ModifiedDate { get; set; } = DateTime.Now;
     }
