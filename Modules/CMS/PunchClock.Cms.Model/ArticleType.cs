@@ -13,9 +13,7 @@ namespace PunchClock.Cms.Model
         public int Id { get; set; }
         public string Name { get; set; } //masterTask
         public string Description { get; set; }
-        public int CompanyId { get; set; }
-        [ForeignKey("CompanyId")]
-        public virtual Company Company { get; set; }
+     
         public List<ArticleTypeResource> Resources { get; set; }
     }
 }
