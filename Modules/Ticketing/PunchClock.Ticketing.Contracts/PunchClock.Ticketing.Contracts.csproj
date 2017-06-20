@@ -40,10 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITicketAttachment.cs" />
+    <Compile Include="ICategory.cs" />
+    <Compile Include="IComment.cs" />
+    <Compile Include="IPriority.cs" />
+    <Compile Include="IStatus.cs" />
     <Compile Include="ITicket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
+      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
+      <Name>PunchClock.Core.Models.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PunchClock.Ticketing.Model\PunchClock.Ticketing.Model.csproj">
       <Project>{8df6e84e-73c8-4bdc-80ea-b0ec0d55776a}</Project>
       <Name>PunchClock.Ticketing.Model</Name>

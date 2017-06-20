@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using PunchClock.Core.Models.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Ticketing.Model
 {
-    public class Ticket
+    public class Ticket:CommonEntity
     {
         [Key]
         public int Id { get; set; }
