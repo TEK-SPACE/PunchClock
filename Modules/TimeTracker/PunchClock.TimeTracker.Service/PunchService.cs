@@ -145,6 +145,62 @@ namespace PunchClock.TimeTracker.Service
             }
         }
 
+        public void Add(Punch punch)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                context.Punches.Add(punch);
+                context.SaveChanges();
+            }
+        }
+
+        public List<Punch> All()
+        {
+            PunchClockDbContext context = new PunchClockDbContext();
+            return context.Punches.Where(x => x.PunchOut != null).Include(x=>x.User).ToList();
+        }
+
+        public void Update(Punch punch)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                var updateEntity = context.Punches.FirstOrDefault(x => x.Id == punch.Id);
+                if (updateEntity != null)
+                {
+                    updateEntity.PunchDate = punch.PunchDate;
+                    updateEntity.PunchIn = punch.PunchIn;
+                    updateEntity.PunchOut = punch.PunchOut;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public void Delete(Punch punch)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                var updateEntity = context.Punches.FirstOrDefault(x => x.Id == punch.Id);
+                if (updateEntity != null)
+                {
+                    context.Punches.Remove(updateEntity);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public void Approve(Punch punch)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                var updateEntity = context.Punches.FirstOrDefault(x => x.Id == punch.Id);
+                if (updateEntity != null)
+                {
+                    updateEntity.ManagerAccepted = true;
+                    context.SaveChanges();
+                }
+            }
+        }
+
         #region Private Methods
 
         private static bool IsUserAuthorizedTo(int opUserId, PunchClockDbContext context)

@@ -1,12 +1,12 @@
-﻿@model PunchClock.View.Model.CompanyView
+﻿@model PunchClock.Domain.Model.Company
 <div class="col-lg-10">
     <div class="well">
-        @using (Html.BeginForm("Edit", "Employer", null, FormMethod.Post, new { enctype = "multipart/form-data", id = "imgForm" }))
+        @using (Html.BeginForm("Edit", "Company", null, FormMethod.Post, new { enctype = "multipart/form-data", id = "imgForm" }))
         {
             <fieldset>
                 @Html.ValidationSummary()
                 @Html.AntiForgeryToken()
-                @Html.HiddenFor(x => x.CompanyId)
+                @Html.HiddenFor(x => x.Id)
                 @*<legend>Details</legend>*@
 
                 <div class="form-group">

@@ -1,31 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PunchClock.View.Model;
 using Microsoft.AspNet.Identity.Owin;
-using PunchClock.Domain.Model;
+using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
 using PunchClock.Core.Models.Common.Enum;
+using PunchClock.Domain.Model;
+using PunchClock.View.Model;
+using EmploymentType = PunchClock.Core.Models.Common.Enum.EmploymentType;
+using UserType = PunchClock.Core.Models.Common.Enum.UserType;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    public class EmployerController : BaseController
+    public class CompanyController : BaseController
     {
         private readonly UserService _userService;
-        private readonly CompanyService _companyService;
+        private readonly ICompanyRepository _companyService;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public EmployerController()
+        public CompanyController()
         {
             _userService = new UserService();
             _companyService = new CompanyService();
         }
-        public EmployerController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public CompanyController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             _userService = new UserService();
             _companyService = new CompanyService();
@@ -64,41 +66,42 @@ namespace PunchClock.UI.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            CompanyView model = new CompanyView {User = new User()};
+            Company model = new Company {CreatedBy = new User()};
             if (User.Identity.IsAuthenticated)
             {
                 var eligibleUsers = new List<int>
                 {
-                    (int) Core.Models.Common.Enum.UserType.CompanyAdmin,
-                    (int) Core.Models.Common.Enum.UserType.Admin
+                    (int) UserType.CompanyAdmin,
+                    (int) UserType.Admin
                 };
                 if (eligibleUsers.Any(x=>x.Equals(OperatingUser.UserTypeId) ))
                 {
-                    return RedirectToAction("Details", "Employer", new { id = OperatingUser.CompanyId });
+                    return RedirectToAction("Details", "Company", new { id = OperatingUser.CompanyId });
                 }
                 return RedirectToAction("Index", "Home", null);
             }
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
-            model.User.TimezonesList = (from t in systemTimeZones
+            model.CreatedBy.TimezonesList = (from t in systemTimeZones
                                   orderby t.Id
                                   select new SelectListItem
                                   {
                                       Value = t.Id,
                                       Text = t.Id
                                   }).ToList();
-            model.User.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
+            model.CreatedBy.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
             ViewBag.Message = "Please enter your company information";
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Register(CompanyView companyView, HttpPostedFileBase logo)
+        public ActionResult Register(Company company, HttpPostedFileBase logo)
         {
 
-            if (_userService.Get(userName: companyView.User.UserName).Any())
+            if (_userService.Get(userName: company.CreatedBy.UserName).Any())
             {
-                ModelState.AddModelError("", $"Username { companyView.User.UserName} is already in use. Please try with a different username");
-                return View(companyView);
+                ModelState.AddModelError("",
+                    $"Username {company.CreatedBy.UserName} is already in use. Please try with a different username");
+                return View(company);
             }
 
             // need to handle the file size
@@ -112,39 +115,39 @@ namespace PunchClock.UI.Web.Controllers
                         memoryStream = new MemoryStream();
                         inputStream.CopyTo(memoryStream);
                     }
-                    companyView.LogoUrl = logo.FileName;
-                    companyView.LogoBinary = memoryStream.ToArray();
+                    company.LogoUrl = logo.FileName;
+                    company.LogoBinary = memoryStream.ToArray();
                 }
             }
-            companyView.CompanyId = _companyService.Add(companyView);
+            company.Id = _companyService.Add(company);
 
-            if (companyView.CompanyId == (int)RegistrationStatus.DuplicateCompany)
+            if (company.Id == (int) RegistrationStatus.DuplicateCompany)
             {
-                ModelState.AddModelError("", $"Company {companyView.User.UserName} is already registerted");
-                return View(companyView);
+                ModelState.AddModelError("", $"Company {company.CreatedBy.UserName} is already registerted");
+                return View(company);
             }
-            else if (companyView.CompanyId < 1)
+            if (company.Id < 1)
             {
                 ViewBag.Message = "Sorry. Failed to Add your company";
-                return View(companyView);
+                return View(company);
             }
 
-            companyView.User.UserRegisteredIp = UserSession.IpAddress;
-            companyView.User.RegisteredMacAddress = UserSession.MacAddress;
-            companyView.User.LastActivityIp = UserSession.IpAddress;
-            companyView.User.LastActiveMacAddress = UserSession.MacAddress;
-            companyView.User.RegistrationCode = companyView.RegisterCode;
-            companyView.User.UserTypeId = (int)Core.Models.Common.Enum.UserType.CompanyAdmin;
-            companyView.User.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly;
-            companyView.User.CompanyId = companyView.CompanyId;
-            companyView.CompanyId = companyView.CompanyId;
-         
+            company.CreatedBy.UserRegisteredIp = UserSession.IpAddress;
+            company.CreatedBy.RegisteredMacAddress = UserSession.MacAddress;
+            company.CreatedBy.LastActivityIp = UserSession.IpAddress;
+            company.CreatedBy.LastActiveMacAddress = UserSession.MacAddress;
+            company.CreatedBy.RegistrationCode = company.RegisterCode;
+            company.CreatedBy.UserTypeId = (int) UserType.CompanyAdmin;
+            company.CreatedBy.EmploymentTypeId = (int) EmploymentType.ContractHourly;
+            company.CreatedBy.CompanyId = company.Id;
+            company.Id = company.Id;
+
             try
             {
-                var result = UserManager.CreateAsync(companyView.User, companyView.User.Password).Result;
+                var result = UserManager.CreateAsync(company.CreatedBy, company.CreatedBy.Password).Result;
                 if (result.Succeeded)
                 {
-                    SignInManager.SignIn(companyView.User, isPersistent: false, rememberBrowser: false);
+                    SignInManager.SignIn(company.CreatedBy, isPersistent: false, rememberBrowser: false);
                 }
                 else
                 {
@@ -154,25 +157,25 @@ namespace PunchClock.UI.Web.Controllers
                     }
                 }
             }
-            catch (Exception exception)
+            catch
             {
-                throw;
+                // ignored
             }
 
-            if (companyView.CompanyId >0)
+            if (company.Id > 0)
             {
-                _companyService.SetCreatedBy(companyId: companyView.CompanyId, userId: companyView.User.Uid);
-                ViewBag.Message = "Your company code <strong>" + companyView.RegisterCode + "</strong>. Your employees need this code to sign up for their account.";
+                _companyService.SetCreatedBy(companyId: company.Id, userId: company.CreatedBy.Uid);
+                ViewBag.Message = "Your company code <strong>" + company.RegisterCode +
+                                  "</strong>. Your employees need this code to sign up for their account.";
             }
-            return View(companyView);
+            return View(company);
         }
 
         [HttpGet]
         public ActionResult Employees(int id)
         {
-            ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones();
-            UserService ub = new UserService();
-            var employees = ub.GetAllUsers(companyId: id);
+            UserService userService = new UserService();
+            var employees = userService.GetAllUsers(companyId: id);
             return PartialView("_Employees", employees);
         }
 
@@ -189,16 +192,15 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Edit(int id)
         {
-            CompanyView model = null;
+            Company model = null;
             var eligibleUsers = new List<int>
             {
-                (int) Core.Models.Common.Enum.UserType.CompanyAdmin,
-                (int) Core.Models.Common.Enum.UserType.Admin
+                (int) UserType.CompanyAdmin,
+                (int) UserType.Admin
             };
             if (eligibleUsers.Any(x => x.Equals(OperatingUser.UserTypeId)))
             {
-                CompanyService cb = new CompanyService();
-                model = cb.Get(OperatingUser.CompanyId);
+                model = _companyService.Get(OperatingUser.CompanyId);
             }
             ViewBag.Message = "Please enter your company information";
             return PartialView("_Edit", model);
@@ -208,11 +210,9 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult SetHolidays(int id)
         {
-            List<CompanyHolidayView> hld = new List<CompanyHolidayView>();
-            CompanyService cb = new CompanyService();
-            hld = cb.CompanyHolidays(id);
-            Dictionary<string, List<CompanyHolidayView>> obj = hld.GroupBy(x => x.HolidayType).ToDictionary(g => g.Key, g => g.ToList());
-           //var retObj = hld.GroupBy(x => x.HolidayType, x => x, (key, g) => new { HolidayType = key, CompanyHolidayObjLibrary = g.ToList() }).ToList();
+            var companyHolidays = _companyService.CompanyHolidays(id);
+            Dictionary<string, List<CompanyHolidayView>> obj =
+                companyHolidays.GroupBy(x => x.HolidayType).ToDictionary(g => g.Key, g => g.ToList());
             ViewBag.companyId = id;
             return PartialView("_SetHolidays", obj);
         }
@@ -221,21 +221,20 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult SetHolidays(string id, string[] holidayId)
         {
-            List<View.Model.CompanyHolidayView> hld = new List<View.Model.CompanyHolidayView>();
+            List<CompanyHolidayView> hld = new List<CompanyHolidayView>();
 
             foreach (var hid in holidayId)
             {
                 int tmpHid;
                 if(int.TryParse(hid,out tmpHid)){
-                    hld.Add(new View.Model.CompanyHolidayView
+                    hld.Add(new CompanyHolidayView
                     {
                         CompanyId = Convert.ToInt32(id),
                         HolidayId = tmpHid
                     });
                 }
             }
-            CompanyService cb = new CompanyService();
-            cb.UpdateCompanyHolidays(hld);
+            _companyService.UpdateCompanyHolidays(hld);
             return Json(new { isUpdated = true });
         }
 
@@ -245,28 +244,25 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult PaidHolidayPkg(int id)
         {
-            CompanyService companyService = new CompanyService();
-            var pkg = companyService.PaidHolidayPkg(id);
+            var paidHolidayPkg = _companyService.PaidHolidayPkg(id);
             SiteService siteService = new SiteService();
             List<SelectListItem> employmentTypes = siteService.GetEmploymentTypes(id);
             ViewBag.employmentTypes = employmentTypes;
-            return PartialView("_PaidHolidayPkg", pkg);
+            return PartialView("_PaidHolidayPkg", paidHolidayPkg);
         }
 
         [HttpPost]
         [Authorize]
-        public JsonResult PaidHolidayPkg(List<View.Model.EmployeePaidHolidayView> pkg)
+        public JsonResult PaidHolidayPkg(List<EmployeePaidHolidayView> pkg)
         {
-            CompanyService cb = new CompanyService();
-            cb.UpdatePaidHolidayPkg(pkg);
+            _companyService.UpdatePaidHolidayPkg(pkg);
             return Json(true);
         }
 
         [HttpPost][Authorize]
-        public ActionResult Edit(View.Model.CompanyView companyView, HttpPostedFileBase logo)
+        public ActionResult Edit(Company company, HttpPostedFileBase logo)
         {
             ViewBag.Message = "Successfully Updated";
-            CompanyService cb = new CompanyService();
             // need to handle the file size
             if (logo != null && logo.ContentLength > 0 && logo.ContentType.Contains("image"))
             {
@@ -278,28 +274,27 @@ namespace PunchClock.UI.Web.Controllers
                         memoryStream = new MemoryStream();
                         inputStream.CopyTo(memoryStream);
                     }
-                    companyView.LogoUrl = logo.FileName;
-                    companyView.LogoBinary = memoryStream.ToArray();
+                    company.LogoUrl = logo.FileName;
+                    company.LogoBinary = memoryStream.ToArray();
                 }
             }
-            CompanyTransaction transaction =  cb.Update(companyView);
+            CompanyTransaction transaction = _companyService.Update(company);
             if (transaction == CompanyTransaction.Success)
             {
-                return Redirect(Url.Action("Details", "Employer", new { id = companyView.CompanyId }));
-
+                return Redirect(Url.Action("Details", "Company", new { id = company.Id }));
             }
             switch (transaction)
             {
                 case CompanyTransaction.DuplicateName:
-                    ModelState.AddModelError(nameof(companyView.Name), "is duplicate");
+                    ModelState.AddModelError(nameof(company.Name), "is duplicate");
                     break;
                 case CompanyTransaction.Error:
                     break;
                 case CompanyTransaction.WrongImageType:
-                    ModelState.AddModelError(nameof(companyView.LogoBinary), "Wrong image");
+                    ModelState.AddModelError(nameof(company.LogoBinary), "Wrong image");
                     break;
             }
-            return View("_Edit", companyView);
+            return View("_Edit", company);
         }
     }
 }

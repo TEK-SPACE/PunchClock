@@ -342,7 +342,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
-    <Compile Include="Controllers\EmployerController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -689,13 +689,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Employer\Details.cshtml" />
-    <Content Include="Views\Employer\Index.cshtml" />
-    <Content Include="Views\Employer\Register.cshtml" />
-    <Content Include="Views\Employer\_Edit.cshtml" />
-    <Content Include="Views\Employer\_Employees.cshtml" />
-    <Content Include="Views\Employer\_PaidHolidayPkg.cshtml" />
-    <Content Include="Views\Employer\_SetHolidays.cshtml" />
+    <Content Include="Views\Company\Details.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Register.cshtml" />
+    <Content Include="Views\Company\_Edit.cshtml" />
+    <Content Include="Views\Company\_Employees.cshtml" />
+    <Content Include="Views\Company\_PaidHolidayPkg.cshtml" />
+    <Content Include="Views\Company\_SetHolidays.cshtml" />
     <Content Include="Views\Error\General.cshtml" />
     <Content Include="Views\Error\Http403.cshtml" />
     <Content Include="Views\Error\Http404.cshtml" />
@@ -735,6 +735,8 @@
     <Content Include="Views\Article\Add.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
     <Content Include="Views\Configuration\Index.cshtml" />
+    <Content Include="Views\Punch\_Results.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TimeSpan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,5 +1,5 @@
 ﻿/// <reference path="jquery.inputmask/inputmask.js" />
-
+/// <reference path="~/Scripts/jquery-1.10.2.intellisense.js" />
 function postUpdateUser(e) {
     if (e.user.Uid > 0) {
         showDialog("Update Successful",
@@ -361,3 +361,4 @@ function appSettingEditable(dataItem) {
     // do not allow editing for product with ProductID=3
     return dataItem.IsEditable;
 }
+

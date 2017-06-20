@@ -1,4 +1,4 @@
-﻿@model PunchClock.View.Model.CompanyView
+﻿@model PunchClock.Domain.Model.Company
 @{
     ViewBag.Title = "Companies Details";
 }
@@ -16,13 +16,13 @@
           {
               tabstrip.Add().Text("Details")
                   .Selected(true)
-                  .LoadContentFrom("Edit", "Employer", new { id = ViewBag.CompanyId });
+                  .LoadContentFrom("Edit", "Company", new { id = ViewBag.CompanyId });
               tabstrip.Add().Text("Employees")
-                  .LoadContentFrom("Employees", "Employer", new { id = ViewBag.CompanyId });
+                  .LoadContentFrom("Employees", "Company", new { id = ViewBag.CompanyId });
               tabstrip.Add().Text("Emp Type Vs. Holi Paid")
-                  .LoadContentFrom("PaidHolidayPkg", "Employer", new { id = ViewBag.CompanyId });
+                  .LoadContentFrom("PaidHolidayPkg", "Company", new { id = ViewBag.CompanyId });
               tabstrip.Add().Text("Holidays")
-                  .LoadContentFrom("SetHolidays", "Employer", new { id = ViewBag.CompanyId });
+                  .LoadContentFrom("SetHolidays", "Company", new { id = ViewBag.CompanyId });
 
           })
         )

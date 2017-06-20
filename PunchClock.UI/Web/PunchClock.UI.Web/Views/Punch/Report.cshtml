@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "Punches Reports";
 }
-<div class="col-lg-6">
-    <div class="well bs-component">
+<div class="col-lg-10">
+    <div class="well">
         @using (Ajax.BeginForm("Report", "Punch", null,
                                     new AjaxOptions { HttpMethod = "POST", OnSuccess = "showGridResults"},
                                     new { @class = "form-horizontal", id = "reportForm" }))
@@ -39,32 +39,44 @@
                         </label>
                     </div>
                     <div class="col-lg-10">
-                        @Html.TextBox("stDate", null, htmlAttributes: new { id = "stDate", type = "date",  @class = "pDate form-control reportDate",  })
+                        @(Html.Kendo().DatePicker()
+                              .Name("reportLookupStartDate")
+                              .Value(DateTime.Today)
+                              .Max(DateTime.Today)
+                              .DateInput()
+                              .ParseFormats(new string[] {"MM/dd/yyyy"})
+                              .Events(e => e.Change("dateStartChange"))
+                              .HtmlAttributes(new {style = "width:50%;"})
+                              )
+                        -
+                        @(Html.Kendo().DatePicker()
+                              .Name("reportLookupEndDate")
+                              .Value(DateTime.Today)
+                              .Min(DateTime.Today)
+                              .DateInput()
+                              .ParseFormats(new string[] {"MM/dd/yyyy"})
+                              .Events(e => e.Change("dateEndChange"))
+                              .HtmlAttributes(new {style = "width:50%;"})
+                              )
+
+
+                        @*@Html.Kendo().DatePicker().Name("stDate").HtmlAttributes(new {id = "stDate", type = "date", @class = "pDate form-control reportDate",})
                         @Html.ValidationMessage("stDate", "Required")
                         -
-                        @Html.TextBox("enDate", null, htmlAttributes: new { type = "date", id = "enDate", @class = "pDate form-control reportDate", })
-                        @Html.ValidationMessage("enDate", "Required")
+                        @Html.Kendo().DatePicker().Name("enDate").HtmlAttributes(new {type = "date", id = "enDate", @class = "pDate form-control reportDate",})
+                        @Html.ValidationMessage("enDate", "Required")*@
                     </div>
                 </div>
 
                 @if (PunchClock.UI.Web.Helpers.UserHelpers.IsAdmin(user: User) || PunchClock.UI.Web.Helpers.UserHelpers.IsHumanResource(user: User))
                 {
                     <div class="form-group">
-                        @*<label class="col-lg-2 control-label">
-                                Employee
-                            </label>*@
                         <div class="col-lg-10">
                             @Html.DropDownListFor(x => x.Uid, (IEnumerable<SelectListItem>)(ViewBag.users), htmlAttributes: new { required = "required", @class = "form-control" })
                             @Html.ValidationMessage("userObjLibraryUserId_listbox", "Please select employee")
                         </div>
                     </div>
                 }
-                @* <li style="height: 45px;">
-                        <label>End Date: </label>
-                        @Html.TextBox("enDate", null, htmlAttributes: new { type = "date", @class = "pDate", id = "enDate", required="required" })
-                         @Html.ValidationMessage("enDate","Please enter end date")
-                    </li>*@
-
                 <div class="col-lg-10 col-lg-offset-2">
                     <input type="submit" value="Search" id ="search" class="btn btn-primary" />
                 </div>
@@ -73,7 +85,8 @@
     </div>
 </div>
 <div class="clearfix"></div>
-<section class="row resultGridSection">
+@Html.Partial("_Results")
+@*<section class="row resultGridSection">
     <section class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Search Results</h3>
@@ -82,80 +95,103 @@
             <section id="resultGrid"></section>
         </div>
     </section>
-</section>
+</section>*@
 
 
 <script>
-    function showGridResults(data) {
-        $(".resultGridSection").show();
-        if ($(".k-grid").length) {
-            $(".k-grid").after("<section id=\"resultGrid\" class='reCreated'></section>");
-            $(".k-grid").remove();
+    function dateStartChange() {
+        var endPicker = $("#reportLookupEndDate").data("kendoDatePicker"),
+            startDate = this.value();
+
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate() + 1);
+            endPicker.min(startDate);
         }
-        //$("#resultGrid").parent().html("<section id=\"resultGrid\"></section>");
-        $("#resultGrid").kendoGrid({
-            columns: [{ field: "PunchId", title: "id",hidden: true },
-                {
-                    field: "PunchDate",// create a column bound to the "name" field
-                    title: "Date", //format: "{0:dd-MMM-yyyy}
-                    type: "date",
-                    format: "{dd-MMM-yyyy}",
-                    //footerTemplate: "#: kendo.toString(min, 'd') # - #: kendo.toString(max, 'd')#"
-                }, {
-                    field: "PunchDay",// create a column bound to the "age" field
-                    type: "day",    // set its title to "Name"                 
-                    title: "Day"
-                    // set its title to "Age"
-                }, {
-                    field: "PunchIn",// create a column bound to the "age" field
-                    title: "In-Time" // set its title to "Age"
-                },
-            {
-                field: "PunchOut",// create a column bound to the "age" field
-                title: "Out-Time" // set its title to "Age"
-            },
-            {
-                field: "Hours",// create a column bound to the "age" field
-                title: "HoursBU", // set its title to "Age"
-                footerTemplate: "Total:#:  computeHoursRange(sum)#",
-                hidden: true
-            },
-            {
-                field: "HoursNew",// create a column bound to the "age" field
-                title: "Hours" // set its title to "Age"
-            }],
-            dataSource: {
-                data: data,
-                schema: {
-                    parse: function (response) {
-                        $.each(response, function (idx, elem) {
-                            elem.PunchIn = UTCToClientLocal(elem.PunchIn.Hours + ":" + elem.PunchIn.Minutes + ":" + elem.PunchIn.Seconds);
-                            elem.PunchOut = UTCToClientLocal(elem.PunchOut.Hours + ":" + elem.PunchOut.Minutes + ":" + elem.PunchOut.Seconds);
-                            elem.HoursNew = MinutesToTime(elem.Hours);
-                            elem.Hours = elem.Hours;
+    }
+
+    function dateEndChange() {
+        var startPicker = $("#reportLookupStartDate").data("kendoDatePicker"),
+            endDate = this.value();
+
+        if (endDate) {
+            endDate = new Date(endDate);
+            endDate.setDate(endDate.getDate() - 1);
+            startPicker.max(endDate);
+        }
+    }
+
+    function showGridResults(data) {
+        //$(".resultGridSection").show();
+        //if ($(".k-grid").length) {
+        //    $(".k-grid").after("<section id=\"resultGrid\" class='reCreated'></section>");
+        //    $(".k-grid").remove();
+        //}
+        ////$("#resultGrid").parent().html("<section id=\"resultGrid\"></section>");
+        //$("#resultGrid").kendoGrid({
+        //    columns: [{ field: "PunchId", title: "id",hidden: true },
+        //        {
+        //            field: "PunchDate",// create a column bound to the "name" field
+        //            title: "Date", //format: "{0:dd-MMM-yyyy}
+        //            type: "date",
+        //            format: "{dd-MMM-yyyy}",
+        //            //footerTemplate: "#: kendo.toString(min, 'd') # - #: kendo.toString(max, 'd')#"
+        //        }, {
+        //            field: "PunchDay",// create a column bound to the "age" field
+        //            type: "day",    // set its title to "Name"                 
+        //            title: "Day"
+        //            // set its title to "Age"
+        //        }, {
+        //            field: "PunchIn",// create a column bound to the "age" field
+        //            title: "In-Time" // set its title to "Age"
+        //        },
+        //        {
+        //            field: "PunchOut",// create a column bound to the "age" field
+        //            title: "Out-Time" // set its title to "Age"
+        //        },
+        //        {
+        //            field: "Hours",// create a column bound to the "age" field
+        //            title: "HoursBU", // set its title to "Age"
+        //            footerTemplate: "Total:#:  computeHoursRange(sum)#",
+        //            hidden: true
+        //        },
+        //        {
+        //            field: "HoursNew",// create a column bound to the "age" field
+        //            title: "Hours" // set its title to "Age"
+        //        }],
+        //    dataSource: {
+        //        data: data,
+        //        schema: {
+        //            parse: function (response) {
+        //                $.each(response, function (idx, elem) {
+        //                    elem.PunchIn = UTCToClientLocal(elem.PunchIn.Hours + ":" + elem.PunchIn.Minutes + ":" + elem.PunchIn.Seconds);
+        //                    elem.PunchOut = UTCToClientLocal(elem.PunchOut.Hours + ":" + elem.PunchOut.Minutes + ":" + elem.PunchOut.Seconds);
+        //                    elem.HoursNew = MinutesToTime(elem.Hours);
+        //                    elem.Hours = elem.Hours;
                             
-                        });
-                        return response;
-                    }
-                },
-                aggregate: [{ field: "HoursNew", aggregate: "sum" },
-                    { field: "Hours", aggregate: "sum" },
-                    { fielP: "ApprovedHours", aggregate: "sum" },
-                { field: "punchDate", aggregate: "min", format: "{0:dd-MMM-yyyy}" },
-                { field: "PunchDate", aggregate: "max", format: "{0:dd-MMM-yyyy}" }]
-            },
-            toolbar: kendo.template($("#ToolBarTemplate").html()),
-            rowTemplate: kendo.template($("#rowTemplate").html()),
-            altRowTemplate: kendo.template($("#altRowTemplate").html()),
-            pageable: {
-                pageSize: 10
-            },
-            scrollable: true,
-            sortable: true
-        });
+        //                });
+        //                return response;
+        //            }
+        //        },
+        //        aggregate: [{ field: "HoursNew", aggregate: "sum" },
+        //            { field: "Hours", aggregate: "sum" },
+        //            { fielP: "ApprovedHours", aggregate: "sum" },
+        //            { field: "punchDate", aggregate: "min", format: "{0:dd-MMM-yyyy}" },
+        //            { field: "PunchDate", aggregate: "max", format: "{0:dd-MMM-yyyy}" }]
+        //    },
+        //    toolbar: kendo.template($("#ToolBarTemplate").html()),
+        //    rowTemplate: kendo.template($("#rowTemplate").html()),
+        //    altRowTemplate: kendo.template($("#altRowTemplate").html()),
+        //    pageable: {
+        //        pageSize: 10
+        //    },
+        //    scrollable: true,
+        //    sortable: true
+        //});
     }
 </script>
-<script id="rowTemplate" type="text/x-kendo-tmpl">
+
+@*<script id="rowTemplate" type="text/x-kendo-tmpl">
     # if (Id == -69){ #
     <tr role="row" class="holidayRow success">
         # } else  if(!RequestForApproval || (RequestForApproval && ManagerAccepted)){ #
@@ -201,7 +237,7 @@
         <td role="gridcell">#: HoursNew #</td>
 
     </tr>
-</script>
+</script>*@
 
 <script type="text/x-kendo-template" id="ToolBarTemplate">
     <div class="toolbar">
@@ -209,5 +245,5 @@
     </div>
 </script>
 <script>
-    $("#reportForm").find("span.field-validation-valid").hide();
+    //$("#reportForm").find("span.field-validation-valid").hide();
 </script>

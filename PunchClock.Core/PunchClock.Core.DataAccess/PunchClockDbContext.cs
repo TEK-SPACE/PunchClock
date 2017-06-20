@@ -7,7 +7,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Configuration.Model;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
-using PunchClock.Ticketing.Model;
 using PunchClock.TimeTracker.Model;
 
 namespace PunchClock.Core.DataAccess
@@ -27,6 +26,9 @@ namespace PunchClock.Core.DataAccess
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyHoliday> CompanyHolidays { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<CompanyLanguage> CompanyLanguages { get; set; }
+
         public DbSet<Country> Countries { get; set; }
         public DbSet<EmployeePaidHoliday> EmployeePaidHolidays { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }

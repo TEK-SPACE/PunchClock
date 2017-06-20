@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PunchClock.TimeTracker.Model.Punch>
+@(Html.Kendo().Grid(Model)
+      .Name("PuncResultGrid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Id).Hidden();
+          columns.Bound(c => c.UserId).Title("Employee").ClientTemplate("#= User.FirstName# #=User.LastName#").Width(100);
+          columns.Bound(c => c.PunchDate).Format("{0:dd MMM, yyyy}").EditorTemplateName("Date").Width(150);
+          columns.Bound(c => c.PunchIn).ClientTemplate("#=PunchIn.Hours#:#=PunchIn.Minutes#").EditorTemplateName("TimeSpan").Width(100);
+          columns.Bound(c => c.PunchOut).ClientTemplate("#=PunchOut.Hours#:#=PunchOut.Minutes#").EditorTemplateName("TimeSpan").Width(100);
+          columns.Bound(c => c.Hours);
+          //columns.Bound(c => c.Hours).EditorTemplateName("String").Editable("appSettingEditable");
+          columns.Bound(c => c.Comments);
+          columns.Command(command =>
+          {
+              command.Edit();
+              command.Custom("Approve");//.Action("Approve","Punch");
+              //command.Destroy();
+          });
+      })
+      //.HtmlAttributes(new { style = "height: 550px;" })
+      .Scrollable()
+      .Groupable()
+      .Sortable()
+      .ToolBar(toolbar => {
+          //toolbar.Create();
+          toolbar.Save();
+          toolbar.Pdf();
+          toolbar.Excel();
+      })
+      .Excel(excel => excel
+          .FileName("PunchClock Result.xlsx")
+          .Filterable(true)
+          .AllPages(true)
+          .ProxyURL(Url.Action("ExportSave", "Punch"))
+      )
+      .Pdf(pdf => pdf
+          .AllPages()
+          .Title("Time Tracker Report")
+          .Subject("Daily Activity")
+          .AvoidLinks()
+          .PaperSize("A4")
+          .Scale(0.8)
+          .Margin("2cm", "1cm", "1cm", "1cm")
+          //.Landscape()
+          .RepeatHeaders()
+          .TemplateId("page-template")
+          .FileName("PunchClock Result")
+          .ProxyURL(Url.Action("ExportSave", "Punch"))
+      )
+
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable(pageable => pageable
+          .Refresh(true)
+          .PageSizes(true)
+          .ButtonCount(5))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          //.ServerOperation(true)
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(x => x.UserId).Editable(false);
+              model.Field(x => x.Hours).Editable(false);
+          })
+          .Read(read => read.Action("Read", "Punch"))
+          .Create(update => update.Action("Add", "Punch"))
+          .Update(update => update.Action("Update", "Punch"))
+          .Destroy(update => update.Action("Delete", "Punch"))
+          .PageSize(20)
+      )
+      )
