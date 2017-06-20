@@ -7,6 +7,6 @@ namespace PunchClock.Cms.Contract
    {
         ArticleCategory Add(ArticleCategory category);
         ArticleCategory Update(ArticleCategory category);
-        AjaxResponse Delete(int catgeoryId);
+       AjaxResponse Delete(int catgeoryId);
    }
 }
