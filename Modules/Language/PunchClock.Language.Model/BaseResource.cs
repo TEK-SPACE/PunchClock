@@ -10,7 +10,9 @@ namespace PunchClock.Language.Model
         [Key]
         public int Id { get; set; }
         public string Value { get; set; }
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedDate { get; set; }
+        [Column(TypeName = "datetime2")]
         public DateTime ModifiedDate { get; set; }
         public string LastModifiedBy { get; set; }
         [ForeignKey("LastModifiedBy")]
