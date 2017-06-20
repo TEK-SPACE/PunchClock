@@ -17,6 +17,9 @@ namespace PunchClock.Core.Models.Common
         [ForeignKey("LastModifiedBy")]
         public virtual User User { get; set; }
 
+        public int CompanyId { get; set; }
+        [ForeignKey("CompanyId")]
+        public virtual Company Company { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Configuration.Model;
@@ -68,6 +69,7 @@ namespace PunchClock.Core.DataAccess
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "dbo");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "dbo");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins", "dbo");
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
     }
 }
