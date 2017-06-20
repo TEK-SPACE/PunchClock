@@ -1,45 +1,54 @@
 ﻿@model PunchClock.View.Model.CompanyView
-@*@{
-    ViewBag.Title = "Update Companies";
-}
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@Html.Raw((string)ViewBag.Message)</h2>
-</hgroup>
-<hr />*@
-@using (Html.BeginForm("Edit", "Employer", null, FormMethod.Post, new { enctype = "multipart/form-data", id="imgForm" }))
-{
-       @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.CompanyId)
-    <ul class="commonForm">
-        <li>@Html.LabelFor(x => x.Name)
-            @Html.TextBoxFor(x => x.Name)
-            @Html.ValidationMessageFor(x => x.Name)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.Summary)
-            @Html.TextAreaFor(x => x.Summary, new { style = "width: 382px; height: 75px;" })
-            @Html.ValidationMessageFor(x => x.Summary)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.LogoUrl)
+<div class="col-lg-10">
+    <div class="well">
+        @using (Html.BeginForm("Edit", "Employer", null, FormMethod.Post, new { enctype = "multipart/form-data", id = "imgForm" }))
+        {
+            <fieldset>
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.CompanyId)
+                @*<legend>Details</legend>*@
 
-            @if (Model.LogoBinary != null)
-            {
-                string imageBase64 = Convert.ToBase64String(Model.LogoBinary);
-                string imageSrc = $"data:image/gif;base64,{imageBase64}";
-                <img src="@imageSrc"  />
-            }
-            <br />
-            <input id="fileUploader" type="file" name="logo" accept="image/*;capture=camera" style="margin-left:250px;"/>
-            @* @Html.TextBoxFor(x => x.logoUrl)*@
-            @Html.ValidationMessageFor(x => x.LogoUrl)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.DeltaPunchTime, new { title = "5 minutes default" })
-            @Html.TextBoxFor(x => x.DeltaPunchTime, new { title = "5 minutes default", type = "number", min = -10, max = 10, value = 1 })
-            @Html.ValidationMessageFor(x => x.DeltaPunchTime)
-        </li>
-    </ul>
-    <input type="submit" value="Update" class="k-button" />
-}
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Name, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.Kendo().TextBoxFor(x => x.Name).HtmlAttributes(new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Summary, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.Kendo().EditorFor(x => x.Summary).HtmlAttributes(new {@class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Summary)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LogoUrl, new { @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @if (Model.LogoBinary != null)
+                        {
+                            string imageBase64 = Convert.ToBase64String(Model.LogoBinary);
+                            string imageSrc = $"data:image/gif;base64,{imageBase64}";
+                            <img src="@imageSrc" />
+                        }
+                        @Html.Kendo().Upload().Name("logo").HtmlAttributes(new { type = "file",@class = "form-control", id = "fileUploader" })
+                        @*<input id="fileUploader" type="file" name="logo"  accept="image/*;capture=camera" style="margin-left:250px;" />*@
+                        @* @Html.TextBoxFor(x => x.logoUrl)*@
+                        @Html.ValidationMessageFor(x => x.LogoUrl)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DeltaPunchTime, new { title = "5 minutes default", @class = "col-lg-2 control-label" })
+                    <div class="col-lg-10">
+                        @Html.Kendo().TextBoxFor(x => x.DeltaPunchTime).HtmlAttributes(new { title = "5 minutes default", type = "number", min = -10, max = 10, value = 1, @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.DeltaPunchTime)
+                    </div>
+                </div>
+                <div class="col-lg-10 btn-group-padding">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>

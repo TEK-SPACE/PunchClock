@@ -67,14 +67,16 @@ namespace PunchClock.UI.Web.Controllers
             CompanyView model = new CompanyView {User = new User()};
             if (User.Identity.IsAuthenticated)
             {
-                if (OperatingUser.UserTypeId == (int)Core.Models.Common.Enum.UserType.CompanyAdmin)
+                var eligibleUsers = new List<int>
+                {
+                    (int) Core.Models.Common.Enum.UserType.CompanyAdmin,
+                    (int) Core.Models.Common.Enum.UserType.Admin
+                };
+                if (eligibleUsers.Any(x=>x.Equals(OperatingUser.UserTypeId) ))
                 {
                     return RedirectToAction("Details", "Employer", new { id = OperatingUser.CompanyId });
                 }
-                else
-                {
-                    return RedirectToAction("Index", "Home", null);
-                }
+                return RedirectToAction("Index", "Home", null);
             }
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
             model.User.TimezonesList = (from t in systemTimeZones
@@ -166,26 +168,12 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Employees(string id)
+        public ActionResult Employees(int id)
         {
-            ReadOnlyCollection<TimeZoneInfo> tz;
-            tz = TimeZoneInfo.GetSystemTimeZones();
-            //var _timezones = (from t in tz
-            //                 orderby t.UserId
-            //                 select new SelectListItem
-            //                 {
-            //                     Value = t.UserId,
-            //                     Text = t.UserId
-            //                 }).ToList();
-            List<User> _employees = new List<User>();
-            //foreach (var u in _employees)
-            //{
-            //    u.timezonesList = _timezones;
-            //    u.timezonesList.Where(x => x.Value == u.registeredTimeZone).Single().Selected = true;
-            //}
-            UserService UB = new UserService();
-            _employees = UB.GetAllUsers(companyId: Convert.ToInt32(id));
-            return PartialView("_Employees", _employees);
+            ReadOnlyCollection<TimeZoneInfo> tz = TimeZoneInfo.GetSystemTimeZones();
+            UserService ub = new UserService();
+            var employees = ub.GetAllUsers(companyId: id);
+            return PartialView("_Employees", employees);
         }
 
         [HttpGet]
@@ -199,18 +187,18 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
-            CompanyView model = new CompanyView();
-            model.User = new User();
-            if (OperatingUser.UserTypeId == (int)Core.Models.Common.Enum.UserType.CompanyAdmin)
+            CompanyView model = null;
+            var eligibleUsers = new List<int>
+            {
+                (int) Core.Models.Common.Enum.UserType.CompanyAdmin,
+                (int) Core.Models.Common.Enum.UserType.Admin
+            };
+            if (eligibleUsers.Any(x => x.Equals(OperatingUser.UserTypeId)))
             {
                 CompanyService cb = new CompanyService();
                 model = cb.Get(OperatingUser.CompanyId);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home", null);
             }
             ViewBag.Message = "Please enter your company information";
             return PartialView("_Edit", model);
@@ -218,11 +206,11 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult SetHolidays(string id)
+        public ActionResult SetHolidays(int id)
         {
             List<CompanyHolidayView> hld = new List<CompanyHolidayView>();
             CompanyService cb = new CompanyService();
-            hld = cb.CompanyHolidays(Convert.ToInt32(id));
+            hld = cb.CompanyHolidays(id);
             Dictionary<string, List<CompanyHolidayView>> obj = hld.GroupBy(x => x.HolidayType).ToDictionary(g => g.Key, g => g.ToList());
            //var retObj = hld.GroupBy(x => x.HolidayType, x => x, (key, g) => new { HolidayType = key, CompanyHolidayObjLibrary = g.ToList() }).ToList();
             ViewBag.companyId = id;
@@ -255,13 +243,12 @@ namespace PunchClock.UI.Web.Controllers
         //CompanyEmployeeHolidayPaidObjLibrary
         [HttpGet]
         [Authorize]
-        public ActionResult PaidHolidayPkg(string id)
+        public ActionResult PaidHolidayPkg(int id)
         {
-            List<View.Model.EmployeePaidHolidayView> pkg = new List<View.Model.EmployeePaidHolidayView>();
-            CompanyService cb = new CompanyService();
-            pkg = cb.PaidHolidayPkg(Convert.ToInt32(id));
-            SiteService sb = new SiteService();
-            List<SelectListItem> employmentTypes = sb.GetEmploymentTypes(Convert.ToInt32(id));
+            CompanyService companyService = new CompanyService();
+            var pkg = companyService.PaidHolidayPkg(id);
+            SiteService siteService = new SiteService();
+            List<SelectListItem> employmentTypes = siteService.GetEmploymentTypes(id);
             ViewBag.employmentTypes = employmentTypes;
             return PartialView("_PaidHolidayPkg", pkg);
         }

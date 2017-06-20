@@ -1,42 +1,31 @@
 ﻿@model PunchClock.View.Model.CompanyView
 @{
     ViewBag.Title = "Companies Details";
-    string strCompanyId = Convert.ToString(ViewBag.CompanyId);
 }
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
+    <h1>@ViewBag.Title</h1>
     <h2>@Html.Raw((string)ViewBag.Message)</h2>
 </hgroup>
+<div class="clearFloat"></div>
 <hr />
+<div class="col-lg-12">
+    <div class="well">
+        @(Html.Kendo().TabStrip()
+          .Name("tabstrip")
+          .Items(tabstrip =>
+          {
+              tabstrip.Add().Text("Details")
+                  .Selected(true)
+                  .LoadContentFrom("Edit", "Employer", new { id = ViewBag.CompanyId });
+              tabstrip.Add().Text("Employees")
+                  .LoadContentFrom("Employees", "Employer", new { id = ViewBag.CompanyId });
+              tabstrip.Add().Text("Emp Type Vs. Holi Paid")
+                  .LoadContentFrom("PaidHolidayPkg", "Employer", new { id = ViewBag.CompanyId });
+              tabstrip.Add().Text("Holidays")
+                  .LoadContentFrom("SetHolidays", "Employer", new { id = ViewBag.CompanyId });
 
-<div class="wrapper">
-        <div id="tabstrip">
-            <ul>
-                <li class="k-state-active">Details</li>
-                <li>Emp Type Vs. Holi Paid</li>
-                <li>Holidays</li>
-                <li>Employees</li>
-            </ul>
-        </div>
+          })
+        )
     </div>
 
-<script>
-    $(document).ready(function () {
-        $("#tabstrip").kendoTabStrip({
-            animation: { open: { effects: "fadeIn" } },
-            contentUrls: [
-                "@Url.Action("Edit", "Employer", new { id = strCompanyId })",
-                 "@Url.Action("PaidHolidayPkg", "Employer", new { id = strCompanyId })",
-                  "@Url.Action("SetHolidays", "Employer", new { id = strCompanyId })",
-                  "@Url.Action("Employees", "Employer", new { id = strCompanyId })"
-            ]
-        });
-    });
-
-</script>
-
-<style>
-    #tabstrip-4 {
-        padding:0px;
-    }
-</style>
+</div>

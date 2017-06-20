@@ -1,80 +1,37 @@
 ﻿@model IEnumerable<PunchClock.Domain.Model.User>
-<div id="splitter">
-    <div class="pane-content">
-        <section class="inside">
-        <h3>Employees</h3>
-            <ul>
-                @foreach (var user in Model)
-                {
-                    <li>
-                        @Ajax.ActionLink(
-                            @Html.Raw($"{user.FirstName} {user.MiddleName} {user.LastName}").ToString(),
-                            "Details", "User", new
-                            {
-                                id = user.Uid
-                            }, new AjaxOptions
-                            {
-                                Confirm = "You are above to load this employee details",
-                                UpdateTargetId = "empDetails",
-                                InsertionMode = InsertionMode.Replace,
-                                OnComplete = "utcDate"
-                            }, new { })
-                    </li>
-                }
-            </ul>
-            </section>
-    </div>
-    <div class="pane-content">
-        <section class="inside">
-        <h3>Details</h3>
+    
+@(Html.Kendo().Splitter()
+      .Name("splitter").HtmlAttributes(new { style = "height:800px" })
+      .Panes(panes =>
+      {
+      panes.Add().Content(
+              @<section class="inside">
+                  <h3>Employees</h3>
+                  <ul>
+                      @foreach (var user in Model)
+                      {
+                          <li>
+                              @Ajax.ActionLink(
+                                  @Html.Raw($"{user.FirstName} {user.MiddleName} {user.LastName}").ToString(),
+                                  "Details", "User", new
+                                  {
+                                      id = user.Uid
+                                  }, new AjaxOptions
+                                  {
+                                      Confirm = "You are above to load this employee details",
+                                      UpdateTargetId = "empDetails",
+                                      InsertionMode = InsertionMode.Replace,
+                                      OnComplete = "utcDate"
+                                  }, new { })
+                          </li>
+                      }
+                  </ul>
+              </section>).Size("200px");
+
+          panes.Add().Content(@<section class="inside">
+                                  <h3>Details</h3>
             
-        <p id="empDetails">Select a employee to edit/view details</p>
-            </section>
-    </div>
-</div>
+                                  <p id="empDetails">Select a employee to edit/view details</p>
+                              </section>);
+      }))
 
-<script>
-    $("#splitter").kendoSplitter({
-        panes: [
-            {
-                collapsible: true,
-                size: "25%",
-                scrollable: true
-            },
-            {
-                collapsible: false,
-                resizable: false,
-                scrollable: true
-            }
-        ]
-    });
-
-    setTimeout(function() {
-            $(".k-splitter").each(function() {
-                $(this).data("kendoSplitter").trigger("resize");
-            });
-        },
-        400);
-
-</script>
-
-<style scoped>
-    #vertical {
-        height: 380px;
-        width: 920px;
-        margin: 0 auto;
-    }
-
-    #left-pane, #center-pane, #right-pane {
-        background-color: #3c4650;
-        background-color: rgba(60, 70, 80, 0.05);
-    }
-
-    .pane-content {
-       
-    }
-    .inside {
-        padding-left:10px;
-        padding-right:10px;
-    }
-</style>

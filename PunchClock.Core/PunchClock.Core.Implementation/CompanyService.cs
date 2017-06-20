@@ -12,7 +12,7 @@ namespace PunchClock.Core.Implementation
 {
     public class CompanyService
     {
-        public int Add(View.Model.CompanyView companyView)
+        public int Add(CompanyView companyView)
         {
             using (var unitOfWork = new UnitOfWork())
             {
@@ -31,9 +31,9 @@ namespace PunchClock.Core.Implementation
                 return companyDomain.Id;
             }
         }
-        public List<View.Model.CompanyView> GetBy(string name)
+        public List<CompanyView> GetBy(string name)
         {
-            var companyViews = new List<View.Model.CompanyView>();
+            var companyViews = new List<CompanyView>();
             using (var unitOfWork = new UnitOfWork())
             {
                 var companies = unitOfWork.CompanyRepository.Get(x => x.Name == name).ToList();
@@ -41,9 +41,9 @@ namespace PunchClock.Core.Implementation
             }
             return companyViews;
         }
-        public View.Model.CompanyView Get(string code)
+        public CompanyView Get(string code)
         {
-            var companyView = new View.Model.CompanyView();
+            var companyView = new CompanyView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var company = unitOfWork.CompanyRepository.Get(x => x.RegisterCode == code).FirstOrDefault();
@@ -51,9 +51,9 @@ namespace PunchClock.Core.Implementation
             }
             return companyView;
         }
-        public View.Model.CompanyView Get(int companyId)
+        public CompanyView Get(int companyId)
         {
-            var companyView = new View.Model.CompanyView();
+            var companyView = new CompanyView();
             using (var unitOfWork = new UnitOfWork())
             {
                 var company = unitOfWork.CompanyRepository.GetById(companyId);
@@ -71,7 +71,7 @@ namespace PunchClock.Core.Implementation
                 unitOfWork.Save();
             }
         }
-        public CompanyTransaction Update(View.Model.CompanyView obj)
+        public CompanyTransaction Update(CompanyView obj)
         {
             using (var unitOfWork = new UnitOfWork())
             {
@@ -108,9 +108,9 @@ namespace PunchClock.Core.Implementation
             return CompanyTransaction.Success;
         }
 
-        public List<View.Model.EmployeePaidHolidayView> PaidHolidayPkg(int companyId)
+        public List<EmployeePaidHolidayView> PaidHolidayPkg(int companyId)
         {
-            List<View.Model.EmployeePaidHolidayView> employeePaidHolidays;
+            List<EmployeePaidHolidayView> employeePaidHolidays;
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
                 employeePaidHolidays = (from et in context.EmploymentTypes
@@ -119,7 +119,7 @@ namespace PunchClock.Core.Implementation
                                         join c in context.Companies on pkg.CompanyId equals c.Id into cGroup
                                         from cg in cGroup.DefaultIfEmpty()
                                         where cg.Id == companyId || cg.Id == 0
-                                        select new View.Model.EmployeePaidHolidayView
+                                        select new EmployeePaidHolidayView
                                         {
                                             CompanyId = cg.Id == 0 ? companyId : cg.Id,
                                             EmploymentTypeId = et.Id,
@@ -130,7 +130,7 @@ namespace PunchClock.Core.Implementation
             return employeePaidHolidays;
         }
 
-        public void UpdatePaidHolidayPkg(List<View.Model.EmployeePaidHolidayView> pkgs)
+        public void UpdatePaidHolidayPkg(List<EmployeePaidHolidayView> pkgs)
         {
             var compId = pkgs.First().CompanyId;
             using (var unitOfWork = new UnitOfWork())
@@ -157,9 +157,9 @@ namespace PunchClock.Core.Implementation
             }
         }
 
-        public List<View.Model.CompanyHolidayView> CompanyHolidays(int companyId)
+        public List<CompanyHolidayView> CompanyHolidays(int companyId)
         {
-            List<View.Model.CompanyHolidayView> companyHolidays;
+            List<CompanyHolidayView> companyHolidays;
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
                 companyHolidays = (from h in unitOfWork.HolidayRepository.Get()
@@ -167,7 +167,7 @@ namespace PunchClock.Core.Implementation
                                    join ht in unitOfWork.HolidayTypeRepository.Get() on t.TypeId equals ht.Id
                                    from ch in unitOfWork.CompanyHolidayRepository.Get(x => x.HolidayId == h.Id).DefaultIfEmpty()
                                    where ch.CompanyId == companyId || ch.CompanyId == 0
-                                   select new View.Model.CompanyHolidayView
+                                   select new CompanyHolidayView
                                    {
                                        CompanyId = ch.CompanyId,
                                        HolidayId = h.Id,
@@ -182,7 +182,7 @@ namespace PunchClock.Core.Implementation
             return companyHolidays;
         }
 
-        public void UpdateCompanyHolidays(List<View.Model.CompanyHolidayView> hlds)
+        public void UpdateCompanyHolidays(List<CompanyHolidayView> hlds)
         {
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
@@ -209,7 +209,7 @@ namespace PunchClock.Core.Implementation
             }
         }
 
-        public List<View.Model.HolidayView> GetCompanyHolidays(int companyId, int userId, DateTime stDate, DateTime enDate)
+        public List<HolidayView> GetCompanyHolidays(int companyId, int userId, DateTime stDate, DateTime enDate)
         {
             List<Holiday> holidays;
             using (PunchClockDbContext context = new PunchClockDbContext())
@@ -220,7 +220,7 @@ namespace PunchClock.Core.Implementation
                 holidays = holidays.Where(x => x.HolidayDate >= stDate.Date).ToList();
             if (enDate != DateTime.MinValue)
                 holidays = holidays.Where(x => x.HolidayDate <= enDate.Date).ToList();
-            var holidayViews = new List<View.Model.HolidayView>();
+            var holidayViews = new List<HolidayView>();
             new Map().DomainToView(holidayViews, holidays);
             return holidayViews;
         }

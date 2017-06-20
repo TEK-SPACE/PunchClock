@@ -74,3 +74,12 @@ textarea.k-textbox,
 .k-combobox {
     width: 100%;
 }
+label.col-lg-2.control-label {
+    color: #fff;
+}
+#splitter .inside {
+    padding: 5px;
+}
+#splitter .inside h3 {
+    
+}
