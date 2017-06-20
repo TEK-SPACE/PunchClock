@@ -65,4 +65,12 @@ a.k-button.k-button-icontext.k-grid-cancel {
 }
 table a:not(.btn), .table a:not(.btn) {
     text-decoration: none;
+    color: #000000;
+}
+
+.k-multiselect, 
+input.k-textbox, 
+textarea.k-textbox,
+.k-combobox {
+    width: 100%;
 }

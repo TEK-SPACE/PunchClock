@@ -4,7 +4,7 @@
     ViewBag.Title = "User Registration";
 }
 <div class="col-lg-6">
-    <div class="well bs-component">
+    <div class="well">
         @using (Ajax.BeginForm("Register", "Account", null,
                 new AjaxOptions { OnSuccess = "postResponseRegistration" },
                 new { @class = "form-horizontal" }))
