@@ -1,19 +1,23 @@
-﻿@using PunchClock.UI.Web.Helpers
+﻿@using Microsoft.AspNet.Identity
+@using PunchClock.UI.Web.Helpers
 @model PunchClock.Cms.Model.Article
-
 @{
     ViewBag.Title = "New Article";
 }
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+    <h2>@Html.Raw((string)ViewBag.Message)</h2>
+</hgroup>
+<div class="clearFloat"></div>
+<hr />
 
-
-<div class="col-lg-12">
+<div class="col-lg-12  form-horizontal">
     <div class="well">
         <fieldset>
-            <legend>@ViewBag.Title</legend>
             <div class="form-group">
                 @Html.Label("Title", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().TextBoxFor(x => x.Title)
+                    @Html.Kendo().TextBoxFor(x => x.Title).Value("")
                 </div>
             </div>
             <div class="form-group">
@@ -26,14 +30,14 @@
             <div class="form-group">
                 @Html.Label("Tags", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").BindTo(ArticleHelpers.GetTagsByComapnyIdList(1))
+                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new {placeholder="Select a Tag"}).BindTo(ArticleHelpers.GetTagsByComapnyIdList(User.Identity.GetUserId()))
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.Label("Category", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().ComboBoxFor(x => x.Category).DataTextField("Text").DataValueField("Value").BindTo(ArticleHelpers.GetCategoriesByCompanyList(1))
+                    @Html.Kendo().ComboBoxFor(x => x.Category).DataTextField("Text").DataValueField("Value").Suggest(true).BindTo(ArticleHelpers.GetCategoriesByCompanyList(User.Identity.GetUserId()))
                 </div>
             </div>
 
