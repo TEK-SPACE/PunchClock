@@ -1,4 +1,5 @@
-﻿using PunchClock.Cms.Model;
+﻿using System.Collections.Generic;
+using PunchClock.Cms.Model;
 using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Cms.Contract
@@ -8,5 +9,8 @@ namespace PunchClock.Cms.Contract
         ArticleTag Add(ArticleTag articleTag);
         ArticleTag Update(ArticleTag articleTag);
         AjaxResponse Delete(int id);
+        ArticleTag GetOneArticleTag(int id);
+        List<ArticleTag> GetAllArticleTags();
+        List<ArticleTag> GetArticleTagByCompany(int companyId);
     }
 }

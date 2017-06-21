@@ -20,13 +20,13 @@ namespace PunchClock.Cms.Service
                     context.ArticleTypes.Add(articleType);
                     context.SaveChanges();
                 }
-            
-            AddArticleTyperesources(articleType);
+
+            AddArticleTypeResources(articleType);
 
             return articleType;
         }
 
-        private void AddArticleTyperesources(ArticleType articleType)
+        private void AddArticleTypeResources(ArticleType articleType)
         {
             if (articleType.Id <= 0) return;
             for (var i = 1; i <= 3; i++)
@@ -50,13 +50,9 @@ namespace PunchClock.Cms.Service
                         
                     };
                    
-                    {
-                        context.ArticleTypeResources.Add(typeResource);
+                   context.ArticleTypeResources.Add(typeResource);
                         context.SaveChanges();
-                    }
-
-
-                }
+                   }
             }
         }
 
@@ -92,6 +88,30 @@ namespace PunchClock.Cms.Service
                 return response;
             }
           
+        }
+
+        public ArticleType GetOneArticleType(int id)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleTypes.FirstOrDefault(x => x.Id==id);
+            }
+        }
+
+        public List<ArticleType> GetAllArticleTypes()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleTypes.Where(x => x.IsDeleted == false).ToList();
+            }
+        }
+
+        public List<ArticleType> GetArticleTypesBbyCompanyId(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleTypes.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
+            }
         }
     }
 }

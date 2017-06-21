@@ -8,13 +8,16 @@ using PunchClock.Cms.Service;
 
 namespace PunchClock.UI.Web.Helpers
 {
-    public static class CmsHelpers
+    public static class ArticleHelpers
     {
-        private static readonly ILookupService LookupService;
+         private static readonly ICategoryService CategoryService;
+        private static readonly ITagsService TagsService;
 
-        static CmsHelpers()
+
+        static ArticleHelpers()
         {
-            LookupService=new LookupService();
+             CategoryService=new CategoryService();
+            TagsService=new TagService();
         }
         public static List<SelectListItem> IntiCategoryDropDown()
         {
@@ -42,9 +45,9 @@ namespace PunchClock.UI.Web.Helpers
             return returnList;
         }
 
-        public static List<SelectListItem> GettCategories()
+        public static List<SelectListItem> GetCategoriesByCompanyList(int companyId)
         {
-            var categories = LookupService.GetAllCategories();
+            var categoriesByCompanyId = CategoryService.GetCategoriesByCompanyId(companyId);
 
             var returnList = new List<SelectListItem>();
             var defaultValue = new SelectListItem
@@ -54,11 +57,32 @@ namespace PunchClock.UI.Web.Helpers
             };
 
             returnList.Add(defaultValue);
-            if (categories != null)
-                returnList.AddRange(categories.Select(category => new SelectListItem
+            if (categoriesByCompanyId != null)
+                returnList.AddRange(categoriesByCompanyId.Select(category => new SelectListItem
                 {
                     Text = category.Name,
                     Value = category.Id.ToString()
+                }));
+
+            return returnList;
+        }
+        public static List<SelectListItem> GetTagsByComapnyIdList(int companyId)
+        {
+            var articleTagByCompany = TagsService.GetArticleTagByCompany(companyId);
+
+            var returnList = new List<SelectListItem>();
+            var defaultValue = new SelectListItem
+            {
+                Text = "Select Tags",
+                Value = "0"
+            };
+
+            returnList.Add(defaultValue);
+            if (articleTagByCompany != null)
+                returnList.AddRange(articleTagByCompany.Select(tag => new SelectListItem
+                {
+                    Text = tag.Name,
+                    Value = tag.Id.ToString()
                 }));
 
             return returnList;
