@@ -25,7 +25,8 @@ namespace PunchClock.Cms.Testing
                 Description = "Test data",
                 CategoryId = 1,
                  Tags = "title",
-                LastModifiedBy = null
+                LastModifiedBy = null,
+                CompanyId = 1
             };
             var record= _articleService.Add(article);
             Assert.IsNotNull(record);

@@ -96,6 +96,10 @@
       <Project>{d813b844-c001-4661-b236-5f08e0eb27bc}</Project>
       <Name>PunchClock.Helper.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Language\PunchClock.Language.Model\PunchClock.Language.Model.csproj">
+      <Project>{4D9CF7FB-E8DF-403D-BCA1-E9689EB1738B}</Project>
+      <Name>PunchClock.Language.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PunchClock.Cms.Contract\PunchClock.Cms.Contract.csproj">
       <Project>{E190C8EA-4EC4-43AA-9A28-B84A1FA89004}</Project>
       <Name>PunchClock.Cms.Contract</Name>

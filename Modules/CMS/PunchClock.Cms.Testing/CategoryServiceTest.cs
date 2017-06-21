@@ -26,7 +26,8 @@ namespace PunchClock.Cms.Testing
                 {
                     Name = categoryName,
                     Description = categoryName,
-                    LastModifiedBy = null
+                    LastModifiedBy = null,
+                    CompanyId = 1
                 };
                var  result= _categoryService.Add(newCategory);
                 Assert.IsNotNull(result);
