@@ -19,20 +19,20 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                    Name = "Home",
                     Description = "",
-                     CreatedDateUtc = DateTime.Now,
+                     CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
-                    ModifiedDateUtc = DateTime.Now,
+                    ModifiedDateUtc = DateTime.UtcNow,
                     CompanyId = 1
                 },
                 new ArticleTag
                 {
                     Name = "Social",
                     Description = "",
-                  CreatedDateUtc = DateTime.Now,
+                  CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
-                    ModifiedDateUtc = DateTime.Now,
+                    ModifiedDateUtc = DateTime.UtcNow,
                        CompanyId = 1
                 }
                 ,
@@ -40,10 +40,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                     Name = "Fashion",
                     Description = "",
-                     CreatedDateUtc = DateTime.Now,
+                     CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
-                    ModifiedDateUtc = DateTime.Now,
+                    ModifiedDateUtc = DateTime.UtcNow,
                        CompanyId = 1
                 }
                  ,
@@ -51,10 +51,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                     Name = "Technology",
                     Description = "",
-                 CreatedDateUtc = DateTime.Now,
+                 CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
-                    ModifiedDateUtc = DateTime.Now,
+                    ModifiedDateUtc = DateTime.UtcNow,
                        CompanyId = 1
                 }
             };
