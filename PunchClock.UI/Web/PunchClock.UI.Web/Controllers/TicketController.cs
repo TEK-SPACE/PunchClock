@@ -69,5 +69,16 @@ namespace PunchClock.UI.Web.Controllers
         {
             return Json(_ticketService.GetStatus(), JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public ActionResult Type()
+        {
+            return Json(_ticketService.GetStatus(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Priority()
+        {
+            return Json(_ticketService.GetStatus(), JsonRequestBehavior.AllowGet);
+        }
     }
 }
