@@ -6,20 +6,30 @@ namespace PunchClock.Core.Models.Common
 {
     public class CommonEntity
     {
-        [Column(TypeName = "datetime2")]
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-
-        [Column(TypeName = "datetime2")]
-        public DateTime ModifiedDate { get; set; } = DateTime.Now;
-
-        public string LastModifiedBy { get; set; }
-
-        [ForeignKey("LastModifiedBy")]
-        public virtual User User { get; set; }
-
         public int CompanyId { get; set; }
+
+        public string CreatedById { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedDateUtc { get; set; } = DateTime.UtcNow;
+
+        public string ModifiedById { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime ModifiedDateUtc { get; set; } = DateTime.UtcNow;
+
+        public bool IsDeleted { get; set; }
+
+
+
+        [ForeignKey("CreatedById")]
+        public virtual User CreatedBy { get; set; }
+
+        [ForeignKey("ModifiedById")]
+        public virtual User ModifiedBy { get; set; }
+
         [ForeignKey("CompanyId")]
         public virtual Company Company { get; set; }
-        public bool IsDeleted { get; set; } = false;
+
     }
 }
