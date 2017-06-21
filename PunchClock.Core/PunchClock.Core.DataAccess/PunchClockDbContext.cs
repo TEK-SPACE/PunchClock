@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Configuration.Model;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
+using PunchClock.Language.Model;
 using PunchClock.TimeTracker.Model;
 
 namespace PunchClock.Core.DataAccess
@@ -26,7 +27,7 @@ namespace PunchClock.Core.DataAccess
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyHoliday> CompanyHolidays { get; set; }
-        public DbSet<Language> Languages { get; set; }
+        public DbSet<Domain.Model.Language> Languages { get; set; }
         public DbSet<CompanyLanguage> CompanyLanguages { get; set; }
 
         public DbSet<Country> Countries { get; set; }
@@ -44,12 +45,23 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
         public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
+        //Ticketing Resources
+        public DbSet<TicketingCategoryResource> TicketingCategoryResources { get; set; }
+        public DbSet<TicketingPriorityResource> TicketingPriorityResources { get; set; }
+        public DbSet<TicketingTypeResource> TicketingTypeResources { get; set; }
+        public DbSet<TicketingStatusResource> TicketingStatusResources { get; set; }
+
         public DbSet<Cms.Model.Article> Articles { get; set; }
         public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }
         public DbSet<Cms.Model.ArticleComment> ArticleComments { get; set; }
         public DbSet<Cms.Model.ArticleTag> ArticleTags { get; set; }
         public DbSet<Cms.Model.ArticleType> ArticleTypes { get; set; }
 
+
+        //CMS Resources
+        public DbSet<ArticleTypeResource> ArticleTypeResources { get; set; }
+        public DbSet<ArticleTagResource> ArticleTagResources { get; set; }
+        public DbSet<ArticleCategoryResource> ArticleCategoryResources { get; set; }
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
