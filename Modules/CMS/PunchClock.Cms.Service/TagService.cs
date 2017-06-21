@@ -4,6 +4,7 @@ using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Models.Common;
+using PunchClock.Language.Model;
 
 namespace PunchClock.Cms.Service
 {
@@ -19,9 +20,43 @@ namespace PunchClock.Cms.Service
                 context.SaveChanges();
 
             }
+            AddArticleTyperesources(articleTag);
             return articleTag;
         }
+        private void AddArticleTyperesources(ArticleTag articleTag)
+        {
+            if (articleTag.Id <= 0) return;
+            for (var i = 1; i <= 3; i++)
+            {
+                var culture = Culture.English;
+                if (i == (int)Culture.Spanish)
+                    culture = Culture.Spanish;
+                if (i == (int)Culture.Hindi)
+                    culture = Culture.Hindi;
 
+                using (var context = new PunchClockDbContext())
+                {
+
+                    var tagResources = new ArticleTagResource()
+                    {
+                        TagMasterId = articleTag.Id,
+                        Value = articleTag.Name,
+                        Culture = culture,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        LastModifiedBy = articleTag.LastModifiedBy
+
+                    };
+
+                    {
+                        context.ArticleTagResources.Add(tagResources);
+                        context.SaveChanges();
+                    }
+
+
+                }
+            }
+        }
         public ArticleTag Update(ArticleTag articleTag)
         {
             using (var context = new PunchClockDbContext())

@@ -4,11 +4,13 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PunchClock.Cms.Model;
 using PunchClock.Configuration.Model;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
+using PunchClock.Language.Model;
 using PunchClock.Ticketing.Model;
-
+using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 namespace PunchClock.Core.DataAccess
 {
     public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
@@ -41,12 +43,24 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
         public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
+        //Ticketing Resources
+        public DbSet<TicketingCategoryResource> TicketingCategoryResources { get; set; }
+        public DbSet<TicketingPriorityResource> TicketingPriorityResources { get; set; }
+        public DbSet<TicketingTypeResource> TicketingTypeResources { get; set; }
+        public DbSet<TicketingStatusResource> TicketingStatusResources { get; set; }
+
+        //cms
         public DbSet<Cms.Model.Article> Articles { get; set; }
         public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }
         public DbSet<Cms.Model.ArticleComment> ArticleComments { get; set; }
         public DbSet<Cms.Model.ArticleTag> ArticleTags { get; set; }
         public DbSet<Cms.Model.ArticleType> ArticleTypes { get; set; }
 
+
+        //CMS Resources
+        public DbSet<ArticleTypeResource> ArticleTypeResources { get; set; }
+        public DbSet<ArticleTagResource> ArticleTagResources { get; set; }
+        public DbSet<ArticleCategoryResource> ArticleCategoryResources { get; set; }
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }

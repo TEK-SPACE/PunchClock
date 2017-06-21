@@ -23,7 +23,8 @@ namespace PunchClock.Cms.Testing
 
                 Description = "Test data",
                 Name = "Test",
-                LastModifiedBy = null
+                LastModifiedBy = null,
+                CompanyId = 1
             };
             var result = _tagService.Add(tag);
             Assert.IsNotNull(result);
