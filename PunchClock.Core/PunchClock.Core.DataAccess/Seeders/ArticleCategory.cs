@@ -20,18 +20,20 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                    Name = "Admin",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                    CreatedDateUtc = DateTime.UtcNow,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.UtcNow,
                     CompanyId = 1
                 },
                 new ArticleCategory
                 {
                     Name = "RBTek",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                   CreatedDateUtc = DateTime.UtcNow,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.UtcNow,
                        CompanyId = 1
                 }
                 ,
@@ -39,9 +41,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                     Name = "CMS",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                    CreatedDateUtc = DateTime.UtcNow,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.UtcNow,
                        CompanyId = 1
                 }
                  ,
@@ -49,9 +52,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                     Name = "Ticketing",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                     CreatedDateUtc = DateTime.UtcNow,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.UtcNow,
                        CompanyId = 1
                 }
             };
