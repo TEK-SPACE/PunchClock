@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
@@ -55,6 +56,30 @@ namespace PunchClock.Cms.Service
                 response.ResponseText = "Comment is Deleted.";
                 response.Success = true;
                 return response;
+            }
+        }
+
+        public ArticleComment GetOneArticleComment(int id)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleComments.FirstOrDefault(x => x.Id == id);
+            }
+        }
+
+        public List<ArticleComment> GetAllCommentsByArticleId(int articleId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleComments.Where(x => x.IsDeleted == false && x.ArticleId == articleId).ToList();
+            }
+        }
+
+        public List<ArticleComment> GetAllCOmmentsByCompanyId(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleComments.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
             }
         }
     }

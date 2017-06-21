@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
@@ -58,6 +59,30 @@ namespace PunchClock.Cms.Service
                 response.ResponseText = "Article is Deleted.";
                 response.Success = true;
                 return response;
+            }
+        }
+
+        public Article GetOneArticle(int id)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Articles.FirstOrDefault(x => x.Id == id);
+            }
+        }
+
+        public List<Article> GetAllArticles()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Articles.Where(x => x.IsDeleted == false).ToList();
+            }
+        }
+
+        public List<Article> GetArticlesByCompanyId(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Articles.Where(x => x.IsDeleted == false && x.CompanyId==companyId).ToList();
             }
         }
     }

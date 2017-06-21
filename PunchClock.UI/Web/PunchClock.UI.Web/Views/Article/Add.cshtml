@@ -1,4 +1,5 @@
-﻿@model PunchClock.Cms.Model.Article
+﻿@using PunchClock.UI.Web.Helpers
+@model PunchClock.Cms.Model.Article
 
 @{
     ViewBag.Title = "New Article";
@@ -25,14 +26,14 @@
             <div class="form-group">
                 @Html.Label("Tags", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().MultiSelectFor(x => x.Tags)
+                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").BindTo(ArticleHelpers.GetTagsByComapnyIdList(1))
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.Label("Category", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().ComboBoxFor(x => x.Category)
+                    @Html.Kendo().ComboBoxFor(x => x.Category).DataTextField("Text").DataValueField("Value").BindTo(ArticleHelpers.GetCategoriesByCompanyList(1))
                 </div>
             </div>
 
