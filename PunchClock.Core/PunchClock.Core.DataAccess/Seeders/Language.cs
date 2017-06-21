@@ -9,11 +9,11 @@ namespace PunchClock.Core.DataAccess.Seeders
     {
         private void SeedLanguage(PunchClockDbContext context)
         {
-            List<Language> languages = new List<Language>
+            List<Domain.Model.Language> languages = new List<Domain.Model.Language>
             {
-                new Language {Id=1,Name=LanguageCulture.English.ToString()},
-                new Language {Id=2,Name=LanguageCulture.Spanish.ToString()},
-                new Language {Id=3,Name=LanguageCulture.Hindi.ToString()}
+                new Domain.Model.Language {Id=1,Name=LanguageCulture.English.ToString()},
+                new Domain.Model.Language {Id=2,Name=LanguageCulture.Spanish.ToString()},
+                new Domain.Model.Language {Id=3,Name=LanguageCulture.Hindi.ToString()}
             };
             foreach (var language in languages)
             {

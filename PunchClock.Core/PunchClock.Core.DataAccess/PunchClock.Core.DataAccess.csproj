@@ -129,6 +129,10 @@
       <Project>{dd8b80c3-f1d5-41fb-b4b6-e06b25ded4ba}</Project>
       <Name>PunchClock.Configuration.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Language\PunchClock.Language.Model\PunchClock.Language.Model.csproj">
+      <Project>{4D9CF7FB-E8DF-403D-BCA1-E9689EB1738B}</Project>
+      <Name>PunchClock.Language.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Ticketing\PunchClock.Ticketing.Model\PunchClock.Ticketing.Model.csproj">
       <Project>{8df6e84e-73c8-4bdc-80ea-b0ec0d55776a}</Project>
       <Name>PunchClock.Ticketing.Model</Name>

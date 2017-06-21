@@ -22,7 +22,8 @@ namespace PunchClock.Cms.Testing
             {
                 Description = "Test data",
                 ArticleId = 1,
-                LastModifiedBy = null
+                LastModifiedBy = null,
+                CompanyId = 1
             };
             var result = _commentService.Add(comment);
             Assert.IsNotNull(result);
