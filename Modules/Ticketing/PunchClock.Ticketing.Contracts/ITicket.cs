@@ -1,4 +1,5 @@
-﻿using PunchClock.Core.Models.Common;
+﻿using System.Collections.Generic;
+using PunchClock.Core.Models.Common;
 using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Ticketing.Contracts
@@ -8,5 +9,8 @@ namespace PunchClock.Ticketing.Contracts
         Ticket Add(Ticket ticket);
         Ticket Update(Ticket ticket);
         AjaxResponse Delete(int Id);
+        List<Ticket> All();
+        void Delete(Ticket ticket);
+        List<TicketStatus> GetStatus();
     }
 }

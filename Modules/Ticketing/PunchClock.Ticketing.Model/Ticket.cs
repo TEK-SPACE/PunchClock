@@ -16,10 +16,13 @@ namespace PunchClock.Ticketing.Model
 
         [StringLength(5000)]
         public string Description { get; set; }
-
+        [Display( Name = "Status")]
         public int StatusId { get; set; }
+        [Display(Name = "Type")]
         public int TypeId { get; set; }
+        [Display(Name = "Priority")]
         public int PriorityId { get; set; }
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
 

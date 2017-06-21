@@ -53,10 +53,10 @@ namespace PunchClock.Core.DataAccess
 
 
         //Ticketing Resources
-        public DbSet<TicketingCategoryResource> TicketingCategoryResources { get; set; }
-        public DbSet<TicketingPriorityResource> TicketingPriorityResources { get; set; }
-        public DbSet<TicketingTypeResource> TicketingTypeResources { get; set; }
-        public DbSet<TicketingStatusResource> TicketingStatusResources { get; set; }
+        public DbSet<TicketCategoryResource> TicketCategoryResources { get; set; }
+        public DbSet<TicketPriorityResource> TicketPriorityResources { get; set; }
+        public DbSet<TicketTypeResource> TicketTypeResources { get; set; }
+        public DbSet<TicketStatusResource> TicketStatusResources { get; set; }
 
         public DbSet<Cms.Model.Article> Articles { get; set; }
         public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }

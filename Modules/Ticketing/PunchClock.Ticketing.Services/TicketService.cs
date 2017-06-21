@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Core.DataAccess;
 using PunchClock.Ticketing.Contracts;
@@ -35,6 +36,34 @@ namespace PunchClock.Ticketing.Services
                 return response;
             }
         }
+
+        public List<Ticket> All()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Tickets.Where(x => !x.IsDeleted).ToList();
+            }
+        }
+
+        public void Delete(Ticket ticket)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                var entity = context.Tickets.FirstOrDefault(x => x.Id == ticket.Id);
+                if (ticket == null) return;
+                if (entity != null) entity.IsDeleted = true;
+                context.SaveChanges();
+            }
+        }
+
+        public List<TicketStatus> GetStatus()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.TicketStatuses.OrderBy(x=>x.DisplayOrder).ToList();
+            }
+        }
+
         public Ticket Update(Ticket ticket)
         {
             using (var context = new PunchClockDbContext())

@@ -347,6 +347,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PunchController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ViewSwitcherController.cs" />
     <Compile Include="Global.asax.cs">
@@ -737,6 +738,8 @@
     <Content Include="Views\Configuration\Index.cshtml" />
     <Content Include="Views\Punch\_Results.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TimeSpan.cshtml" />
+    <Content Include="Views\Ticket\Add.cshtml" />
+    <Content Include="Views\Ticket\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -776,6 +779,18 @@
     <ProjectReference Include="..\..\..\Modules\Configuration\PunchClock.Configuration.Service\PunchClock.Configuration.Service.csproj">
       <Project>{9c9b8b56-1fc8-4de5-8fdd-f255073d039a}</Project>
       <Name>PunchClock.Configuration.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\Ticketing\PunchClock.Ticketing.Contracts\PunchClock.Ticketing.Contracts.csproj">
+      <Project>{1d64b484-3ba8-4b3a-9196-20375c8046e5}</Project>
+      <Name>PunchClock.Ticketing.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\Ticketing\PunchClock.Ticketing.Model\PunchClock.Ticketing.Model.csproj">
+      <Project>{8df6e84e-73c8-4bdc-80ea-b0ec0d55776a}</Project>
+      <Name>PunchClock.Ticketing.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\Ticketing\PunchClock.Ticketing.Services\PunchClock.Ticketing.Services.csproj">
+      <Project>{625dd4d5-3a36-4679-846e-25042936785d}</Project>
+      <Name>PunchClock.Ticketing.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Modules\TimeTracker\PunchClock.TimeTracker.Contract\PunchClock.TimeTracker.Contract.csproj">
       <Project>{7f05f4d4-e221-45e1-be22-33d55011da4e}</Project>

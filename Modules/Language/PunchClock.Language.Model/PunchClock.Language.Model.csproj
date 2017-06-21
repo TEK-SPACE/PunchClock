@@ -55,10 +55,10 @@
     <Compile Include="Culture.cs" />
     <Compile Include="ArticleTypeResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TicketingCategoryResource.cs" />
-    <Compile Include="TicketingPriorityResource.cs" />
-    <Compile Include="TicketingStatusResource.cs" />
-    <Compile Include="TicketingTypeResource.cs" />
+    <Compile Include="TicketCategoryResource.cs" />
+    <Compile Include="TicketPriorityResource.cs" />
+    <Compile Include="TicketStatusResource.cs" />
+    <Compile Include="TicketTypeResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
