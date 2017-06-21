@@ -14,7 +14,6 @@ namespace PunchClock.Cms.Service
         {
             using (var context = new PunchClockDbContext())
             {
-                articleTag.CreatedDate=DateTime.Now;
                 articleTag.IsDeleted = false;
                 context.ArticleTags.Add(articleTag);
                 context.SaveChanges();
@@ -44,7 +43,6 @@ namespace PunchClock.Cms.Service
                         Culture = culture,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        LastModifiedBy = articleTag.LastModifiedBy
 
                     };
 
@@ -65,7 +63,6 @@ namespace PunchClock.Cms.Service
                 if (existingTag == null) return articleTag;
                 existingTag.Name = articleTag.Name;
                 existingTag.Description = articleTag.Description;
-                existingTag.ModifiedDate = DateTime.Now;
                 existingTag.IsDeleted = false;
                 context.SaveChanges();
 
@@ -86,7 +83,6 @@ namespace PunchClock.Cms.Service
                 var tags = context.ArticleTags.FirstOrDefault(x => x.Id == id);
                 if (tags == null) return response;
                 tags.IsDeleted = true;
-                tags.ModifiedDate = DateTime.Now;
                 context.SaveChanges();
                 response.ResponseText = "Tag is Deleted.";
                 response.Success = true;

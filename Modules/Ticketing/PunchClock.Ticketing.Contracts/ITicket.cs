@@ -1,6 +1,4 @@
-﻿using System;
-using PunchClock.Core.Models;
-using PunchClock.Core.Models.Common;
+﻿using PunchClock.Core.Models.Common;
 using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Ticketing.Contracts

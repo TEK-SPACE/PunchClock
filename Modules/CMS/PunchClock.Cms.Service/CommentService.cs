@@ -14,7 +14,6 @@ namespace PunchClock.Cms.Service
         {
             using (var context = new PunchClockDbContext())
             {
-                comment.CreatedDate = DateTime.Now;
                 comment.IsDeleted = false;
                 context.ArticleComments.Add(comment);
                 context.SaveChanges();
@@ -28,7 +27,6 @@ namespace PunchClock.Cms.Service
             {
                 var existingComment = context.ArticleComments.FirstOrDefault(x => x.Id == comments.Id);
                 if (existingComment == null) return comments;
-                existingComment.ModifiedDate = DateTime.Now;
                 existingComment.Description = comments.Description;
                 existingComment.ArticleId = comments.ArticleId;
                 existingComment.IsDeleted = false;
@@ -49,7 +47,6 @@ namespace PunchClock.Cms.Service
             {
                 var comment = context.ArticleComments.FirstOrDefault(x => x.Id == id);
                 if (comment == null) return response;
-                comment.ModifiedDate = DateTime.Now;
                 comment.IsDeleted = true;
                 context.SaveChanges();
                 response.ResponseText = "Comment is Deleted.";

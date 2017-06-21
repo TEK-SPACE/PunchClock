@@ -16,16 +16,12 @@ namespace PunchClock.Core.DataAccess.Seeders
                     Id = 1,
                     Name = "New",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now
                 },
                 new TicketStatus
                 {
                     Id = 2,
                     Name = "Active",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now
                 }
             };
             foreach (var satus in satuses)

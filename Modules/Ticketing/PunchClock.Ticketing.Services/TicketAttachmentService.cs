@@ -47,7 +47,6 @@ namespace PunchClock.Ticketing.Services
                 existingAttach.ModifiedDateUtc = DateTime.UtcNow;
                 existingAttach.CreatedDateUtc = DateTime.UtcNow;
                 existingAttach.IsDeleted = false;
-                existingAttach.ModifiedBy = atachment.ModifiedBy;
                 context.SaveChanges();
             }
             return atachment;

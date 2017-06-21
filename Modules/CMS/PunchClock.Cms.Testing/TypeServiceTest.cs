@@ -22,7 +22,7 @@ namespace PunchClock.Cms.Testing
             {
                 Description = "Test data",
                 Name = "Test",
-                LastModifiedBy = null,
+                ModifiedById = null,
                 CompanyId = 1
             };
             var result = _tagService.Add(type);
@@ -36,7 +36,7 @@ namespace PunchClock.Cms.Testing
                 Id=1,
                 Description = "Test11 data",
                 Name = "Tests",
-                LastModifiedBy = null
+                ModifiedById = null
             };
             var result = _tagService.Update(type);
             Assert.IsNotNull(result);
