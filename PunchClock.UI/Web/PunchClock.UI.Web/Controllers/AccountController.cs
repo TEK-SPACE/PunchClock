@@ -191,8 +191,8 @@ namespace PunchClock.UI.Web.Controllers
                 user.LastUpdatedUtc = DateTimeOffset.UtcNow;
                 user.PasswordLastChanged = DateTime.UtcNow;
 
-                CompanyView company = _companyService.Get(code: user.RegistrationCode);
-                if(company == null || company.CompanyId < 1)
+                Company company = _companyService.Get(code: user.RegistrationCode);
+                if(company == null || company.Id < 1)
                 {
                     var errorMessage =
                         $"Registration code {user.RegistrationCode} doesn't match with any  Company in the system";
@@ -200,7 +200,7 @@ namespace PunchClock.UI.Web.Controllers
                     SetRegistrationContext(user);
                     return Json(user);
                 }
-                user.CompanyId = company.CompanyId;
+                user.CompanyId = company.Id;
                 user.IsActive = true;
 
                 var result = await UserManager.CreateAsync(user, user.Password);

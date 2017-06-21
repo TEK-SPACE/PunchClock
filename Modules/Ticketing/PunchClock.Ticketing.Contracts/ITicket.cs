@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using PunchClock.Core.Models.Common;
 using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Ticketing.Contracts
 {
     public interface ITicket
     {
-        int Add(Ticket ticket);
-        bool Update(Ticket ticket);
+        Ticket Add(Ticket ticket);
+        Ticket Update(Ticket ticket);
+        AjaxResponse Delete(int Id);
+        List<Ticket> All();
+        void Delete(Ticket ticket);
+        List<TicketStatus> GetStatus();
     }
 }

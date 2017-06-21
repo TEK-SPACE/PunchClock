@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PunchClock.Ticketing.Model.Ticket>
+@{
+    ViewBag.Title = "Tickets";
+}
+
+@(Html.Kendo().Grid(Model)
+      .Name("ConfigurationGrid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Id);
+          columns.Bound(c => c.Title);
+          columns.Bound(c => c.Description);
+          columns.Bound(c => c.PriorityId).Title("Priority").ClientTemplate("#:Priority.Name#").Width(100);
+          //columns.Command(command =>
+          //{
+          //    command.Edit();
+          //    //command.Destroy();
+          //});
+      })
+      //.HtmlAttributes(new { style = "height: 550px;" })
+      .Scrollable()
+      .Groupable()
+      .Sortable()
+      .ToolBar(toolbar => {
+                              //toolbar.Create();
+                              toolbar.Save();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable(pageable => pageable
+          .Refresh(true)
+          .PageSizes(true)
+          .ButtonCount(5))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(c => c.Description).Editable(false);
+          })
+          .Read(read => read.Action("Read", "Ticket"))
+          //.Create(update => update.Action("Add", "Ticket"))
+          .Update(update => update.Action("Update", "Ticket"))
+          .Destroy(update => update.Action("Delete", "Ticket"))
+          .PageSize(20)
+      )
+      )

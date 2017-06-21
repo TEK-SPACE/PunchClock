@@ -33,6 +33,7 @@ namespace PunchClock.Core.DataAccess.Seeders
 
             #region Company
             SeedCompany(context);
+            SeedCompanyLanguage(context);
             #endregion
 
             #region CMS
@@ -54,6 +55,11 @@ namespace PunchClock.Core.DataAccess.Seeders
             #region App Settings
             SeedAppSettings(context);
             #endregion
+
+            #region Language Culture
+            SeedLanguage(context);
+            #endregion
+
 
             base.Seed(context);
         }

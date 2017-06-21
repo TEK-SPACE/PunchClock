@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web.Mvc;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using PunchClock.View.Model;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
@@ -165,7 +167,61 @@ namespace PunchClock.UI.Web.Controllers
             Session.Add("SessionPunchResult", punches);
             return Json(punches);
         }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Add([DataSourceRequest] DataSourceRequest request,
+            Punch punch)
+        {
+            if (punch != null && ModelState.IsValid)
+            {
+                _punchService.Add(punch);
+            }
 
+            return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+        }
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var punches = _punchService.All();
+            return Json(punches.ToDataSourceResult(request));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request,
+            Punch punch)
+        {
+            if (punch != null && ModelState.IsValid)
+            {
+                _punchService.Update(punch);
+            }
+
+            return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Delete([DataSourceRequest] DataSourceRequest request,
+            Punch punch)
+        {
+            if (punch != null && ModelState.IsValid)
+            {
+                _punchService.Delete(punch);
+            }
+            return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+        }
+        [HttpPost]
+        public ActionResult ExportSave(string contentType, string base64, string fileName)
+        {
+            var fileContents = Convert.FromBase64String(base64);
+
+            return File(fileContents, contentType, fileName);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Approve([DataSourceRequest] DataSourceRequest request,
+            Punch punch)
+        {
+            if (punch != null && ModelState.IsValid)
+            {
+                _punchService.Approve(punch);
+            }
+
+            return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+        }
         public FileResult Export()
         {
             List<Punch> punches;

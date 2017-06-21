@@ -1,6 +1,6 @@
 ﻿@model  Dictionary<string, List<PunchClock.View.Model.CompanyHolidayView>>
   @{int i = 0;}
-@using (Ajax.BeginForm("SetHolidays", "Employer", new {id = (string) ViewBag.companyId}, new AjaxOptions {HttpMethod = "POST"}, new {}))
+@using (Ajax.BeginForm("SetHolidays", "Company", new {id = (string) ViewBag.companyId}, new AjaxOptions {HttpMethod = "POST"}, new {}))
 {
 
     <ul class="commonForm">

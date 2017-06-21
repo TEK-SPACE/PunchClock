@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PunchClock.Language.Model
 {
-  public class TicketingCategoryResource : BaseResource
+  public class TicketCategoryResource : BaseResource
     {
         [Index("UniqueResourceTicketingTypeCulture", 1)]
         public int CategoryMasterId { get; set; }

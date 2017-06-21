@@ -28,7 +28,7 @@ namespace PunchClock.TimeTracker.Model
 
         public int Hours
         {
-            get { return PunchOut.HasValue ? Convert.ToInt32(PunchOut.Value.Subtract(PunchIn).TotalSeconds) : 0; }
+            get { return PunchOut.HasValue ? Convert.ToInt32(PunchOut.Value.Subtract(PunchIn).TotalHours) : 0; }
             set { }
         }
         [NotMapped]

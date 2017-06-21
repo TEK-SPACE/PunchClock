@@ -128,7 +128,7 @@ namespace PunchClock.Core.Implementation
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
                 var u = context.Users.FirstOrDefault(
-                    x => x.Id.Equals(user.Id, StringComparison.OrdinalIgnoreCase));
+                    x => x.Uid.Equals(user.Uid));
                 if (u == null) return user.Uid;
                 u.FirstName = user.FirstName;
                 u.LastName = user.LastName;
@@ -147,11 +147,11 @@ namespace PunchClock.Core.Implementation
                     if (user.UserTypeId > 0)
                         u.UserTypeId = user.UserTypeId;
                     if (user.EmploymentTypeId > 0)
-                        u.EmploymentType = (Domain.Model.EmploymentType)user.EmploymentTypeId;
+                        u.EmploymentTypeId = user.EmploymentTypeId;
                 }
                 try
                 {
-                context.SaveChanges();
+                    context.SaveChanges();
                 }
                 catch (Exception e)
                 {

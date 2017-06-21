@@ -2,7 +2,7 @@
 
 namespace PunchClock.Language.Model
 {
-    public class TicketingTypeResource : BaseResource
+    public class TicketTypeResource : BaseResource
     {
         [Index("UniqueResourceTicketingTypeCulture", 1)]
         public int TypeMasterId { get; set; }

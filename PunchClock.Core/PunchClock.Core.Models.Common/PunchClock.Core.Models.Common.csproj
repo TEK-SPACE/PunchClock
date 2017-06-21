@@ -99,6 +99,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Enum\CompanyTransaction.cs" />
     <Compile Include="Enum\EmploymentType.cs" />
+    <Compile Include="Enum\LanguageCulture.cs" />
     <Compile Include="Enum\ModuleType.cs" />
     <Compile Include="GeoPlugin.cs" />
     <Compile Include="Module.cs" />
