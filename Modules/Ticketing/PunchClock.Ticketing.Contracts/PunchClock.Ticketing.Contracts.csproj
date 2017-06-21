@@ -41,6 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITicket.cs" />
+    <Compile Include="ITicketAttachment.cs" />
+    <Compile Include="ITicketCategory.cs" />
+    <Compile Include="ITicketComment.cs" />
+    <Compile Include="ITicketPriority.cs" />
+    <Compile Include="ITicketStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
