@@ -11,24 +11,13 @@ namespace PunchClock.Core.DataAccess.Seeders
         {
             var satuses = new List<TicketStatus>
             {
-                new TicketStatus
-                {
-                    Id = 1,
-                    Name = "New",
-                    Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedByGuid = null,
-                    ModifiedDate = DateTime.Now
-                },
-                new TicketStatus
-                {
-                    Id = 2,
-                    Name = "Active",
-                    Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedByGuid = null,
-                    ModifiedDate = DateTime.Now
-                }
+                new TicketStatus {Id = 1, Name = "Planned", DisplayOrder =1,  Description = "", CompanyId = 1},
+                new TicketStatus {Id = 2, Name = "Ready", DisplayOrder =2, Description = "", CompanyId = 1},
+                new TicketStatus {Id = 3, Name = "In Progress", DisplayOrder =3, Description = "", CompanyId = 1},
+                new TicketStatus {Id = 4, Name = "Completed",  DisplayOrder =4,Description = "", CompanyId = 1},
+                new TicketStatus {Id = 5, Name = "Re-Opened",  DisplayOrder =2,Description = "", CompanyId = 1},
+                new TicketStatus {Id = 6, Name = "Resolved",  DisplayOrder =6,Description = "", CompanyId = 1},
+                new TicketStatus {Id = 7, Name = "Closed", DisplayOrder =7, Description = "", CompanyId = 1},
             };
             foreach (var satus in satuses)
             {

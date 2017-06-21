@@ -22,7 +22,7 @@ namespace PunchClock.Cms.Testing
             {
                 Description = "Test data",
                 ArticleId = 1,
-                LastModifiedBy = null,
+                ModifiedById = null,
                 CompanyId = 1
             };
             var result = _commentService.Add(comment);
@@ -36,7 +36,7 @@ namespace PunchClock.Cms.Testing
                 Description = "Test datass",
                 ArticleId = 1,
                 Id = 1,
-                LastModifiedBy = null
+                ModifiedById = null
             };
             var result = _commentService.Update(comment);
             Assert.IsNotNull(result);

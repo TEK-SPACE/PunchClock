@@ -42,14 +42,21 @@ namespace PunchClock.Core.DataAccess
         //public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
        
+        public DbSet<Ticketing.Model.TicketType> TicketTypes { get; set; }
+        public DbSet<Ticketing.Model.TicketAttachment> TicketAttachments { get; set; }
         public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
+        public DbSet<Ticketing.Model.TicketCategory> TicketCategories { get; set; }
+        public DbSet<Ticketing.Model.TicketComment> TicketComments { get; set; }
+        public DbSet<Ticketing.Model.TicketPriority> TicketPrioritys { get; set; }
         public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
+
+
         //Ticketing Resources
-        public DbSet<TicketingCategoryResource> TicketingCategoryResources { get; set; }
-        public DbSet<TicketingPriorityResource> TicketingPriorityResources { get; set; }
-        public DbSet<TicketingTypeResource> TicketingTypeResources { get; set; }
-        public DbSet<TicketingStatusResource> TicketingStatusResources { get; set; }
+        public DbSet<TicketCategoryResource> TicketCategoryResources { get; set; }
+        public DbSet<TicketPriorityResource> TicketPriorityResources { get; set; }
+        public DbSet<TicketTypeResource> TicketTypeResources { get; set; }
+        public DbSet<TicketStatusResource> TicketStatusResources { get; set; }
 
         public DbSet<Cms.Model.Article> Articles { get; set; }
         public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }

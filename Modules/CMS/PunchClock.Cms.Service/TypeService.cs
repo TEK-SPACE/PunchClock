@@ -16,7 +16,6 @@ namespace PunchClock.Cms.Service
          
                 using (var context = new PunchClockDbContext())
                 {
-                    articleType.CreatedDate = DateTime.Now;
                     articleType.IsDeleted = false;
                     context.ArticleTypes.Add(articleType);
                     context.SaveChanges();
@@ -48,7 +47,6 @@ namespace PunchClock.Cms.Service
                         Culture = culture,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        LastModifiedBy = articleType.LastModifiedBy
                         
                     };
                    
@@ -66,7 +64,6 @@ namespace PunchClock.Cms.Service
                 if (existingType == null) return articleType;
                 existingType.Name = articleType.Name;
                 existingType.Description = articleType.Description;
-                existingType.ModifiedDate = DateTime.Now;
                 existingType.IsDeleted = false;
                 context.SaveChanges();
             }
@@ -86,7 +83,6 @@ namespace PunchClock.Cms.Service
                 var articleType = context.ArticleTypes.FirstOrDefault(x => x.Id == id);
                 if (articleType == null) return response;
                 articleType.IsDeleted = true;
-                articleType.ModifiedDate=DateTime.Now;
                 response.ResponseText = "Article Type is Deleted.";
                 response.Success = true;
                 return response;

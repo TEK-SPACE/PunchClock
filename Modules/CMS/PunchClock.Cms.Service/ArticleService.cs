@@ -15,7 +15,6 @@ namespace PunchClock.Cms.Service
            
              using (var context = new PunchClockDbContext())
             {
-              article.CreatedDate=DateTime.Now.ToLocalTime();
                   context.Articles.Add(article);
                 context.SaveChanges();
             }
@@ -29,12 +28,10 @@ namespace PunchClock.Cms.Service
             {
                 var oldArticle = context.Articles.FirstOrDefault(x => x.Id == article.Id);
                 if (oldArticle == null) return article;
-                oldArticle.ModifiedDate = DateTime.Now.ToLocalTime();
                 oldArticle.Title = article.Title;
                 oldArticle.Description = article.Description;
                 oldArticle.IsPublished = article.IsPublished;
                 oldArticle.IsDeleted = false;
-                oldArticle.LastModifiedBy = article.LastModifiedBy;
                 oldArticle.CategoryId = article.CategoryId;
                 context.SaveChanges();
             }
@@ -53,7 +50,6 @@ namespace PunchClock.Cms.Service
             {
                 var article = context.Articles.FirstOrDefault(x => x.Id == articleId);
                 if (article == null) return response;
-                article.ModifiedDate = DateTime.Now;
                 article.IsDeleted = true;
                 context.SaveChanges();
                 response.ResponseText = "Article is Deleted.";
