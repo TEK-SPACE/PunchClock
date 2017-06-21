@@ -9,7 +9,7 @@ using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Language.Model;
 using PunchClock.TimeTracker.Model;
-
+using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 namespace PunchClock.Core.DataAccess
 {
     public class PunchClockDbContext: IdentityDbContext<User>, IDisposable

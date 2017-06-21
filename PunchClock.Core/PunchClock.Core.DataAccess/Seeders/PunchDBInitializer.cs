@@ -39,7 +39,8 @@ namespace PunchClock.Core.DataAccess.Seeders
             #region CMS
 
 
-
+            SeedArticleCategory(context);
+            SeedArticleTags(context);
             #endregion
 
             #region Ticketing

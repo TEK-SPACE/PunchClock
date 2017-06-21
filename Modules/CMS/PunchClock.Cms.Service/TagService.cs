@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
@@ -19,10 +20,10 @@ namespace PunchClock.Cms.Service
                 context.SaveChanges();
 
             }
-            AddArticleTyperesources(articleTag);
+            AddArticleTagResources(articleTag);
             return articleTag;
         }
-        private void AddArticleTyperesources(ArticleTag articleTag)
+        private void AddArticleTagResources(ArticleTag articleTag)
         {
             if (articleTag.Id <= 0) return;
             for (var i = 1; i <= 3; i++)
@@ -45,14 +46,10 @@ namespace PunchClock.Cms.Service
                         ModifiedDate = DateTime.Now,
 
                     };
-
-                    {
+                    
                         context.ArticleTagResources.Add(tagResources);
                         context.SaveChanges();
-                    }
-
-
-                }
+                  }
             }
         }
         public ArticleTag Update(ArticleTag articleTag)
@@ -87,6 +84,30 @@ namespace PunchClock.Cms.Service
                 response.ResponseText = "Tag is Deleted.";
                 response.Success = true;
                 return response;
+            }
+        }
+
+        public ArticleTag GetOneArticleTag(int id)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleTags.FirstOrDefault(x => x.Id == id);
+            }
+        }
+
+        public List<ArticleTag> GetAllArticleTags()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleTags.Where(x => x.IsDeleted == false).ToList();
+            }
+        }
+
+        public List<ArticleTag> GetArticleTagByCompany(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleTags.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
             }
         }
     }

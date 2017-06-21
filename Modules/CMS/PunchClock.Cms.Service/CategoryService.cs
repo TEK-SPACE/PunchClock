@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
@@ -18,10 +19,10 @@ namespace PunchClock.Cms.Service
                 context.ArticleCategrories.Add(category);
                 context.SaveChanges();
             }
-            AddArticleTyperesources(category);
+            AddArticleCategoryResources(category);
             return category;
         }
-        private void AddArticleTyperesources(ArticleCategory category)
+        private void AddArticleCategoryResources(ArticleCategory category)
         {
             if (category.Id <= 0) return;
             for (var i = 1; i <= 3; i++)
@@ -44,11 +45,9 @@ namespace PunchClock.Cms.Service
                         ModifiedDate = DateTime.Now,
 
                     };
-
-                    {
                         context.ArticleCategoryResources.Add(categoryResources);
                         context.SaveChanges();
-                    }
+                    
 
 
                 }
@@ -88,6 +87,30 @@ namespace PunchClock.Cms.Service
                 return response;
             }
            
+        }
+
+        public ArticleCategory GetOneArticleCategory(int id)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleCategrories.FirstOrDefault(x => x.Id == id);
+            }
+        }
+
+        public List<ArticleCategory> GetAllArticleCategories()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleCategrories.Where(x=>x.IsDeleted==false).ToList();
+            }
+        }
+
+        public List<ArticleCategory> GetCategoriesByCompanyId(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.ArticleCategrories.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
+            }
         }
     }
 }
