@@ -19,18 +19,20 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                    Name = "Home",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                     CreatedDateUtc = DateTime.Now,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.Now,
                     CompanyId = 1
                 },
                 new ArticleTag
                 {
                     Name = "Social",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                  CreatedDateUtc = DateTime.Now,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.Now,
                        CompanyId = 1
                 }
                 ,
@@ -38,9 +40,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                     Name = "Fashion",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                     CreatedDateUtc = DateTime.Now,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.Now,
                        CompanyId = 1
                 }
                  ,
@@ -48,9 +51,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                 {
                     Name = "Technology",
                     Description = "",
-                    CreatedDate = DateTime.Now,
-                    LastModifiedBy = null,
-                    ModifiedDate = DateTime.Now,
+                 CreatedDateUtc = DateTime.Now,
+                    CreatedBy = null,
+                    ModifiedById = null,
+                    ModifiedDateUtc = DateTime.Now,
                        CompanyId = 1
                 }
             };
