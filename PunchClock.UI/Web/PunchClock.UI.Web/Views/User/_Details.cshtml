@@ -1,59 +1,69 @@
-﻿@model PunchClock.View.Model.UserView
-@using (Ajax.BeginForm("Details", "User", new { adminUpdate = true }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "postResponseUpdate" }, new { }))
-{
-     @Html.HiddenFor(x => x.UserId)
-    <ul class="commonForm">
-        <li>
-            @Html.LabelFor(x => x.FirstName)
-            @Html.TextBoxFor(x => x.FirstName)
-            @Html.ValidationMessageFor(x => x.FirstName)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.LastName)
-            @Html.TextBoxFor(x => x.LastName)
-            @Html.ValidationMessageFor(x => x.LastName)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.Email)
-            @Html.TextBoxFor(x => x.Email)
-            @Html.ValidationMessageFor(x => x.Email)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.Telephone)
-            @Html.TextBoxFor(x => x.Telephone)
-            @Html.ValidationMessageFor(x => x.Telephone)
-        </li>
-        @*   <li>
-            @Html.LabelFor(x => x.password)
-            @Html.PasswordFor(x => x.password)
-            @Html.ValidationMessageFor(x => x.password)
-        </li>*@
-      @*  <li>
-            @Html.LabelFor(x => x.registrationCode)
-            @Html.TextBoxFor(x => x.registrationCode)
-            @Html.ValidationMessageFor(x => x.registrationCode)
-        </li>*@
-     
-         <li>
-            @Html.LabelFor(x => x.UserTypeId)
-            @Html.DropDownListFor(x => x.UserTypeId, (IEnumerable<SelectListItem>)ViewBag.UserTypes, "--Select--", htmlAttributes: new { })
-            @Html.ValidationMessageFor(x => x.UserTypeId)
-        </li>
-        <li>
-            @Html.LabelFor(x => x.EmploymentTypeId)
-            @Html.DropDownListFor(x => x.EmploymentTypeId, (IEnumerable<SelectListItem>)ViewBag.EmploymentType, "--Select--", htmlAttributes: new { })
-            @Html.ValidationMessageFor(x => x.EmploymentTypeId)
-        </li>
-         <li>
-            @Html.LabelFor(x => x.RegisteredTimeZone)
-            @Html.DropDownListFor(x => x.RegisteredTimeZone, (IEnumerable<SelectListItem>)Model.TimezonesList, "--Select--", new { @class = "k-dropdownTimeZones" })
-            @Html.ValidationMessageFor(x => x.RegisteredTimeZone)
-        </li>
-        <li>
-              @Html.Raw(string.Format("last punched in at <strong>{1}</strong> on {0} and punched out at <strong>{2}</strong> ", Model.LastPunch.PunchDate.ToLongDateString(),
-         Model.LastPunch.PunchIn, Model.LastPunch.PunchOut))
-        </li>
-    </ul>
-    <input type="submit" value="Update" class="k-button" />
-}
-<div class="clearFloat"></div>
+﻿@model PunchClock.Domain.Model.User
+<div class="col-lg-10">
+    <div class="well">
+        @using (Ajax.BeginForm("Details", "User", new { adminUpdate = true }, 
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "postResponseUpdate" }, new { }))
+        {
+            <fieldset>
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.Uid)
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.FirstName, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.FirstName, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(x => x.FirstName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LastName, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.LastName, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(x => x.LastName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.Email, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(x => x.Email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.PhoneNumber, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(x => x.PhoneNumber, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(x => x.PhoneNumber)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.UserTypeId, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.DropDownListFor(x => x.UserTypeId, (IEnumerable<SelectListItem>) ViewBag.UserTypes, "--Select--", htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(x => x.UserTypeId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.EmploymentTypeId, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.DropDownListFor(x => x.EmploymentTypeId, (IEnumerable<SelectListItem>) ViewBag.EmploymentType, "--Select--", htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(x => x.EmploymentTypeId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.RegisteredTimeZone, new {@class = "col-lg-2 control-label"})
+                    <div class="col-lg-10">
+                        @Html.DropDownListFor(x => x.RegisteredTimeZone, (IEnumerable<SelectListItem>) Model.TimezonesList, "--Select--", htmlAttributes: new {@class = "k-dropdownTimeZones form-control"})
+                        @Html.ValidationMessageFor(x => x.RegisteredTimeZone)
+                    </div>
+                </div>
+
+                <div class="col-lg-10 btn-group-padding">
+                    <input type="submit" value="Update" class="btn btn-primary"/>
+                </div>
+            </fieldset>
+        }
+        <div class="clearFloat"></div>
+    </div>
+
+</div>

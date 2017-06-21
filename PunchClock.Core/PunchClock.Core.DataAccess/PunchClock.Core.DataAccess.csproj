@@ -105,14 +105,13 @@
     <Compile Include="Seeders\Company.cs" />
     <Compile Include="Seeders\AppSetting.cs" />
     <Compile Include="Models\GenericRepository.cs" />
-    <Compile Include="Models\PunchRepository.cs" />
-    <Compile Include="Models\CompanyRepository.cs" />
     <Compile Include="Models\ComplexTypeRepository.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="PunchClockDbContext.cs" />
     <Compile Include="Seeders\Employement.cs" />
     <Compile Include="Seeders\Geo.cs" />
     <Compile Include="Seeders\Holidays.cs" />
+    <Compile Include="Seeders\Language.cs" />
     <Compile Include="Seeders\Module.cs" />
     <Compile Include="Seeders\PunchDBInitializer.cs" />
     <Compile Include="Seeders\TicketStatus.cs" />
@@ -137,6 +136,10 @@
     <ProjectReference Include="..\..\Modules\Ticketing\PunchClock.Ticketing.Model\PunchClock.Ticketing.Model.csproj">
       <Project>{8df6e84e-73c8-4bdc-80ea-b0ec0d55776a}</Project>
       <Name>PunchClock.Ticketing.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\TimeTracker\PunchClock.TimeTracker.Model\PunchClock.TimeTracker.Model.csproj">
+      <Project>{874b5555-291d-428c-b5b4-f457c7ea71a0}</Project>
+      <Name>PunchClock.TimeTracker.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>

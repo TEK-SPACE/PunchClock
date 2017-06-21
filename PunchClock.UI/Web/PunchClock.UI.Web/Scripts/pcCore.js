@@ -1,13 +1,13 @@
 ﻿/// <reference path="jquery.inputmask/inputmask.js" />
-
+/// <reference path="~/Scripts/jquery-1.10.2.intellisense.js" />
 function postUpdateUser(e) {
-    if (e.user.UserId > 0) {
+    if (e.user.Uid > 0) {
         showDialog("Update Successful",
             "You have successfully update user information.",
             "400px",
             "300px");
     }
-    else if (e.user.UserId < 1) {
+    else if (e.user.Uid < 1) {
         showDialog("Update Failed",
            "Unfortunately we could not complete your request at this point of time. If this continue to happen again, please contact support team.",
            "400px",
@@ -15,35 +15,35 @@ function postUpdateUser(e) {
     }
 }
 function postResponseRegistration(e) {
-    if (e.user.UserId == -3) {
+    if (e.Uid === -3) {
         showDialog("User Name not available",
             "The User Name you have requested is not available. Please enter a different User Name and submit.",
             "400px",
             "300px");
     }
-    else if (e.user.UserId == -2) {
+    else if (e.Uid === -2) {
         showDialog("Invalid",
            "The registration code you have entered is invalid. Please check if you have entered the right code.",
            "400px",
            "300px");
     }
-    else if (e.user.UserId > 0 && e.user.userTypeId == 2) {
+    else if (e.Uid > 0 && e.userTypeId === 2) {
         showDialog("Success",
           "Your account has been successfully created. Please wait until you receive an email with an activation message.",
           "400px",
           "300px");
     }
-    else if(e.user.UserId===-4)
+    else if (e.Uid === -4)
     {
         showDialog("Duplicate Company",
           "The Company Which is Entered is Already Register.",
           "400px",
           "300px");
     }
-    else if (e.user.UserId > 0) {
+    else if (e.Uid > 0) {
         window.location.href = "/";
     }
-    console.log(e.user.UserId);
+    console.log(e.Uid);
 }
 
 $(function () {
@@ -106,7 +106,7 @@ $(function () {
         var d = new Date();
         if ($(this).is(":checked")) {
             $pTime = $(".pTime");
-            $pTime.inputmask("99:99 aa");
+           // $pTime.inputmask("99:99 aa");
             $pTime.show().attr("required", "required");
             if (!$pTime.parent().hasClass("k-picker-wrap")) {
                 if ($pTime.attr("id") == "pTimePunchOut") {
@@ -356,3 +356,9 @@ $(function () {
             return days[this.getDay()];
         };
     })();
+
+function appSettingEditable(dataItem) {
+    // do not allow editing for product with ProductID=3
+    return dataItem.IsEditable;
+}
+

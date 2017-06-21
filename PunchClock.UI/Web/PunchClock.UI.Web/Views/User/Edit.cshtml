@@ -1,4 +1,4 @@
-﻿@model PunchClock.View.Model.UserView
+﻿@model PunchClock.Domain.Model.User
 @{
     ViewBag.Title = "Users Details";
 }
@@ -12,7 +12,7 @@
             <fieldset>
                 <legend>@ViewBag.Title</legend>
                 @Html.HiddenFor(x => x.Id)
-                @Html.HiddenFor(x => x.UserId)
+                @Html.HiddenFor(x => x.Uid)
                 <div class="form-group">
                     @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">

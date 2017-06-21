@@ -4,19 +4,19 @@ using System.Text;
 using System.Linq;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.DataAccess.Models;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Core.Implementation
 {
     public static class PasswordService
     {
-        private static bool ValidatePassword(View.Model.UserView user, string password)
+        private static bool ValidatePassword(User user, string password)
         {
             return user.PasswordHash == EncodePassword(password, user.PasswordSalt);
         }
 
         public static int ValidatePassword(string userName, string password, string ipAddress, string macAddress)
         {
-            View.Model.UserView userView = new View.Model.UserView();
             using (var uow = new UnitOfWork())
             {
                 using (var userRepo = new UserRepository(uow))
@@ -28,12 +28,10 @@ namespace PunchClock.Core.Implementation
                     user.LastActivityIp = ipAddress;
                     user.LastActiveMacAddress = macAddress;
                     userRepo.Update(user);
-                    uow.Save(); 
-                    var mapper = new Model.Mapper.Map();
-                    mapper.DomainToView(userView, user);
+                    uow.Save();
+                    return ValidatePassword(user, password) ? user.Uid : -2;
                 }
             }
-            return ValidatePassword(userView, password) ? userView.UserId : -2;
         }
 
         public static string GenerateSalt()

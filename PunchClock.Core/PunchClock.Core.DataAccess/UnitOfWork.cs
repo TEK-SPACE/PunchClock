@@ -19,7 +19,6 @@ namespace PunchClock.Core.DataAccess
         internal PunchClockDbContext Context => _context;
 
         private GenericRepository<User> _userRepository;
-        private GenericRepository<Punch> _punchRepository;
         private GenericRepository<Company> _companyRepository;
         private GenericRepository<EmploymentType> _employmentTypeRepository;
         private GenericRepository<EmployeePaidHoliday> _employeePaidHoliday;
@@ -40,17 +39,7 @@ namespace PunchClock.Core.DataAccess
                 return _userRepository;
             }
         }
-        public GenericRepository<Punch> PunchRepository
-        {
-            get
-            {
-                if (this._punchRepository == null)
-                {
-                    this._punchRepository = new GenericRepository<Punch>(_context);
-                }
-                return _punchRepository;
-            }
-        }
+       
         public GenericRepository<Company> CompanyRepository
         {
             get

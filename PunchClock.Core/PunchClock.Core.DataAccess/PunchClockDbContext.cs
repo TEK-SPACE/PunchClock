@@ -4,13 +4,11 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
-using PunchClock.Cms.Model;
 using PunchClock.Configuration.Model;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
-using PunchClock.Language.Model;
-using PunchClock.Ticketing.Model;
-using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+using PunchClock.TimeTracker.Model;
+
 namespace PunchClock.Core.DataAccess
 {
     public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
@@ -20,7 +18,7 @@ namespace PunchClock.Core.DataAccess
             //Database.SetInitializer(new PunchDbInitializer());
             //Database.SetInitializer(new CreateDatabaseIfNotExists<PunchClockDbContext>());
             this.Configuration.LazyLoadingEnabled = true;
-            this.Configuration.ProxyCreationEnabled = true;
+            this.Configuration.ProxyCreationEnabled = false;
         }
         public static PunchClockDbContext Create()
         {
@@ -28,6 +26,9 @@ namespace PunchClock.Core.DataAccess
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyHoliday> CompanyHolidays { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<CompanyLanguage> CompanyLanguages { get; set; }
+
         public DbSet<Country> Countries { get; set; }
         public DbSet<EmployeePaidHoliday> EmployeePaidHolidays { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
@@ -43,24 +44,12 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
         public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
-        //Ticketing Resources
-        public DbSet<TicketingCategoryResource> TicketingCategoryResources { get; set; }
-        public DbSet<TicketingPriorityResource> TicketingPriorityResources { get; set; }
-        public DbSet<TicketingTypeResource> TicketingTypeResources { get; set; }
-        public DbSet<TicketingStatusResource> TicketingStatusResources { get; set; }
-
-        //cms
         public DbSet<Cms.Model.Article> Articles { get; set; }
         public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }
         public DbSet<Cms.Model.ArticleComment> ArticleComments { get; set; }
         public DbSet<Cms.Model.ArticleTag> ArticleTags { get; set; }
         public DbSet<Cms.Model.ArticleType> ArticleTypes { get; set; }
 
-
-        //CMS Resources
-        public DbSet<ArticleTypeResource> ArticleTypeResources { get; set; }
-        public DbSet<ArticleTagResource> ArticleTagResources { get; set; }
-        public DbSet<ArticleCategoryResource> ArticleCategoryResources { get; set; }
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }

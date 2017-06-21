@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,7 +10,6 @@ using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
 using PunchClock.Helper.Common;
 using PunchClock.UI.Web.Models;
-using PunchClock.View.Model;
 using EmploymentType = PunchClock.Core.Models.Common.Enum.EmploymentType;
 
 namespace PunchClock.UI.Web.Controllers
@@ -51,47 +48,47 @@ namespace PunchClock.UI.Web.Controllers
         public UserController()
         {
             _userService = new UserService();
-            _emailRepository = new PunchClock.Core.Implementation.EmailService();
+            _emailRepository = new Core.Implementation.EmailService();
         }
 
         public ActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
-            UserView userView = new UserView
+            User user = new User
             {
                 LastActivityIp = UserSession.IpAddress,
                 LastActiveMacAddress = UserSession.MacAddress
             };
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
-            userView.TimezonesList = (from t in systemTimeZones
+            user.TimezonesList = (from t in systemTimeZones
                                   orderby t.Id
                                   select new SelectListItem
                                   {
                                        Value = t.Id,
                                        Text = t.Id
                                   }).ToList();
-            userView.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
+            user.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
 
             var userTypes = Get.UserTypes(true);
-            if (userView.UserTypeId > 0)
-                userTypes.First(x => x.Value == userView.UserTypeId.ToString()).Selected = true;
+            if (user.UserTypeId > 0)
+                userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
             ViewBag.UserTypes = userTypes;
 
-            return View(userView);
+            return View(user);
         }
 
         [HttpPost]
-        public JsonResult Register(UserView userView)
+        public JsonResult Register(User user)
         {
-            userView.UserRegisteredIp = UserSession.IpAddress;
-            userView.RegisteredMacAddress= UserSession.MacAddress;
-            userView.LastActivityIp = UserSession.IpAddress;
-            userView.LastActiveMacAddress = UserSession.MacAddress;
-            userView.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
-            userView.UserId = _userService.Add(userView);
-            return Json(new { userView });
+            user.UserRegisteredIp = UserSession.IpAddress;
+            user.RegisteredMacAddress= UserSession.MacAddress;
+            user.LastActivityIp = UserSession.IpAddress;
+            user.LastActiveMacAddress = UserSession.MacAddress;
+            user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+            user.Uid = _userService.Add(user);
+            return Json(new { user });
         }
 
         //
@@ -182,72 +179,72 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (string.IsNullOrEmpty(userName))
                 userName = OperatingUser.UserName;
-            var userView = _userService.Details(userName);
-            userView.UserRegisteredIp = UserSession.IpAddress;
-            userView.RegisteredMacAddress = UserSession.MacAddress;
-            userView.LastActivityIp = UserSession.IpAddress;
-            userView.LastActiveMacAddress = UserSession.MacAddress;
-            return View(userView);
+            var user = _userService.Details(userName);
+            user.UserRegisteredIp = UserSession.IpAddress;
+            user.RegisteredMacAddress = UserSession.MacAddress;
+            user.LastActivityIp = UserSession.IpAddress;
+            user.LastActiveMacAddress = UserSession.MacAddress;
+            return View(user);
         }
 
         [HttpPost]
         [Authorize]
-        public JsonResult Edit(UserView userView)
+        public JsonResult Edit(User user)
         {
-            userView.UserRegisteredIp = UserSession.IpAddress;
-            userView.RegisteredMacAddress = UserSession.MacAddress;
-            userView.LastActivityIp = UserSession.IpAddress;
-            userView.LastActiveMacAddress = UserSession.MacAddress;
-            userView.UserId = _userService.Update(userView, false);
-            return Json(new { userView });
+            user.UserRegisteredIp = UserSession.IpAddress;
+            user.RegisteredMacAddress = UserSession.MacAddress;
+            user.LastActivityIp = UserSession.IpAddress;
+            user.LastActiveMacAddress = UserSession.MacAddress;
+            user.Uid = _userService.Update(user, false);
+            return Json(new { user });
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult Details(int id)
         {
-            var userView = _userService.Details(id);
+            var user = _userService.Details(id);
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
-            userView.TimezonesList = (from t in systemTimeZones
+            user.TimezonesList = (from t in systemTimeZones
                 orderby t.Id
                 select new SelectListItem
                 {
                     Value = t.Id,
                     Text = t.Id
                 }).ToList();
-            userView.TimezonesList.Single(x => x.Value == userView.RegisteredTimeZone).Selected = true;
+            user.TimezonesList.Single(x => x.Value == user.RegisteredTimeZone).Selected = true;
             var employmentTypes = Get.EmploymentTypes();
-            employmentTypes.First(x => x.Value == userView.EmploymentTypeId.ToString()).Selected = true;
+            employmentTypes.First(x => x.Value == user.EmploymentTypeId.ToString()).Selected = true;
             ViewBag.EmploymentType = employmentTypes;
 
             var userTypes = Get.UserTypes(true);
-            userTypes.First(x => x.Value == userView.UserTypeId.ToString()).Selected = true;
+            userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
             ViewBag.UserTypes = userTypes;
 
-            if (userView.LastPunch.PunchIn != TimeSpan.MinValue)
-            {
-                userView.LastPunch.PunchIn =
-                    TimeZoneInfo.ConvertTimeFromUtc(userView.LastPunch.PunchDate.Date + userView.LastPunch.PunchIn,
-                            TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
-                        .TimeOfDay;
-            }
-            if (userView.LastPunch.PunchOut != null && userView.LastPunch.PunchOut != TimeSpan.MinValue)
-            {
-                userView.LastPunch.PunchOut = TimeZoneInfo
-                    .ConvertTimeFromUtc(userView.LastPunch.PunchDate.Date + userView.LastPunch.PunchOut.Value,
-                        TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
-                    .TimeOfDay;
-            }
-            return PartialView("_Details", userView);
+            //if (user.LastPunch.PunchIn != TimeSpan.MinValue)
+            //{
+            //    user.LastPunch.PunchIn =
+            //        TimeZoneInfo.ConvertTimeFromUtc(user.LastPunch.PunchDate.Date + user.LastPunch.PunchIn,
+            //                TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
+            //            .TimeOfDay;
+            //}
+            //if (user.LastPunch.PunchOut != null && user.LastPunch.PunchOut != TimeSpan.MinValue)
+            //{
+            //    user.LastPunch.PunchOut = TimeZoneInfo
+            //        .ConvertTimeFromUtc(user.LastPunch.PunchDate.Date + user.LastPunch.PunchOut.Value,
+            //            TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone))
+            //        .TimeOfDay;
+            //}
+            return PartialView("_Details", user);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult Details(UserView userView, bool adminUpdate = false)
+        public ActionResult Details(User user, bool adminUpdate = false)
         {
-            _userService.Update(userView, adminUpdate);
-            return Json(new { user = userView });
+            _userService.Update(user, adminUpdate);
+            return Json(new { user = user });
         }
     }
 }

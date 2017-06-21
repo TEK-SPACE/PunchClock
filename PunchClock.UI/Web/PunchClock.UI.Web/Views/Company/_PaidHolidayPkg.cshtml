@@ -1,5 +1,5 @@
 ﻿@model List<PunchClock.View.Model.EmployeePaidHolidayView>
-@using (Ajax.BeginForm("PaidHolidayPkg", "Employer", null, new AjaxOptions { HttpMethod = "POST" }, new { }))
+@using (Ajax.BeginForm("PaidHolidayPkg", "Company", null, new AjaxOptions { HttpMethod = "POST" }, new { }))
 {
     <ul class="commonForm">
         @for (var i = 0; i < Model.Count(); i++)

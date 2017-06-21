@@ -11,15 +11,26 @@ namespace PunchClock.Domain.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public Guid GlobalId { get; set; }
+        [Required]
+        [Display(Name = "Company Name")]
         public string Name { get; set; }
+        [Display(Name = "Summary")]
         public string Summary { get; set; }
+        [Display(Name = "Company Logo")]
         public string LogoUrl { get; set; }
         public byte[] LogoBinary { get; set; }
+        [Display(Name = "Delta Time")]
         public int DeltaPunchTime { get; set; }
+        [Required]
+        [Display(Name = "Register code")]
         public string RegisterCode { get; set; }
-        public int CreatedBy { get; set; }
+        public int CreatedById { get; set; }
+        public string CreatedByGuiId { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        [ForeignKey("CreatedByGuiId")]
+        public User CreatedBy { get; set; }
+        public ICollection<User> Users { get; set; }
+        public ICollection<CompanyLanguage> Languages { get; set; }
     }
 }
