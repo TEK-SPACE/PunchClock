@@ -15,8 +15,8 @@ namespace PunchClock.Cms.Service
         {
             using (var context = new PunchClockDbContext())
             {
-                category.IsDeleted = false;
                 context.ArticleCategrories.Add(category);
+                context.ArticleCategoryResources.AddRange(category.Resources);
                 context.SaveChanges();
             }
             AddArticleCategoryResources(category);
@@ -35,6 +35,7 @@ namespace PunchClock.Cms.Service
 
                 using (var context = new PunchClockDbContext())
                 {
+                    
 
                     var categoryResources = new ArticleCategoryResource()
                     {
@@ -47,9 +48,6 @@ namespace PunchClock.Cms.Service
                     };
                         context.ArticleCategoryResources.Add(categoryResources);
                         context.SaveChanges();
-                    
-
-
                 }
             }
         }
