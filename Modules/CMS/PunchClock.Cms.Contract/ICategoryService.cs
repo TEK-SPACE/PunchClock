@@ -11,6 +11,6 @@ namespace PunchClock.Cms.Contract
        AjaxResponse Delete(int catgeoryId);
        ArticleCategory GetOneArticleCategory(int id);
        List<ArticleCategory> GetAllArticleCategories();
-       List<ArticleCategory> GetCategoriesByCompanyId(int companyId);
+       List<ArticleCategory> GetArticleCategoriesByCompanyId(int companyId);
    }
 }

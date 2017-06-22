@@ -55,5 +55,26 @@ namespace PunchClock.Cms.Testing
         var result = _categoryService.Delete(id);
             Assert.IsTrue(result.Success);
         }
+
+
+        [TestCase(1)]
+        public void GetOneArticleCategory(int id)
+        {
+            var result = _categoryService.GetOneArticleCategory(id);
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase(1)]
+        public void GetCategoriesByCompanyId(int companyId)
+        {
+            var result = _categoryService.GetArticleCategoriesByCompanyId(companyId);
+            Assert.IsNotNull(result);
+        }
+        [Test]
+        public void GetAllArticleCategories()
+        {
+            var result = _categoryService.GetAllArticleCategories();
+            Assert.IsNotNull(result);
+        }
     }
 }
