@@ -8,11 +8,11 @@ namespace PunchClock.Cms.Testing
 {
    public class TypeServiceTest
    {
-       private ITypeService _tagService;
+       private ITypeService _typeService;
        [SetUp]
         public void Initialize()
         {
-            _tagService = new TypeService();
+            _typeService = new TypeService();
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace PunchClock.Cms.Testing
                 ModifiedById = null,
                 CompanyId = 1
             };
-            var result = _tagService.Add(type);
+            var result = _typeService.Add(type);
             Assert.IsNotNull(result);
         }
         [Test]
@@ -38,15 +38,35 @@ namespace PunchClock.Cms.Testing
                 Name = "Tests",
                 ModifiedById = null
             };
-            var result = _tagService.Update(type);
+            var result = _typeService.Update(type);
             Assert.IsNotNull(result);
         }
 
         [TestCase(2)]
         public void Delete(int id)
         {
-           var result = _tagService.Delete(id);
+           var result = _typeService.Delete(id);
             Assert.IsTrue(result.Success);
         }
+        [TestCase(1)]
+        public void GetOneArticleType(int id)
+        {
+            var result = _typeService.GetOneArticleType(id);
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase(1)]
+        public void GetArticleTypesBbyCompanyId(int companyId)
+        {
+            var result = _typeService.GetArticleTypesBbyCompanyId(companyId);
+            Assert.IsNotNull(result);
+        }
+        [Test]
+        public void GetAllArticleTypes()
+        {
+            var result = _typeService.GetAllArticleTypes();
+            Assert.IsNotNull(result);
+        }
+
     }
 }

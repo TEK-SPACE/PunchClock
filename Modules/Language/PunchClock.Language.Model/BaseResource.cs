@@ -10,12 +10,22 @@ namespace PunchClock.Language.Model
         [Key]
         public int Id { get; set; }
         public string Value { get; set; }
+        [ScaffoldColumn(false)]
         [Column(TypeName = "datetime2")]
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDateUtc { get; set; } = DateTime.UtcNow;
+        [ScaffoldColumn(false)]
         [Column(TypeName = "datetime2")]
-        public DateTime ModifiedDate { get; set; }
-        public string LastModifiedBy { get; set; }
-        [ForeignKey("LastModifiedBy")]
-        public virtual User User { get; set; }
+        public DateTime ModifiedDateUtc { get; set; } = DateTime.UtcNow;
+        [ScaffoldColumn(false)]
+        public string CreatedById { get; set; }
+
+        [ScaffoldColumn(false)]
+        public string ModifiedById { get; set; }
+
+        [ForeignKey("CreatedById")]
+        public virtual User CreatedBy { get; set; }
+
+        [ForeignKey("ModifiedById")]
+        public virtual User ModifiedBy { get; set; }
     }
 }

@@ -21,36 +21,10 @@ namespace PunchClock.UI.Web.Helpers
             UserRepository = new UserService();
         }
 
-        public static List<SelectListItem> IntiCategoryDropDown()
-        {
-            var returnList = new List<SelectListItem>();
-            var defaultValue = new SelectListItem
-            {
-                Text = "Select Category",
-                Value = "0"
-            };
-            returnList.Add(defaultValue);
-            var asc = new SelectListItem
-            {
-                Text = "Admin",
-                Value = "1"
-            };
-            returnList.Add(asc);
-
-            var dsc = new SelectListItem
-            {
-                Text = "Ticketing",
-                Value = "2"
-            };
-            returnList.Add(dsc);
-
-            return returnList;
-        }
-
         public static List<SelectListItem> GetCategoriesByCompanyList(string userId)
         {
             var user = UserRepository.DetailsByKey(userId);
-            var categoriesByCompanyId = CategoryService.GetCategoriesByCompanyId(user.CompanyId);
+            var categoriesByCompanyId = CategoryService.GetArticleCategoriesByCompanyId(user.CompanyId);
 
             return categoriesByCompanyId.Select(category => new SelectListItem
             {
@@ -62,7 +36,7 @@ namespace PunchClock.UI.Web.Helpers
         public static List<SelectListItem> GetTagsByComapnyIdList(string userId)
         {
             var user = UserRepository.DetailsByKey(userId);
-            var articleTagByCompany = TagsService.GetArticleTagByCompany(user.CompanyId);
+            var articleTagByCompany = TagsService.GetArticleTagsByCompany(user.CompanyId);
 
             return articleTagByCompany.Select(tag => new SelectListItem
             {

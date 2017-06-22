@@ -31,6 +31,7 @@ namespace PunchClock.Cms.Service
                 existingComment.Description = comments.Description;
                 existingComment.ArticleId = comments.ArticleId;
                 existingComment.IsDeleted = false;
+                existingComment.ModifiedById = comments.ModifiedById;
                 context.SaveChanges();
             }
             return comments;
@@ -72,7 +73,7 @@ namespace PunchClock.Cms.Service
             }
         }
 
-        public List<ArticleComment> GetAllCOmmentsByCompanyId(int companyId)
+        public List<ArticleComment> GetAllCommentsByCompanyId(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {

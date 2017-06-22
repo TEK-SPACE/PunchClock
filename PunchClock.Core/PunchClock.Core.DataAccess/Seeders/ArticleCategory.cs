@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PunchClock.Cms.Model;
-using PunchClock.Language.Model;
-using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Core.DataAccess.Seeders
 {

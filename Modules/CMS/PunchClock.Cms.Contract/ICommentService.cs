@@ -11,6 +11,6 @@ namespace PunchClock.Cms.Contract
         AjaxResponse Delete(int id);
         ArticleComment GetOneArticleComment(int id);
         List<ArticleComment> GetAllCommentsByArticleId(int articleId);
-        List<ArticleComment> GetAllCOmmentsByCompanyId(int companyId);
+        List<ArticleComment> GetAllCommentsByCompanyId(int companyId);
     }
 }
