@@ -33,6 +33,7 @@ namespace PunchClock.Cms.Service
                 oldArticle.IsPublished = article.IsPublished;
                 oldArticle.IsDeleted = false;
                 oldArticle.CategoryId = article.CategoryId;
+                oldArticle.ModifiedById = article.ModifiedById;
                 context.SaveChanges();
             }
             return article;

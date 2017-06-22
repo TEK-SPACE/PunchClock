@@ -42,10 +42,7 @@ namespace PunchClock.Cms.Service
                         TagMasterId = articleTag.Id,
                         Value = articleTag.Name,
                         Culture = culture,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-
-                    };
+                };
                     
                         context.ArticleTagResources.Add(tagResources);
                         context.SaveChanges();
@@ -61,6 +58,7 @@ namespace PunchClock.Cms.Service
                 existingTag.Name = articleTag.Name;
                 existingTag.Description = articleTag.Description;
                 existingTag.IsDeleted = false;
+                existingTag.ModifiedById = articleTag.ModifiedById;
                 context.SaveChanges();
 
             }
@@ -103,7 +101,7 @@ namespace PunchClock.Cms.Service
             }
         }
 
-        public List<ArticleTag> GetArticleTagByCompany(int companyId)
+        public List<ArticleTag> GetArticleTagsByCompany(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {

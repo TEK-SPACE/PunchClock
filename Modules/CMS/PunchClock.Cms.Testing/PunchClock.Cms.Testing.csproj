@@ -69,6 +69,10 @@
       <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
       <Name>PunchClock.Core.Models.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Language\PunchClock.Language.Model\PunchClock.Language.Model.csproj">
+      <Project>{4D9CF7FB-E8DF-403D-BCA1-E9689EB1738B}</Project>
+      <Name>PunchClock.Language.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PunchClock.Cms.Contract\PunchClock.Cms.Contract.csproj">
       <Project>{e190c8ea-4ec4-43aa-9a28-b84a1fa89004}</Project>
       <Name>PunchClock.Cms.Contract</Name>
