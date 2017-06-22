@@ -42,9 +42,6 @@ namespace PunchClock.Cms.Service
                         CategoryMasterId = category.Id,
                         Value = category.Name,
                         Culture = culture,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-
                     };
                         context.ArticleCategoryResources.Add(categoryResources);
                         context.SaveChanges();
@@ -61,10 +58,13 @@ namespace PunchClock.Cms.Service
                 existCategory.IsDeleted = false;
                 existCategory.Description = category.Description;
                 existCategory.Name = category.Name;
+                existCategory.ModifiedById = category.ModifiedById;
                 context.SaveChanges();
             }
-            return category;
+           return category;
         }
+
+
 
         public AjaxResponse Delete(int catgeoryId)
         {
@@ -103,7 +103,7 @@ namespace PunchClock.Cms.Service
             }
         }
 
-        public List<ArticleCategory> GetCategoriesByCompanyId(int companyId)
+        public List<ArticleCategory> GetArticleCategoriesByCompanyId(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {

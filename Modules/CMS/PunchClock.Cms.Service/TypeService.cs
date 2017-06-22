@@ -13,8 +13,7 @@ namespace PunchClock.Cms.Service
     {
         public ArticleType Add(ArticleType articleType)
         {
-         
-                using (var context = new PunchClockDbContext())
+         using (var context = new PunchClockDbContext())
                 {
                     articleType.IsDeleted = false;
                     context.ArticleTypes.Add(articleType);
@@ -45,9 +44,6 @@ namespace PunchClock.Cms.Service
                         TypeMasterId = articleType.Id,
                         Value = articleType.Name,
                         Culture = culture,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        
                     };
                    
                    context.ArticleTypeResources.Add(typeResource);
@@ -65,6 +61,7 @@ namespace PunchClock.Cms.Service
                 existingType.Name = articleType.Name;
                 existingType.Description = articleType.Description;
                 existingType.IsDeleted = false;
+                existingType.ModifiedById = articleType.ModifiedById;
                 context.SaveChanges();
             }
             return articleType;

@@ -48,5 +48,25 @@ namespace PunchClock.Cms.Testing
            var result = _commentService.Delete(id);
             Assert.IsTrue(result.Success);
         }
+
+        [TestCase(1)]
+        public void GetOneArticleComment(int id)
+        {
+            var result = _commentService.GetOneArticleComment(id);
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase(1)]
+        public void GetAllCommentsByCompanyId(int companyId)
+        {
+            var result = _commentService.GetAllCommentsByCompanyId(companyId);
+            Assert.IsNotNull(result);
+        }
+        [TestCase(1)]
+        public void GetAllCommentsByArticleId(int articleId)
+        {
+            var result = _commentService.GetAllCommentsByArticleId(articleId);
+            Assert.IsNotNull(result);
+        }
     }
 }
