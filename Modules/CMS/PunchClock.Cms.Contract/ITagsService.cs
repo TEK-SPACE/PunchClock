@@ -11,6 +11,6 @@ namespace PunchClock.Cms.Contract
         AjaxResponse Delete(int id);
         ArticleTag GetOneArticleTag(int id);
         List<ArticleTag> GetAllArticleTags();
-        List<ArticleTag> GetArticleTagByCompany(int companyId);
+        List<ArticleTag> GetArticleTagsByCompany(int companyId);
     }
 }

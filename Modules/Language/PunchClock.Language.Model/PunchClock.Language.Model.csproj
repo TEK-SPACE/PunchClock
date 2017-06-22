@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArticleCategoryResource.cs" />
     <Compile Include="ArticleTagResource.cs" />
     <Compile Include="BaseResource.cs" />
     <Compile Include="Culture.cs" />

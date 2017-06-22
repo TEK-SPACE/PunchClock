@@ -15,8 +15,8 @@ namespace PunchClock.Cms.Service
         {
             using (var context = new PunchClockDbContext())
             {
-                category.IsDeleted = false;
                 context.ArticleCategrories.Add(category);
+                context.ArticleCategoryResources.AddRange(category.Resources);
                 context.SaveChanges();
             }
             AddArticleCategoryResources(category);
@@ -35,21 +35,16 @@ namespace PunchClock.Cms.Service
 
                 using (var context = new PunchClockDbContext())
                 {
+                    
 
                     var categoryResources = new ArticleCategoryResource()
                     {
                         CategoryMasterId = category.Id,
                         Value = category.Name,
                         Culture = culture,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-
                     };
                         context.ArticleCategoryResources.Add(categoryResources);
                         context.SaveChanges();
-                    
-
-
                 }
             }
         }
@@ -63,10 +58,13 @@ namespace PunchClock.Cms.Service
                 existCategory.IsDeleted = false;
                 existCategory.Description = category.Description;
                 existCategory.Name = category.Name;
+                existCategory.ModifiedById = category.ModifiedById;
                 context.SaveChanges();
             }
-            return category;
+           return category;
         }
+
+
 
         public AjaxResponse Delete(int catgeoryId)
         {
@@ -105,7 +103,7 @@ namespace PunchClock.Cms.Service
             }
         }
 
-        public List<ArticleCategory> GetCategoriesByCompanyId(int companyId)
+        public List<ArticleCategory> GetArticleCategoriesByCompanyId(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {

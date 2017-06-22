@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Cms.Service;
+using PunchClock.Language.Model;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace PunchClock.Cms.Testing
@@ -19,21 +21,21 @@ namespace PunchClock.Cms.Testing
         [Test]
         public void Add()
         {
-            var categoryArray = new string[] {"CMS","Ticketing","Admin","RB"};
-            foreach (var categoryName in categoryArray)
+            var newCategory = new ArticleCategory
             {
-                var newCategory = new ArticleCategory
+                Name = "Laptop",
+                Description = "",
+                ModifiedById = null,
+                CompanyId = 1,
+                Resources = new List<ArticleCategoryResource>
                 {
-                    Name = categoryName,
-                    Description = categoryName,
-                    ModifiedById = null,
-                    CompanyId = 1
-                };
-               var  result= _categoryService.Add(newCategory);
-                Assert.IsNotNull(result);
-            }
-        
-            
+                    new ArticleCategoryResource { Culture = Culture.English, Value = "Laptop"},
+                    new ArticleCategoryResource { Culture = Culture.Spanish, Value = "SpanishLaptop"},
+                    new ArticleCategoryResource { Culture = Culture.Hindi, Value = "Mujhe Nahi Patha"}
+                }
+            };
+            var result = _categoryService.Add(newCategory);
+            Assert.IsNotNull(result);
         }
         [Test]
         public void Update()
@@ -54,6 +56,27 @@ namespace PunchClock.Cms.Testing
         {
         var result = _categoryService.Delete(id);
             Assert.IsTrue(result.Success);
+        }
+
+
+        [TestCase(1)]
+        public void GetOneArticleCategory(int id)
+        {
+            var result = _categoryService.GetOneArticleCategory(id);
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase(1)]
+        public void GetCategoriesByCompanyId(int companyId)
+        {
+            var result = _categoryService.GetArticleCategoriesByCompanyId(companyId);
+            Assert.IsNotNull(result);
+        }
+        [Test]
+        public void GetAllArticleCategories()
+        {
+            var result = _categoryService.GetAllArticleCategories();
+            Assert.IsNotNull(result);
         }
     }
 }
