@@ -8,7 +8,7 @@ namespace PunchClock.Ticketing.Contracts
     {
         Ticket Add(Ticket ticket);
         Ticket Update(Ticket ticket);
-        AjaxResponse Delete(int Id);
+        AjaxResponse Delete(int id);
         List<Ticket> All();
         void Delete(Ticket ticket);
         List<TicketStatus> GetStatus();

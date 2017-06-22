@@ -47,7 +47,7 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
         public DbSet<Ticketing.Model.TicketCategory> TicketCategories { get; set; }
         public DbSet<Ticketing.Model.TicketComment> TicketComments { get; set; }
-        public DbSet<Ticketing.Model.TicketPriority> TicketPrioritys { get; set; }
+        public DbSet<Ticketing.Model.TicketPriority> TicketPriorities { get; set; }
         public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
 

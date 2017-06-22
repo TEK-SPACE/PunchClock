@@ -8,7 +8,7 @@ using PunchClock.Core.Models.Common;
 
 namespace PunchClock.Ticketing.Services
 {
-   public class TicketStatusService : ITicketStatus
+    public class TicketStatusService : ITicketStatus
     {
         public TicketStatus Add(TicketStatus status)
         {
@@ -28,7 +28,6 @@ namespace PunchClock.Ticketing.Services
         public TicketStatus GetTicketStatusById(int id)
         {
             using (var context = new PunchClockDbContext())
-
             {
                 return context.TicketStatuses.FirstOrDefault(x => x.Id == id);
             }
@@ -37,18 +36,15 @@ namespace PunchClock.Ticketing.Services
         public List<TicketStatus> GetAllTicketStatuses()
         {
             using (var context = new PunchClockDbContext())
-
             {
                 return context.TicketStatuses.Where(x => x.IsDeleted == false).ToList();
             }
         }
-
         public List<TicketStatus> GetStatusByCompanyIdList(int companyId)
         {
             using (var context = new PunchClockDbContext())
-
             {
-                return context.TicketStatuses.Where(x => x.IsDeleted == false && x.CompanyId==companyId).ToList();
+                return context.TicketStatuses.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
             }
         }
     }
