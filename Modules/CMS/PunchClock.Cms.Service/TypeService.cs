@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Cms.Contract;
+using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Models.Common;
 using PunchClock.Language.Model;
