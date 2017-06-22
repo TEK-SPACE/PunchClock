@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Service;
+using PunchClock.Core.Contracts;
+using PunchClock.Core.Implementation;
 
 namespace PunchClock.UI.Web.Helpers
 {
     public static class ArticleHelpers
     {
-         private static readonly ICategoryService CategoryService;
+        private static readonly ICategoryService CategoryService;
         private static readonly ITagsService TagsService;
-
+        private static readonly IUserRepository UserRepository;
 
         static ArticleHelpers()
         {
-             CategoryService=new CategoryService();
-            TagsService=new TagService();
+            CategoryService = new CategoryService();
+            TagsService = new TagService();
+            UserRepository = new UserService();
         }
+
         public static List<SelectListItem> IntiCategoryDropDown()
         {
             var returnList = new List<SelectListItem>();
@@ -45,47 +47,28 @@ namespace PunchClock.UI.Web.Helpers
             return returnList;
         }
 
-        public static List<SelectListItem> GetCategoriesByCompanyList(int companyId)
+        public static List<SelectListItem> GetCategoriesByCompanyList(string userId)
         {
-            var categoriesByCompanyId = CategoryService.GetCategoriesByCompanyId(companyId);
+            var user = UserRepository.DetailsByKey(userId);
+            var categoriesByCompanyId = CategoryService.GetCategoriesByCompanyId(user.CompanyId);
 
-            var returnList = new List<SelectListItem>();
-            var defaultValue = new SelectListItem
+            return categoriesByCompanyId.Select(category => new SelectListItem
             {
-                Text = "Select Category",
-                Value = "0"
-            };
-
-            returnList.Add(defaultValue);
-            if (categoriesByCompanyId != null)
-                returnList.AddRange(categoriesByCompanyId.Select(category => new SelectListItem
-                {
-                    Text = category.Name,
-                    Value = category.Id.ToString()
-                }));
-
-            return returnList;
+                Text = category.Name,
+                Value = category.Id.ToString()
+            }).ToList();
         }
-        public static List<SelectListItem> GetTagsByComapnyIdList(int companyId)
+
+        public static List<SelectListItem> GetTagsByComapnyIdList(string userId)
         {
-            var articleTagByCompany = TagsService.GetArticleTagByCompany(companyId);
+            var user = UserRepository.DetailsByKey(userId);
+            var articleTagByCompany = TagsService.GetArticleTagByCompany(user.CompanyId);
 
-            var returnList = new List<SelectListItem>();
-            var defaultValue = new SelectListItem
+            return articleTagByCompany.Select(tag => new SelectListItem
             {
-                Text = "Select Tags",
-                Value = "0"
-            };
-
-            returnList.Add(defaultValue);
-            if (articleTagByCompany != null)
-                returnList.AddRange(articleTagByCompany.Select(tag => new SelectListItem
-                {
-                    Text = tag.Name,
-                    Value = tag.Id.ToString()
-                }));
-
-            return returnList;
+                Text = tag.Name,
+                Value = tag.Id.ToString()
+            }).ToList();
         }
     }
 }

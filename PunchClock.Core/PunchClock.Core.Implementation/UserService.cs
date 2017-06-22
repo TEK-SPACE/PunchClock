@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PunchClock.Core.Contracts;
 using PunchClock.Domain.Model;
 using PunchClock.Core.Models.Common.Enum;
 using UserType = PunchClock.Core.Models.Common.Enum.UserType;
 
 namespace PunchClock.Core.Implementation
 {
-    public class UserService
+    public class UserService : IUserRepository
     {
         [Obsolete("This method is not in use as we are using Identity Service")]
         public int Add(User user)
@@ -245,6 +246,22 @@ namespace PunchClock.Core.Implementation
         {
             Random rnd = new Random();
             return rnd.Next(1, 13).ToString();
+        }
+
+        public User DetailsByKey(string userId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Users.FirstOrDefault(x => x.Id == userId);
+            }
+        }
+
+        public User DetailsById(int userId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Users.FirstOrDefault(x => x.Uid == userId);
+            }
         }
     }
 }

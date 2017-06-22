@@ -8,7 +8,7 @@ using EntityState = System.Data.Entity.EntityState;
 
 namespace PunchClock.Core.DataAccess.Models
 { 
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository, IDisposable
     {
         private readonly PunchClockDbContext _context;
         
@@ -78,5 +78,15 @@ namespace PunchClock.Core.DataAccess.Models
             _context.Dispose();
         } 
         #endregion
+
+        public User DetailsByKey(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User DetailsById(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

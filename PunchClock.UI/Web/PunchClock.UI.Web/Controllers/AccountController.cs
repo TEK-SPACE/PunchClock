@@ -485,7 +485,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (Url.IsLocalUrl(returnUrl))
             {
-                return Redirect(returnUrl);
+                return Redirect($"~{returnUrl}");
             }
             return RedirectToAction("Index", "Home");
         }

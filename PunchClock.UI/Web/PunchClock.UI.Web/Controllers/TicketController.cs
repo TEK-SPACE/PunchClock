@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using PunchClock.Configuration.Model;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
 using PunchClock.Ticketing.Services;
 
 namespace PunchClock.UI.Web.Controllers
 {
+    [Authorize]
     public class TicketController : Controller
     {
         private readonly ITicket _ticketService;
