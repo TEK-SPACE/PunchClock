@@ -33,7 +33,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = 1
+                       CompanyId = context.Companies.First().Id
                 }
                 ,
                 new ArticleTag
@@ -44,7 +44,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = 1
+                       CompanyId = context.Companies.First().Id
                 }
                  ,
                 new ArticleTag
@@ -55,7 +55,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = 1
+                       CompanyId = context.Companies.First().Id
                 }
             };
             foreach (var tag in articleTags)

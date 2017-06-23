@@ -46,6 +46,7 @@
     <Compile Include="ITicketComment.cs" />
     <Compile Include="ITicketPriority.cs" />
     <Compile Include="ITicketStatus.cs" />
+    <Compile Include="ITicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

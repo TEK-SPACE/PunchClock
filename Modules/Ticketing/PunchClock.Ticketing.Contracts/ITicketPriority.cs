@@ -1,4 +1,5 @@
-﻿using PunchClock.Core.Models.Common;
+﻿using System.Collections.Generic;
+using PunchClock.Core.Models.Common;
 using PunchClock.Ticketing.Model;
 
 namespace PunchClock.Ticketing.Contracts
@@ -8,5 +9,8 @@ namespace PunchClock.Ticketing.Contracts
         TicketPriority Add(TicketPriority priority);
         TicketPriority Update(TicketPriority priority);
         AjaxResponse Delete(int id);
+        TicketPriority GetTicketPriorityId(int id);
+        List<TicketPriority> GetAllTicketPriority();
+        List<TicketPriority> GetPriorityByCompanyIdList(int companyId);
     }
 }

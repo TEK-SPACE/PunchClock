@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using PunchClock.Core.Models.Common;
 using PunchClock.Ticketing.Model;
 
@@ -13,6 +9,11 @@ namespace PunchClock.Ticketing.Contracts
         TicketCategory Add(TicketCategory category);
         TicketCategory Update(TicketCategory category);
         AjaxResponse Delete(int id);
-             
+
+        TicketCategory GetTicketCategoryId(int id);
+        List<TicketCategory> GetAllTicketCategry();
+        List<TicketCategory> GetCategoryByCompanyIdList(int companyId);
+
+
     }
 }
