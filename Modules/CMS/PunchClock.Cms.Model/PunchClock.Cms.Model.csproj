@@ -49,6 +49,8 @@
     <Compile Include="ArticleCategory.cs" />
     <Compile Include="ArticleCategoryResource.cs" />
     <Compile Include="ArticleComment.cs" />
+    <Compile Include="ArticleTagResource.cs" />
+    <Compile Include="ArticleTypeResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ArticleTag.cs" />
     <Compile Include="ArticleType.cs" />

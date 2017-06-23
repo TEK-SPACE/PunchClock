@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using PunchClock.UI.Web.Controllers
 @using PunchClock.UI.Web.Helpers
 @model PunchClock.Cms.Model.Article
 @{
@@ -30,14 +31,14 @@
             <div class="form-group">
                 @Html.Label("Tags", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new {placeholder="Select a Tag"}).BindTo(ArticleHelpers.GetTagsByComapnyIdList(User.Identity.GetUserId()))
+                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new {placeholder="Select a Tag"}).BindTo(((ArticleController)this.ViewContext.Controller).GetTagsByComapnyIdList())
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.Label("Category", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().ComboBoxFor(x => x.Category).DataTextField("Text").DataValueField("Value").Suggest(true).BindTo(ArticleHelpers.GetCategoriesByCompanyList(User.Identity.GetUserId()))
+                    @Html.Kendo().ComboBoxFor(x => x.Category).DataTextField("Text").DataValueField("Value").Suggest(true).BindTo(((ArticleController)this.ViewContext.Controller).GetCategoriesByCompanyList())
                 </div>
             </div>
 

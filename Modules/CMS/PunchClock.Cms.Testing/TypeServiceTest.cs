@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Cms.Service;
+using PunchClock.Language.Model;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace PunchClock.Cms.Testing
@@ -20,10 +22,16 @@ namespace PunchClock.Cms.Testing
         {
             var type = new ArticleType()
             {
-                Description = "Test data",
+                Description = "Test",
                 Name = "Test",
                 ModifiedById = null,
-                CompanyId = 1
+                CompanyId = 1,
+                Resources = new List<ArticleTypeResource>
+                {
+                    new ArticleTypeResource { Culture = Culture.English, Value = "Test"},
+                    new ArticleTypeResource { Culture = Culture.Spanish, Value = "Prueba"},
+                    new ArticleTypeResource { Culture = Culture.Hindi, Value = "pareekshan"}
+                }
             };
             var result = _typeService.Add(type);
             Assert.IsNotNull(result);
