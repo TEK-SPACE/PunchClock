@@ -7,10 +7,11 @@ using PunchClock.Ticketing.Services;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class TicketController : Controller
     {
         private readonly ITicket _ticketService;
+
         public TicketController()
         {
             _ticketService = new TicketService();
@@ -68,16 +69,24 @@ namespace PunchClock.UI.Web.Controllers
         {
             return Json(_ticketService.GetStatus(), JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
-        public ActionResult Type()
+        public ActionResult Category()
         {
-            return Json(_ticketService.GetStatus() , JsonRequestBehavior.AllowGet);
+            return Json(_ticketService.GetCategory(), JsonRequestBehavior.AllowGet);
         }
+             
 
         [HttpGet]
         public ActionResult Priority()
         {
-            return Json(_ticketService.GetStatus(), JsonRequestBehavior.AllowGet);
+            return Json(_ticketService.GetPriortie(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Type()
+        {
+            return Json(_ticketService.GeTicketType(), JsonRequestBehavior.AllowGet);
         }
     }
 }

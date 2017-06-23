@@ -19,6 +19,27 @@ namespace PunchClock.Ticketing.Services
             }
             return ticket;
         }
+
+        public List<Ticket> All()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Tickets.Where(x => !x.IsDeleted).ToList();
+            }
+        }
+        
+
+        public void Delete(Ticket ticket)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                var entity = context.Tickets.FirstOrDefault(x => x.Id == ticket.Id);
+                if (ticket == null) return;
+                if (entity != null) entity.IsDeleted = true;
+                context.SaveChanges();
+            }
+        }
+
         public AjaxResponse Delete(int ticketId)
         {
             var response = new AjaxResponse
@@ -37,22 +58,27 @@ namespace PunchClock.Ticketing.Services
             }
         }
 
-        public List<Ticket> All()
+        public List<TicketCategory> GetCategory()
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.Tickets.Where(x => !x.IsDeleted).ToList();
+                return context.TicketCategories.OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 
-        public void Delete(Ticket ticket)
+        public List<TicketType> GeTicketType()
         {
             using (var context = new PunchClockDbContext())
             {
-                var entity = context.Tickets.FirstOrDefault(x => x.Id == ticket.Id);
-                if (ticket == null) return;
-                if (entity != null) entity.IsDeleted = true;
-                context.SaveChanges();
+                return context.TicketTypes.OrderBy(x => x.DisplayOrder).ToList();
+            }
+        }
+
+        public List<TicketPriority> GetPriortie()
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.TicketPriorities.OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 
@@ -60,7 +86,7 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketStatuses.OrderBy(x=>x.DisplayOrder).ToList();
+                return context.TicketStatuses.OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 
@@ -71,7 +97,7 @@ namespace PunchClock.Ticketing.Services
                 var oldTicket = context.Tickets.FirstOrDefault(x => x.Id == ticket.Id);
                 if (oldTicket == null)
                     return ticket;
-                oldTicket.StatusId= ticket.StatusId;
+                oldTicket.StatusId = ticket.StatusId;
                 oldTicket.Description = ticket.Description;
                 oldTicket.Title = ticket.Title;
                 oldTicket.Comments = ticket.Comments;

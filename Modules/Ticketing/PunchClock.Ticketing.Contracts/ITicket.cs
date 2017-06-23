@@ -11,6 +11,10 @@ namespace PunchClock.Ticketing.Contracts
         AjaxResponse Delete(int id);
         List<Ticket> All();
         void Delete(Ticket ticket);
+
         List<TicketStatus> GetStatus();
+        List<TicketPriority> GetPriortie();
+        List<TicketCategory> GetCategory();
+        List<TicketType> GeTicketType();
     }
 }

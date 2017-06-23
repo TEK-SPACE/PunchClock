@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace PunchClock.Ticketing.Services
 {
-    class TicketPriorityService : ITicketPriority
+   public class TicketPriorityService : ITicketPriority
     {
         public TicketPriority Add(TicketPriority priority)
         {

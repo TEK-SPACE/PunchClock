@@ -66,7 +66,7 @@ namespace PunchClock.Ticketing.Services
 
         public List<TicketCategory> GetAllTicketCategry()
         {
-            using (var context=new PunchClockDbContext())
+            using (var context = new PunchClockDbContext())
             {
                 return context.TicketCategories.Where(x => x.IsDeleted == false).ToList();
             }
@@ -74,7 +74,7 @@ namespace PunchClock.Ticketing.Services
 
         public List<TicketCategory> GetCategoryByCompanyIdList(int companyId)
         {
-            using (var context=new PunchClockDbContext())
+            using (var context = new PunchClockDbContext())
             {
                 return context.TicketCategories.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
             }
@@ -82,9 +82,9 @@ namespace PunchClock.Ticketing.Services
 
         public TicketCategory GetTicketCategoryId(int id)
         {
-            using (var context=new  PunchClockDbContext())
+            using (var context = new PunchClockDbContext())
             {
-                return context.TicketCategories.FirstOrDefault(x => x.Id == id);
+                return context.TicketCategories.FirstOrDefault(x => x.Id==id);
             }
         }
 

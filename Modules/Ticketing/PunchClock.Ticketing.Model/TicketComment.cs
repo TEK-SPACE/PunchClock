@@ -7,7 +7,7 @@ namespace PunchClock.Ticketing.Model
     public class TicketComment: CommonEntity
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; set; } 
         public string Description { get; set; }
         public bool IsPrivate { get; set; }
         public int TicketId { get; set; }
