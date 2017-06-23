@@ -18,7 +18,7 @@ namespace PunchClock.UI.Web.Controllers
     {
         //
         // GET: /Register/
-        private readonly UserService _userService;
+        private readonly IUserRepository _userService;
         private readonly IEmailRepository _emailRepository;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -203,7 +203,7 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
-            var user = _userService.Details(id);
+            var user = _userService.DetailsById(id);
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
             user.TimezonesList = (from t in systemTimeZones
@@ -245,6 +245,17 @@ namespace PunchClock.UI.Web.Controllers
         {
             _userService.Update(user, adminUpdate);
             return Json(new { user = user });
+        }
+
+        [HttpGet]
+        public ActionResult Types()
+        {
+            return Json(_userService.GetTypes(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Zones()
+        {
+            return Json(TimeZoneInfo.GetSystemTimeZones().OrderBy(x=>x.Id), JsonRequestBehavior.AllowGet);
         }
     }
 }

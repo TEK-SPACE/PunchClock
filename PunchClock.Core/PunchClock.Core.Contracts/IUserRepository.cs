@@ -1,4 +1,5 @@
-﻿using PunchClock.Domain.Model;
+﻿using System.Collections.Generic;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Core.Contracts
 {
@@ -6,5 +7,14 @@ namespace PunchClock.Core.Contracts
     {
         User DetailsByKey(string userId);
         User DetailsById(int userId);
+        User Details(string userName);
+        int Update(User user, bool b);
+        int Add(User user);
+        string SeedPasswordReset(string id);
+        User ByGuid(string uid);
+        string RandomString();
+        string RandomNumber();
+        List<UserType> GetTypes();
+        User ByEmail(string modelEmail);
     }
 }

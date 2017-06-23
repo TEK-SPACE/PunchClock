@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -38,6 +39,7 @@ namespace PunchClock.Domain.Model
         [Display(Name = "Account Type")]
         public int UserTypeId { get; set; }
 
+        [Required]
         public int EmploymentTypeId { get; set; }
         public int CompanyId { get; set; }
 
@@ -121,7 +123,7 @@ namespace PunchClock.Domain.Model
 
         [Display(Name = "Password")]
         //[Required]
-        [NotMapped]
+        [NotMapped] [RegularExpression(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$", ErrorMessage = "{0} doesn't meet the requirement")]
         public string Password { get; set; }
 
         public string PasswordResetCode { get; set; }

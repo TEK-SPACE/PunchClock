@@ -17,21 +17,18 @@ namespace PunchClock.Core.Implementation
 
         public static int ValidatePassword(string userName, string password, string ipAddress, string macAddress)
         {
-            using (var uow = new UnitOfWork())
-            {
-                using (var userRepo = new UserRepository(uow))
+           
+                using (PunchClockDbContext context = new PunchClockDbContext())
                 {
-                    var user = userRepo.All.FirstOrDefault(x => x.UserName.ToLower() == userName.ToLower());
+                    var user = context.Users.FirstOrDefault(x => x.UserName.ToLower() == userName.ToLower());
                     if (user == null)
                         return -1;
 
                     user.LastActivityIp = ipAddress;
                     user.LastActiveMacAddress = macAddress;
-                    userRepo.Update(user);
-                    uow.Save();
+                    context.SaveChanges();
                     return ValidatePassword(user, password) ? user.Uid : -2;
                 }
-            }
         }
 
         public static string GenerateSalt()

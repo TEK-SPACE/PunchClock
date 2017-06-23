@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -86,7 +88,12 @@ namespace PunchClock.Core.DataAccess
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<IdentityUser>().ToTable("Users", "dbo");
-            modelBuilder.Entity<User>().ToTable("Users", "dbo");
+            modelBuilder.Entity<User>().ToTable("Users", "dbo").Property(x=>x.Uid).HasColumnAnnotation(
+                IndexAnnotation.AnnotationName,
+                new IndexAnnotation(new[]
+                {
+                    new IndexAttribute("IX_User_Uid") {IsUnique = true}
+                }));
             modelBuilder.Entity<IdentityRole>().ToTable("Roles", "dbo");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "dbo");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "dbo");

@@ -18,6 +18,7 @@ namespace PunchClock.Core.DataAccess.Seeders
 
             #region User
             SeedUserType(context);
+            SeedUsers(context);
             #endregion
 
             #region Holidays

@@ -115,6 +115,14 @@ namespace PunchClock.Core.Implementation
             }
         }
 
+        public List<Domain.Model.UserType> GetTypes()
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                return context.UserTypes.ToList();
+            }
+        }
+
         public User ByEmail(string email)
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
@@ -263,5 +271,7 @@ namespace PunchClock.Core.Implementation
                 return context.Users.FirstOrDefault(x => x.Uid == userId);
             }
         }
+
+       
     }
 }

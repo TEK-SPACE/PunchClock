@@ -14,6 +14,8 @@
 <div class="col-lg-12  form-horizontal">
     <div class="well">
         <fieldset>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.Label("Title", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
@@ -30,7 +32,7 @@
             <div class="form-group">
                 @Html.Label("Tags", new {@class = "col-lg-2 control-label"})
                 <div class="col-lg-10">
-                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new {placeholder="Select a Tag"}).BindTo(ArticleHelpers.GetTagsByComapnyIdList(User.Identity.GetUserId()))
+                    @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new {placeholder = "Select a Tag"}).BindTo(ArticleHelpers.GetTagsByComapnyIdList(User.Identity.GetUserId()))
                 </div>
             </div>
 
