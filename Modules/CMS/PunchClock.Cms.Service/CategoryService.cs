@@ -19,36 +19,9 @@ namespace PunchClock.Cms.Service
                 context.ArticleCategoryResources.AddRange(category.Resources);
                 context.SaveChanges();
             }
-            AddArticleCategoryResources(category);
-            return category;
+          return category;
         }
-        private void AddArticleCategoryResources(ArticleCategory category)
-        {
-            if (category.Id <= 0) return;
-            for (var i = 1; i <= 3; i++)
-            {
-                var culture = Culture.English;
-                if (i == (int)Culture.Spanish)
-                    culture = Culture.Spanish;
-                if (i == (int)Culture.Hindi)
-                    culture = Culture.Hindi;
-
-                using (var context = new PunchClockDbContext())
-                {
-                    
-
-                    var categoryResources = new ArticleCategoryResource()
-                    {
-                        CategoryMasterId = category.Id,
-                        Value = category.Name,
-                        Culture = culture,
-                    };
-                        context.ArticleCategoryResources.Add(categoryResources);
-                        context.SaveChanges();
-                }
-            }
-        }
-
+        
         public ArticleCategory Update(ArticleCategory category)
         {
             using (var context = new PunchClockDbContext())

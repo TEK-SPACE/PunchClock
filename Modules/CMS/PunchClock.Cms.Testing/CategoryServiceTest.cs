@@ -23,15 +23,15 @@ namespace PunchClock.Cms.Testing
         {
             var newCategory = new ArticleCategory
             {
-                Name = "Laptop",
+                Name = "Test",
                 Description = "",
                 ModifiedById = null,
                 CompanyId = 1,
                 Resources = new List<ArticleCategoryResource>
                 {
-                    new ArticleCategoryResource { Culture = Culture.English, Value = "Laptop"},
-                    new ArticleCategoryResource { Culture = Culture.Spanish, Value = "SpanishLaptop"},
-                    new ArticleCategoryResource { Culture = Culture.Hindi, Value = "Mujhe Nahi Patha"}
+                    new ArticleCategoryResource { Culture = Culture.English, Value = "Test"},
+                    new ArticleCategoryResource { Culture = Culture.Spanish, Value = "Prueba"},
+                    new ArticleCategoryResource { Culture = Culture.Hindi, Value = "pareekshan"}
                 }
             };
             var result = _categoryService.Add(newCategory);
