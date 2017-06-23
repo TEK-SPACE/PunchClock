@@ -47,6 +47,9 @@ namespace PunchClock.Core.DataAccess.Seeders
             #region Ticketing
 
             SeedStatus(context);
+            SeedPriority(context);
+            SeedTicketType(context);
+            SeedTicketCategory(context);
 
             #endregion
 

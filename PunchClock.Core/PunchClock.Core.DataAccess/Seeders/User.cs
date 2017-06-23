@@ -20,7 +20,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                 new UserType {Id = (int)Core.Models.Common.Enum.UserType.Manager, Description = "Manager"},
                 new UserType {Id = (int)Core.Models.Common.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
                 new UserType {Id = (int)Core.Models.Common.Enum.UserType.Admin, Description = "Admin"},
-                new UserType {Id = (int)Core.Models.Common.Enum.UserType.HumanResources,Description="Human Resource" }
+                new UserType {Id = (int)Core.Models.Common.Enum.UserType.HumanResources,Description="Human Resource"}
             };
             foreach (var userType in userTypes)
             {

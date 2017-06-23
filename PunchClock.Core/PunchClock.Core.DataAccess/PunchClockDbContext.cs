@@ -11,6 +11,7 @@ using PunchClock.Configuration.Model;
 using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Language.Model;
+using PunchClock.Ticketing.Model;
 using PunchClock.TimeTracker.Model;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 namespace PunchClock.Core.DataAccess
@@ -50,7 +51,7 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
         public DbSet<Ticketing.Model.TicketCategory> TicketCategories { get; set; }
         public DbSet<Ticketing.Model.TicketComment> TicketComments { get; set; }
-        public DbSet<Ticketing.Model.TicketPriority> TicketPrioritys { get; set; }
+        public DbSet<Ticketing.Model.TicketPriority> TicketPriorities { get; set; }
         public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
 

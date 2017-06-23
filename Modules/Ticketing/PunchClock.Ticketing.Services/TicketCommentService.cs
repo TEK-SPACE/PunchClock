@@ -11,7 +11,7 @@ namespace PunchClock.Ticketing.Services
     {
         public TicketComment Add(TicketComment comment)
         {
-            using (var context=new PunchClockDbContext())
+            using (var context = new PunchClockDbContext())
             {
                 {
                     comment.CreatedDateUtc = DateTime.UtcNow;
@@ -19,10 +19,8 @@ namespace PunchClock.Ticketing.Services
                     context.SaveChanges();
                 }
                 return comment;
-
             }
         }
-
         public AjaxResponse Delete(int Id)
         {
             var responce = new AjaxResponse
@@ -32,7 +30,7 @@ namespace PunchClock.Ticketing.Services
                 Success = false,
             };
 
-            using (var context=new PunchClockDbContext())
+            using (var context = new PunchClockDbContext())
             {
                 var ticketComment = context.TicketComments.FirstOrDefault(x => x.Id == Id);
                 if (ticketComment == null)
@@ -52,7 +50,7 @@ namespace PunchClock.Ticketing.Services
                 comment.IsDeleted = false;
                 comment.ModifiedById = "xxx";
                 comment.CreatedDateUtc = DateTime.UtcNow;
-                comment.ModifiedDateUtc= DateTime.UtcNow;
+                comment.ModifiedDateUtc = DateTime.UtcNow;
                 context.SaveChanges();
             }
             return comment;

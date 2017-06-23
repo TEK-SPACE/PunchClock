@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Linq;
 using PunchClock.Cms.Model;
 
 namespace PunchClock.Core.DataAccess.Seeders
@@ -19,7 +20,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                    CompanyId = 1
+                    CompanyId = context.Companies.First().Id
                 },
                 new ArticleCategory
                 {
@@ -29,7 +30,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = 1
+                       CompanyId = context.Companies.First().Id
                 }
                 ,
                 new ArticleCategory
@@ -40,7 +41,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = 1
+                       CompanyId = context.Companies.First().Id
                 }
                  ,
                 new ArticleCategory
@@ -51,7 +52,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = 1
+                       CompanyId = context.Companies.First().Id
                 }
             };
             foreach (var category in articleCategories)

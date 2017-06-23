@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Language.Model;
 
-namespace PunchClock.Language.Model
+namespace PunchClock.Ticketing.Model
 {
    public class TicketPriorityResource : BaseResource
     {
@@ -13,6 +9,8 @@ namespace PunchClock.Language.Model
         public int PriorityMasterId { get; set; }
         [Index("UniqueResourceTicketingTypeCulture", 2)]
         public Culture Culture { get; set; }
+        [ForeignKey("PriorityMasterId")]
+        public TicketPriority TicketPriority { get; set; }
     }
 
 }

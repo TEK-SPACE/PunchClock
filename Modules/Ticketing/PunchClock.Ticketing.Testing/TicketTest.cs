@@ -25,7 +25,6 @@ namespace PunchClock.Ticketing.Testing
                 Description = "Test Description",
                 StatusId = 1
             };
-
             _ticketService.Add(ticket);
         }
     }
