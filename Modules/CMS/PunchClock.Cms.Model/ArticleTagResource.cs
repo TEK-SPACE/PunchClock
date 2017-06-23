@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Language.Model;
 
-namespace PunchClock.Language.Model
+namespace PunchClock.Cms.Model
 {
     public class ArticleTagResource : BaseResource
     {
@@ -13,5 +9,7 @@ namespace PunchClock.Language.Model
         public int TagMasterId { get; set; }
         [Index("UniqueResourceArticleTypeCulture", 2)]
         public Culture Culture { get; set; }
+        [ForeignKey("TagMasterId")]
+        public ArticleTag ArticleTag { get; set; }
     }
 }

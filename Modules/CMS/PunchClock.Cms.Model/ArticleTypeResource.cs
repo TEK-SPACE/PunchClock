@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Language.Model;
 
-namespace PunchClock.Language.Model
+namespace PunchClock.Cms.Model
 {
     public class ArticleTypeResource : BaseResource
     {
@@ -8,5 +9,8 @@ namespace PunchClock.Language.Model
         public int TypeMasterId { get; set; }
         [Index("UniqueResourceArticleTypeCulture", 2)]
         public Culture Culture { get; set; }
+
+        [ForeignKey("TypeMasterId")]
+        public ArticleType ArticleType { get; set; }
     }
 }
