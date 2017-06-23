@@ -17,39 +17,11 @@ namespace PunchClock.Cms.Service
                 {
                     articleType.IsDeleted = false;
                     context.ArticleTypes.Add(articleType);
+                    context.ArticleTypeResources.AddRange(articleType.Resources);
                     context.SaveChanges();
                 }
 
-            AddArticleTypeResources(articleType);
-
-            return articleType;
-        }
-
-        private void AddArticleTypeResources(ArticleType articleType)
-        {
-            if (articleType.Id <= 0) return;
-            for (var i = 1; i <= 3; i++)
-            {
-                var culture = Culture.English;
-                if(i==(int)Culture.Spanish)
-                    culture=Culture.Spanish;
-                if(i==(int)Culture.Hindi)
-                    culture=Culture.Hindi;
-
-                using (var context = new PunchClockDbContext())
-                {
-
-                    var typeResource = new ArticleTypeResource
-                    {
-                        TypeMasterId = articleType.Id,
-                        Value = articleType.Name,
-                        Culture = culture,
-                    };
-                   
-                   context.ArticleTypeResources.Add(typeResource);
-                        context.SaveChanges();
-                   }
-            }
+           return articleType;
         }
 
         public ArticleType Update(ArticleType articleType)

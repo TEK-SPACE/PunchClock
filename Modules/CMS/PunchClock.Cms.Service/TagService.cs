@@ -17,38 +17,12 @@ namespace PunchClock.Cms.Service
             {
                 articleTag.IsDeleted = false;
                 context.ArticleTags.Add(articleTag);
+                context.ArticleTagResources.AddRange(articleTag.Resources);
                 context.SaveChanges();
-
             }
-            AddArticleTagResources(articleTag);
-            return articleTag;
+           return articleTag;
         }
-        private void AddArticleTagResources(ArticleTag articleTag)
-        {
-            if (articleTag.Id <= 0) return;
-            for (var i = 1; i <= 3; i++)
-            {
-                var culture = Culture.English;
-                if (i == (int)Culture.Spanish)
-                    culture = Culture.Spanish;
-                if (i == (int)Culture.Hindi)
-                    culture = Culture.Hindi;
-
-                using (var context = new PunchClockDbContext())
-                {
-
-                    var tagResources = new ArticleTagResource()
-                    {
-                        TagMasterId = articleTag.Id,
-                        Value = articleTag.Name,
-                        Culture = culture,
-                };
-                    
-                        context.ArticleTagResources.Add(tagResources);
-                        context.SaveChanges();
-                  }
-            }
-        }
+ 
         public ArticleTag Update(ArticleTag articleTag)
         {
             using (var context = new PunchClockDbContext())
