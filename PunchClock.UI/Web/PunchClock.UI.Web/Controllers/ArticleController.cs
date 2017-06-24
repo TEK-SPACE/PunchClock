@@ -73,7 +73,6 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Update(Article article)
         {
             article.CompanyId = OperatingUser.CompanyId;
-            article.CreatedById = OperatingUser.Id;
             article.ModifiedById = OperatingUser.Id;
             article.Tag = string.Join(",", article.Tags);
             article = _articleService.Update(article);
