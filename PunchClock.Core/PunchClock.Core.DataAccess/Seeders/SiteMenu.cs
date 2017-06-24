@@ -13,19 +13,19 @@ namespace PunchClock.Core.DataAccess.Seeders
             {
                 new SiteMenu
                 {
-                    Name = "User", Controller = "", Action = "", Target = "_self",OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    Name = "User", Controller = "", Action = "", Target = "_self", IsCoreItem= true, OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                     Children = new List<SiteMenu>
                     {
-                        new SiteMenu { Name = "Register",Controller ="User", Action= "Register", Target = "_self", OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },
+                        new SiteMenu { Name = "Register",Controller ="User", Action= "Register", IsCoreItem= true, Target = "_self", OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },
                         new SiteMenu { Name = "Details",Controller ="User", Action= "Edit", Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id }
                     }
                 },
                 new SiteMenu
                 {
-                    Name = "Company",Controller ="Company", Action= "#", Target = "_self", OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    Name = "Company",Controller ="Company", Action= "#", Target = "_self", IsCoreItem= true, OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                     Children = new List<SiteMenu>
                     {
-                        new SiteMenu { Name = "Registration",Controller ="Company", Action= "Register",OnAuthorizationOnly = false, Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },
+                        new SiteMenu { IsCoreItem= true, Name = "Registration",Controller ="Company", Action= "Register",OnAuthorizationOnly = false, Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },
                         new SiteMenu { Name = "Details",Controller ="Company", Action= "/Details", Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },
                         new SiteMenu { Name = "Employees", Controller ="Company", Action= "Emploees",Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },
                         new SiteMenu { Name = "Holidays", Controller ="Company", Action= "Holidays",Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id },

@@ -14,6 +14,7 @@ namespace PunchClock.Domain.Model
         public string Description { get; set; }
         public bool IsActive { get; set; } = true;
         public bool OnAuthorizationOnly { get; set; } = true;
+        public bool IsCoreItem { get; set; } = false;
         public int? ParentId { get; set; }
         [ForeignKey("ParentId")]
         public virtual SiteMenu Parent { get; set; }

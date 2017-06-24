@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
@@ -7,10 +8,13 @@ namespace PunchClock.UI.Web.Controllers
 {
     public class BaseController : Controller
     {
+        private readonly ICompanyRepository _companyRepository;
+
         protected readonly UserSession UserSession;
         protected User OperatingUser = new User();
         public BaseController()
         {
+            _companyRepository = new CompanyService();
             UserSession = new SessionService().GetCurrentSession(HttpContext);  
         }
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -24,6 +28,8 @@ namespace PunchClock.UI.Web.Controllers
                     OperatingUser.Company = unitOfWork.CompanyRepository.GetById(OperatingUser.CompanyId);
                 }
             }
+            ViewBag.Menu =  _companyRepository.GetSiteMap(companyId: OperatingUser.CompanyId);
+
             base.OnActionExecuting(filterContext);
         }
         // ReSharper disable once RedundantOverriddenMember

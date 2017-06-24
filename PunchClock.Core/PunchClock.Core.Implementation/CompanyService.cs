@@ -217,5 +217,13 @@ namespace PunchClock.Core.Implementation
             new Map().DomainToView(holidayViews, holidays);
             return holidayViews;
         }
+
+        public List<SiteMenu> GetSiteMap(int companyId)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                return context.SiteMenus.ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId || x.IsCoreItem)).ToList();
+            }
+        }
     }
 }

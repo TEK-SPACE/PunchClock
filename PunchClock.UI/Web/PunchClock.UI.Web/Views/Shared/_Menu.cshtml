@@ -1,28 +1,44 @@
-﻿@model IEnumerable<PunchClock.Domain.Model.SiteMenu>
-<ul class="nav navbar-nav">
+﻿<ul class="nav navbar-nav">
     
-    @foreach (var item in Model)
+    @foreach (var item in (IEnumerable<PunchClock.Domain.Model.SiteMenu>)ViewBag.Menu)
     {
         if (item.Children.Any())
         {
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">item.Name <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes"> @item.Name <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
                     @foreach (var child in item.Children)
                     {
-                        <li>
-                            @Html.ActionLink(child.Name, child.Action, child.Controller, null, null)
-                        </li>                    
+                        if (child.OnAuthorizationOnly && User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                @Html.ActionLink(child.Name, child.Action, child.Controller, null, null)
+                            </li>
+                        }
+                        else if(!child.OnAuthorizationOnly && !User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                @Html.ActionLink(child.Name, child.Action, child.Controller, null, null)
+                            </li>
+                        }
                     }
                 </ul>
             </li>
         }
         else
         {
-            <li>
-                @Html.ActionLink(item.Name, item.Action, item.Controller, null, null)
-            </li>
-
+            if (item.OnAuthorizationOnly && User.Identity.IsAuthenticated)
+            {
+                <li>
+                    @Html.ActionLink(item.Name, item.Action, item.Controller, null, null)
+                </li>
+            }
+            else if (!item.OnAuthorizationOnly && !User.Identity.IsAuthenticated)
+            {
+                <li>
+                    @Html.ActionLink(item.Name, item.Action, item.Controller, null, null)
+                </li>
+            }
         }
     }
 </ul>
