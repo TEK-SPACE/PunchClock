@@ -1,5 +1,4 @@
-﻿using PunchClock.Core.Models.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,6 +11,7 @@ using Kendo.Mvc.UI;
 using PunchClock.View.Model;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Constants;
 using PunchClock.Helper.Common;
 using PunchClock.TimeTracker.Contract;
 using PunchClock.TimeTracker.Model;

@@ -1,4 +1,4 @@
-﻿namespace PunchClock.Core.Models.Common
+﻿namespace PunchClock.Domain.Model.Constants
 {
     public static class Constants
     {

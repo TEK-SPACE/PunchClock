@@ -1,6 +1,6 @@
 ﻿using PunchClock.Configuration.Contract;
 using PunchClock.Configuration.Service;
-using PunchClock.Core.Models.Common.Enum;
+using PunchClock.Domain.Model.Enum;
 
 namespace PunchClock.UI.Web.Helpers
 {

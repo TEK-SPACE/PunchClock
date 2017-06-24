@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using PunchClock.Domain.Model;
 
-namespace PunchClock.Core.Models.Common
+namespace PunchClock.Domain.Model
 {
     public class CommonEntity
     {

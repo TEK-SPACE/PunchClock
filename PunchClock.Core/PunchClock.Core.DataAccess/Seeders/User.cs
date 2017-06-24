@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Domain.Model;
-using EmploymentType = PunchClock.Core.Models.Common.Enum.EmploymentType;
+using EmploymentType = PunchClock.Domain.Model.Enum.EmploymentType;
 
 namespace PunchClock.Core.DataAccess.Seeders
 {
@@ -15,11 +15,11 @@ namespace PunchClock.Core.DataAccess.Seeders
         {
             List<UserType> userTypes = new List<UserType>
             {
-                new UserType {Id = (int)Core.Models.Common.Enum.UserType.Employee, Description="Employee"},
-                new UserType {Id = (int)Core.Models.Common.Enum.UserType.Manager, Description = "Manager"},
-                new UserType {Id = (int)Core.Models.Common.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
-                new UserType {Id = (int)Core.Models.Common.Enum.UserType.SuperAdmin, Description = "SuperAdmin"},
-                new UserType {Id = (int)Core.Models.Common.Enum.UserType.HumanResources,Description="Human Resource"}
+                new UserType {Id = (int)Domain.Model.Enum.UserType.Employee, Description="Employee"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.Manager, Description = "Manager"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.SuperAdmin, Description = "SuperAdmin"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.HumanResources,Description="Human Resource"}
             };
             foreach (var userType in userTypes)
             {
@@ -51,7 +51,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     UserName = "superadmin",
                     PhoneNumber = "5167493582",
                     RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Core.Models.Common.Enum.UserType.SuperAdmin,
+                    UserTypeId = (int)Domain.Model.Enum.UserType.SuperAdmin,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
                     CompanyId = context.Companies.First().Id,
                     IsActive = true,
@@ -74,7 +74,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     UserName = "companyadmin",
                     PhoneNumber = "5167493582",
                     RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Core.Models.Common.Enum.UserType.CompanyAdmin,
+                    UserTypeId = (int)Domain.Model.Enum.UserType.CompanyAdmin,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
                     CompanyId = context.Companies.First().Id,
                     IsActive = true,
@@ -97,7 +97,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     UserName = "companyemployee",
                     PhoneNumber = "5167493582",
                     RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Core.Models.Common.Enum.UserType.Employee,
+                    UserTypeId = (int)Domain.Model.Enum.UserType.Employee,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
                     CompanyId = context.Companies.First().Id,
                     IsActive = true,
@@ -120,7 +120,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     UserName = "companymanager",
                     PhoneNumber = "5167493582",
                     RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Core.Models.Common.Enum.UserType.Manager,
+                    UserTypeId = (int)Domain.Model.Enum.UserType.Manager,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
                     CompanyId = context.Companies.First().Id,
                     IsActive = true,
@@ -143,7 +143,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     UserName = "CompanyHr",
                     PhoneNumber = "5167493582",
                     RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Core.Models.Common.Enum.UserType.HumanResources,
+                    UserTypeId = (int)Domain.Model.Enum.UserType.HumanResources,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
                     CompanyId = context.Companies.First().Id,
                     IsActive = true,

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using PunchClock.Core.Models.Common.Enum;
+using PunchClock.Domain.Model.Enum;
 
 namespace PunchClock.Helper.Common
 {

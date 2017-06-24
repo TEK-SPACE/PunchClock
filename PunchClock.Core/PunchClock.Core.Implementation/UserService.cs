@@ -5,8 +5,8 @@ using System.Linq;
 using System.Web.Mvc;
 using PunchClock.Core.Contracts;
 using PunchClock.Domain.Model;
-using PunchClock.Core.Models.Common.Enum;
-using UserType = PunchClock.Core.Models.Common.Enum.UserType;
+using PunchClock.Domain.Model.Enum;
+using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.Core.Implementation
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Cms.Model
 {

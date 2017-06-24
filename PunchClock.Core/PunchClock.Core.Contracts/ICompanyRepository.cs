@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.View.Model;
 
 namespace PunchClock.Core.Contracts

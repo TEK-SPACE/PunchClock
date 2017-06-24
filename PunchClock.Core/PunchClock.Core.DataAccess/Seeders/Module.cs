@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using PunchClock.Core.Models.Common;
-using PunchClock.Core.Models.Common.Enum;
+using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 
 namespace PunchClock.Core.DataAccess.Seeders
 {

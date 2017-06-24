@@ -1,5 +1,5 @@
-﻿using PunchClock.Core.Models.Common;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Model
 {

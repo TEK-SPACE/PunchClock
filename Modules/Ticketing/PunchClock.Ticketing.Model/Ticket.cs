@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using PunchClock.Core.Models.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 using PunchClock.Domain.Model;
 

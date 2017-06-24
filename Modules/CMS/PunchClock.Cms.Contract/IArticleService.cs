@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using PunchClock.Cms.Model;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Cms.Contract
 {

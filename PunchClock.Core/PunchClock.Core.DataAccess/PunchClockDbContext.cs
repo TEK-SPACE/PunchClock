@@ -8,7 +8,6 @@ using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Cms.Model;
 using PunchClock.Configuration.Model;
-using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Model;
 using PunchClock.TimeTracker.Model;

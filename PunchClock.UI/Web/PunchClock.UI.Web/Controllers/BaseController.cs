@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Implementation;
-using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 
 namespace PunchClock.UI.Web.Controllers

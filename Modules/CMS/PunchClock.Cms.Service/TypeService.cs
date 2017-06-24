@@ -3,7 +3,7 @@ using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Core.DataAccess;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 using PunchClock.Language.Model;
 using ArticleType = PunchClock.Cms.Model.ArticleType;
 

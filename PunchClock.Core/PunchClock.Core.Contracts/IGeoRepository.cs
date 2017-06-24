@@ -1,5 +1,4 @@
 ﻿using PunchClock.Domain.Model;
-using PunchClock.Core.Models.Common;
 using System.Web;
 
 namespace PunchClock.Core.Contracts

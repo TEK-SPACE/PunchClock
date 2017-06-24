@@ -6,9 +6,8 @@ using System.Net.Mail;
 using PunchClock.Configuration.Contract;
 using PunchClock.Configuration.Service;
 using PunchClock.Core.Contracts;
-using PunchClock.Core.Models.Common;
-using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.View.Model;
 
 namespace PunchClock.Core.Implementation

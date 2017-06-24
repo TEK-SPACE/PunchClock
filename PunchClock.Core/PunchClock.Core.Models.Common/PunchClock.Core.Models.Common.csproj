@@ -94,19 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AjaxResponse.cs" />
-    <Compile Include="CommonEntity.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Enum\CompanyTransaction.cs" />
-    <Compile Include="Enum\EmploymentType.cs" />
-    <Compile Include="Enum\LanguageCulture.cs" />
-    <Compile Include="Enum\ModuleType.cs" />
-    <Compile Include="GeoPlugin.cs" />
-    <Compile Include="Module.cs" />
-    <Compile Include="UserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Enum\RegistrationStatus.cs" />
-    <Compile Include="Enum\UserType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

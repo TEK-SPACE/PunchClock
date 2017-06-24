@@ -7,7 +7,6 @@ using PunchClock.Cms.Model;
 using PunchClock.Cms.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
-using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
 
 namespace PunchClock.UI.Web.Controllers

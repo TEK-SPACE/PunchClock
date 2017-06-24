@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PunchClock.Core.Models.Common.Enum
+﻿namespace PunchClock.Domain.Model.Enum
 {
     public enum ModuleType
     {

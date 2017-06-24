@@ -88,10 +88,6 @@
       <Project>{40b7139d-1746-4aa3-a1f5-4687dca0bbac}</Project>
       <Name>PunchClock.Core.Implementation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Helpers\PunchClock.Helper.Common\PunchClock.Helper.Common.csproj">
       <Project>{d813b844-c001-4661-b236-5f08e0eb27bc}</Project>
       <Name>PunchClock.Helper.Common</Name>

@@ -4,8 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
-using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.Model.Mapper;
 using PunchClock.View.Model;
 

@@ -65,9 +65,9 @@
     <Compile Include="TypeServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
+    <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
+      <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
+      <Name>PunchClock.Domain.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Language\PunchClock.Language.Model\PunchClock.Language.Model.csproj">
       <Project>{4D9CF7FB-E8DF-403D-BCA1-E9689EB1738B}</Project>

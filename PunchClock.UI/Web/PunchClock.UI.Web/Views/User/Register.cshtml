@@ -72,7 +72,7 @@
                 <div class="form-group">
                     @Html.LabelFor(x => x.UserTypeId, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.Kendo().ComboBoxFor(x => x.UserTypeId).Value(Convert.ToString((int)PunchClock.Core.Models.Common.Enum.UserType.Employee)).DataSource(x=>x.Read("Types","User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new { @class = "form-control" })
+                        @Html.Kendo().ComboBoxFor(x => x.UserTypeId).Value(Convert.ToString((int)PunchClock.Domain.Model.Enum.UserType.Employee)).DataSource(x=>x.Read("Types","User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.UserTypeId, "", new { @class = "text-danger" })
                     </div>
                 </div>
