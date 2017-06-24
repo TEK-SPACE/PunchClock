@@ -14,8 +14,9 @@ namespace PunchClock.Cms.Model
 
         public string Description { get; set; }
         public bool IsPublished { get; set; }
-        public string Tags { get; set; }
-    
+        public string Tag { get; set; }
+        public string[] Tags { get; set; }
+        public bool IsPrivate { get; set; } = false;
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual ArticleCategory Category { get; set; }
