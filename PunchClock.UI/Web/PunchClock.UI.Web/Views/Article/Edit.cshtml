@@ -30,7 +30,17 @@
                 <div class="form-group">
                     @Html.Label("Description", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.Kendo().EditorFor(x => x.Description)
+                        @Html.Kendo().EditorFor(x => x.Description).Tools(tools => tools
+                        .Clear()
+                        .Formatting()
+                        .Bold().Italic().Underline().Strikethrough()
+                        .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                        .InsertUnorderedList().InsertOrderedList()
+                        .CreateLink().Unlink().InsertImage()
+                        .TableEditing()
+                        .FontColor().BackColor()
+                        .ViewHtml()
+                        )
                     </div>
                 </div>
 
