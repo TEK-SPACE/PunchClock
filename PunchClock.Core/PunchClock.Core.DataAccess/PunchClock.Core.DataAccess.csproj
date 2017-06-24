@@ -116,6 +116,7 @@
     <Compile Include="Seeders\Language.cs" />
     <Compile Include="Seeders\Module.cs" />
     <Compile Include="Seeders\PunchDBInitializer.cs" />
+    <Compile Include="Seeders\SiteMenu.cs" />
     <Compile Include="Seeders\TicketCategory.cs" />
     <Compile Include="Seeders\TicketPriority.cs" />
     <Compile Include="Seeders\TicketProjects.cs" />

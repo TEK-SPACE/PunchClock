@@ -1,4 +1,21 @@
-﻿<ul class="nav navbar-nav">
+﻿@model IEnumerable<PunchClock.Domain.Model.SiteMenu>
+<ul class="nav navbar-nav">
+    
+    @foreach (var item in Model)
+    {
+        if (item.Children.Any())
+        {
+
+        }
+        else
+        {
+            <li>
+                @Html.ActionLink(item.Name, "About", "Home", null, null)
+            </li>
+
+        }
+    }
+
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Menu <span class="caret"></span></a>
         <ul class="dropdown-menu" aria-labelledby="themes">

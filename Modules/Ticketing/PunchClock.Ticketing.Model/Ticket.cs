@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using PunchClock.Domain.Model;
@@ -37,7 +38,8 @@ namespace PunchClock.Ticketing.Model
 
         [Display(Name = "Notify To")]
         public string NotifyTo { get; set; }
-
+        [Display(Name = "Due Date")]
+        public DateTime DueDateUtc { get; set; }
         //public List<TicketNotificationsTo> NotificationsTo { get; set; }
 
         [ForeignKey("ProjectId")]

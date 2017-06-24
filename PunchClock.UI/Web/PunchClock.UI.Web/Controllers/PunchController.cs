@@ -11,10 +11,10 @@ using Kendo.Mvc.UI;
 using PunchClock.View.Model;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
-using PunchClock.Domain.Model.Constants;
 using PunchClock.Helper.Common;
 using PunchClock.TimeTracker.Contract;
 using PunchClock.TimeTracker.Model;
+using PunchClock.TimeTracker.Model.Constants;
 using PunchClock.TimeTracker.Service;
 
 namespace PunchClock.UI.Web.Controllers
@@ -99,7 +99,7 @@ namespace PunchClock.UI.Web.Controllers
                 userId = OperatingUser.Uid;
             switch (Request.Form["searchType"])
             {
-                case Constants.MonthlyReport:
+                case ReportConstant.MonthlyReport:
                     int month;
                     int.TryParse(Request.Form["Month"], out month);
                     startDate = new DateTime(DateTime.Now.Year, month, 1);
@@ -108,7 +108,7 @@ namespace PunchClock.UI.Web.Controllers
                     if (DateTimeFormatInfo.CurrentInfo != null)
                         Session["MonthName"] = DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
                     break;
-                case Constants.DateRangeReport:
+                case ReportConstant.DateRangeReport:
                     if (startDate == null || endDate == null) return null;
                     endDate = endDate.Value.Date + new TimeSpan(23, 59, 59);
                     break;
@@ -127,7 +127,7 @@ namespace PunchClock.UI.Web.Controllers
                 where nameOfTheDay != "sunday" && nameOfTheDay != "saturday"
                 select new Punch
                 {
-                    Id = Constants.PunchIdForPaidHoliday,
+                    Id = ReportConstant.PunchIdForPaidHoliday,
                     PunchDate = TimeZoneInfo.ConvertTimeToUtc(holiday.HolidayDate.Date,
                         TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone)),
                     PunchIn = TimeZoneInfo.ConvertTimeToUtc(holiday.HolidayDate.Date + holiday.PunchIn,
@@ -142,7 +142,7 @@ namespace PunchClock.UI.Web.Controllers
                 });
             foreach (var punch in punches)
             {
-                if (punch.Id != Constants.PunchIdForPaidHoliday)
+                if (punch.Id != ReportConstant.PunchIdForPaidHoliday)
                     punch.PunchDate = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate,
                         TimeZoneInfo.FindSystemTimeZoneById(OperatingUser.RegisteredTimeZone));
                 var pIn = TimeZoneInfo.ConvertTimeFromUtc(punch.PunchDate.Date + punch.PunchIn,

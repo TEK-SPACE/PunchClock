@@ -65,20 +65,25 @@ namespace PunchClock.Core.DataAccess
 
         #endregion
 
+        #region Article/CMS
         public DbSet<Article> Articles { get; set; }
         public DbSet<ArticleCategory> ArticleCategrories { get; set; }
         public DbSet<ArticleComment> ArticleComments { get; set; }
         public DbSet<ArticleTag> ArticleTags { get; set; }
         public DbSet<ArticleType> ArticleTypes { get; set; }
 
-
-        //CMS Resources
+        #region Resources
         public DbSet<ArticleTypeResource> ArticleTypeResources { get; set; }
         public DbSet<ArticleTagResource> ArticleTagResources { get; set; }
         public DbSet<ArticleCategoryResource> ArticleCategoryResources { get; set; }
+        #endregion
+
+        #endregion
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
+
+        public DbSet<SiteMenu> SiteMenus { get; set; }
 
         public List<Holiday> GetCompanyHolidays(int companyId)
         {

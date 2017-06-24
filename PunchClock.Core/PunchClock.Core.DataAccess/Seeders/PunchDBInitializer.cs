@@ -62,6 +62,8 @@ namespace PunchClock.Core.DataAccess.Seeders
             SeedAppSettings(context);
             #endregion
 
+            SeedMenu(context);
+
             #region Language Culture
             SeedLanguage(context);
             #endregion
