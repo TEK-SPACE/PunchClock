@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using PunchClock.Cms.Contract;
+using PunchClock.Cms.Model;
 using PunchClock.Cms.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
 using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -14,11 +17,13 @@ namespace PunchClock.UI.Web.Controllers
     {
         private  readonly ICategoryService CategoryService;
         private  readonly ITagsService TagsService;
+        private IArticleService _articleService;
     
         public ArticleController()
         {
             CategoryService = new CategoryService();
             TagsService = new TagService();
+            _articleService=new ArticleService();
        }
         
 
@@ -28,8 +33,14 @@ namespace PunchClock.UI.Web.Controllers
             return View();
         }
 
+        public ActionResult Edit(int id)
+        {
+            Article article = _articleService.GetOneArticle(id);
+            article.Tags = article.Tag.Split(',');
+            return View(article);
+        }
 
-        public  List<SelectListItem> GetCategoriesByCompanyList()
+        public List<SelectListItem> GetCategoriesByCompanyList()
         {
           var categoriesByCompanyId = CategoryService.GetArticleCategoriesByCompanyId(OperatingUser.CompanyId);
             return categoriesByCompanyId.Select(category => new SelectListItem
@@ -47,6 +58,25 @@ namespace PunchClock.UI.Web.Controllers
                 Text = tag.Name,
                 Value = tag.Id.ToString()
             }).ToList();
+        }
+        [HttpPost]
+        public ActionResult AddNewArticle(Article article)
+        {
+            article.CompanyId = OperatingUser.CompanyId;
+            article.CreatedById = OperatingUser.Id;
+            article.ModifiedById = OperatingUser.Id;
+            article.Tag = string.Join(",", article.Tags);
+            article = _articleService.Add(article);
+           return RedirectToAction("Edit", "Article", new { id = article.Id });
+      }
+        [HttpPost]
+        public ActionResult Update(Article article)
+        {
+            article.CompanyId = OperatingUser.CompanyId;
+            article.ModifiedById = OperatingUser.Id;
+            article.Tag = string.Join(",", article.Tags);
+            article = _articleService.Update(article);
+            return RedirectToAction("Edit", "Article", new { id = article.Id });
         }
     }
 }

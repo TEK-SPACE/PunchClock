@@ -343,8 +343,22 @@ $(function () {
          "300px");
     }
         
-  
-    (function () {
+    function postResponseArticleUpdate(e) {
+        showDialog("Success",
+         "Your have successfully updated Article.",
+         "400px",
+         "300px");
+    }
+
+function postResponseAddArticle(e) {
+    showDialog("Success",
+        "Your have successfully added Article.",
+        "400px",
+         "300px");
+ 
+}
+
+(function () {
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
         var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

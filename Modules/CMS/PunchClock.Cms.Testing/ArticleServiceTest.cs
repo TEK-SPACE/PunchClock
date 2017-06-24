@@ -24,7 +24,7 @@ namespace PunchClock.Cms.Testing
                 Title = "Test by ajeet",
                 Description = "Test data",
                 CategoryId = 1,
-                 Tags = "title",
+                 Tag = "title",
                 CompanyId = 1
             };
             var record= _articleService.Add(article);
@@ -39,7 +39,7 @@ namespace PunchClock.Cms.Testing
                 Title = "Test by ajeet updated",
                 Description = "Test updated",
                 CategoryId = 2,
-                Tags = "updated",
+                Tag ="title" ,
                 ModifiedById = null
             };
             var record = _articleService.Update(article);

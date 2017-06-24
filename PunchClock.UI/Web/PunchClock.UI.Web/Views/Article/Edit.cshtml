@@ -2,7 +2,7 @@
 @using PunchClock.UI.Web.Helpers
 @model PunchClock.Cms.Model.Article
 @{
-    ViewBag.Title = "New Article";
+    ViewBag.Title = "Edit Article";
 }
 <hgroup class="title">
     <h1>@ViewBag.Title</h1>
@@ -13,21 +13,22 @@
 
 <div class="col-lg-12  form-horizontal">
     <div class="well">
-        @using (Ajax.BeginForm("AddNewArticle", "Article", null,
-            new AjaxOptions {OnSuccess = "postResponseAddArticle" },
-            new {@class = "form-horizontal"}))
+        @using (Ajax.BeginForm("Update", "Article", null,
+                new AjaxOptions { OnSuccess = "postResponseArticleUpdate" },
+                new { @class = "form-horizontal" }))
         {
             <fieldset>
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
-                    @Html.Label("Title", new {@class = "col-lg-2 control-label"})
+                    @Html.Label("Title", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.Title).Value("")
+                        @Html.Kendo().TextBoxFor(x => x.Title)
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.Label("Description", new {@class = "col-lg-2 control-label"})
+                    @Html.Label("Description", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
                         @Html.Kendo().EditorFor(x => x.Description).Tools(tools => tools
                         .Clear()
@@ -44,21 +45,21 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("Tags", new {@class = "col-lg-2 control-label"})
+                    @Html.Label("Tags", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new {placeholder = "Select a Tag"}).BindTo(ArticleHelpers.GetTagsByComapnyIdList(User.Identity.GetUserId()))
+                        @Html.Kendo().MultiSelectFor(x => x.Tags).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new { placeholder = "Select a Tag" }).BindTo(ArticleHelpers.GetTagsByComapnyIdList(User.Identity.GetUserId()))
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("Category", new {@class = "col-lg-2 control-label"})
+                    @Html.Label("Category", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
                         @Html.Kendo().ComboBoxFor(x => x.CategoryId).DataTextField("Text").DataValueField("Value").Suggest(true).BindTo(ArticleHelpers.GetCategoriesByCompanyList(User.Identity.GetUserId()))
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("IsPublished", new {@class = "col-lg-2 control-label"})
+                    @Html.Label("IsPublished", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
                         @Html.Kendo().CheckBoxFor(x => x.IsPublished)
                     </div>
@@ -72,8 +73,8 @@
                 </div>
 
                 <div class="col-lg-10 col-lg-offset-2">
-                    <input type="submit" value="Save as Draft" class="btn btn-primary"/>
-                    <input type="submit" value="Submit" class="btn btn-primary"/>
+                    <input type="submit" value="Save as Draft" class="btn btn-primary" />
+                    <input type="submit" value="Submit" class="btn btn-primary" />
                 </div>
             </fieldset>
         }

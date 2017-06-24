@@ -12,13 +12,20 @@ namespace PunchClock.Cms.Service
     {
         public Article Add(Article article)
         {
-           
+            try
+            {
+
+         
              using (var context = new PunchClockDbContext())
             {
                   context.Articles.Add(article);
                 context.SaveChanges();
             }
-          
+            }
+            catch (Exception e)
+            {
+                var es = e;
+            }
             return article;
         }
 
@@ -34,6 +41,8 @@ namespace PunchClock.Cms.Service
                 oldArticle.IsDeleted = false;
                 oldArticle.CategoryId = article.CategoryId;
                 oldArticle.ModifiedById = article.ModifiedById;
+                oldArticle.Tag = article.Tag;
+                oldArticle.IsPrivate = article.IsPrivate;
                 context.SaveChanges();
             }
             return article;
