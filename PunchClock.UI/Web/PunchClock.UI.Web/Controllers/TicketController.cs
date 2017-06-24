@@ -8,7 +8,7 @@ using PunchClock.Ticketing.Services;
 namespace PunchClock.UI.Web.Controllers
 {
     [Authorize]
-    public class TicketController : Controller
+    public class TicketController : BaseController
     {
         private readonly ITicket _ticketService;
 
@@ -67,26 +67,31 @@ namespace PunchClock.UI.Web.Controllers
         [HttpGet]
         public ActionResult Status()
         {
-            return Json(_ticketService.GetStatus(), JsonRequestBehavior.AllowGet);
+            return Json(_ticketService.GetStatusus(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult Category()
+        public ActionResult Categories()
         {
-            return Json(_ticketService.GetCategory(), JsonRequestBehavior.AllowGet);
+            return Json(_ticketService.GetCategories(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
              
 
         [HttpGet]
-        public ActionResult Priority()
+        public ActionResult Priorities()
         {
-            return Json(_ticketService.GetPriortie(), JsonRequestBehavior.AllowGet);
+            return Json(_ticketService.GetPriorties(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult Type()
+        public ActionResult Types()
         {
-            return Json(_ticketService.GeTicketType(), JsonRequestBehavior.AllowGet);
+            return Json(_ticketService.GetTypes(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Projects()
+        {
+            return Json(_ticketService.GetProjects(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
     }
 }

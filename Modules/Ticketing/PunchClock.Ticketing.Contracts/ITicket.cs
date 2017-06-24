@@ -12,9 +12,10 @@ namespace PunchClock.Ticketing.Contracts
         List<Ticket> All();
         void Delete(Ticket ticket);
 
-        List<TicketStatus> GetStatus();
-        List<TicketPriority> GetPriortie();
-        List<TicketCategory> GetCategory();
-        List<TicketType> GeTicketType();
+        List<TicketStatus> GetStatusus(int companyId);
+        List<TicketPriority> GetPriorties(int companyId);
+        List<TicketCategory> GetCategories(int companyId);
+        List<TicketType> GetTypes(int companyId);
+        List<TicketProject> GetProjects(int companyId);
     }
 }

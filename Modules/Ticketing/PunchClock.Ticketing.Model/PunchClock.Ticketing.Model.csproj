@@ -49,12 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TicketNotificationsTo.cs" />
     <Compile Include="TicketAttachment.cs" />
     <Compile Include="TicketCategory.cs" />
     <Compile Include="TicketCategoryResource.cs" />
     <Compile Include="TicketComment.cs" />
     <Compile Include="TicketPriority.cs" />
     <Compile Include="TicketPriorityResource.cs" />
+    <Compile Include="TicketProject.cs" />
     <Compile Include="TicketStatus.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

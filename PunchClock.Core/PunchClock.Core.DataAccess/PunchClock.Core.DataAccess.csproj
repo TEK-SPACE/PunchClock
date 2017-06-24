@@ -118,6 +118,7 @@
     <Compile Include="Seeders\PunchDBInitializer.cs" />
     <Compile Include="Seeders\TicketCategory.cs" />
     <Compile Include="Seeders\TicketPriority.cs" />
+    <Compile Include="Seeders\TicketProjects.cs" />
     <Compile Include="Seeders\TicketStatus.cs" />
     <Compile Include="Seeders\TicketType.cs" />
     <Compile Include="Seeders\User.cs" />

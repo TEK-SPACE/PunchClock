@@ -257,5 +257,11 @@ namespace PunchClock.UI.Web.Controllers
         {
             return Json(TimeZoneInfo.GetSystemTimeZones().OrderBy(x=>x.Id), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult All()
+        {
+            return Json(_userService.All(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -59,6 +59,8 @@ namespace PunchClock.Domain.Model
          StringLength(150, MinimumLength = 2, ErrorMessage = "Min {2}, Max {1} chars")]
 
         public string LastName { get; set; }
+        [NotMapped][ScaffoldColumn(false)]
+        public string DisplayName => $"{FirstName} {MiddleName} {LastName}";
 
         [Display(Name = "Email")]
         [Required]

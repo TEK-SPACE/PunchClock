@@ -14,7 +14,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             {
                 new ArticleCategory
                 {
-                   Name = "Admin",
+                   Name = "SuperAdmin",
                     Description = "",
                     CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,

@@ -188,7 +188,7 @@ namespace PunchClock.Core.Implementation
             {
                 var users = unitOfWork.UserRepository.Get(x => x.CompanyId == companyId);
 
-                if (opUserTypeId == (int)UserType.CompanyAdmin || opUserTypeId == (int)UserType.Admin)
+                if (opUserTypeId == (int)UserType.CompanyAdmin || opUserTypeId == (int)UserType.SuperAdmin)
                     employees = (from user in users
                                  select new SelectListItem
                                  {
@@ -198,7 +198,7 @@ namespace PunchClock.Core.Implementation
                 else
                     employees = (from user in users
                                  where user.UserTypeId != (int)UserType.CompanyAdmin
-                                 && user.UserTypeId != (int)UserType.Admin
+                                 && user.UserTypeId != (int)UserType.SuperAdmin
                                  select new SelectListItem
                                  {
                                      Text = $"{user.FirstName} {user.MiddleName} {user.LastName}",
@@ -272,6 +272,12 @@ namespace PunchClock.Core.Implementation
             }
         }
 
-       
+        public List<User> All(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Users.Where(x => x.CompanyId == companyId).ToList();
+            }
+        }
     }
 }

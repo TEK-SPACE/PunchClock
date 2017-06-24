@@ -19,6 +19,13 @@
             <fieldset>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
+                    @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().ComboBoxFor(model => model.ProjectId).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Projects","Ticket"))
+                        @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.Kendo().TextBoxFor(model => model.Title).Value("").HtmlAttributes(new { htmlAttributes = new { @class = "form-control" } })
@@ -36,7 +43,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.StatusId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.Kendo().ComboBoxFor(model => model.StatusId).DataTextField("Text").DataValueField("Value").BindTo(TicketHelpers.GetTicketStatusByCompanyId(User.Identity.GetUserId()))
+                        @Html.Kendo().ComboBoxFor(model => model.StatusId).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Status", "Ticket"))
                         @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -44,7 +51,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.TypeId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.Kendo().ComboBoxFor(model => model.TypeId).DataTextField("Text").DataValueField("Value").BindTo(TicketHelpers.GetTicketTypeByCompanyId(User.Identity.GetUserId()))
+                        @Html.Kendo().ComboBoxFor(model => model.TypeId).DataTextField("Name").DataValueField("Id").DataSource(x=>x.Read("Types","Ticket"))
                         @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -52,15 +59,36 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.PriorityId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.Kendo().ComboBoxFor(model => model.PriorityId).DataTextField("Text").DataValueField("Value").BindTo(TicketHelpers.GetTicketPriorityByCompanyId(User.Identity.GetUserId()))
+                        @Html.Kendo().ComboBoxFor(model => model.PriorityId).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Priorities","Ticket"))
                         @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RequestorId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().ComboBoxFor(model => model.RequestorId).DataTextField("DisplayName").DataValueField("Id").DataSource(x => x.Read("All", "User"))
+                        @Html.ValidationMessageFor(model => model.RequestorId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AssignedToId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().ComboBoxFor(model => model.AssignedToId).DataTextField("DisplayName").DataValueField("Id").DataSource(x => x.Read("All", "User"))
+                        @Html.ValidationMessageFor(model => model.AssignedToId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NotifyTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().MultiSelectFor(model => model.NotifyTo).DataTextField("DisplayName").DataValueField("Id").DataSource(x=>x.Read("All","User"))
+                        @Html.ValidationMessageFor(model => model.NotifyTo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.Kendo().ComboBoxFor(model => model.CategoryId).DataTextField("Text").DataValueField("Value").BindTo(TicketHelpers.GetTicketCategoryByCompanyId(User.Identity.GetUserId()))
+                        @Html.Kendo().ComboBoxFor(model => model.CategoryId).DataTextField("Name").DataValueField("Id").DataSource(x=>x.Read("Categories","Ticket"))
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
                     </div>
                 </div>

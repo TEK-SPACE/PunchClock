@@ -5,7 +5,7 @@ namespace PunchClock.Core.Models.Common.Enum
         Employee = 1,
         Manager = 2,
         CompanyAdmin = 3,
-        Admin = 4,
+        SuperAdmin = 4,
         HumanResources = 5
     }
 }

@@ -50,6 +50,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             SeedPriority(context);
             SeedTicketType(context);
             SeedTicketCategory(context);
+            SeedProjects(context);
 
             #endregion
 

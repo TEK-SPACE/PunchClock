@@ -22,7 +22,7 @@ namespace PunchClock.Core.Implementation
                 company.RegisterCode = new Helper.Common.Get().RandomNumber().ToString();
                 company.GlobalId = Guid.NewGuid();
                 company.CreatedById = 0; // User is not created yet so we dont have userId
-                company.IsActive = false; // Admin needs to monitor and  activate
+                company.IsActive = false; // SuperAdmin needs to monitor and  activate
                 company.IsDeleted = false;
 
                 context.Companies.Add(company);

@@ -16,5 +16,6 @@ namespace PunchClock.Core.Contracts
         string RandomNumber();
         List<UserType> GetTypes();
         User ByEmail(string modelEmail);
+        List<User> All(int companyId);
     }
 }

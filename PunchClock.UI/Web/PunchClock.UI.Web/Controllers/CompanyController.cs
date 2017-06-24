@@ -72,7 +72,7 @@ namespace PunchClock.UI.Web.Controllers
                 var eligibleUsers = new List<int>
                 {
                     (int) UserType.CompanyAdmin,
-                    (int) UserType.Admin
+                    (int) UserType.SuperAdmin
                 };
                 if (eligibleUsers.Any(x=>x.Equals(OperatingUser.UserTypeId) ))
                 {
@@ -196,7 +196,7 @@ namespace PunchClock.UI.Web.Controllers
             var eligibleUsers = new List<int>
             {
                 (int) UserType.CompanyAdmin,
-                (int) UserType.Admin
+                (int) UserType.SuperAdmin
             };
             if (eligibleUsers.Any(x => x.Equals(OperatingUser.UserTypeId)))
             {

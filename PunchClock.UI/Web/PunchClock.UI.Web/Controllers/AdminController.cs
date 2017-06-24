@@ -8,7 +8,7 @@ namespace PunchClock.UI.Web.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
+        // GET: SuperAdmin
      
     }
 }
