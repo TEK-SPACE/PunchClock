@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Model
@@ -19,6 +20,7 @@ namespace PunchClock.Ticketing.Model
 
         [StringLength(5000)]
         [Required]
+        [AllowHtml]
         public string Description { get; set; }
         [Display( Name = "Status")]
         [UIHint("TicketStatus")]
@@ -51,7 +53,6 @@ namespace PunchClock.Ticketing.Model
         public string AssignedToId { get; set; }
 
         [ForeignKey("AssignedToId")]
-        [Required]
         public virtual User AssignedTo { get; set; }
 
         [Display(Name = "Notify To")]
@@ -72,7 +73,6 @@ namespace PunchClock.Ticketing.Model
         public virtual TicketCategory Category { get; set; }
         [ForeignKey("StatusId")]
         public virtual TicketStatus Status { get; set; }
-        [NotMapped]
-        public virtual List<TicketComment> Comments { get; set; }
+        public virtual ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
     }
 }

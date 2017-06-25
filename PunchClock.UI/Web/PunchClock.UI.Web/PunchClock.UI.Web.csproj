@@ -653,6 +653,7 @@
     <Content Include="Scripts\pcCore.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Ticketing\Validations.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -750,6 +751,7 @@
     <Content Include="Views\Shared\EditorTemplates\TicketStatus.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketPriorities.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketTypesByName.cshtml" />
+    <Content Include="Views\Ticket\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

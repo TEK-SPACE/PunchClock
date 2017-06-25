@@ -1,6 +1,6 @@
 ﻿@model PunchClock.Ticketing.Model.Ticket
 @{
-    ViewBag.Title = "New Ticket";
+    ViewBag.Title = "Details";
 }
 @*<hgroup class="title">
     <h1>@ViewBag.Title</h1>
@@ -14,7 +14,7 @@
 
     <div class="col-lg-12 form-horizontal">
         <div class="panel panel-success panel-nomargin">
-            <div class="panel-body">New Ticket Details</div>
+            <div class="panel-body">Details</div>
         </div>
         <div class="well">
             <fieldset>
@@ -23,7 +23,7 @@
                 @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
                     <div class="col-md-12">
-                        @Html.Kendo().TextBoxFor(model => model.Title).Value("").HtmlAttributes(new {@class = "form-control", placeholder = "Title"})
+                        @Html.Kendo().TextBoxFor(model => model.Title).HtmlAttributes(new {@class = "form-control", placeholder = "Title"})
                         @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new {@class = "form-control"})
+                        @Html.Kendo().EditorFor(model => model.Description).Value(x=> Html.Raw(x).ToHtmlString()).HtmlAttributes(new {@class = "form-control"})
                         @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -83,11 +83,42 @@
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                     </div>
                 </div>
-                <div class="">
-                    <input type="submit" value="Submit" class="btn btn-primary"/>
-                    <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/Ticket';"/>
-                </div>
             </fieldset>
+        </div>
+        <div class="panel panel-success panel-nomargin">
+            <div class="panel-body">Comments</div>
+        </div>
+        <div class="well">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.Kendo().Editor().Name("Comment")
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        @if (Model.Comments.Any())
+                        {
+                            @(Html.Kendo().PanelBar()
+                                  .Name("commentsBar")
+                                  .Items(panelbar =>
+                                  {
+                                      foreach (var comment in Model.Comments.OrderByDescending(x=>x.CreatedDateUtc))
+                                      {
+                                          panelbar.Add().Text($"{comment.CreatedBy.DisplayName} on {comment.CreatedDateUtc:f}").Expanded(true).Enabled(true).Selected(true).Items(item => item.Add().Text(Html.Raw(comment.Description).ToHtmlString()));
+                                      }
+                                  }))
+                        }
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+
+        <div class="">
+            <input type="submit" value="Submit" class="btn btn-primary"/>
+            <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/Ticket';"/>
         </div>
     </div>
 }

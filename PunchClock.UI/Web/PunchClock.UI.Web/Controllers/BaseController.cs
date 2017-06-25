@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Implementation;
@@ -36,6 +38,12 @@ namespace PunchClock.UI.Web.Controllers
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
+        }
+
+        protected void ReadModelStateError(ModelStateDictionary modelState)
+        {
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            ViewData["ModelError"] = string.Join("<br/>", allErrors.Select(x => x.ErrorMessage));
         }
     }
 }

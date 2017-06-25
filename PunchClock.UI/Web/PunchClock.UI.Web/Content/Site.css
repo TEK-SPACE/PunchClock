@@ -19,3 +19,9 @@ hgroup.title h2 {
 .btn-group-padding {
     margin-top: 10px;
 }
+.panel-nomargin {
+    margin-bottom: 0;
+    background:slategrey;
+    font-weight: bold;
+    color: white;
+}
