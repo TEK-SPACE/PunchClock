@@ -1,5 +1,5 @@
 ﻿using System.Web;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 using PunchClock.Helper.Common;
 
 namespace PunchClock.Core.Implementation

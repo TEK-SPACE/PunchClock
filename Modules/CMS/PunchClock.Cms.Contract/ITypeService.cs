@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 using ArticleType = PunchClock.Cms.Model.ArticleType;
 
 namespace PunchClock.Cms.Contract

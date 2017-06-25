@@ -1,4 +1,4 @@
-﻿namespace PunchClock.Core.Models.Common.Enum
+﻿namespace PunchClock.Domain.Model.Enum
 {
     public enum  CompanyTransaction
     {

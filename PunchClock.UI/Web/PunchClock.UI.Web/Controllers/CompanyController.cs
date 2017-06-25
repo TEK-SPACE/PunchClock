@@ -7,11 +7,11 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
-using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.View.Model;
-using EmploymentType = PunchClock.Core.Models.Common.Enum.EmploymentType;
-using UserType = PunchClock.Core.Models.Common.Enum.UserType;
+using EmploymentType = PunchClock.Domain.Model.Enum.EmploymentType;
+using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -72,7 +72,7 @@ namespace PunchClock.UI.Web.Controllers
                 var eligibleUsers = new List<int>
                 {
                     (int) UserType.CompanyAdmin,
-                    (int) UserType.Admin
+                    (int) UserType.SuperAdmin
                 };
                 if (eligibleUsers.Any(x=>x.Equals(OperatingUser.UserTypeId) ))
                 {
@@ -196,7 +196,7 @@ namespace PunchClock.UI.Web.Controllers
             var eligibleUsers = new List<int>
             {
                 (int) UserType.CompanyAdmin,
-                (int) UserType.Admin
+                (int) UserType.SuperAdmin
             };
             if (eligibleUsers.Any(x => x.Equals(OperatingUser.UserTypeId)))
             {

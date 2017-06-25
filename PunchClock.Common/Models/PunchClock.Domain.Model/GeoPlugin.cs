@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace PunchClock.Core.Models.Common
+namespace PunchClock.Domain.Model
 {
      [Serializable]
     public class GeoPlugin

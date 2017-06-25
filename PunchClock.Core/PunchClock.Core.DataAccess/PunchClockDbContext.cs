@@ -8,12 +8,10 @@ using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PunchClock.Cms.Model;
 using PunchClock.Configuration.Model;
-using PunchClock.Core.Models.Common;
 using PunchClock.Domain.Model;
-using PunchClock.Language.Model;
 using PunchClock.Ticketing.Model;
 using PunchClock.TimeTracker.Model;
-using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+
 namespace PunchClock.Core.DataAccess
 {
     public class PunchClockDbContext: IdentityDbContext<User>, IDisposable
@@ -45,37 +43,47 @@ namespace PunchClock.Core.DataAccess
         public DbSet<State> States { get; set; }
         //public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
-       
-        public DbSet<Ticketing.Model.TicketType> TicketTypes { get; set; }
-        public DbSet<Ticketing.Model.TicketAttachment> TicketAttachments { get; set; }
-        public DbSet<Ticketing.Model.Ticket> Tickets { get; set; }
-        public DbSet<Ticketing.Model.TicketCategory> TicketCategories { get; set; }
-        public DbSet<Ticketing.Model.TicketComment> TicketComments { get; set; }
-        public DbSet<Ticketing.Model.TicketPriority> TicketPriorities { get; set; }
-        public DbSet<Ticketing.Model.TicketStatus> TicketStatuses { get; set; }
 
+        #region Tickeitng Module
 
+        public DbSet<TicketType> TicketTypes { get; set; }
+        public DbSet<TicketAttachment> TicketAttachments { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketCategory> TicketCategories { get; set; }
+        public DbSet<TicketComment> TicketComments { get; set; }
+        public DbSet<TicketPriority> TicketPriorities { get; set; }
+        public DbSet<TicketStatus> TicketStatuses { get; set; }
+        public DbSet<TicketProject> TicketProjects { get; set; }
 
-        //Ticketing Resources
+        #region Resources
         public DbSet<TicketCategoryResource> TicketCategoryResources { get; set; }
         public DbSet<TicketPriorityResource> TicketPriorityResources { get; set; }
         public DbSet<TicketTypeResource> TicketTypeResources { get; set; }
         public DbSet<TicketStatusResource> TicketStatusResources { get; set; }
 
-        public DbSet<Cms.Model.Article> Articles { get; set; }
-        public DbSet<Cms.Model.ArticleCategory> ArticleCategrories { get; set; }
-        public DbSet<Cms.Model.ArticleComment> ArticleComments { get; set; }
-        public DbSet<Cms.Model.ArticleTag> ArticleTags { get; set; }
-        public DbSet<Cms.Model.ArticleType> ArticleTypes { get; set; }
+        #endregion
 
+        #endregion
 
-        //CMS Resources
+        #region Article/CMS
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<ArticleCategory> ArticleCategrories { get; set; }
+        public DbSet<ArticleComment> ArticleComments { get; set; }
+        public DbSet<ArticleTag> ArticleTags { get; set; }
+        public DbSet<ArticleType> ArticleTypes { get; set; }
+
+        #region Resources
         public DbSet<ArticleTypeResource> ArticleTypeResources { get; set; }
         public DbSet<ArticleTagResource> ArticleTagResources { get; set; }
         public DbSet<ArticleCategoryResource> ArticleCategoryResources { get; set; }
+        #endregion
+
+        #endregion
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
+
+        public DbSet<SiteMenu> SiteMenus { get; set; }
 
         public List<Holiday> GetCompanyHolidays(int companyId)
         {

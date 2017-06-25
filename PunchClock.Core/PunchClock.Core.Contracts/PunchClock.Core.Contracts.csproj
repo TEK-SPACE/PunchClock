@@ -72,10 +72,6 @@
       <Project>{631a7b90-04a6-40e7-af7b-57f4fac236ce}</Project>
       <Name>PunchClock.View.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using PunchClock.Core.DataAccess;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Services
 {
@@ -58,35 +57,45 @@ namespace PunchClock.Ticketing.Services
             }
         }
 
-        public List<TicketCategory> GetCategory()
+        public List<TicketCategory> GetCategories(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketCategories.OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketCategories.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder)
+                    .ToList();
             }
         }
 
-        public List<TicketType> GeTicketType()
+        public List<TicketProject> GetProjects(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketTypes.OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketProjects.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder)
+                    .ToList();
             }
         }
 
-        public List<TicketPriority> GetPriortie()
+        public List<TicketType> GetTypes(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketPriorities.OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketTypes.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 
-        public List<TicketStatus> GetStatus()
+        public List<TicketPriority> GetPriorties(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketStatuses.OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketPriorities.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder).ToList();
+            }
+        }
+
+        public List<TicketStatus> GetStatusus(int companyId)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.TicketStatuses.Where(x=>x.CompanyId == companyId ).OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 

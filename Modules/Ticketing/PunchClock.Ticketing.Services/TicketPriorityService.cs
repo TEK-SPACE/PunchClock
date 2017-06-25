@@ -2,7 +2,7 @@
 using PunchClock.Core.DataAccess;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
 

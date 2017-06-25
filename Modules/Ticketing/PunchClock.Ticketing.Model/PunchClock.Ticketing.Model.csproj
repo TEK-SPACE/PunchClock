@@ -49,12 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TicketNotificationsTo.cs" />
     <Compile Include="TicketAttachment.cs" />
     <Compile Include="TicketCategory.cs" />
     <Compile Include="TicketCategoryResource.cs" />
     <Compile Include="TicketComment.cs" />
     <Compile Include="TicketPriority.cs" />
     <Compile Include="TicketPriorityResource.cs" />
+    <Compile Include="TicketProject.cs" />
     <Compile Include="TicketStatus.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,10 +68,6 @@
     <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
       <Project>{5DCD76EF-ABEB-417B-A482-EE53D31525DA}</Project>
       <Name>PunchClock.Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Language\PunchClock.Language.Model\PunchClock.Language.Model.csproj">
       <Project>{4D9CF7FB-E8DF-403D-BCA1-E9689EB1738B}</Project>

@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
+    <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
+      <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
+      <Name>PunchClock.Domain.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

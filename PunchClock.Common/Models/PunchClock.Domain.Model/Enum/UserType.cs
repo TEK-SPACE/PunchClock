@@ -1,11 +1,11 @@
-namespace PunchClock.Core.Models.Common.Enum
+namespace PunchClock.Domain.Model.Enum
 {
     public enum UserType
     {
         Employee = 1,
         Manager = 2,
         CompanyAdmin = 3,
-        Admin = 4,
+        SuperAdmin = 4,
         HumanResources = 5
     }
 }

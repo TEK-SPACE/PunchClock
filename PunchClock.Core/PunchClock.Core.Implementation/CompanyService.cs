@@ -4,8 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
-using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.Model.Mapper;
 using PunchClock.View.Model;
 
@@ -22,7 +22,7 @@ namespace PunchClock.Core.Implementation
                 company.RegisterCode = new Helper.Common.Get().RandomNumber().ToString();
                 company.GlobalId = Guid.NewGuid();
                 company.CreatedById = 0; // User is not created yet so we dont have userId
-                company.IsActive = false; // Admin needs to monitor and  activate
+                company.IsActive = false; // SuperAdmin needs to monitor and  activate
                 company.IsDeleted = false;
 
                 context.Companies.Add(company);
@@ -216,6 +216,14 @@ namespace PunchClock.Core.Implementation
             var holidayViews = new List<HolidayView>();
             new Map().DomainToView(holidayViews, holidays);
             return holidayViews;
+        }
+
+        public List<SiteMenu> GetSiteMap(int companyId)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                return context.SiteMenus.ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId || x.IsCoreItem)).ToList();
+            }
         }
     }
 }

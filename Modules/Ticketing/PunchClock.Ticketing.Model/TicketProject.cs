@@ -3,7 +3,7 @@ using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Model
 {
-   public class TicketCategory: CommonEntity
+   public  class TicketProject : CommonEntity
     {
         [Key]
         public int Id { get; set; }

@@ -61,13 +61,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PunchClock.Common\Models\PunchClock.Domain.Model\PunchClock.Domain.Model.csproj">
+      <Project>{5dcd76ef-abeb-417b-a482-ee53d31525da}</Project>
+      <Name>PunchClock.Domain.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.DataAccess\PunchClock.Core.DataAccess.csproj">
       <Project>{35b3bfcb-e505-4abf-bc2a-6673b759f77a}</Project>
       <Name>PunchClock.Core.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PunchClock.Core\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1B0F2EDD-EBE9-4078-B6B2-DC7A56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PunchClock.Configuration.Contract\PunchClock.Configuration.Contract.csproj">
       <Project>{67683da0-dcab-48e0-bcec-73c2b0eb2787}</Project>

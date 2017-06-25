@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PunchClock.Ticketing.Model;
-using PunchClock.Core.Models.Common;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Contracts
 {

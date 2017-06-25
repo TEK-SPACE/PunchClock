@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using PunchClock.Core.Models.Common;
 using System.ComponentModel.DataAnnotations.Schema;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Model
 {
@@ -24,7 +25,25 @@ namespace PunchClock.Ticketing.Model
         public int PriorityId { get; set; }
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
+        [Display(Name = "Project")]
+        public int ProjectId { get; set; }
+        [Display(Name = "Requestor")]
+        public string RequestorId { get; set; }
+        [ForeignKey("RequestorId")]
+        public virtual  User  Requestor{ get; set; }
+        [Display(Name = "Assigned To")]
+        public string AssignedToId { get; set; }
+        [ForeignKey("AssignedToId")]
+        public virtual User AssignedTo { get; set; }
 
+        [Display(Name = "Notify To")]
+        public string NotifyTo { get; set; }
+        [Display(Name = "Due Date")]
+        public DateTime DueDateUtc { get; set; }
+        //public List<TicketNotificationsTo> NotificationsTo { get; set; }
+
+        [ForeignKey("ProjectId")]
+        public virtual TicketProject TicketProject { get; set; }
 
         [ForeignKey("TypeId")]
         public virtual TicketType Type { get; set; }

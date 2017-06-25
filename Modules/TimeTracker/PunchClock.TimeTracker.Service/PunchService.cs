@@ -6,6 +6,7 @@ using PunchClock.Core.DataAccess;
 using PunchClock.Domain.Model;
 using PunchClock.TimeTracker.Contract;
 using PunchClock.TimeTracker.Model;
+using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.TimeTracker.Service
 {
@@ -206,7 +207,7 @@ namespace PunchClock.TimeTracker.Service
         private static bool IsUserAuthorizedTo(int opUserId, PunchClockDbContext context)
         {
             var user = context.Users.FirstOrDefault(x => x.Uid == opUserId);
-            return user?.UserTypeId != (int)Core.Models.Common.Enum.UserType.Employee;
+            return user?.UserTypeId != (int)UserType.Employee;
         }
 
         private static void ExplicitPunchTimeCheck(TimeSpan punchTime, Punch punch)

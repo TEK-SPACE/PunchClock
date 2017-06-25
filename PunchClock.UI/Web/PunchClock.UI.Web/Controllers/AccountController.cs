@@ -11,6 +11,7 @@ using System;
 using PunchClock.Core.Implementation;
 using PunchClock.Helper.Common;
 using PunchClock.View.Model;
+using EmploymentType = PunchClock.Domain.Model.Enum.EmploymentType;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -185,7 +186,7 @@ namespace PunchClock.UI.Web.Controllers
                 user.RegisteredMacAddress = UserSession.MacAddress;
                 user.LastActivityIp = UserSession.IpAddress;
                 user.LastActiveMacAddress = UserSession.MacAddress;
-                user.EmploymentTypeId = (int)Core.Models.Common.Enum.EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+                user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
                 user.DateCreatedUtc = DateTimeOffset.UtcNow;
                 user.LastActivityDateUtc = DateTimeOffset.UtcNow;
                 user.LastUpdatedUtc = DateTimeOffset.UtcNow;

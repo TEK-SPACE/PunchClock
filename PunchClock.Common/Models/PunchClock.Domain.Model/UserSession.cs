@@ -1,4 +1,4 @@
-﻿namespace PunchClock.Core.Models.Common
+﻿namespace PunchClock.Domain.Model
 {
     public class UserSession
     {

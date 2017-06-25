@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        // GET: Admin
+        // GET: SuperAdmin
      
     }
 }

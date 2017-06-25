@@ -8,7 +8,7 @@ using PunchClock.Configuration.Service;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    public class ConfigurationController : Controller
+    public class ConfigurationController : BaseController
     {
         private readonly IAppSetting _appSettingService;
 

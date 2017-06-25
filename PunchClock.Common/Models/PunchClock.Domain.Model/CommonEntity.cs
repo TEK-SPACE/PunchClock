@@ -1,27 +1,34 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using PunchClock.Domain.Model;
 
-namespace PunchClock.Core.Models.Common
+namespace PunchClock.Domain.Model
 {
     public class CommonEntity
     {
         [ScaffoldColumn(false)]
+        [Display(Name = "Company")]
+
         public int CompanyId { get; set; }
 
+        [Display(Name = "Created By")]
         [ScaffoldColumn(false)]
         public string CreatedById { get; set; }
 
         [ScaffoldColumn(false)]
         [Column(TypeName = "datetime2")]
+        [Display(Name = "Created On")]
+
         public DateTime CreatedDateUtc { get; set; } = DateTime.UtcNow;
 
         [ScaffoldColumn(false)]
+        [Display(Name = "Modified By")]
         public string ModifiedById { get; set; }
 
         [ScaffoldColumn(false)]
         [Column(TypeName = "datetime2")]
+        [Display(Name = "Modified On")]
+
         public DateTime ModifiedDateUtc { get; set; } = DateTime.UtcNow;
 
         [ScaffoldColumn(false)]

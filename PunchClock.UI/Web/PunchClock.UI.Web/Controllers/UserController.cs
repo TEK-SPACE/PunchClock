@@ -10,7 +10,7 @@ using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
 using PunchClock.Helper.Common;
 using PunchClock.UI.Web.Models;
-using EmploymentType = PunchClock.Core.Models.Common.Enum.EmploymentType;
+using EmploymentType = PunchClock.Domain.Model.Enum.EmploymentType;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -256,6 +256,12 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Zones()
         {
             return Json(TimeZoneInfo.GetSystemTimeZones().OrderBy(x=>x.Id), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult All()
+        {
+            return Json(_userService.All(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
     }
 }

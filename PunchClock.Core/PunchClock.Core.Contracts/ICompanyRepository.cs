@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PunchClock.Core.Models.Common.Enum;
 using PunchClock.Domain.Model;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.View.Model;
 
 namespace PunchClock.Core.Contracts
@@ -19,5 +19,6 @@ namespace PunchClock.Core.Contracts
         List<CompanyHolidayView> CompanyHolidays(int companyId);
         void UpdateCompanyHolidays(List<CompanyHolidayView> hlds);
         List<HolidayView> GetCompanyHolidays(int companyId, int userId, DateTime stDate, DateTime enDate);
+        List<SiteMenu> GetSiteMap(int companyId);
     }
 }

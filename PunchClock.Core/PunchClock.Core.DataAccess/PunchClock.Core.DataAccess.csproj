@@ -116,8 +116,10 @@
     <Compile Include="Seeders\Language.cs" />
     <Compile Include="Seeders\Module.cs" />
     <Compile Include="Seeders\PunchDBInitializer.cs" />
+    <Compile Include="Seeders\SiteMenu.cs" />
     <Compile Include="Seeders\TicketCategory.cs" />
     <Compile Include="Seeders\TicketPriority.cs" />
+    <Compile Include="Seeders\TicketProjects.cs" />
     <Compile Include="Seeders\TicketStatus.cs" />
     <Compile Include="Seeders\TicketType.cs" />
     <Compile Include="Seeders\User.cs" />
@@ -153,10 +155,6 @@
     <ProjectReference Include="..\PunchClock.Core.Contracts\PunchClock.Core.Contracts.csproj">
       <Project>{3f3c7539-9156-4a40-840a-a6dc8bd9d3b3}</Project>
       <Name>PunchClock.Core.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PunchClock.Core.Models.Common\PunchClock.Core.Models.Common.csproj">
-      <Project>{1b0f2edd-ebe9-4078-b6b2-dc7a56249206}</Project>
-      <Name>PunchClock.Core.Models.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
