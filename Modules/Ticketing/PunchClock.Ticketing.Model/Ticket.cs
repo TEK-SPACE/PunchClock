@@ -40,6 +40,7 @@ namespace PunchClock.Ticketing.Model
         public virtual  User  Requestor{ get; set; }
         [Display(Name = "Assigned To")]
         [Required]
+        [UIHint("UsersDropdownList")]
         public string AssignedToId { get; set; }
 
         [ForeignKey("AssignedToId")]

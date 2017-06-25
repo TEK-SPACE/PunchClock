@@ -21,7 +21,7 @@
           columns.Bound(c => c.TypeId).ClientTemplate("#: Type.Name #"); ;
           columns.Bound(c => c.StatusId).ClientTemplate("#: Status.Name #"); ;
           columns.Bound(c => c.PriorityId).ClientTemplate("#: Priority.Name #"); ;
-          columns.Bound(c => c.AssignedToId).ClientTemplate("#: AssignedTo.DisplayName #");
+          columns.Bound(c => c.AssignedToId).EditorTemplateName("UsersDropdownList").ClientTemplate("#: AssignedTo.DisplayName #");
           columns.Bound(c => c.DueDateUtc);
           columns.Bound(c => c.ModifiedById).ClientTemplate("#: ModifiedBy.DisplayName #");
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
@@ -47,10 +47,17 @@
           .ButtonCount(5))
       .DataSource(dataSource => dataSource
           .Ajax()
+          .Events(events => events.Error("gridErrorHandler"))
           .Model(model =>
           {
               model.Id(x => x.Id);
-              //model.Field(c => c.Description).Editable(false);
+              model.Field(c => c.Id).Editable(false);
+              model.Field(c => c.ProjectId).Editable(false);
+              model.Field(c => c.RequestorId).Editable(false);
+              model.Field(c => c.CreatedById).Editable(false);
+              model.Field(c => c.CreatedDateUtc).Editable(false);
+              model.Field(c => c.ModifiedById).Editable(false);
+              model.Field(c => c.ModifiedDateUtc).Editable(false);
           })
           .Read(read => read.Action("Read", "Ticket"))
           //.Create(update => update.Action("Add", "Ticket"))
@@ -59,3 +66,19 @@
           .PageSize(20)
       )
       )
+
+<script>
+    function gridErrorHandler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
