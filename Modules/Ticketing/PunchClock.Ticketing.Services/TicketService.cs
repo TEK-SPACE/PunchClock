@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using PunchClock.Core.DataAccess;
 using PunchClock.Ticketing.Contracts;
@@ -23,7 +24,18 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.Tickets.Where(x => !x.IsDeleted).ToList();
+                return context.Tickets.Where(x => !x.IsDeleted)
+                    .Include(x => x.Type)
+                    .Include(x => x.Status)
+                    .Include(x => x.Priority)
+                    .Include(x => x.TicketProject)
+                    .Include(x => x.Category)
+                    .Include(x => x.AssignedTo)
+                    .Include(x => x.Requestor)
+                    .Include(x => x.CreatedBy)
+                    .Include(x => x.ModifiedBy)
+                    .Include(x=>x.Company)
+                    .ToList();
             }
         }
         

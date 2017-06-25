@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using PunchClock.Ticketing.Contracts;
@@ -19,7 +21,7 @@ namespace PunchClock.UI.Web.Controllers
         // GET: Ticket
         public ActionResult Index()
         {
-            return View();
+            return View(new List<Ticket>());
         }
         [HttpGet]
         public ActionResult Add()
@@ -31,6 +33,9 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                ticket.CompanyId = OperatingUser.CompanyId;
+                ticket.CreatedById = OperatingUser.Id;
+                ticket.ModifiedById = OperatingUser.Id;
                 _ticketService.Add(ticket);
             }
             return View(ticket);
@@ -49,10 +54,13 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (ticket != null && ModelState.IsValid)
             {
+                ticket.ModifiedById = OperatingUser.Id;
+                ticket.ModifiedDateUtc = DateTime.UtcNow;
                 _ticketService.Update(ticket);
             }
-            return Json(new[] { ticket }.ToDataSourceResult(request, ModelState));
+            return Json(new[] {ticket}.ToDataSourceResult(request, ModelState));
         }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete([DataSourceRequest] DataSourceRequest request,
             Ticket ticket)

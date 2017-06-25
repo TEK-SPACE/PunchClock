@@ -12,26 +12,26 @@ namespace PunchClock.Domain.Model
         public int CompanyId { get; set; }
 
         [Display(Name = "Created By")]
-        [ScaffoldColumn(false)]
+        //[ScaffoldColumn(false)]
         public string CreatedById { get; set; }
 
-        [ScaffoldColumn(false)]
+        //[ScaffoldColumn(false)]
         [Column(TypeName = "datetime2")]
         [Display(Name = "Created On")]
 
         public DateTime CreatedDateUtc { get; set; } = DateTime.UtcNow;
 
-        [ScaffoldColumn(false)]
+        //[ScaffoldColumn(false)]
         [Display(Name = "Modified By")]
         public string ModifiedById { get; set; }
 
-        [ScaffoldColumn(false)]
+        //[ScaffoldColumn(false)]
         [Column(TypeName = "datetime2")]
         [Display(Name = "Modified On")]
 
         public DateTime ModifiedDateUtc { get; set; } = DateTime.UtcNow;
 
-        [ScaffoldColumn(false)]
+        //[ScaffoldColumn(false)]
         public bool IsDeleted { get; set; }
 
 

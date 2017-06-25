@@ -1,33 +1,39 @@
 ﻿@model IEnumerable<PunchClock.Ticketing.Model.Ticket>
 @{
-    ViewBag.Title = "Tickets";
+    ViewBag.Title = "Tickets Dashboard";
 }
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+    <h2>@Html.Raw((string)ViewBag.Message)</h2>
+</hgroup>
+<div class="clearFloat"></div>
+<hr />
 
 @(Html.Kendo().Grid(Model)
       .Name("TicketsGrid")
       .Columns(columns =>
       {
           columns.Bound(c => c.Id);
-          columns.Bound(c => c.ProjectId).ClientTemplate("#= Project.Name #");
+          columns.Bound(c => c.ProjectId).ClientTemplate("#: TicketProject.Name #");
           columns.Bound(c => c.Title);
-          columns.Bound(c => c.CreatedById).ClientTemplate("#= CreatedBy.DisplayName #");
-          columns.Bound(c => c.RequestorId).ClientTemplate("#= Requestor.DisplayName #");
-          columns.Bound(c => c.TypeId).ClientTemplate("#= Type.Name #"); ;
-          columns.Bound(c => c.StatusId).ClientTemplate("#= Status.Name #"); ;
-          columns.Bound(c => c.PriorityId).ClientTemplate("#= Priority.Name #"); ;
-          columns.Bound(c => c.AssignedToId).ClientTemplate("#= AssignedTo.DisplayName #");
+          columns.Bound(c => c.CreatedById).ClientTemplate("#: CreatedBy.DisplayName #");
+          columns.Bound(c => c.RequestorId).ClientTemplate("#: Requestor.DisplayName #");
+          columns.Bound(c => c.TypeId).ClientTemplate("#: Type.Name #"); ;
+          columns.Bound(c => c.StatusId).ClientTemplate("#: Status.Name #"); ;
+          columns.Bound(c => c.PriorityId).ClientTemplate("#: Priority.Name #"); ;
+          columns.Bound(c => c.AssignedToId).ClientTemplate("#: AssignedTo.DisplayName #");
           columns.Bound(c => c.DueDateUtc);
-          columns.Bound(c => c.ModifiedById).ClientTemplate("#= ModifiedBy.DisplayName #");
-          columns.Bound(c => c.CreatedDateUtc);
-          columns.Bound(c => c.ModifiedDateUtc);
+          columns.Bound(c => c.ModifiedById).ClientTemplate("#: ModifiedBy.DisplayName #");
+          columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
+          columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Command(command =>
           {
               command.Edit();
-              //command.Destroy();
+              command.Destroy();
           });
       })
-      //.HtmlAttributes(new { style = "height: 550px;" })
-      .Scrollable()
+      .HtmlAttributes(new { style = "height: 550px;" })
+      //.Scrollable()
       .Groupable()
       .Sortable()
       .ToolBar(toolbar => {
@@ -44,7 +50,7 @@
           .Model(model =>
           {
               model.Id(x => x.Id);
-              model.Field(c => c.Description).Editable(false);
+              //model.Field(c => c.Description).Editable(false);
           })
           .Read(read => read.Action("Read", "Ticket"))
           //.Create(update => update.Action("Add", "Ticket"))
