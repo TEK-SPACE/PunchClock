@@ -263,5 +263,10 @@ namespace PunchClock.UI.Web.Controllers
         {
             return Json(_userService.All(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public ActionResult GetDisplayName(string userId)
+        {
+            return Json(_userService.DetailsByKey(userId).DisplayName, JsonRequestBehavior.AllowGet);
+        }
     }
 }

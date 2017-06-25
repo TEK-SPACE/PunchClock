@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PunchClock.Ticketing.Model.Ticket>
+﻿@using PunchClock.Domain.Model
+@model IEnumerable<PunchClock.Ticketing.Model.Ticket>
 @{
     ViewBag.Title = "Tickets Dashboard";
 }
@@ -14,23 +15,23 @@
       .Columns(columns =>
       {
           columns.Bound(c => c.Id);
-          columns.Bound(c => c.ProjectId).ClientTemplate("#: TicketProject.Name #");
+          columns.Bound(c => c.ProjectId).ClientGroupHeaderTemplate("#:getTicketProject(value) #").ClientTemplate("#: TicketProject.Name #");
           columns.Bound(c => c.Title);
-          columns.Bound(c => c.CreatedById).ClientTemplate("#: CreatedBy.DisplayName #");
-          columns.Bound(c => c.RequestorId).ClientTemplate("#: Requestor.DisplayName #");
-          columns.Bound(c => c.TypeId).ClientTemplate("#: Type.Name #"); ;
-          columns.Bound(c => c.StatusId).ClientTemplate("#: Status.Name #"); ;
-          columns.Bound(c => c.PriorityId).ClientTemplate("#: Priority.Name #"); ;
-          columns.Bound(c => c.AssignedToId).EditorTemplateName("UsersDropdownList").ClientTemplate("#: AssignedTo.DisplayName #");
+          columns.Bound(c => c.CreatedById).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: CreatedBy.DisplayName #");
+          columns.Bound(c => c.RequestorId).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: Requestor.DisplayName #");
+          columns.Bound(c => c.TypeId).ClientGroupHeaderTemplate("#:getTicketType(value) #").EditorTemplateName("TicketTypes").ClientTemplate("#: Type.Name #"); ;
+          columns.Bound(c => c.StatusId).ClientGroupHeaderTemplate("#:getTicketStatus(value) #").EditorTemplateName("TicketStatus").ClientTemplate("#: Status.Name #"); ;
+          columns.Bound(c => c.PriorityId).ClientGroupHeaderTemplate("#:getTicketPriority(value) #").EditorTemplateName("TicketPriorities").ClientTemplate("#: Priority.Name #"); ;
+          columns.Bound(c => c.AssignedToId).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: AssignedTo.DisplayName #");
           columns.Bound(c => c.DueDateUtc);
-          columns.Bound(c => c.ModifiedById).ClientTemplate("#: ModifiedBy.DisplayName #");
+          columns.Bound(c => c.ModifiedById).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: ModifiedBy.DisplayName #");
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Command(command =>
           {
-              command.Edit();
-              command.Destroy();
-          });
+              command.Edit().Text(" ");
+              command.Destroy().Text(" ");
+          }).Width(50);
       })
       .HtmlAttributes(new { style = "height: 550px;" })
       //.Scrollable()
@@ -45,6 +46,8 @@
           .Refresh(true)
           .PageSizes(true)
           .ButtonCount(5))
+          .Events(events =>
+          events.Group("OnTicketsGrouping"))
       .DataSource(dataSource => dataSource
           .Ajax()
           .Events(events => events.Error("gridErrorHandler"))
@@ -80,5 +83,44 @@
             });
             alert(message);
         }
+    }
+
+    function OnTicketsGrouping(arg) {
+    }
+
+    function getUserName(userId) {
+        var users = @Html.Raw(Json.Encode(ViewData["Users"]));
+        var result = users.filter(function( obj ) {
+            return obj.Id === userId;
+        });
+        return result[0].DisplayName;
+    }
+    function getTicketProject(id) {
+        var users = @Html.Raw(Json.Encode(ViewData["TicketProjects"]));
+        var result = users.filter(function( obj ) {
+            return obj.Id === id;
+        });
+        return result[0].Name;
+    }
+    function getTicketType(id) {
+        var users = @Html.Raw(Json.Encode(ViewData["TicketTypes"]));
+        var result = users.filter(function( obj ) {
+            return obj.Id === id;
+        });
+        return result[0].Name;
+    }
+    function getTicketStatus(id) {
+        var users = @Html.Raw(Json.Encode(ViewData["TicketStatusus"]));
+        var result = users.filter(function( obj ) {
+            return obj.Id === id;
+        });
+        return result[0].Name;
+    }
+    function getTicketPriority(id) {
+        var users = @Html.Raw(Json.Encode(ViewData["TicketPriorities"]));
+        var result = users.filter(function( obj ) {
+            return obj.Id === id;
+        });
+        return result[0].Name;
     }
 </script>

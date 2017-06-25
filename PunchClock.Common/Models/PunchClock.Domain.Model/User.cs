@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -59,8 +60,8 @@ namespace PunchClock.Domain.Model
          StringLength(150, MinimumLength = 2, ErrorMessage = "Min {2}, Max {1} chars")]
 
         public string LastName { get; set; }
-        [NotMapped][ScaffoldColumn(false)]
-        public string DisplayName => $"{FirstName} {MiddleName} {LastName}";
+        [NotMapped]
+        public string DisplayName => new Regex("[ ]{2,}", RegexOptions.None).Replace($"{FirstName} {MiddleName} {LastName}"," ");
 
         [Display(Name = "Email")]
         [Required]

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using PunchClock.Core.Contracts;
+using PunchClock.Core.Implementation;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
 using PunchClock.Ticketing.Services;
@@ -13,14 +15,22 @@ namespace PunchClock.UI.Web.Controllers
     public class TicketController : BaseController
     {
         private readonly ITicket _ticketService;
+        private readonly IUserRepository _userRepository;
 
         public TicketController()
         {
             _ticketService = new TicketService();
+            _userRepository = new UserService();
         }
         // GET: Ticket
         public ActionResult Index()
         {
+            ViewData["Users"] = _userRepository.All(OperatingUser.CompanyId);
+            ViewData["TicketCategories"] = _ticketService.GetCategories(OperatingUser.CompanyId);
+            ViewData["TicketPriorities"] = _ticketService.GetPriorties(OperatingUser.CompanyId);
+            ViewData["TicketProjects"] = _ticketService.GetProjects(OperatingUser.CompanyId);
+            ViewData["TicketTypes"] = _ticketService.GetTypes(OperatingUser.CompanyId);
+            ViewData["TicketStatusus"] = _ticketService.GetStatusus(OperatingUser.CompanyId);
             return View(new List<Ticket>());
         }
         [HttpGet]
