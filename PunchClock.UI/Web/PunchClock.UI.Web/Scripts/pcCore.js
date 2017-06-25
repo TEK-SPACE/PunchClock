@@ -74,6 +74,7 @@ $(function () {
 
 
 
+
 function showDialog(strTitle, strContent, pxWidth, pxHeight) {
     var $window = $("#kwDialog");
     $window.kendoWindow({

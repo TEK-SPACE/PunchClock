@@ -1,0 +1,2 @@
+﻿@model string
+@(Html.Kendo().DropDownListFor(x=>x).DataTextField("DisplayName").DataValueField("Id").DataSource(x => x.Read("All", "User")))
