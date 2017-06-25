@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
 using PunchClock.Cms.Service;
@@ -12,12 +14,12 @@ using PunchClock.Domain.Model;
 
 namespace PunchClock.UI.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ArticleController : BaseController
     {
         private  readonly ICategoryService CategoryService;
         private  readonly ITagsService TagsService;
-        private IArticleService _articleService;
+        private readonly IArticleService _articleService;
     
         public ArticleController()
         {
@@ -32,7 +34,10 @@ namespace PunchClock.UI.Web.Controllers
         {
             return View();
         }
-
+        public ActionResult Dashboard()
+        {
+            return View(new List<Article>());
+        }
         public ActionResult Edit(int id)
         {
             Article article = _articleService.GetOneArticle(id);
@@ -78,5 +83,12 @@ namespace PunchClock.UI.Web.Controllers
             article = _articleService.Update(article);
             return RedirectToAction("Edit", "Article", new { id = article.Id });
         }
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var appsettings = _articleService.GetArticlesByCompanyId(OperatingUser.CompanyId);
+            return Json(appsettings.ToDataSourceResult(request));
+        }
+
+      
     }
 }
