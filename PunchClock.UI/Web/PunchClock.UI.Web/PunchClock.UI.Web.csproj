@@ -744,7 +744,7 @@
     <Content Include="Views\Ticket\Index.cshtml" />
     <Content Include="Views\Article\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UsersDropdownList.cshtml" />
-    <Content Include="Views\Article\Dashboard.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

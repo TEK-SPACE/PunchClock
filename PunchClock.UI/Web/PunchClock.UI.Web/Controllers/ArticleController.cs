@@ -33,7 +33,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             return View();
         }
-        public ActionResult Dashboard()
+        public ActionResult Index()
         {
             return View(new List<Article>());
         }
@@ -84,10 +84,20 @@ namespace PunchClock.UI.Web.Controllers
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            var appsettings = _articleService.GetArticlesByCompanyId(OperatingUser.CompanyId);
-            return Json(appsettings.ToDataSourceResult(request));
+            var articlesList = _articleService.GetArticlesByCompanyId(OperatingUser.CompanyId);
+            foreach (var article in articlesList)
+            {
+                article.Tags = article.Tag.Split(',');
+            }
+            return Json(articlesList.ToDataSourceResult(request));
         }
 
-      
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            var article = _articleService.Delete(id);
+           return Json(article);
+        }
+    
     }
 }
