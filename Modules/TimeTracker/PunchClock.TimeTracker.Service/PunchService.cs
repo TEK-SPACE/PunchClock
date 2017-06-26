@@ -89,7 +89,7 @@ namespace PunchClock.TimeTracker.Service
                         punch.Comments = string.Empty;
                     message = punch.Comments +=
                         " Due to discrepancy in punch timings, manager Approval is requested for this punch out time";
-                    punch.RequestForApproval = true;
+                    punch.ApprovalRequired = true;
                 }
                 IpAddressMatchCheck(ipAddress, user, punch);
                 punch.IpAddress = ipAddress;
@@ -137,7 +137,7 @@ namespace PunchClock.TimeTracker.Service
                 {
                     p.PunchIn = punch.PunchIn;
                     p.PunchOut = punch.PunchOut;
-                    p.ManagerAccepted = punch.ManagerAccepted;
+                    p.Approved = punch.Approved;
                     p.PunchDate = punch.PunchDate;
                     p.Comments = punch.Comments;
                 }
@@ -196,7 +196,7 @@ namespace PunchClock.TimeTracker.Service
                 var updateEntity = context.Punches.FirstOrDefault(x => x.Id == punch.Id);
                 if (updateEntity != null)
                 {
-                    updateEntity.ManagerAccepted = true;
+                    updateEntity.Approved = true;
                     context.SaveChanges();
                 }
             }
@@ -217,7 +217,7 @@ namespace PunchClock.TimeTracker.Service
                 if (string.IsNullOrEmpty(punch.Comments))
                     punch.Comments = string.Empty;
                 punch.Comments += " user requested explicit punch time";
-                punch.RequestForApproval = true;
+                punch.ApprovalRequired = true;
             }
         }
         private static void IpAddressMatchCheck(string ipAddress, User user, Punch punch)
@@ -227,7 +227,7 @@ namespace PunchClock.TimeTracker.Service
                 if (string.IsNullOrEmpty(punch.Comments))
                     punch.Comments = string.Empty;
                 punch.Comments += " Punches from new IP address";
-                punch.RequestForApproval = true;
+                punch.ApprovalRequired = true;
             }
         }
 

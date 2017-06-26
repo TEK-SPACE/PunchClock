@@ -38,6 +38,7 @@ namespace PunchClock.Ticketing.Services
                     .Include(x => x.CreatedBy)
                     .Include(x => x.ModifiedBy)
                     .Include(x=>x.Company)
+                    .Include(x => x.Category)
                     .ToList();
             }
         }

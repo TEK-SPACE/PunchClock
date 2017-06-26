@@ -158,7 +158,7 @@ namespace PunchClock.UI.Web.Controllers
                 int tmpHoursInSecs;
                 int.TryParse(punch.Duration.TotalSeconds.ToString(CultureInfo.InvariantCulture), out tmpHoursInSecs);
                 punch.Hours = tmpHoursInSecs;
-                if (punch.RequestForApproval && !punch.ManagerAccepted)
+                if (punch.ApprovalRequired && !punch.Approved)
                     punch.ApprovedHours = 0;
                 else
                     punch.ApprovedHours = tmpHoursInSecs;
@@ -373,7 +373,7 @@ namespace PunchClock.UI.Web.Controllers
                 if (punch.Duration.TotalMinutes > 0)
                 {
 
-                    if (punch.RequestForApproval && !punch.ManagerAccepted)
+                    if (punch.ApprovalRequired && !punch.Approved)
                         dataTable.AddCell(new PdfPCell(new Phrase(punch.Duration.ToString(@"hh\:mm\:ss")))
                         {
                             BackgroundColor = new BaseColor(233, 50, 50),
@@ -401,7 +401,7 @@ namespace PunchClock.UI.Web.Controllers
                         PaddingBottom = 3,
                         HorizontalAlignment = Element.ALIGN_CENTER
                     });
-                else if (punch.RequestForApproval && !punch.ManagerAccepted)
+                else if (punch.ApprovalRequired && !punch.Approved)
                     dataTable.AddCell("Req. Approval");
                 else
                     dataTable.AddCell("");

@@ -56,7 +56,7 @@ namespace PunchClock.UI.Web.Controllers
 
             bool approved;
             bool.TryParse(col.Get("models[0][isManagerAccepted]"), out approved);
-            punch.ManagerAccepted = approved;
+            punch.Approved = approved;
 
             UserService ub = new UserService();
             string userTimeZoneId = ub.GetTimeZoneOfUser(uId);

@@ -14,11 +14,20 @@ namespace PunchClock.TimeTracker.Model
 
         public DateTime PunchDate { get; set; }
         public TimeSpan PunchIn { get; set; }
+        [NotMapped]
+        public string Month {
+            get
+            {
+                var In = TimeZoneInfo.ConvertTimeFromUtc(PunchDate.Date + PunchIn,
+                    TimeZoneInfo.FindSystemTimeZoneById(User.RegisteredTimeZone));
+                return In.ToString("MMMM");
+            }
+        }
         public TimeSpan? PunchOut { get; set; }
         public int UserId { get; set; }
         public string UserGuid { get; set; }
-        public bool ManagerAccepted { get; set; }
-        public bool RequestForApproval { get; set; }
+        public bool Approved { get; set; }
+        public bool ApprovalRequired { get; set; }
         public string Comments { get; set; }
         public string IpAddress { get; set; }
         public string MacAddress { get; set; }
@@ -31,16 +40,34 @@ namespace PunchClock.TimeTracker.Model
             get { return PunchOut.HasValue ? Convert.ToInt32(PunchOut.Value.Subtract(PunchIn).TotalHours) : 0; }
             set { }
         }
+
         [NotMapped]
-        public TimeSpan Duration { get; set; }
+        public TimeSpan Duration
+        {
+            get
+            {
+                var Out = PunchOut.HasValue
+                    ? TimeZoneInfo.ConvertTimeFromUtc(PunchDate.Date + PunchOut.Value,
+                        TimeZoneInfo.FindSystemTimeZoneById(User.RegisteredTimeZone))
+                    : DateTime.MinValue;
+                var In = TimeZoneInfo.ConvertTimeFromUtc(PunchDate.Date + PunchIn,
+                    TimeZoneInfo.FindSystemTimeZoneById(User.RegisteredTimeZone));
+
+                if (PunchOut.HasValue)
+                    return new TimeSpan(Out.TimeOfDay.Hours, Out.TimeOfDay.Minutes, Out.TimeOfDay.Seconds) -
+                           new TimeSpan(In.TimeOfDay.Hours, In.TimeOfDay.Minutes, In.TimeOfDay.Seconds);
+                return DateTime.MinValue.TimeOfDay;
+            }
+            set { }
+        }
 
         public int ApprovedHours
         {
             get
             {
                 if (PunchOut != null)
-                    return RequestForApproval
-                        ? (ManagerAccepted ? PunchOut.Value.Subtract(PunchIn).Seconds : 0)
+                    return ApprovalRequired
+                        ? (Approved ? PunchOut.Value.Subtract(PunchIn).Seconds : 0)
                         : PunchOut.Value.Subtract(PunchIn).Seconds;
                 return 0;
             }

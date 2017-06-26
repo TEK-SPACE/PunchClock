@@ -108,8 +108,8 @@ function showDialog(strTitle, strContent, pxWidth, pxHeight) {
 
 $(function () {
     $("#reqDifferentTime").click(function (e) {
-        //min: new Date($(".UTCDate").text() + $(".UTCTime").text())
-        var pOutDate = new Date($(".UTCDate").text() + " " + $(".UTCTime").text());
+        //min: new Date($(".utc-date").text() + $(".UTCTime").text())
+        var pOutDate = new Date($(".utc-date").text() + " " + $(".utc-time").text());
         var d = new Date();
         if ($(this).is(":checked")) {
             $pTime = $(".pTime");
@@ -228,39 +228,39 @@ $(function () {
 });
 
     $(function () {
-        var d = new Date();
-        var offsetms = d.getTimezoneOffset() * 60 * 1000;
-        $('.UTCTime').each(function () {
-            try
-            {
-                var text = $(this).text();
-                var timeArray = String(text).split(':');
-                var currentDate = new Date();
-
-                var n = new Date(currentDate.getFullYear(), currentDate.getMonth()+1, currentDate.getDay(), timeArray[0], timeArray[1], timeArray[2], 00);
-                n = new Date(n.valueOf() - offsetms);
-                //n.toDateString() + " " +
-                $(this).text(n.toLocaleTimeString());
-                $(this).attr("value", text);
-            }
-            catch (ex) {
-                console.warn("Error converting time", ex);
-            }
-        });
-        utcDate();
+        convertUtcToLocal();
     });
 
-    function utcDate() {
-       // console.log("I am here");
-        $('.UTCDate').each(function () {
+function convertUtcToLocal() {
+    convetUtcTimeToLocalTime();
+    convetUtcDateToLocalDate();
+}
+function convetUtcDateToLocalDate(inputDate) {
+    var d = new Date();
+    var offsetms = d.getTimezoneOffset() * 60 * 1000;
+        try {
+
+            var n = new Date(inputDate);
+            n = new Date(n.valueOf() - offsetms);
+            var localDate = n.toLocaleDateString();
+            return localDate;
+        }
+        catch (ex) {
+            console.warn("Error converting date", ex);
+        }
+}
+    function convetUtcDateToLocalDate() {
+        var d = new Date();
+        var offsetms = d.getTimezoneOffset() * 60 * 1000;
+        $('.utc-date').each(function () {
             try {
                 var text = $(this).text();
-
                 var n = new Date(text);
                 n = new Date(n.valueOf() - offsetms);
-                //n.toDateString() + " " +
-                $(this).text(n.toDateString());
-                $(this).attr("value", text);
+                var localDate = n.toLocaleDateString();
+                //var formattedDate = (localDate.getMonth() + 1) + '/' + localDate.getDate() + '/' + localDate.getFullYear();
+                $(this).text(localDate);
+                $(this).attr("value", localDate);
             }
             catch (ex) {
                 console.warn("Error converting date", ex);
@@ -268,36 +268,45 @@ $(function () {
         });
     }
 
-    function UTCToClientLocal(timeSpan) {
-        var d = new Date();
-        var offsetms = d.getTimezoneOffset() * 60 * 1000;
+    function convetUtcTimeToLocalTime() {
+    var d = new Date();
+    var offsetms = d.getTimezoneOffset() * 60 * 1000;
+    $('.utc-time').each(function() {
         try {
-            var text = timeSpan;
+            var text = $(this).text();
             var timeArray = String(text).split(':');
             var currentDate = new Date();
 
-            var n = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDay(), timeArray[0], timeArray[1], timeArray[2], 00);
+            var n = new Date(currentDate.getFullYear(),
+                currentDate.getMonth() + 1,
+                currentDate.getDay(),
+                timeArray[0],
+                timeArray[1],
+                00,
+                00);
             n = new Date(n.valueOf() - offsetms);
-            return n.toLocaleTimeString();
-        }
-        catch (ex) {
+
+            var localDate = n.toLocaleTimeString();
+            //var formattedDate = localDate.getHours + ':' + localDate.getMinutes + ' ' + localDate.get;
+
+            $(this).text(localDate);
+            $(this).attr("value", localDate);
+        } catch (ex) {
             console.warn("Error converting time", ex);
         }
-        return timeSpan;
-    }
+    });
+}
 
-    function UTCDateToClientLocalDate(punchDate) {
-        //console.log(punchDate);
-        var dbDate = new Date(parseInt(punchDate.substr(6)));
-        //console.log(dbDate);
+function formatDuration(hours, minutes) {
+    return ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
+    //var formattedValue = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
+    //var className = "";
+    //if (hours < 8)
+    //    className = "warning";
+    //return "<span class = '" + className + "'>" + formattedValue + "</span>";
+}
 
-        var timeOffset = -((new Date()).getTimezoneOffset() / 60);
-        dbDate.setHours(dbDate.getHours() + timeOffset);
-        console.log(dbDate);
-        return dbDate.toLocaleString();
-    }
-
-    function DateToUTC(punchDate) {
+function DateToUTC(punchDate) {
         //console.log(punchDate);
         var dbDate = new Date(parseInt(punchDate.substr(6)));
         console.log(dbDate.toISOString());

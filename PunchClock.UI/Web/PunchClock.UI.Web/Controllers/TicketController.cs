@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -87,8 +88,23 @@ namespace PunchClock.UI.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            var tickets = _ticketService.All();
-            return Json(tickets.ToDataSourceResult(request));
+            var tickets = _ticketService.All().Select(x=> new
+            {
+                x.Id,
+                Project = x.TicketProject.Name,
+                x.Title,
+                CreatedBy = x.CreatedBy.DisplayName,
+                Requestor = x.Requestor.DisplayName,
+                Type = x.Type.Name,
+                Sttus = x.Status.Name,
+                Priority = x.Priority.Name,
+                AssignedTo = x.AssignedTo.DisplayName,
+                x.DueDateUtc,
+                ModifiedBy = x.ModifiedBy.DisplayName,
+                x.CreatedDateUtc,
+                x.ModifiedDateUtc
+            }).ToList();
+            return Json(_ticketService.All().ToDataSourceResult(request));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

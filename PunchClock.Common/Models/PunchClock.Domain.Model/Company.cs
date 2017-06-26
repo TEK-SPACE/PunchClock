@@ -30,7 +30,7 @@ namespace PunchClock.Domain.Model
         public bool IsDeleted { get; set; }
         //[ForeignKey("CreatedById")]
         //public User CreatedBy { get; set; }
-        public ICollection<User> Users { get; set; }
+       // public ICollection<User> Users { get; set; }
         public ICollection<CompanyLanguage> Languages { get; set; }
     }
 }

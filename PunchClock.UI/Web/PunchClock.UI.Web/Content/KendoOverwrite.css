@@ -86,3 +86,7 @@ label.col-lg-2.control-label {
 .k-button.k-upload-button {
     margin: 0;
 }
+.grid-link {
+    color: #e87050;
+    text-decoration: underline;
+}

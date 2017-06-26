@@ -9,7 +9,7 @@ namespace PunchClock.Domain.Model
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        //public virtual ICollection<User> Users { get; set; }
 
         public static explicit operator EmploymentType(int v)
         {
