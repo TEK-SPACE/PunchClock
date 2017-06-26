@@ -181,6 +181,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             var punches = _punchService.All();
+            punches.ForEach(x=>x.DurationInSeconds = x.Duration.TotalSeconds);
             return Json(punches.ToDataSourceResult(request));
         }
         [AcceptVerbs(HttpVerbs.Post)]
@@ -211,17 +212,23 @@ namespace PunchClock.UI.Web.Controllers
 
             return File(fileContents, contentType, fileName);
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Approve([DataSourceRequest] DataSourceRequest request,
-            Punch punch)
+        [HttpPost]
+        public JsonResult Approve(int id)
         {
-            if (punch != null && ModelState.IsValid)
-            {
-                _punchService.Approve(punch);
-            }
-
-            return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+            _punchService.Approve(id);
+            return Json(true);
         }
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Approve([DataSourceRequest] DataSourceRequest request,
+        //    Punch punch)
+        //{
+        //    if (punch != null && ModelState.IsValid)
+        //    {
+        //        _punchService.Approve(punch);
+        //    }
+
+        //    return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+        //}
         public FileResult Export()
         {
             List<Punch> punches;

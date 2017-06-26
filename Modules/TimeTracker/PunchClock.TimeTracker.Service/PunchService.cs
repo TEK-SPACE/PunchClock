@@ -202,6 +202,19 @@ namespace PunchClock.TimeTracker.Service
             }
         }
 
+        public void Approve(int id)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                var updateEntity = context.Punches.FirstOrDefault(x => x.Id == id);
+                if (updateEntity != null)
+                {
+                    updateEntity.Approved = true;
+                    context.SaveChanges();
+                }
+            }
+        }
+
         #region Private Methods
 
         private static bool IsUserAuthorizedTo(int opUserId, PunchClockDbContext context)

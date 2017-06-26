@@ -235,7 +235,7 @@ function convertUtcToLocal() {
     convetUtcTimeToLocalTime();
     convetUtcDateToLocalDate();
 }
-function convetUtcDateToLocalDate(inputDate) {
+function convetUtcDateToLocalDateByInput(inputDate) {
     var d = new Date();
     var offsetms = d.getTimezoneOffset() * 60 * 1000;
         try {
@@ -320,7 +320,7 @@ function DateToUTC(punchDate) {
         return day;
     }
 
-    function MinutesToTime(secs) {
+    function SecondsToTime(secs) {
         //console.log(secs);
         var hr = Math.floor(secs / 3600);
         var min = Math.floor((secs - (hr * 3600)) / 60);
@@ -333,11 +333,11 @@ function DateToUTC(punchDate) {
         else hr = "00:";
         if (!min) min = "00";
         if (!sec) sec = "00";
-        return hr + min + ':' + sec;
+        return hr + min;// + ':' + sec;
     }
 
     function computeHoursRange(data) {
-        var totalHours = MinutesToTime(data);
+        var totalHours = SecondsToTime(data);
         //console.log(totalHours);
         $("#totalHours").html(totalHours);
         return totalHours;
@@ -407,4 +407,12 @@ $(document).ready(function () {
 });
 function getTooltip(e) {
     return $(e.target).parent().find("input").attr("title");
+}
+function refreshGrid() {
+    $(document.activeElement).parentsUntil(".kgrid").find(".k-pager-refresh").trigger("click");
+}
+
+function getFormattdDate(jsonDate) {
+    var date = String(jsonDate).indexOf("/") === 0 ? new Date(parseInt(jsonDate.substr(6))) : new Date(String(jsonDate));
+    return convetUtcDateToLocalDateByInput(date);
 }

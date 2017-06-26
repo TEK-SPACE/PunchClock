@@ -45,7 +45,6 @@ namespace PunchClock.Core.DataAccess.Seeders
                 }
             }
 
-            Debugger.Launch();
             List<User> users = new List<User>
             {
                 new User { FirstName = "Super",

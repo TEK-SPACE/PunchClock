@@ -7,13 +7,17 @@
       .Columns(columns =>
       {
           columns.Bound(c => c.Id).Hidden(true).HtmlAttributes(new {style="text-align:center;"});
-          columns.Bound(c => c.ApprovalRequired).ClientTemplate("# if (ApprovalRequired == true) {# Yes: <a href=/Punch/Approve/#:Id# >Approve</>#} else{# No #}#");
+          columns.Bound(c => c.ApprovalRequired).ClientTemplate("# if (ApprovalRequired == true && Approved == false) {# Yes: <a data-ajax='true' data-ajax-complete='refreshGrid' data-ajax-method='POST' href='/Punch/Approve/#:Id#' class='grid-link' >Approve</>#} else{# No #}#");
           columns.Bound(c => c.EmployeeName).Filterable(ftb => ftb.Multi(true).Search(true));
-          columns.Bound(c => c.Month).Filterable(ftb => ftb.Multi(true).Search(true));
-          columns.Bound(c => c.PunchDate).ClientGroupHeaderTemplate("#:convetUtcDateToLocalDate(PunchDate)#").HtmlAttributes(new { @class = "utc-date" });
+          columns.Bound(c => c.Month).Filterable(ftb => ftb.Multi(true));
+          columns.Bound(c => c.PunchDate)
+              .ClientFooterTemplate("#= getFormattdDate(data.PunchDate.min) # - #= getFormattdDate(data.PunchDate.max) # ")
+              .ClientGroupHeaderTemplate("#:convetUtcDateToLocalDate(PunchDate)#").HtmlAttributes(new { @class = "utc-date" });
           columns.Bound(c => c.PunchIn).Groupable(false).Filterable(false).ClientTemplate("#:PunchIn.Hours#:#:PunchIn.Minutes#").HtmlAttributes(new { @class = "utc-time" });
           columns.Bound(c => c.PunchOut).Groupable(false).Filterable(false).ClientTemplate("#: PunchOut.Hours #:#: PunchOut.Minutes  #").HtmlAttributes(new {@class= "utc-time" });
-          columns.Bound(c => c.Duration).Groupable(false).Filterable(false).ClientTemplate("#:formatDuration(Duration.Hours,Duration.Minutes) #").HtmlAttributes(new { @class = "" });
+          columns.Bound(c => c.Duration).Groupable(false).Filterable(false)
+              .ClientFooterTemplate("#= SecondsToTime(data.DurationInSeconds.sum) # ")
+              .ClientTemplate("#:formatDuration(Duration.Hours,Duration.Minutes) #").HtmlAttributes(new { @class = "" });
           columns.Bound(c => c.Comments).Groupable(false);
           //columns.Command(command =>
           //{
@@ -26,6 +30,7 @@
       .Groupable()
       .Sortable()
       .Filterable()
+      .Navigatable()
       .ToolBar(toolbar => {
           //toolbar.Create();
           //toolbar.Save();
@@ -51,17 +56,25 @@
           .ButtonCount(5))
       .DataSource(dataSource => dataSource
           .Ajax()
+          .Batch(true)
+          .PageSize(20)                
+          .ServerOperation(false)
           .Events(events => events.Error("gridErrorHandler"))
-          //.Model(model =>
-          //{
-          //    model.Id(x => x.Id);
-          //    model.Field(c => c.Id).Editable(false);
-          //})
+          .Aggregates(aggrgates=> aggrgates.Add(x=>x.DurationInSeconds).Sum())
+          .Aggregates(aggrgates => aggrgates.Add(x => x.PunchDate).Min())
+          .Aggregates(aggrgates => aggrgates.Add(x => x.PunchDate).Max())
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(c => c.Id).Editable(false);
+          })
+          .Group(groups=> groups.Add(x=>x.EmployeeName))
+          .Group(groups => groups.Add(x => x.Month))
+
           .Read(read => read.Action("Read", "Punch"))
           //.Create(update => update.Action("Add", "Ticket"))
           //.Update(update => update.Action("Update", "Punch"))
           //.Destroy(update => update.Action("Delete", "Punch"))
-          .PageSize(20)
       )
       )
 

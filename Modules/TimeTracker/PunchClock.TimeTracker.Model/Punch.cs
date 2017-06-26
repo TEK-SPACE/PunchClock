@@ -25,7 +25,10 @@ namespace PunchClock.TimeTracker.Model
         }
         public TimeSpan? PunchOut { get; set; }
         public int UserId { get; set; }
+
         public string UserGuid { get; set; }
+
+
         public bool Approved { get; set; }
         public bool ApprovalRequired { get; set; }
         public string Comments { get; set; }
@@ -41,6 +44,9 @@ namespace PunchClock.TimeTracker.Model
             set { }
         }
 
+        public double DurationInSeconds { get; set; }
+
+
         [NotMapped]
         public TimeSpan Duration
         {
@@ -54,8 +60,11 @@ namespace PunchClock.TimeTracker.Model
                     TimeZoneInfo.FindSystemTimeZoneById(User.RegisteredTimeZone));
 
                 if (PunchOut.HasValue)
-                    return new TimeSpan(Out.TimeOfDay.Hours, Out.TimeOfDay.Minutes, Out.TimeOfDay.Seconds) -
-                           new TimeSpan(In.TimeOfDay.Hours, In.TimeOfDay.Minutes, In.TimeOfDay.Seconds);
+                {
+                    var duration = new TimeSpan(Out.TimeOfDay.Hours, Out.TimeOfDay.Minutes, Out.TimeOfDay.Seconds) -
+                                new TimeSpan(In.TimeOfDay.Hours, In.TimeOfDay.Minutes, In.TimeOfDay.Seconds);
+                    return duration;
+                }
                 return DateTime.MinValue.TimeOfDay;
             }
             set { }

@@ -17,5 +17,6 @@ namespace PunchClock.TimeTracker.Contract
         void Update(Punch punch);
         void Delete(Punch punch);
         void Approve(Punch punch);
+        void Approve(int id);
     }
 }
