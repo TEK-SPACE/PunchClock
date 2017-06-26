@@ -6,13 +6,13 @@ using PunchClock.View.Model;
 
 namespace PunchClock.Core.Contracts
 {
-    public interface ICompanyRepository
+    public interface ICompany
     {
         int Add(Company company);
         List<Company> GetBy(string name);
         Company Get(string code);
         Company Get(int companyId);
-        void SetCreatedBy(int companyId, int userId);
+        void SetCreatedBy(int companyId, string userId);
         CompanyTransaction Update(Company company);
         List<EmployeePaidHolidayView> PaidHolidayPkg(int companyId);
         void UpdatePaidHolidayPkg(List<EmployeePaidHolidayView> pkgs);

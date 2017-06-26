@@ -10,7 +10,8 @@ namespace PunchClock.Domain.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Guid GlobalId { get; set; }
+
+        public Guid GlobalId { get; set; } = Guid.NewGuid();
         [Required]
         [Display(Name = "Company Name")]
         public string Name { get; set; }
@@ -24,12 +25,11 @@ namespace PunchClock.Domain.Model
         [Required]
         [Display(Name = "Register code")]
         public string RegisterCode { get; set; }
-        public int CreatedById { get; set; }
-        public string CreatedByGuiId { get; set; }
+        public string CreatedById { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        [ForeignKey("CreatedByGuiId")]
-        public User CreatedBy { get; set; }
+        //[ForeignKey("CreatedById")]
+        //public User CreatedBy { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<CompanyLanguage> Languages { get; set; }
     }

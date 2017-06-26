@@ -284,6 +284,8 @@ namespace PunchClock.Core.Implementation
         {
             using (var context = new PunchClockDbContext())
             {
+                address.Country = context.Countries.FirstOrDefault(x => x.Id == address.CountryId);
+                address.State = context.States.FirstOrDefault(x => x.Id == address.StateId);
                 context.Addresses.Add(address);
                 context.SaveChanges();
                 return address.Id;

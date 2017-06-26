@@ -11,7 +11,7 @@
 {
     <div class="col-lg-12 form-horizontal">
         <div class="panel panel-success panel-nomargin">
-            <div class="panel-body">New User Details</div>
+            <div class="panel-body">User Details</div>
         </div>
         <div class="well">
             <fieldset>
@@ -46,7 +46,7 @@
                         @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.Password).HtmlAttributes(new { id = "userPassword", @class = "form-control", type = "password", placeholder = RegistrationPlacehoder.Password, title = RegistrationTooltip.Password })
+                        @Html.Kendo().TextBoxFor(x => x.Password).HtmlAttributes(new { id = "userPassword", required = "required", @class = "form-control", type = "password", placeholder = RegistrationPlacehoder.Password, title = RegistrationTooltip.Password })
                         @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>

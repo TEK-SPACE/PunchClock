@@ -82,7 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICompanyRepository.cs" />
+    <Compile Include="ICompany.cs" />
     <Compile Include="IContactRepository.cs" />
     <Compile Include="IEmailRepository.cs" />
     <Compile Include="IGenericRepository.cs" />

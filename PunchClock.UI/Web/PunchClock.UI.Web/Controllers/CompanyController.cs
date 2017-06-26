@@ -18,7 +18,7 @@ namespace PunchClock.UI.Web.Controllers
     public class CompanyController : BaseController
     {
         private readonly UserService _userService;
-        private readonly ICompanyRepository _companyService;
+        private readonly ICompany _companyService;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -66,7 +66,7 @@ namespace PunchClock.UI.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            Company model = new Company {CreatedBy = new User()};
+            CompanyRegister model = new CompanyRegister { Company = new Company(), CreatedBy = new User()};
             if (User.Identity.IsAuthenticated)
             {
                 var eligibleUsers = new List<int>
@@ -94,14 +94,14 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(Company company, HttpPostedFileBase logo)
+        public ActionResult Register(CompanyRegister companyRegister, HttpPostedFileBase logo)
         {
 
-            if (_userService.Get(userName: company.CreatedBy.UserName).Any())
+            if (_userService.Get(userName: companyRegister.CreatedBy.UserName).Any())
             {
                 ModelState.AddModelError("",
-                    $"Username {company.CreatedBy.UserName} is already in use. Please try with a different username");
-                return View(company);
+                    $"Username {companyRegister.CreatedBy.UserName} is already in use. Please try with a different username");
+                return View(companyRegister);
             }
 
             // need to handle the file size
@@ -115,39 +115,38 @@ namespace PunchClock.UI.Web.Controllers
                         memoryStream = new MemoryStream();
                         inputStream.CopyTo(memoryStream);
                     }
-                    company.LogoUrl = logo.FileName;
-                    company.LogoBinary = memoryStream.ToArray();
+                    companyRegister.Company.LogoUrl = logo.FileName;
+                    companyRegister.Company.LogoBinary = memoryStream.ToArray();
                 }
             }
-            company.Id = _companyService.Add(company);
+            companyRegister.CreatedBy.UserRegisteredIp = UserSession.IpAddress;
+            companyRegister.CreatedBy.RegisteredMacAddress = UserSession.MacAddress;
+            companyRegister.CreatedBy.LastActivityIp = UserSession.IpAddress;
+            companyRegister.CreatedBy.LastActiveMacAddress = UserSession.MacAddress;
+            companyRegister.CreatedBy.EmploymentTypeId = (int) EmploymentType.FullTime;
 
-            if (company.Id == (int) RegistrationStatus.DuplicateCompany)
+            companyRegister.Company.Id = _companyService.Add(companyRegister.Company);
+
+            if (companyRegister.Company.Id == (int) RegistrationStatus.DuplicateCompany)
             {
-                ModelState.AddModelError("", $"Company {company.CreatedBy.UserName} is already registerted");
-                return View(company);
+                ModelState.AddModelError("", $"Company {companyRegister.CreatedBy.UserName} is already registerted");
+                return View(companyRegister);
             }
-            if (company.Id < 1)
+            if (companyRegister.Company.Id < 1)
             {
                 ViewBag.Message = "Sorry. Failed to Add your company";
-                return View(company);
+                return View(companyRegister);
             }
 
-            company.CreatedBy.UserRegisteredIp = UserSession.IpAddress;
-            company.CreatedBy.RegisteredMacAddress = UserSession.MacAddress;
-            company.CreatedBy.LastActivityIp = UserSession.IpAddress;
-            company.CreatedBy.LastActiveMacAddress = UserSession.MacAddress;
-            company.CreatedBy.RegistrationCode = company.RegisterCode;
-            company.CreatedBy.UserTypeId = (int) UserType.CompanyAdmin;
-            company.CreatedBy.EmploymentTypeId = (int) EmploymentType.ContractHourly;
-            company.CreatedBy.CompanyId = company.Id;
-            company.Id = company.Id;
-
+            companyRegister.CreatedBy.CompanyId = companyRegister.Company.Id;
             try
             {
-                var result = UserManager.CreateAsync(company.CreatedBy, company.CreatedBy.Password).Result;
+                var result = UserManager.CreateAsync(companyRegister.CreatedBy, companyRegister.CreatedBy.Password)
+                    .Result;
                 if (result.Succeeded)
                 {
-                    SignInManager.SignIn(company.CreatedBy, isPersistent: false, rememberBrowser: false);
+                    //SignInManager.SignIn(companyRegister.CreatedBy, isPersistent: false, rememberBrowser: false);
+                    _userService.AddAddress(companyRegister.CreatedBy.RegistrationAddress);
                 }
                 else
                 {
@@ -155,6 +154,7 @@ namespace PunchClock.UI.Web.Controllers
                     {
                         ModelState.AddModelError("", error);
                     }
+                    return View(companyRegister);
                 }
             }
             catch
@@ -162,13 +162,17 @@ namespace PunchClock.UI.Web.Controllers
                 // ignored
             }
 
-            if (company.Id > 0)
+            if (companyRegister.Company.Id > 0)
             {
-                _companyService.SetCreatedBy(companyId: company.Id, userId: company.CreatedBy.Uid);
-                ViewBag.Message = "Your company code <strong>" + company.RegisterCode +
+                _companyService.SetCreatedBy(companyId: companyRegister.Company.Id,
+                    userId: companyRegister.CreatedBy.Id);
+                ViewBag.Message = "Your company code <strong>" + companyRegister.Company.RegisterCode +
                                   "</strong>. Your employees need this code to sign up for their account.";
+                SignInManager.SignInAsync(companyRegister.CreatedBy, isPersistent: false,
+                    rememberBrowser: false).Wait();
+                return RedirectToAction("Index", "Home");
             }
-            return View(company);
+            return View(companyRegister);
         }
 
         [HttpGet]

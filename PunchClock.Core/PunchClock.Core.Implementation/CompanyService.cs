@@ -11,7 +11,7 @@ using PunchClock.View.Model;
 
 namespace PunchClock.Core.Implementation
 {
-    public class CompanyService : ICompanyRepository
+    public class CompanyService : ICompany
     {
         public int Add(Company company)
         {
@@ -19,12 +19,8 @@ namespace PunchClock.Core.Implementation
             {
                 if (context.Companies.Any(x => x.Name.Equals(company.Name, StringComparison.OrdinalIgnoreCase)))
                     return (int) RegistrationStatus.DuplicateCompany;
-                company.RegisterCode = new Helper.Common.Get().RandomNumber().ToString();
-                company.GlobalId = Guid.NewGuid();
-                company.CreatedById = 0; // User is not created yet so we dont have userId
+                //company.RegisterCode = new Helper.Common.Get().RandomNumber().ToString();
                 company.IsActive = false; // SuperAdmin needs to monitor and  activate
-                company.IsDeleted = false;
-
                 context.Companies.Add(company);
                 context.SaveChanges();
                 return company.Id;
@@ -56,7 +52,7 @@ namespace PunchClock.Core.Implementation
             }
         }
 
-        public void SetCreatedBy(int companyId, int userId)
+        public void SetCreatedBy(int companyId, string userId)
         {
             using (var context = new PunchClockDbContext())
             {

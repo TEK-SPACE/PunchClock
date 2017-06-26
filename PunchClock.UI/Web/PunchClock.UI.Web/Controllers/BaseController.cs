@@ -11,7 +11,7 @@ namespace PunchClock.UI.Web.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly ICompanyRepository _companyRepository;
+        private readonly ICompany _companyRepository;
 
         protected readonly UserSession UserSession;
         protected User OperatingUser = new User();

@@ -16,5 +16,9 @@
         public const string City = "City";
         public const string Country = "Country";
         public const string State = "State";
+        public const string CompanyName = "Company Name";
+        public const string CompanyPunchDelta = "Delta Punch Time";
+        public const string CompanySummary = "Company Summary";
+        public const string CompanyLogo = "Company Logo";
     }
 }

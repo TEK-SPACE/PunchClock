@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 using PunchClock.Domain.Model.Constants;
@@ -19,6 +20,7 @@ namespace PunchClock.Domain.Model
         public int StateId { get; set; }
         [Required]
         [Display(Name = RegistrationTooltip.Country)]
+        [DefaultValue(0)]
         public int CountryId { get; set; }
         public string Zip { get; set; }
         public string FullAddress => new Regex("[ ]{2,}", RegexOptions.None).Replace($"{Address1} {Address2}, {City} {State.Abbreviation} {Country.Name} {Zip}"," ");

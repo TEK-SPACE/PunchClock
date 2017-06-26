@@ -109,6 +109,7 @@ namespace PunchClock.Core.DataAccess
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "dbo");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "dbo");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins", "dbo");
+
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
     }
