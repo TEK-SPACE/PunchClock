@@ -67,16 +67,19 @@ namespace PunchClock.UI.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Ticket ticket, FormCollection formCollection)
         {
-            ticket.Comments.Add(new TicketComment
+            if (!string.IsNullOrEmpty(formCollection["Comment"]))
             {
-                Description = formCollection["Comment"],
-                CreatedById = OperatingUser.Id,
-                CreatedDateUtc = DateTime.UtcNow,
-                ModifiedById = OperatingUser.Id,
-                ModifiedDateUtc = DateTime.UtcNow,
-                CompanyId = OperatingUser.CompanyId,
-                TicketId = ticket.Id
-            });
+                ticket.Comments.Add(new TicketComment
+                {
+                    Description = formCollection["Comment"],
+                    CreatedById = OperatingUser.Id,
+                    CreatedDateUtc = DateTime.UtcNow,
+                    ModifiedById = OperatingUser.Id,
+                    ModifiedDateUtc = DateTime.UtcNow,
+                    CompanyId = OperatingUser.CompanyId,
+                    TicketId = ticket.Id
+                });
+            }
             _ticketService.Update(ticket);
             ticket = _ticketService.Details(ticket.Id);
             return View(ticket);
