@@ -1,0 +1,53 @@
+﻿@model IEnumerable<PunchClock.Cms.Model.Article>
+@{
+    ViewBag.Title = "Article Dashboard";
+}
+
+@(Html.Kendo().Grid(Model)
+      .Name("Article_Dashboard")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Id).ClientTemplate(@Html.ActionLink("#=Id#", "Edit", new { id = "#=Id#" }, htmlAttributes: new { target = "_blank", style = "color: blue;text-decoration: underline;" }).ToHtmlString());
+          columns.Bound(c => c.Title).Title("Title").ClientTemplate(@Html.ActionLink("#=Title#", "Edit", new {id = "#=Id#"}, htmlAttributes: new { target = "_blank",style= "color: blue;text-decoration: underline;" }).ToHtmlString());
+          // columns.Bound(c => c.Title).Title("Title").ClientTemplate("<a  style='color: blue;text-decoration: underline;' target='_blank' href='" + Url.Action("Edit", "Article") + "/#= Id #'" + ">#= Title #</a>");
+          columns.Bound(c => c.Description);
+          columns.Bound(c => c.CategoryId);
+          columns.Bound(c => c.Tags);
+          columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
+          columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
+
+      })
+      .HtmlAttributes(new { style = "height: 550px;" })
+      .Scrollable()
+      .Groupable()
+      .Sortable()
+      .ToolBar(toolbar =>
+      {
+          toolbar.Custom().Text("Add New Article").Action("ADD", "Article").HtmlAttributes(new { target = "_blank"});
+          toolbar.Save();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable(pageable => pageable
+          .Refresh(true)
+          .PageSizes(true)
+          .ButtonCount(5))
+      .DataSource(dataSource => dataSource
+          .Ajax().Sort(sort=>sort.Add("CreatedDateUtc").Descending())
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(c => c.Id).Editable(false);
+              model.Field(c => c.Title).Editable(false);
+              model.Field(c => c.Description).Editable(false);
+              model.Field(c => c.CategoryId).Editable(true);
+              model.Field(c => c.Tags).Editable(true);
+              model.Field(c => c.CreatedDateUtc).Editable(false);
+              model.Field(c => c.ModifiedDateUtc).Editable(false);
+          })
+          .Read(read => read.Action("Read", "Article"))
+          .Create(update => update.Action("AddNewArticle", "Article"))
+          .Update(update => update.Action("Update", "Article"))
+           .Destroy(update => update.Action("Delete", "Article"))
+          .PageSize(20)
+      )
+)

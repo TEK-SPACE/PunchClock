@@ -751,6 +751,7 @@
     <Content Include="Views\Shared\EditorTemplates\TicketStatus.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketPriorities.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketTypesByName.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
