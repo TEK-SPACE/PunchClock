@@ -19,7 +19,9 @@ namespace PunchClock.Core.DataAccess.Seeders
                 new UserType {Id = (int)Domain.Model.Enum.UserType.Manager, Description = "Manager"},
                 new UserType {Id = (int)Domain.Model.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
                 new UserType {Id = (int)Domain.Model.Enum.UserType.SuperAdmin, Description = "SuperAdmin"},
-                new UserType {Id = (int)Domain.Model.Enum.UserType.HumanResources,Description="Human Resource"}
+                new UserType {Id = (int)Domain.Model.Enum.UserType.HumanResources,Description="Human Resource"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.ProjectOwner,Description="Project Owner"}
+
             };
             foreach (var userType in userTypes)
             {

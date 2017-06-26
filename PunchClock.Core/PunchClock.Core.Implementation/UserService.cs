@@ -10,7 +10,7 @@ using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.Core.Implementation
 {
-    public class UserService : IUserRepository
+    public class UserService : IUser
     {
         [Obsolete("This method is not in use as we are using Identity Service")]
         public int Add(User user)
@@ -119,7 +119,7 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.UserTypes.ToList();
+                return context.UserTypes.Where(x=>x.Id != (int)UserType.SuperAdmin).ToList();
             }
         }
 
@@ -276,7 +276,17 @@ namespace PunchClock.Core.Implementation
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.Users.Where(x => x.CompanyId == companyId).ToList();
+                return context.Users.Where(x => x.CompanyId == companyId && x.UserTypeId != (int)UserType.SuperAdmin).ToList();
+            }
+        }
+
+        public int AddAddress(Address address)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                context.Addresses.Add(address);
+                context.SaveChanges();
+                return address.Id;
             }
         }
     }

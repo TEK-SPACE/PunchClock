@@ -15,7 +15,7 @@ namespace PunchClock.UI.Web.Controllers
     public class TicketController : BaseController
     {
         private readonly ITicket _ticketService;
-        private readonly IUserRepository _userRepository;
+        private readonly IUser _userRepository;
 
         public TicketController()
         {

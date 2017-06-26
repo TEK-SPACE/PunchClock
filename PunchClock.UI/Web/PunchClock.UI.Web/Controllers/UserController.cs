@@ -18,10 +18,13 @@ namespace PunchClock.UI.Web.Controllers
     {
         //
         // GET: /Register/
-        private readonly IUserRepository _userService;
+        private readonly IUser _userService;
         private readonly IEmailRepository _emailRepository;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly ISite _siteService;
+        private readonly CompanyService _companyService;
+
         private ApplicationSignInManager SignInManager
         {
             get
@@ -49,6 +52,8 @@ namespace PunchClock.UI.Web.Controllers
         {
             _userService = new UserService();
             _emailRepository = new Core.Implementation.EmailService();
+            _siteService = new SiteService();
+            _companyService = new CompanyService();
         }
 
         public ActionResult Register()
@@ -80,17 +85,79 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Register(User user)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> Register(User user)
         {
-            user.UserRegisteredIp = UserSession.IpAddress;
-            user.RegisteredMacAddress= UserSession.MacAddress;
-            user.LastActivityIp = UserSession.IpAddress;
-            user.LastActiveMacAddress = UserSession.MacAddress;
-            user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
-            user.Uid = _userService.Add(user);
-            return Json(new { user });
+            if (ModelState.IsValid)
+            {
+                user.UserRegisteredIp = UserSession.IpAddress;
+                user.RegisteredMacAddress = UserSession.MacAddress;
+                user.LastActivityIp = UserSession.IpAddress;
+                user.LastActiveMacAddress = UserSession.MacAddress;
+                user.EmploymentTypeId = (int)EmploymentType.ContractHourly; // this is default employemnt type at registration. later admin can set the type
+                user.DateCreatedUtc = DateTimeOffset.UtcNow;
+                user.LastActivityDateUtc = DateTimeOffset.UtcNow;
+                user.LastUpdatedUtc = DateTimeOffset.UtcNow;
+                user.PasswordLastChanged = DateTime.UtcNow;
+
+                Company company = _companyService.Get(code: user.RegistrationCode);
+                if (company == null || company.Id < 1)
+                {
+                    user.ErrorMessage =
+                        $"Registration code {user.RegistrationCode} doesn't match with any  Company in the system";
+                    ModelState.AddModelError("", user.ErrorMessage);
+                    SetRegistrationContext(user);
+                    return Json(user);
+                }
+                user.CompanyId = company.Id;
+                user.IsActive = true;
+
+                var result = await UserManager.CreateAsync(user, user.Password);
+                if (result.Succeeded)
+                {
+                    user.RegistrationAddress.UserId = user.Id;
+                  _userService.AddAddress(user.RegistrationAddress);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //return RedirectToAction("Index", "Home");
+                    return Json(user);
+                }
+                user.Uid = -5;
+                user.ErrorMessage = string.Join("<br/>", result.Errors.Select(x => x));
+                AddIdentityErrors(result);
+            }
+            else
+            {
+                ReadModelStateError(modelState:ModelState);
+                user.ErrorMessage = ViewData["ModelError"] as string;
+            }
+            SetRegistrationContext(user);
+            // If we got this far, something failed, redisplay form
+            return Json(user);
         }
 
+
+        private User SetRegistrationContext(User user)
+        {
+            user.LastActivityIp = UserSession.IpAddress;
+            user.LastActiveMacAddress = UserSession.MacAddress;
+
+            var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
+            user.TimezonesList = (from t in systemTimeZones
+                orderby t.Id
+                select new SelectListItem
+                {
+                    Value = t.Id,
+                    Text = t.Id
+                }).ToList();
+            user.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
+
+            var userTypes = Get.UserTypes(adminCall: true);
+            if (user.UserTypeId > 0)
+                userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
+            ViewBag.UserTypes = userTypes;
+            return user;
+        }
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -267,6 +334,16 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult GetDisplayName(string userId)
         {
             return Json(_userService.DetailsByKey(userId).DisplayName, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Countries()
+        {
+            return Json(_siteService.GetCountries(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult States(int id)
+        {
+            return Json(_siteService.GetStates(countryId:id), JsonRequestBehavior.AllowGet);
         }
     }
 }

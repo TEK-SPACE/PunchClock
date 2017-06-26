@@ -208,10 +208,11 @@ namespace PunchClock.UI.Web.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    
                     //return RedirectToAction("Index", "Home");
                     return Json(user);
                 }
-                AddErrors(result);
+                AddIdentityErrors(result);
             }
             SetRegistrationContext(user);
             // If we got this far, something failed, redisplay form
@@ -305,7 +306,7 @@ namespace PunchClock.UI.Web.Controllers
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            AddErrors(result);
+            AddIdentityErrors(result);
             return View();
         }
 
@@ -423,7 +424,7 @@ namespace PunchClock.UI.Web.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
-                AddErrors(result);
+                AddIdentityErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;
@@ -474,13 +475,7 @@ namespace PunchClock.UI.Web.Controllers
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
+       
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

@@ -245,7 +245,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult PaidHolidayPkg(int id)
         {
             var paidHolidayPkg = _companyService.PaidHolidayPkg(id);
-            SiteService siteService = new SiteService();
+            ISite siteService = new SiteService();
             List<SelectListItem> employmentTypes = siteService.GetEmploymentTypes(id);
             ViewBag.employmentTypes = employmentTypes;
             return PartialView("_PaidHolidayPkg", paidHolidayPkg);

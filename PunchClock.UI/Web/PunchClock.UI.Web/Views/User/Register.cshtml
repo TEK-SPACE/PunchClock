@@ -1,147 +1,175 @@
-﻿@using PunchClock.UI.Web.Helpers
-@using SelectListItem = System.Web.Mvc.SelectListItem
+﻿@using PunchClock.Domain.Model.Constants
+@using PunchClock.UI.Web.Helpers
 @model PunchClock.Domain.Model.User
 @{
     ViewBag.Title = "User Registration";
 }
-<hgroup class="title">
-    <h1>@ViewBag.Title</h1>
-    <h2>@Html.Raw((string)ViewBag.Message)</h2>
-</hgroup>
-<div class="clearFloat"></div>
-<hr />
-<div class="col-lg-6 form-horizontal"> 
-    <div class="well">
-        @using (Ajax.BeginForm("Register", "Account", null,
-            new AjaxOptions { OnSuccess = "postResponseRegistration" },
-            new { @class = "form-horizontal" }))
-        {
+
+@using (Ajax.BeginForm("Register", "User", null,
+                            new AjaxOptions { OnSuccess = "postResponseRegistration" },
+                            new { @class = "form-horizontal" }))
+{
+    <div class="col-lg-12 form-horizontal">
+        <div class="panel panel-success panel-nomargin">
+            <div class="panel-body">New User Details</div>
+        </div>
+        <div class="well">
             <fieldset>
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-               
+
                 <div class="form-group">
-                    @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.FirstName).Value("").HtmlAttributes(new { @class = "form-control" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.FirstName).Value("").HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.FirstName, title = RegistrationTooltip.FirstName })
                         @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.LastName, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.LastName).HtmlAttributes(new { @class = "form-control" })
+
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.LastName).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.LastName, title = RegistrationTooltip.LastName })
                         @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.Email, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.Email).HtmlAttributes(new { @class = "form-control" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.Email).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.Email, title = RegistrationTooltip.Email })
                         @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.PhoneNumber, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.PhoneNumber).HtmlAttributes(new { @class = "form-control" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.PhoneNumber).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.PhoneNumber, title = RegistrationTooltip.PhoneNumber })
                         @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
                     </div>
+
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.UserName, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.UserName).HtmlAttributes(new { @class = "form-control" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.UserName).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.UserName, title = RegistrationTooltip.UserName })
                         @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Password, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.Password).HtmlAttributes(new { id="userPassword", @class = "form-control", type="password" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.Password).HtmlAttributes(new { id = "userPassword", @class = "form-control", type = "password", placeholder = RegistrationPlacehoder.Password, title = RegistrationTooltip.Password })
                         @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.RegistrationCode, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().TextBoxFor(x => x.RegistrationCode).HtmlAttributes(new { @class = "form-control" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.RegistrationCode).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode })
                         @Html.ValidationMessageFor(x => x.RegistrationCode, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.UserTypeId, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().ComboBoxFor(x => x.UserTypeId).Value(Convert.ToString((int)PunchClock.Domain.Model.Enum.UserType.Employee)).DataSource(x=>x.Read("Types","User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new { @class = "form-control" })
+                    <div class="col-lg-6">
+                        @Html.Kendo().ComboBoxFor(x => x.UserTypeId).Value(Convert.ToString((int)PunchClock.Domain.Model.Enum.UserType.Employee)).DataSource(x => x.Read("Types", "User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new { @class = "form-control", title = RegistrationTooltip.UserType }).Placeholder(RegistrationPlacehoder.UserType)
                         @Html.ValidationMessageFor(x => x.UserTypeId, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(x => x.RegisteredTimeZone, new { @class = "col-lg-2 control-label" })
-                    <div class="col-lg-10">
-                        @Html.Kendo().ComboBoxFor(x => x.RegisteredTimeZone).DataSource(x => x.Read("Zones", "User")).DataValueField("Id").DataTextField("Id").Value(ConfigHelper.DefaultTimezone()).HtmlAttributes(new { @class = "k-dropdownTimeZones form-control" })
-                        @Html.ValidationMessageFor(x => x.RegisteredTimeZone, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-lg-10 col-lg-offset-2">
-                    <input type="submit" value="Sign up" class="btn btn-primary" />
-                </div>
             </fieldset>
-        }
+        </div>
     </div>
-</div>
+    <div class="col-lg-12 form-horizontal">
+        <div class="panel panel-success panel-nomargin">
+            <div class="panel-body">Address</div>
+        </div>
+        <div class="well">
+            <div class="form-group">
+                <div class="col-lg-6">
+                    @Html.Kendo().TextBoxFor(x => x.RegistrationAddress.Address1).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.Address1, title = RegistrationTooltip.Address1 })
+                    @Html.ValidationMessageFor(x => x.RegistrationAddress.Address1, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.Kendo().TextBoxFor(x => x.RegistrationAddress.Address2).HtmlAttributes(new {  @class = "form-control", placeholder = RegistrationPlacehoder.Address2, title = RegistrationTooltip.Address2 })
+                    @Html.ValidationMessageFor(x => x.RegistrationAddress.Address1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    @Html.Kendo().TextBoxFor(x => x.RegistrationAddress.City).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.City, title = RegistrationTooltip.City })
+                    @Html.ValidationMessageFor(x => x.RegistrationAddress.City, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.Kendo().DropDownListFor(x => x.RegistrationAddress.CountryId).DataSource(x => x.Read(r=>r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new { @class = "form-control", style = "width:100%;",placeholder= RegistrationPlacehoder.Country, title = RegistrationTooltip.Country })
+                    @Html.ValidationMessageFor(x => x.RegistrationAddress.CountryId, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    @Html.Kendo().ComboBoxFor(x => x.RegisteredTimeZone).DataSource(x => x.Read("Zones", "User")).DataValueField("Id").DataTextField("Id").Value(ConfigHelper.DefaultTimezone()).HtmlAttributes(new { @class = "k-dropdownTimeZones form-control", title = RegistrationTooltip.Timezone }).Placeholder(RegistrationPlacehoder.Timezone)
+                    @Html.ValidationMessageFor(x => x.RegisteredTimeZone, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.Kendo().DropDownListFor(x => x.RegistrationAddress.StateId).DataSource(x => x.Read(r=>r.Action( "States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new { @class = "form-control", style = "width:100%;",placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State })
+                    @Html.ValidationMessageFor(x => x.RegistrationAddress.StateId, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <input type="submit" value="Register" class="btn btn-primary" />
+            <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/';" />
+        </div>
+    </div>
+}
+
 @(Html.Kendo().Tooltip()
       .For("#userPassword")
       .ContentTemplateId("PasswordTemplate")
       .Position(TooltipPosition.Right)
       .Width(600)
-      
+
       )
+<script>
+    function filterStates() {
+        return {
+            id: $("#RegistrationAddress_CountryId").val()
+        };
+    }
+</script>
 <script id="PasswordTemplate" type="text/x-kendo-template">
     <div class="passwordStrengthTempSection">
-            <ul class="passwordRules">
-                <li>
-                    Password strength:
-                    <ul>
-                        <li>must contain at least <span>1 lowercase</span>  alphabetical character</li>
-                        <li>must contain at least <span>1 uppercase</span>  alphabetical character</li>
-                        <li>must contain at least <span>1 numeric</span>  character</li>
-                        <li>must contain at least <span>1 special</span>  character</li>
-                        <li>must be <span>eight characters</span>  or longer</li>
-                    </ul>
-                </li>
-            </ul>
+        <ul class="passwordRules">
+            <li>
+                Password strength:
+                <ul>
+                    <li>must contain at least <span>1 lowercase</span>  alphabetical character</li>
+                    <li>must contain at least <span>1 uppercase</span>  alphabetical character</li>
+                    <li>must contain at least <span>1 numeric</span>  character</li>
+                    <li>must contain at least <span>1 special</span>  character</li>
+                    <li>must be <span>eight characters</span>  or longer</li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </script>
 
 <style>
-
     .k-tooltip-content {
         vertical-align: middle;
     }
-    .k-tooltip-content img,
-    .k-tooltip-content p {
-        float: left;
-    }
-    .k-tooltip-content p {
-        font-size: 1.4em;
-        padding: 20px;
-        width: 160px;
+
+        .k-tooltip-content img,
+        .k-tooltip-content p {
+            float: left;
+        }
+
+        .k-tooltip-content p {
+            font-size: 1.4em;
+            padding: 20px;
+            width: 160px;
+            text-align: left;
+        }
+
+    ul.passwordRules > li {
         text-align: left;
+        text-decoration: none;
+        line-height: 1.2em;
     }
-         ul.passwordRules>li {
-             text-align: left;
-             text-decoration: none;
-             line-height: 1.2em;
-         }  
-    ul.passwordRules li ul li{
+
+    ul.passwordRules li ul li {
         text-align: left;
-        
         line-height: 1.5em;
-    }       
+    }
+
     ul.passwordRules li span {
         font-weight: bold;
     }
+
     div.passwordStrengthTempSection {
         text-align: left;
         font-size: 1em;

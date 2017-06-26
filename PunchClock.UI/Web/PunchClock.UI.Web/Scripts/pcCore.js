@@ -40,6 +40,12 @@ function postResponseRegistration(e) {
           "400px",
           "300px");
     }
+    else if (e.ErrorMessage !== null && e.ErrorMessage !== undefined && e.ErrorMessage.length > 0) {
+        showDialog("Error",
+            e.ErrorMessage,
+            "400px",
+            "300px");
+    }
     else if (e.Uid > 0) {
         window.location.href = "/";
     }

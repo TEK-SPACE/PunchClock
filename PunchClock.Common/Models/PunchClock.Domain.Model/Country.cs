@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Domain.Model
 {
@@ -16,6 +17,7 @@ namespace PunchClock.Domain.Model
         public byte Published { get; set; }
         public int DisplayOrder { get; set; }
         public string ExtensionData { get; set; }
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedOnUtc { get; set; }
 
         public virtual ICollection<Holiday> Holidays { get; set; }

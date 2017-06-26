@@ -3,7 +3,7 @@ using PunchClock.Domain.Model;
 
 namespace PunchClock.Core.Contracts
 {
-    public interface IUserRepository //: IEntityRepository<User>
+    public interface IUser 
     {
         User DetailsByKey(string userId);
         User DetailsById(int userId);
@@ -17,5 +17,6 @@ namespace PunchClock.Core.Contracts
         List<UserType> GetTypes();
         User ByEmail(string modelEmail);
         List<User> All(int companyId);
+        int AddAddress(Address userRegistrationAddress);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Implementation;
@@ -44,6 +45,13 @@ namespace PunchClock.UI.Web.Controllers
         {
             IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
             ViewData["ModelError"] = string.Join("<br/>", allErrors.Select(x => x.ErrorMessage));
+        }
+        protected void AddIdentityErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
     }
 }

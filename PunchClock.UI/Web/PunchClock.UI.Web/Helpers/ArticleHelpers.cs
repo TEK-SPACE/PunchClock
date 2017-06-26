@@ -12,7 +12,7 @@ namespace PunchClock.UI.Web.Helpers
     {
         private static readonly ICategoryService CategoryService;
         private static readonly ITagsService TagsService;
-        private static readonly IUserRepository UserRepository;
+        private static readonly IUser UserRepository;
 
         static ArticleHelpers()
         {
