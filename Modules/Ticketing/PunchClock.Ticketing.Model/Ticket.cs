@@ -9,6 +9,7 @@ namespace PunchClock.Ticketing.Model
     public class Ticket :CommonEntity
     {
         [Key]
+        [Display(Name = "Ticket Id")]
         public int Id { get; set; }
 
         [StringLength(250)]
@@ -20,20 +21,26 @@ namespace PunchClock.Ticketing.Model
         [Required]
         public string Description { get; set; }
         [Display( Name = "Status")]
+        [UIHint("TicketStatus")]
         [Required]
         public int StatusId { get; set; }
         [Display(Name = "Type")]
         [Required]
+        [UIHint("TicketTypes")]
         public int TypeId { get; set; }
         [Display(Name = "Priority")]
+        [UIHint("TicketPriorities")]
         [Required]
         public int PriorityId { get; set; }
         [Display(Name = "Category")]
+        [UIHint("TicketCategories")]
         public int CategoryId { get; set; }
         [Display(Name = "Project")]
+        [UIHint("TicketProjects")]
         [Required]
         public int ProjectId { get; set; }
         [Display(Name = "Requestor")]
+        [UIHint("UsersDropdownList")]
         [Required]
         public string RequestorId { get; set; }
         [ForeignKey("RequestorId")]
@@ -44,6 +51,7 @@ namespace PunchClock.Ticketing.Model
         public string AssignedToId { get; set; }
 
         [ForeignKey("AssignedToId")]
+        [Required]
         public virtual User AssignedTo { get; set; }
 
         [Display(Name = "Notify To")]

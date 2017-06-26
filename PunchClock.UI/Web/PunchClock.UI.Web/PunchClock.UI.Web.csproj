@@ -744,6 +744,12 @@
     <Content Include="Views\Ticket\Index.cshtml" />
     <Content Include="Views\Article\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UsersDropdownList.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TicketTypes.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TicketCategories.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TicketProjects.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TicketStatus.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TicketPriorities.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TicketTypesByName.cshtml" />
     <Content Include="Views\Article\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

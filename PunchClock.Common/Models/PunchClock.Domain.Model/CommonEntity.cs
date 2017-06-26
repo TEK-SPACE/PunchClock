@@ -12,6 +12,7 @@ namespace PunchClock.Domain.Model
         public int CompanyId { get; set; }
 
         [Display(Name = "Created By")]
+        [UIHint("UsersDropdownList")]
         //[ScaffoldColumn(false)]
         public string CreatedById { get; set; }
 
@@ -22,6 +23,7 @@ namespace PunchClock.Domain.Model
         public DateTime CreatedDateUtc { get; set; } = DateTime.UtcNow;
 
         //[ScaffoldColumn(false)]
+        [UIHint("UsersDropdownList")]
         [Display(Name = "Modified By")]
         public string ModifiedById { get; set; }
 
