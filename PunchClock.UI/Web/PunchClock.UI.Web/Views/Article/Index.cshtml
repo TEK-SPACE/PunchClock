@@ -11,8 +11,8 @@
           columns.Bound(c => c.Title).Title("Title").ClientTemplate(@Html.ActionLink("#=Title#", "Edit", new {id = "#=Id#"}, htmlAttributes: new { target = "_blank",style= "color: blue;text-decoration: underline;" }).ToHtmlString());
           // columns.Bound(c => c.Title).Title("Title").ClientTemplate("<a  style='color: blue;text-decoration: underline;' target='_blank' href='" + Url.Action("Edit", "Article") + "/#= Id #'" + ">#= Title #</a>");
           columns.Bound(c => c.Description);
-          columns.Bound(c => c.CategoryId);
-          columns.Bound(c => c.Tags);
+          columns.Bound(c => c.CategoryId).EditorTemplateName("ArticleCategoryDropdownList").ClientTemplate("#: Category.Name #");
+          columns.Bound(c => c.Tags).EditorTemplateName("ArticleTagsList");
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
 
