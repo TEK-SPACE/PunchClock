@@ -382,4 +382,20 @@ function appSettingEditable(dataItem) {
     // do not allow editing for product with ProductID=3
     return dataItem.IsEditable;
 }
+$(document).ready(function () {
+    var tooltip = $(".form-horizontal").kendoTooltip({
+        filter: "input,select,textarea",
+        width: 120,
+        position: "top",
+        animation: {
+            close: {
+                effects: "fade:out"
+            }
+        }
+    }).data("kendoTooltip");
 
+    $(".form-horizontal").find("a").click(false);
+});
+function getTooltip(e) {
+    return $(e.target).parent().find("input").attr("title");
+}

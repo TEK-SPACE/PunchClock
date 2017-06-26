@@ -84,7 +84,7 @@
                     @Html.ValidationMessageFor(x => x.RegistrationAddress.City, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-lg-6">
-                    @Html.Kendo().DropDownListFor(x => x.RegistrationAddress.CountryId).DataSource(x => x.Read(r=>r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new { @class = "form-control", style = "width:100%;",placeholder= RegistrationPlacehoder.Country, title = RegistrationTooltip.Country })
+                    @Html.Kendo().DropDownListFor(x => x.RegistrationAddress.CountryId).DataSource(x => x.Read(r=>r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new { @class = "form-control regDropdown", style = "width:100%;",placeholder= RegistrationPlacehoder.Country, title = RegistrationTooltip.Country })
                     @Html.ValidationMessageFor(x => x.RegistrationAddress.CountryId, "", new {@class = "text-danger"})
                 </div>
             </div>
@@ -94,7 +94,7 @@
                     @Html.ValidationMessageFor(x => x.RegisteredTimeZone, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-lg-6">
-                    @Html.Kendo().DropDownListFor(x => x.RegistrationAddress.StateId).DataSource(x => x.Read(r=>r.Action( "States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new { @class = "form-control", style = "width:100%;",placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State })
+                    @Html.Kendo().DropDownListFor(x => x.RegistrationAddress.StateId).DataSource(x => x.Read(r=>r.Action( "States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new { @class = "form-control regDropdown", style = "width:100%;",placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State })
                     @Html.ValidationMessageFor(x => x.RegistrationAddress.StateId, "", new {@class = "text-danger"})
                 </div>
             </div>
@@ -110,9 +110,8 @@
 @(Html.Kendo().Tooltip()
       .For("#userPassword")
       .ContentTemplateId("PasswordTemplate")
-      .Position(TooltipPosition.Right)
+      .Position(TooltipPosition.Top)
       .Width(600)
-
       )
 <script>
     function filterStates() {

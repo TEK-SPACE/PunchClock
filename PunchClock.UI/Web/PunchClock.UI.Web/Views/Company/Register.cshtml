@@ -127,7 +127,7 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
                     @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.City, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-lg-6">
-                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.CountryId).DataSource(x => x.Read(r => r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new { @class = "form-control", required = "required", style = "width:100%;", placeholder = RegistrationPlacehoder.Country, title = RegistrationTooltip.Country })
+                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.CountryId).Filter(FilterType.Contains).DataSource(x => x.Read(r => r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new { @class = "form-control regDropdown", required = "required", style = "width:100%;", placeholder = RegistrationPlacehoder.Country, title = RegistrationTooltip.Country })
                     @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.CountryId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -137,7 +137,7 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
                     @Html.ValidationMessageFor(x => x.CreatedBy.RegisteredTimeZone, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-lg-6">
-                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.StateId).DataSource(x => x.Read(r => r.Action("States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("CreatedBy_RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new { @class = "form-control", style = "width:100%;", required = "required", placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State })
+                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.StateId).DataSource(x => x.Read(r => r.Action("States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("CreatedBy_RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new { @class = "form-control regDropdown", style = "width:100%;", required = "required", placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State })
                     @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.StateId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -155,4 +155,5 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
             id: $("#CreatedBy_RegistrationAddress_CountryId").val()
         };
     }
+   
 </script>

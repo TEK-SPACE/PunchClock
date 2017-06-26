@@ -83,3 +83,6 @@ label.col-lg-2.control-label {
 #splitter .inside h3 {
     
 }
+.k-button.k-upload-button {
+    margin: 0;
+}
