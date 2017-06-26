@@ -1,2 +1,0 @@
-﻿@using PunchClock.UI.Web.Controllers
-@Html.Kendo().MultiSelectFor(x => x).DataTextField("Text").DataValueField("Value").TagMode(TagMode.Multiple).HtmlAttributes(new { placeholder = "Select a Tag" }).BindTo(((ArticleController)ViewContext.Controller).GetTagsByComapnyIdList())

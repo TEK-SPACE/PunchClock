@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using PunchClock.Cms.Contract;
 using PunchClock.Cms.Model;
@@ -88,7 +89,7 @@ namespace PunchClock.Cms.Service
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.Articles.Where(x => x.IsDeleted == false && x.CompanyId==companyId).ToList();
+                return context.Articles.Where(x => x.IsDeleted == false && x.CompanyId==companyId).Include(x => x.Category).ToList();
             }
         }
     }

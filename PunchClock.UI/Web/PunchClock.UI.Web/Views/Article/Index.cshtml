@@ -9,10 +9,9 @@
       {
           columns.Bound(c => c.Id).ClientTemplate(@Html.ActionLink("#=Id#", "Edit", new { id = "#=Id#" }, htmlAttributes: new { target = "_blank", style = "color: blue;text-decoration: underline;" }).ToHtmlString());
           columns.Bound(c => c.Title).Title("Title").ClientTemplate(@Html.ActionLink("#=Title#", "Edit", new {id = "#=Id#"}, htmlAttributes: new { target = "_blank",style= "color: blue;text-decoration: underline;" }).ToHtmlString());
-          // columns.Bound(c => c.Title).Title("Title").ClientTemplate("<a  style='color: blue;text-decoration: underline;' target='_blank' href='" + Url.Action("Edit", "Article") + "/#= Id #'" + ">#= Title #</a>");
-          columns.Bound(c => c.Description);
           columns.Bound(c => c.CategoryId).EditorTemplateName("ArticleCategoryDropdownList").ClientTemplate("#: Category.Name #");
-          columns.Bound(c => c.Tags).EditorTemplateName("ArticleTagsList");
+          columns.Bound(c => c.IsPublished);
+          columns.Bound(c => c.IsPrivate);
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
 
@@ -38,9 +37,9 @@
               model.Id(x => x.Id);
               model.Field(c => c.Id).Editable(false);
               model.Field(c => c.Title).Editable(false);
-              model.Field(c => c.Description).Editable(false);
               model.Field(c => c.CategoryId).Editable(true);
-              model.Field(c => c.Tags).Editable(true);
+              model.Field(c => c.IsPrivate).Editable(true);
+              model.Field(c => c.IsPublished).Editable(true);
               model.Field(c => c.CreatedDateUtc).Editable(false);
               model.Field(c => c.ModifiedDateUtc).Editable(false);
           })
