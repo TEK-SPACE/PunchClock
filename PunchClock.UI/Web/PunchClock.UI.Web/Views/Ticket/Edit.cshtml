@@ -1,4 +1,6 @@
-﻿@model PunchClock.Ticketing.Model.Ticket
+﻿@using PunchClock.Ticketing.Model.Constants
+@using Tooltip = PunchClock.Ticketing.Model.Constants.Tooltip
+@model PunchClock.Ticketing.Model.Ticket
 @{
     ViewBag.Title = "Details";
 }
@@ -23,14 +25,14 @@
                 @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
                     <div class="col-md-12">
-                        @Html.Kendo().TextBoxFor(model => model.Title).HtmlAttributes(new {@class = "form-control", placeholder = "Title"})
+                        @Html.Kendo().TextBoxFor(model => model.Title).HtmlAttributes(new {@class = "form-control", placeholder = Placeholder.Title, title = Tooltip.Title })
                         @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-6">
-                        @Html.Kendo().ComboBoxFor(model => model.ProjectId).Suggest(true).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Projects", "Ticket")).Placeholder("Select a Project")
+                        @Html.Kendo().ComboBoxFor(model => model.ProjectId).Suggest(true).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Projects", "Ticket")).Placeholder(Placeholder.Project).HtmlAttributes(new { title = Tooltip.Project})
                         @Html.ValidationMessageFor(model => model.ProjectId, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-6">

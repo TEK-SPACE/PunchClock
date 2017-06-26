@@ -131,6 +131,9 @@ namespace PunchClock.Domain.Model
 
         public string PasswordResetCode { get; set; }
         public DateTime? PasswordResetValidityTill { get; set; }
+
+        public ICollection<Address> Addresses { get; set; }
+
         [ForeignKey("EmploymentTypeId")]
         public virtual EmploymentType EmploymentType { get; set; }
         [ForeignKey("UserTypeId")]

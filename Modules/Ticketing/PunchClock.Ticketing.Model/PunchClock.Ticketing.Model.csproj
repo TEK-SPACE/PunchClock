@@ -77,6 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\Placeholder.cs" />
+    <Compile Include="Constants\Tooltip.cs" />
     <Compile Include="TicketNotificationsTo.cs" />
     <Compile Include="TicketAttachment.cs" />
     <Compile Include="TicketCategory.cs" />
