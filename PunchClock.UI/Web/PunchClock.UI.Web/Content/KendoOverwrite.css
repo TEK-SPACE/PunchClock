@@ -87,6 +87,6 @@ label.col-lg-2.control-label {
     margin: 0;
 }
 .grid-link {
-    color: #e87050;
-    text-decoration: underline;
+    color: #e87050 !important;
+    text-decoration: underline !important;
 }
