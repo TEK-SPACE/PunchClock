@@ -44,6 +44,8 @@ namespace PunchClock.Core.DataAccess
         //public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
 
+        public DbSet<Address> Addresses { get; set; }
+
         #region Tickeitng Module
 
         public DbSet<TicketType> TicketTypes { get; set; }

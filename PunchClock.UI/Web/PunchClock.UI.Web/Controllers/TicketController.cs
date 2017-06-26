@@ -38,6 +38,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Add(Ticket ticket)
         {
@@ -47,10 +48,42 @@ namespace PunchClock.UI.Web.Controllers
                 ticket.CreatedById = OperatingUser.Id;
                 ticket.ModifiedById = OperatingUser.Id;
                 _ticketService.Add(ticket);
+                if (ticket.Id > 0)
+                    return RedirectToAction("Edit", "Ticket", new {id = ticket.Id});
+            }
+            else
+            {
+                ReadModelStateError(ModelState);
             }
             return View(ticket);
         }
 
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var ticket = _ticketService.Details(id);
+            return View(ticket);
+        }
+        [HttpPost]
+        public ActionResult Edit(Ticket ticket, FormCollection formCollection)
+        {
+            if (!string.IsNullOrEmpty(formCollection["Comment"]))
+            {
+                ticket.Comments.Add(new TicketComment
+                {
+                    Description = formCollection["Comment"],
+                    CreatedById = OperatingUser.Id,
+                    CreatedDateUtc = DateTime.UtcNow,
+                    ModifiedById = OperatingUser.Id,
+                    ModifiedDateUtc = DateTime.UtcNow,
+                    CompanyId = OperatingUser.CompanyId,
+                    TicketId = ticket.Id
+                });
+            }
+            _ticketService.Update(ticket);
+            ticket = _ticketService.Details(ticket.Id);
+            return View(ticket);
+        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {

@@ -17,5 +17,6 @@ namespace PunchClock.Ticketing.Contracts
         List<TicketCategory> GetCategories(int companyId);
         List<TicketType> GetTypes(int companyId);
         List<TicketProject> GetProjects(int companyId);
+        Ticket Details(int id);
     }
 }

@@ -14,26 +14,26 @@
       .Name("TicketsGrid")
       .Columns(columns =>
       {
-          columns.Bound(c => c.Id);
+          columns.Bound(c => c.Id).HtmlAttributes(new {style="text-align:center;"});
           columns.Bound(c => c.ProjectId).ClientGroupHeaderTemplate("#:getTicketProject(value) #").ClientTemplate("#: TicketProject.Name #");
-          columns.Bound(c => c.Title);
+          columns.Bound(c => c.Title).Template(@<text> @Html.ActionLink(@item.Title, "Edit","Ticket", new { id= @item.Id}, null) </text>).ClientTemplate("<a href='/Ticket/Edit/#:Id#' target='_blank'> #:Title# </a>");
           columns.Bound(c => c.CreatedById).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: CreatedBy.DisplayName #");
           columns.Bound(c => c.RequestorId).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: Requestor.DisplayName #");
           columns.Bound(c => c.TypeId).ClientGroupHeaderTemplate("#:getTicketType(value) #").EditorTemplateName("TicketTypes").ClientTemplate("#: Type.Name #"); ;
           columns.Bound(c => c.StatusId).ClientGroupHeaderTemplate("#:getTicketStatus(value) #").EditorTemplateName("TicketStatus").ClientTemplate("#: Status.Name #"); ;
           columns.Bound(c => c.PriorityId).ClientGroupHeaderTemplate("#:getTicketPriority(value) #").EditorTemplateName("TicketPriorities").ClientTemplate("#: Priority.Name #"); ;
           columns.Bound(c => c.AssignedToId).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: AssignedTo.DisplayName #");
-          columns.Bound(c => c.DueDateUtc);
+          columns.Bound(c => c.DueDateUtc).Format("{0:dd/MM/yyyy}");
           columns.Bound(c => c.ModifiedById).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: ModifiedBy.DisplayName #");
-          columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
-          columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
+          columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm tt}");
+          columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm tt}");
           columns.Command(command =>
           {
               command.Edit().Text(" ");
               command.Destroy().Text(" ");
           }).Width(50);
       })
-      .HtmlAttributes(new { style = "height: 550px;" })
+      .HtmlAttributes(new { style = "height: 100%; width: 100%;position: absolute;top: 40px;left: 0;z-index: 9;" })
       //.Scrollable()
       .Groupable()
       .Sortable()
@@ -56,6 +56,7 @@
               model.Id(x => x.Id);
               model.Field(c => c.Id).Editable(false);
               model.Field(c => c.ProjectId).Editable(false);
+              model.Field(c => c.Title).Editable(false);
               model.Field(c => c.RequestorId).Editable(false);
               model.Field(c => c.CreatedById).Editable(false);
               model.Field(c => c.CreatedDateUtc).Editable(false);

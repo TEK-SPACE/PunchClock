@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using PunchClock.Core.DataAccess;
 using PunchClock.Ticketing.Contracts;
@@ -14,6 +15,8 @@ namespace PunchClock.Ticketing.Services
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
+                if (ticket.DueDateUtc.HasValue)
+                    ticket.DueDateUtc = ticket.DueDateUtc.Value.ToUniversalTime();
                 context.Tickets.Add(ticket);
                 context.SaveChanges();
             }
@@ -87,6 +90,14 @@ namespace PunchClock.Ticketing.Services
             }
         }
 
+        public Ticket Details(int id)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Tickets.Include(x=>x.CreatedBy).Include(x=>x.Comments).FirstOrDefault(x => x.Id == id);
+            }
+        }
+
         public List<TicketType> GetTypes(int companyId)
         {
             using (var context = new PunchClockDbContext())
@@ -115,13 +126,23 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                var oldTicket = context.Tickets.FirstOrDefault(x => x.Id == ticket.Id);
-                if (oldTicket == null)
+                var entity = context.Tickets.FirstOrDefault(x => x.Id == ticket.Id);
+                if (entity == null)
                     return ticket;
-                oldTicket.StatusId = ticket.StatusId;
-                oldTicket.Description = ticket.Description;
-                oldTicket.Title = ticket.Title;
-                oldTicket.Comments = ticket.Comments;
+                entity.Title = ticket.Title;
+                entity.ProjectId = ticket.ProjectId;
+                entity.PriorityId = ticket.PriorityId;
+                entity.Description = ticket.Description;
+                entity.StatusId = ticket.StatusId;
+                entity.TypeId = ticket.TypeId;
+                entity.RequestorId = ticket.RequestorId;
+                entity.AssignedToId = ticket.AssignedToId;
+                entity.NotifyTo = ticket.NotifyTo;
+                entity.CategoryId = ticket.CategoryId;
+                if(ticket.DueDateUtc.HasValue)
+                    entity.DueDateUtc = ticket.DueDateUtc.Value.ToUniversalTime();
+                if (ticket.Comments != null && ticket.Comments.Any())
+                    context.TicketComments.AddOrUpdate(ticket.Comments.ToArray());
                 context.SaveChanges();
             }
             return ticket;

@@ -13,6 +13,9 @@ namespace PunchClock.UI.Web
             //bundles.Add(new ScriptBundle("~/bundles/kScripts").Include(
             //             "~/Scripts/kendo/2013.2.716/kendo.web.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Ticketing").Include(
+                "~/Scripts/Ticketing/Validations.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/core").Include(
                         "~/Scripts/pcCore.js"));
 
