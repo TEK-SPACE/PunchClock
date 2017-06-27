@@ -65,7 +65,7 @@ namespace PunchClock.Domain.Model
 
         [Display(Name = "Email")]
         [Required]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public override string Email { get; set; }
 
         [Display(Name = "Mobile"),
