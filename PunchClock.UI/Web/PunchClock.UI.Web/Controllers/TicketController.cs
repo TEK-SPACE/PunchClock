@@ -24,7 +24,7 @@ namespace PunchClock.UI.Web.Controllers
             _userRepository = new UserService();
         }
         // GET: Ticket
-        public ActionResult Index()
+        public ActionResult List()
         {
             ViewData["Users"] = _userRepository.All(OperatingUser.CompanyId);
             ViewData["TicketCategories"] = _ticketService.GetCategories(OperatingUser.CompanyId);
@@ -84,6 +84,11 @@ namespace PunchClock.UI.Web.Controllers
             _ticketService.Update(ticket);
             ticket = _ticketService.Details(ticket.Id);
             return View(ticket);
+        }
+
+        public ActionResult Dashboard()
+        {
+            return View();
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)

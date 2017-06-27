@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Domain.Model
 {
-    public class SiteMenu : CommonEntity 
+    public class SiteMap : CommonEntity 
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -13,11 +13,16 @@ namespace PunchClock.Domain.Model
         public string Target { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; } = true;
-        public bool OnAuthorizationOnly { get; set; } = true;
+        //public bool OnAuthorizationOnly { get; set; } = true;
         public bool IsCoreItem { get; set; } = false;
+        public bool IsMenuItem { get; set; } = true;
+        [NotMapped]
+        public bool IsUserAccessable { get; set; } = false;
+
         public int? ParentId { get; set; }
         [ForeignKey("ParentId")]
-        public virtual SiteMenu Parent { get; set; }
-        public List<SiteMenu> Children { get; set; } = new List<SiteMenu>();
+        public virtual SiteMap Parent { get; set; }
+        public List<SiteMap> Children { get; set; } = new List<SiteMap>();
+        public List<MenuUserAccess> UserAccesses { get; set; }
     }
 }

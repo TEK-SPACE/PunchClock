@@ -85,6 +85,16 @@
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.Kendo().NumericTextBoxFor(model => model.EstimatedEffort).HtmlAttributes(new {style="width:100%;"}).Placeholder("Estimated Effort")
+                        @Html.ValidationMessageFor(model => model.EstimatedEffort, "", new {@class = "text-danger"})
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Kendo().NumericTextBoxFor(model => model.CompletedWork).HtmlAttributes(new { style = "width:100%;" }).Placeholder("Completed Work")
+                        @Html.ValidationMessageFor(model => model.CompletedWork, "", new {@class = "text-danger"})
+                    </div>
+                </div>
             </fieldset>
         </div>
         <div class="panel panel-success panel-nomargin">

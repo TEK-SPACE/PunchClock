@@ -7,6 +7,7 @@ namespace PunchClock.Domain.Model.Enum
         CompanyAdmin = 3,
         SuperAdmin = 4,
         HumanResources = 5,
-        ProjectOwner = 6
+        ProjectOwner = 6,
+        Guest = 7
     }
 }

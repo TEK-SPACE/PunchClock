@@ -7,7 +7,7 @@
       .Columns(columns =>
       {
           columns.Bound(c => c.Id).Hidden(true).HtmlAttributes(new {style="text-align:center;"});
-          columns.Bound(c => c.ApprovalRequired).ClientTemplate("# if (ApprovalRequired == true && Approved == false) {# Yes: <a data-ajax='true' data-ajax-complete='refreshGrid' data-ajax-method='POST' href='/Punch/Approve/#:Id#' class='grid-link' >Approve</>#} else{# No #}#");
+          columns.Bound(c => c.ApprovalRequired).ClientTemplate("# if (ApprovalRequired == true && Approved == false && '"+ (ViewBag.IsAdmin).ToString() + "'=== 'True') {# Yes: <a data-ajax='true' data-ajax-complete='refreshGrid' data-ajax-method='POST' href='/Punch/Approve/#:Id#' class='grid-link' >Approve</a>#} else{# No #}#");
           columns.Bound(c => c.EmployeeName).Filterable(ftb => ftb.Multi(true).Search(true));
           columns.Bound(c => c.Month).Filterable(ftb => ftb.Multi(true));
           columns.Bound(c => c.PunchDate)
@@ -18,7 +18,7 @@
           columns.Bound(c => c.Duration).Groupable(false).Filterable(false)
               .ClientFooterTemplate("#= SecondsToTime(data.DurationInSeconds.sum) # ")
               .ClientTemplate("#:formatDuration(Duration.Hours,Duration.Minutes) #").HtmlAttributes(new { @class = "" });
-          columns.Bound(c => c.Comments).Groupable(false);
+          columns.Bound(c => c.Comments).Filterable(false).Groupable(false).ClientTemplate("# if (ApprovalRequired == true && Approved == false && '" + (ViewBag.IsAdmin).ToString() + "' !== 'True') {# Please get this time log approved #} else{#  #:Comments# #}#");
           //columns.Command(command =>
           //{
           //    command.Edit().Text(" ");
@@ -35,17 +35,23 @@
           //toolbar.Create();
           //toolbar.Save();
           toolbar.Pdf();
+          toolbar.Excel();
       })
+
+      .Excel(exl=>exl.AllPages(true).Filterable(true).FileName("Timesheet.xlsx")
+          .ProxyURL(Url.Action("ExportSave", "Punch")))
       .Pdf(pdf => pdf
           .AllPages()
+          .Title("Time Tracker Report")
+          .Subject("Daily Activity")
           .AvoidLinks()
           .PaperSize("A4")
           .Scale(0.8)
           .Margin("2cm", "1cm", "1cm", "1cm")
-          .Landscape()
+          //.Landscape()
           .RepeatHeaders()
           .TemplateId("page-template")
-          .FileName("Timesheet.pdf")
+          .FileName("PunchClock Result")
           .ProxyURL(Url.Action("ExportSave", "Punch"))
       )
       .Events(events=>events.DataBound("convertUtcToLocal"))
@@ -57,7 +63,7 @@
       .DataSource(dataSource => dataSource
           .Ajax()
           .Batch(true)
-          .PageSize(20)                
+          .PageSize(20)
           .ServerOperation(false)
           .Events(events => events.Error("gridErrorHandler"))
           .Aggregates(aggrgates=> aggrgates.Add(x=>x.DurationInSeconds).Sum())
@@ -72,9 +78,9 @@
           .Group(groups => groups.Add(x => x.Month))
 
           .Read(read => read.Action("Read", "Punch"))
-          //.Create(update => update.Action("Add", "Ticket"))
-          //.Update(update => update.Action("Update", "Punch"))
-          //.Destroy(update => update.Action("Delete", "Punch"))
+      //.Create(update => update.Action("Add", "Ticket"))
+      //.Update(update => update.Action("Update", "Punch"))
+      //.Destroy(update => update.Action("Delete", "Punch"))
       )
       )
 

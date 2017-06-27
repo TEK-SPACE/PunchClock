@@ -31,8 +31,23 @@ namespace PunchClock.UI.Web.Controllers
                     OperatingUser.Company = unitOfWork.CompanyRepository.GetById(OperatingUser.CompanyId);
                 }
             }
-            ViewBag.Menu =  _companyRepository.GetSiteMap(companyId: OperatingUser.CompanyId);
+            var menu =  _companyRepository.GetSiteMap(companyId: OperatingUser.CompanyId);
+            foreach (var item in menu)
+            {
+                if(item.UserAccesses.Any(x=>x.UserRoleId == ((OperatingUser != null && OperatingUser.Uid > 0) ? OperatingUser.UserTypeId : (int)Domain.Model.Enum.UserType.Guest)))
+                {
+                    item.IsUserAccessable = true;
+                    foreach (var child in item.Children)
+                    {
+                        if (child.UserAccesses.Any(x => x.UserRoleId == ((OperatingUser != null && OperatingUser.Uid > 0) ? OperatingUser.UserTypeId : (int)Domain.Model.Enum.UserType.Guest)))
+                        {
+                            child.IsUserAccessable = true;
+                        }
+                    }
+                }
+            }
 
+            ViewBag.Menu = menu;
             base.OnActionExecuting(filterContext);
         }
         // ReSharper disable once RedundantOverriddenMember

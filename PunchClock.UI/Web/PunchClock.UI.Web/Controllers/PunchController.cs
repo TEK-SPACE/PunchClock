@@ -82,7 +82,7 @@ namespace PunchClock.UI.Web.Controllers
         [HttpGet]
         public ActionResult Report()
         {
-            ViewBag.Message = "Enter your search criteria";
+            ViewBag.IsAdmin = OperatingUser.IsAdmin;
             List<SelectListItem> months =  Get.YearMonths();
             var users = _userService.GetAllCompanyEmployees(companyId: OperatingUser.CompanyId, opUserTypeId: OperatingUser.UserTypeId);
             ViewBag.users = new SelectList(users, "Value", "Text", OperatingUser.Uid);

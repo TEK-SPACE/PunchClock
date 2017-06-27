@@ -21,7 +21,9 @@ namespace PunchClock.Core.DataAccess.Seeders
                 new UserType {Id = (int)Domain.Model.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
                 new UserType {Id = (int)Domain.Model.Enum.UserType.SuperAdmin, Description = "SuperAdmin"},
                 new UserType {Id = (int)Domain.Model.Enum.UserType.HumanResources,Description="Human Resource"},
-                new UserType {Id = (int)Domain.Model.Enum.UserType.ProjectOwner,Description="Project Owner"}
+                new UserType {Id = (int)Domain.Model.Enum.UserType.ProjectOwner,Description="Project Owner"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.Guest,Description="Anonymous User"}
+
 
             };
             foreach (var userType in userTypes)
@@ -32,6 +34,60 @@ namespace PunchClock.Core.DataAccess.Seeders
 
         private void SeedUsers(PunchClockDbContext context)
         {
+            var superUser = new User
+            {
+                FirstName = "Super",
+                LastName = "Admin",
+                Email = "superadmin@rbtekspace.com",
+                UserName = "superadmin",
+                PhoneNumber = "5167493582",
+                RegisteredTimeZone = "India Standard Time",
+                UserTypeId = (int) Domain.Model.Enum.UserType.SuperAdmin,
+                EmploymentTypeId = (int) EmploymentType.FullTime,
+                CompanyId = _firstCompany.Id,
+                IsActive = true,
+                PasswordLastChanged = DateTime.Now,
+                PasswordDisabled = false,
+                IsDeleted = false,
+                DateCreatedUtc = DateTime.UtcNow,
+                LastUpdatedUtc = DateTime.UtcNow,
+                LastActivityDateUtc = DateTime.UtcNow,
+                RegistrationCode = _firstCompany.RegisterCode,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = true,
+                AccessFailedCount = 0,
+                SecurityStamp = Guid.NewGuid().ToString("D")
+            };
+
+           var  companyadmin = superUser;
+            companyadmin.FirstName = "Company";
+            companyadmin.LastName = "Admin";
+            companyadmin.Email = "CompanyAdmin@rbtekspace.com";
+            companyadmin.UserName = "companyadmin";
+            companyadmin.UserTypeId = (int) Domain.Model.Enum.UserType.CompanyAdmin;
+
+            var companyemployee = superUser;
+            companyadmin.FirstName = "Company";
+            companyadmin.LastName = "Employee";
+            companyadmin.Email = "CompanyEmployee@rbtekspace.com";
+            companyadmin.UserName = "companyemployee";
+            companyadmin.UserTypeId = (int)Domain.Model.Enum.UserType.Employee;
+
+            var companymanager = superUser;
+            companyadmin.FirstName = "Company";
+            companyadmin.LastName = "Manager";
+            companyadmin.Email = "CompanyManager@rbtekspace.com";
+            companyadmin.UserName = "companymanager";
+            companyadmin.UserTypeId = (int)Domain.Model.Enum.UserType.Manager;
+
+            var companyHr = superUser;
+            companyadmin.FirstName = "Company";
+            companyadmin.LastName = "Hr";
+            companyadmin.Email = "CompanyHr@rbtekspace.com";
+            companyadmin.UserName = "CompanyHr";
+            companyadmin.UserTypeId = (int)Domain.Model.Enum.UserType.HumanResources;
 
             string[] roles = new string[] { "Administrator", "Manager", "Editor", "Buyer", "Business", "Seller", "Subscriber" };
 
@@ -47,122 +103,11 @@ namespace PunchClock.Core.DataAccess.Seeders
 
             List<User> users = new List<User>
             {
-                new User { FirstName = "Super",
-                    LastName = "Admin",
-                    Email = "superadmin@rbtekspace.com",
-                    UserName = "superadmin",
-                    PhoneNumber = "5167493582",
-                    RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Domain.Model.Enum.UserType.SuperAdmin,
-                    EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = _firstCompany.Id,
-                    IsActive = true,
-                    PasswordLastChanged = DateTime.Now,
-                    PasswordDisabled = false,
-                    IsDeleted = false,
-                    DateCreatedUtc = DateTime.UtcNow,
-                    LastUpdatedUtc = DateTime.UtcNow,
-                    LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = _firstCompany.RegisterCode,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0,
-                    SecurityStamp = Guid.NewGuid().ToString("D")},
-                new User { FirstName = "Company",
-                    LastName = "Admin",
-                    Email = "CompanyAdmin@rbtekspace.com",
-                    UserName = "companyadmin",
-                    PhoneNumber = "5167493582",
-                    RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Domain.Model.Enum.UserType.CompanyAdmin,
-                    EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = _firstCompany.Id,
-                    IsActive = true,
-                    PasswordLastChanged = DateTime.Now,
-                    PasswordDisabled = false,
-                    IsDeleted = false,
-                    DateCreatedUtc = DateTime.UtcNow,
-                    LastUpdatedUtc = DateTime.UtcNow,
-                    LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = _firstCompany.RegisterCode,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0,
-                    SecurityStamp = Guid.NewGuid().ToString("D")},
-                new User { FirstName = "Company",
-                    LastName = "Employee",
-                    Email = "CompanyEmployee@rbtekspace.com",
-                    UserName = "companyemployee",
-                    PhoneNumber = "5167493582",
-                    RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Domain.Model.Enum.UserType.Employee,
-                    EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = _firstCompany.Id,
-                    IsActive = true,
-                    PasswordLastChanged = DateTime.Now,
-                    PasswordDisabled = false,
-                    IsDeleted = false,
-                    DateCreatedUtc = DateTime.UtcNow,
-                    LastUpdatedUtc = DateTime.UtcNow,
-                    LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = _firstCompany.RegisterCode,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0,
-                    SecurityStamp = Guid.NewGuid().ToString("D")},
-                new User { FirstName = "Company",
-                    LastName = "Manager",
-                    Email = "CompanyManager@rbtekspace.com",
-                    UserName = "companymanager",
-                    PhoneNumber = "5167493582",
-                    RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Domain.Model.Enum.UserType.Manager,
-                    EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = _firstCompany.Id,
-                    IsActive = true,
-                    PasswordLastChanged = DateTime.Now,
-                    PasswordDisabled = false,
-                    IsDeleted = false,
-                    DateCreatedUtc = DateTime.UtcNow,
-                    LastUpdatedUtc = DateTime.UtcNow,
-                    LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = _firstCompany.RegisterCode,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0,
-                    SecurityStamp = Guid.NewGuid().ToString("D")},
-                new User { FirstName = "Company",
-                    LastName = "Hr",
-                    Email = "CompanyHr@rbtekspace.com",
-                    UserName = "CompanyHr",
-                    PhoneNumber = "5167493582",
-                    RegisteredTimeZone = "India Standard Time",
-                    UserTypeId = (int)Domain.Model.Enum.UserType.HumanResources,
-                    EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = _firstCompany.Id,
-                    IsActive = true,
-                    PasswordLastChanged = DateTime.Now,
-                    PasswordDisabled = false,
-                    IsDeleted = false,
-                    DateCreatedUtc = DateTime.UtcNow,
-                    LastUpdatedUtc = DateTime.UtcNow,
-                    LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = _firstCompany.RegisterCode,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0,
-                    SecurityStamp = Guid.NewGuid().ToString("D")}
-
+                superUser,
+                companyadmin,
+                companyemployee,
+                companymanager,
+                companyHr
             };
             
 

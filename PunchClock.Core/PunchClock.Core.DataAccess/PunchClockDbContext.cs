@@ -85,7 +85,8 @@ namespace PunchClock.Core.DataAccess
         public DbSet<Module> Modules { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
 
-        public DbSet<SiteMenu> SiteMenus { get; set; }
+        public DbSet<SiteMap> SiteMenus { get; set; }
+        public DbSet<MenuUserAccess> MenuUserAccess { get; set; }
 
         public List<Holiday> GetCompanyHolidays(int companyId)
         {

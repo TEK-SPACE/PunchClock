@@ -743,7 +743,7 @@
     <Content Include="Views\Punch\_Results.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TimeSpan.cshtml" />
     <Content Include="Views\Ticket\Add.cshtml" />
-    <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Ticket\List.cshtml" />
     <Content Include="Views\Article\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UsersDropdownList.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketTypes.cshtml" />
@@ -752,9 +752,11 @@
     <Content Include="Views\Shared\EditorTemplates\TicketStatus.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketPriorities.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TicketTypesByName.cshtml" />
-    <Content Include="Views\Article\Index.cshtml" />
+    <Content Include="Views\Article\List.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
     <Content Include="Views\Punch\Report.cshtml" />
+    <Content Include="Views\Article\Dashboard.cshtml" />
+    <Content Include="Views\Ticket\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -214,7 +214,7 @@ namespace PunchClock.Core.Implementation
             return holidayViews;
         }
 
-        public List<SiteMenu> GetSiteMap(int companyId)
+        public List<SiteMap> GetSiteMap(int companyId)
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {

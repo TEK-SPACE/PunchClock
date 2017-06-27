@@ -39,3 +39,7 @@ hgroup.title h2 {
 .utc-date {
     
 }
+                        
+.form-horizontal .slide-to-left{
+    padding-left: 0;
+}

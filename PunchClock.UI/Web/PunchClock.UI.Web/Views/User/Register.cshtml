@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.RegistrationCode).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode })
+                        @Html.Kendo().TextBoxFor(x => x.RegistrationCode).HtmlAttributes(new { @class = "form-control", required = "required", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode })
                         @Html.ValidationMessageFor(x => x.RegistrationCode, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-lg-6">

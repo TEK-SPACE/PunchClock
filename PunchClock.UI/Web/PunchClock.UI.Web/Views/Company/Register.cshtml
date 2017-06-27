@@ -133,7 +133,7 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
             </div>
             <div class="form-group">
                 <div class="col-lg-6">
-                    @Html.Kendo().ComboBoxFor(x => x.CreatedBy.RegisteredTimeZone).DataSource(x => x.Read("Zones", "User")).DataValueField("Id").DataTextField("Id").Value(ConfigHelper.DefaultTimezone()).HtmlAttributes(new { @class = "k-dropdownTimeZones form-control", title = RegistrationTooltip.Timezone }).Placeholder(RegistrationPlacehoder.Timezone)
+                    @Html.Kendo().ComboBoxFor(x => x.CreatedBy.RegisteredTimeZone).DataSource(x => x.Read("Zones", "User")).DataValueField("Id").DataTextField("Id").Value(ConfigHelper.DefaultTimezone()).HtmlAttributes(new { @class = "k-dropdownTimeZones form-control", required = "required", title = RegistrationTooltip.Timezone }).Placeholder(RegistrationPlacehoder.Timezone)
                     @Html.ValidationMessageFor(x => x.CreatedBy.RegisteredTimeZone, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-lg-6">

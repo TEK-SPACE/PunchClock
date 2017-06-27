@@ -33,7 +33,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             return View();
         }
-        public ActionResult Index()
+        public ActionResult List()
         {
             return View(new List<Article>());
         }
@@ -43,7 +43,10 @@ namespace PunchClock.UI.Web.Controllers
             article.Tags = article.Tag.Split(',');
             return View(article);
         }
-
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
         public List<SelectListItem> GetCategoriesByCompanyList()
         {
           var categoriesByCompanyId = CategoryService.GetArticleCategoriesByCompanyId(OperatingUser.CompanyId);

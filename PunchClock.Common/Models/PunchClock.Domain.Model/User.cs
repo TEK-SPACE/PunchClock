@@ -65,10 +65,11 @@ namespace PunchClock.Domain.Model
 
         [Display(Name = "Email")]
         [Required]
+        [DataType(DataType.EmailAddress)]
         public override string Email { get; set; }
 
         [Display(Name = "Mobile"),
-         RegularExpression(@"^(\(?\d\d\d\)?)?( |-|\.)?\d\d\d( |-|\.)?\d{4,4}(( |-|\.)?[ext\.]+ ?\d+)?$",
+         RegularExpression(@"^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$",
              ErrorMessage = "Invalid {0}")]
 
         public new string PhoneNumber { get; set; }
@@ -98,7 +99,7 @@ namespace PunchClock.Domain.Model
         public bool IsDeleted { get; set; }
 
         [ScaffoldColumn(false)]
-        public int? IsAdmin { get; set; }
+        public bool IsAdmin => UserTypeId == (int)Enum.UserType.SuperAdmin || UserTypeId == (int)Enum.UserType.CompanyAdmin;
 
         [ScaffoldColumn(false)]
         public DateTimeOffset DateCreatedUtc { get; set; }

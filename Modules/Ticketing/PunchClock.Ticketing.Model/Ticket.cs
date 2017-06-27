@@ -22,6 +22,10 @@ namespace PunchClock.Ticketing.Model
         [Required]
         [AllowHtml]
         public string Description { get; set; }
+
+        public double EstimatedEffort { get; set; }
+        public double CompletedWork { get; set; }
+
         [Display( Name = "Status")]
         [UIHint("TicketStatus")]
         [Required]
