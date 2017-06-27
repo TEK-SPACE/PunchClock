@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,6 @@ using PunchClock.Model.Mapper;
 using PunchClock.View.Model;
 using RedandBlue.Common;
 using RedandBlue.Common.Logging;
-using RedandBlue.Common.Track;
 
 namespace PunchClock.Core.Implementation
 {
@@ -252,8 +251,8 @@ namespace PunchClock.Core.Implementation
             else
             {
                 var emailContent = File.ReadAllText(emailTemplatePath);
-                emailContent = emailContent.Replace("#Comapny#", companyRegister.CreatedBy.DisplayName);
-                emailContent = emailContent.Replace("#RegisterCode#", companyRegister.CreatedBy.DisplayName);
+                emailContent = emailContent.Replace("#Comapny#", companyRegister.Company.Name);
+                emailContent = emailContent.Replace("#RegisterCode#", companyRegister.Company.RegisterCode);
                 emailContent = emailContent.Replace("#CreatedBy#", companyRegister.CreatedBy.DisplayName);
                 emailContent = emailContent.Replace("#CreatedByEmail#", companyRegister.CreatedBy.Email);
                 emailContent = emailContent.Replace("#RegisteredDate#", DateTime.Now.ToString(CultureInfo.InvariantCulture));
@@ -272,7 +271,10 @@ namespace PunchClock.Core.Implementation
 
         public void UpdateInvite(EmployeeInvite invite)
         {
-            throw new NotImplementedException();
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                context.EmployeeInvites.AddOrUpdate(invite);
+            }
         }
 
         public string ComposeInviteEmail(EmployeeInvite invite)
@@ -300,12 +302,19 @@ namespace PunchClock.Core.Implementation
 
         public void DeleteInvite(EmployeeInvite invite)
         {
-            throw new NotImplementedException();
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                invite.InviteRevoked = true;
+                context.EmployeeInvites.AddOrUpdate(invite);
+            }
         }
 
         public void Invite(EmployeeInvite invite)
         {
-            throw new NotImplementedException();
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                context.EmployeeInvites.AddOrUpdate(invite);
+            }
         }
     }
 }

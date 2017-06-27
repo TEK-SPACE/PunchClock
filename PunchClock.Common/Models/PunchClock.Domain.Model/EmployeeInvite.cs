@@ -11,8 +11,9 @@ namespace PunchClock.Domain.Model
         public string Name { get; set; }
         [EmailAddress]//[Index(IsUnique = true)]
         public string Email { get; set; }
+        public string InvitedBy { get; set; }
         public int CompanyId { get; set; }
-        [NotMapped]
+        [NotMapped][ScaffoldColumn(false)]
         public string LinkToRegister { get; set; }
         [ForeignKey("CompanyId")]
         public virtual Company Company { get; set; }

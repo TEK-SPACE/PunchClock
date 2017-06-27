@@ -13,5 +13,6 @@
         public const string CoreCompanyRegisteredEmailTemplate = "CoreCompanyRegisteredEmailTemplate";
         public const string CoreGeoEmailTemplate = "CoreGeoEmailTemplate";
         public const string CoreCompanyInviteEmployeeEmailTemplate = "CoreCompanyInviteEmployeeEmailTemplate";
+        public const string CoreUserRegisteredEmailTemplate = "CoreUserRegisteredEmailTemplate";
     }
 }

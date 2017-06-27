@@ -11,7 +11,6 @@ using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
 using PunchClock.Domain.Model.Enum;
-using PunchClock.Ticketing.Model;
 using PunchClock.View.Model;
 using EmploymentType = PunchClock.Domain.Model.Enum.EmploymentType;
 using UserType = PunchClock.Domain.Model.Enum.UserType;
@@ -30,6 +29,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             _userService = new UserService();
             _companyService = new CompanyService();
+            _emailService = new Core.Implementation.EmailService();
         }
         public CompanyController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -196,9 +196,7 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
-            ViewBag.CompanyId = id;
-            ViewBag.Message = "view/edit your company information";
-            return View();
+            return View(_companyService.Get(id));
         }
 
 
@@ -296,7 +294,8 @@ namespace PunchClock.UI.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Invites([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_companyService.Invites(OperatingUser.CompanyId).ToDataSourceResult(request));
+            var invites = _companyService.Invites(OperatingUser.CompanyId);
+            return Json(invites.ToDataSourceResult(request));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -305,8 +304,10 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (invite != null && ModelState.IsValid)
             {
-                _companyService.UpdateInvite(invite);
+                invite.CompanyId = OperatingUser.CompanyId;
+                invite.InvitedBy = OperatingUser.DisplayName;
                 invite.LinkToRegister = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Register", "User", new {code = OperatingUser.RegistrationCode})}";
+                _companyService.UpdateInvite(invite);
                 string emailMessage = _companyService.ComposeInviteEmail(invite);
                 _emailService.SendEmail(emailMessage, "Invite", new []{ invite.Email});
             }
@@ -328,6 +329,9 @@ namespace PunchClock.UI.Web.Controllers
         {
             if (invite != null && ModelState.IsValid)
             {
+                invite.CompanyId = OperatingUser.CompanyId;
+                invite.InvitedBy = OperatingUser.DisplayName;
+                invite.LinkToRegister = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Register", "User", new { code = OperatingUser.RegistrationCode })}";
                 _companyService.Invite(invite);
                 string emailMessage = _companyService.ComposeInviteEmail(invite);
                 _emailService.SendEmail(emailMessage, "Invite", new[] { invite.Email });
