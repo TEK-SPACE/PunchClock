@@ -121,6 +121,16 @@ namespace PunchClock.UI.Web.Controllers
             var article = _articleService.Delete(id);
            return Json(article);
         }
-    
+
+        [HttpGet]
+        public ActionResult Tags()
+        {
+            return Json(TagsService.GetArticleTagsByCompany(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Categories()
+        {
+            return Json(CategoryService.GetArticleCategoriesByCompanyId(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
+        }
     }
 }
