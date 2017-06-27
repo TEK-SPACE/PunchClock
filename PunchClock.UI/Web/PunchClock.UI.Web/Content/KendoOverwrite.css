@@ -83,3 +83,10 @@ label.col-lg-2.control-label {
 #splitter .inside h3 {
     
 }
+.k-button.k-upload-button {
+    margin: 0;
+}
+.grid-link {
+    color: #e87050 !important;
+    text-decoration: underline !important;
+}

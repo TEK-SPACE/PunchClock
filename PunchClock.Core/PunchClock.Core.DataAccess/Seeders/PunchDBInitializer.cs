@@ -1,10 +1,20 @@
-﻿using System.Data.Entity.Migrations;
+﻿using System;
+using System.Data.Entity.Migrations;
+using PunchClock.Domain.Model;
 
 namespace PunchClock.Core.DataAccess.Seeders
 {
     public partial class PunchDbInitializer : DbMigrationsConfiguration<PunchClockDbContext>
     {
+        private readonly Company _firstCompany = new Company
+        {
+            Id = 1,
+            Name = "TEKSPACE",
+            RegisterCode = "7493582",
+            GlobalId = Guid.NewGuid(),
+        };
 
+        private readonly string _userPasswrod = "TEK@Ind516";
         public PunchDbInitializer()
         {
             AutomaticMigrationsEnabled = true;
@@ -12,6 +22,16 @@ namespace PunchClock.Core.DataAccess.Seeders
         }
         protected override void Seed(PunchClockDbContext context)
         {
+
+            #region Language Culture
+            SeedLanguage(context);
+            #endregion
+
+            #region Company
+            SeedCompany(context);
+            SeedCompanyLanguage(context);
+            #endregion
+
             #region Employment
             SeedEmploymentType(context);
             #endregion
@@ -32,10 +52,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             SeedState(context);
             #endregion
 
-            #region Company
-            SeedCompany(context);
-            SeedCompanyLanguage(context);
-            #endregion
+          
 
             #region CMS
 
@@ -64,9 +81,6 @@ namespace PunchClock.Core.DataAccess.Seeders
 
             SeedMenu(context);
 
-            #region Language Culture
-            SeedLanguage(context);
-            #endregion
 
 
             base.Seed(context);

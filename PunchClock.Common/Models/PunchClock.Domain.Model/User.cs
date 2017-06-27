@@ -131,7 +131,8 @@ namespace PunchClock.Domain.Model
 
         public string PasswordResetCode { get; set; }
         public DateTime? PasswordResetValidityTill { get; set; }
-
+        [NotMapped]
+        public Address RegistrationAddress  { get; set; } = new Address();
         public ICollection<Address> Addresses { get; set; }
 
         [ForeignKey("EmploymentTypeId")]
@@ -143,6 +144,8 @@ namespace PunchClock.Domain.Model
 
         [NotMapped]
         public IEnumerable<SelectListItem> TimezonesList { get; set; }
+        [ScaffoldColumn(false)][NotMapped]
+        public string ErrorMessage { get; set; }
 
         //public virtual ICollection<Punch> Punches { get; set; }
     }

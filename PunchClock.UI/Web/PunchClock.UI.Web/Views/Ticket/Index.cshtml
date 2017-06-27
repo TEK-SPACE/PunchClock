@@ -16,7 +16,7 @@
       {
           columns.Bound(c => c.Id).HtmlAttributes(new {style="text-align:center;"});
           columns.Bound(c => c.ProjectId).ClientGroupHeaderTemplate("#:getTicketProject(value) #").ClientTemplate("#: TicketProject.Name #");
-          columns.Bound(c => c.Title).Template(@<text> @Html.ActionLink(@item.Title, "Edit","Ticket", new { id= @item.Id}, null) </text>).ClientTemplate("<a href='/Ticket/Edit/#:Id#' target='_blank'> #:Title# </a>");
+          columns.Bound(c => c.Title).Template(@<text> @Html.ActionLink(@item.Title, "Edit","Ticket", new { id= @item.Id}, new { @class="grid-link"}) </text>).ClientTemplate("<a href='/Ticket/Edit/#:Id#' target='_blank' class='grid-link'> #:Title# </a>");
           columns.Bound(c => c.CreatedById).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: CreatedBy.DisplayName #");
           columns.Bound(c => c.RequestorId).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: Requestor.DisplayName #");
           columns.Bound(c => c.TypeId).ClientGroupHeaderTemplate("#:getTicketType(value) #").EditorTemplateName("TicketTypes").ClientTemplate("#: Type.Name #"); ;

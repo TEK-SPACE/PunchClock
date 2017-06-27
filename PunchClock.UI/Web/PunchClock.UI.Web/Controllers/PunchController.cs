@@ -158,7 +158,7 @@ namespace PunchClock.UI.Web.Controllers
                 int tmpHoursInSecs;
                 int.TryParse(punch.Duration.TotalSeconds.ToString(CultureInfo.InvariantCulture), out tmpHoursInSecs);
                 punch.Hours = tmpHoursInSecs;
-                if (punch.RequestForApproval && !punch.ManagerAccepted)
+                if (punch.ApprovalRequired && !punch.Approved)
                     punch.ApprovedHours = 0;
                 else
                     punch.ApprovedHours = tmpHoursInSecs;
@@ -181,6 +181,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             var punches = _punchService.All();
+            punches.ForEach(x=>x.DurationInSeconds = x.Duration.TotalSeconds);
             return Json(punches.ToDataSourceResult(request));
         }
         [AcceptVerbs(HttpVerbs.Post)]
@@ -211,17 +212,23 @@ namespace PunchClock.UI.Web.Controllers
 
             return File(fileContents, contentType, fileName);
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Approve([DataSourceRequest] DataSourceRequest request,
-            Punch punch)
+        [HttpPost]
+        public JsonResult Approve(int id)
         {
-            if (punch != null && ModelState.IsValid)
-            {
-                _punchService.Approve(punch);
-            }
-
-            return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+            _punchService.Approve(id);
+            return Json(true);
         }
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Approve([DataSourceRequest] DataSourceRequest request,
+        //    Punch punch)
+        //{
+        //    if (punch != null && ModelState.IsValid)
+        //    {
+        //        _punchService.Approve(punch);
+        //    }
+
+        //    return Json(new[] { punch }.ToDataSourceResult(request, ModelState));
+        //}
         public FileResult Export()
         {
             List<Punch> punches;
@@ -373,7 +380,7 @@ namespace PunchClock.UI.Web.Controllers
                 if (punch.Duration.TotalMinutes > 0)
                 {
 
-                    if (punch.RequestForApproval && !punch.ManagerAccepted)
+                    if (punch.ApprovalRequired && !punch.Approved)
                         dataTable.AddCell(new PdfPCell(new Phrase(punch.Duration.ToString(@"hh\:mm\:ss")))
                         {
                             BackgroundColor = new BaseColor(233, 50, 50),
@@ -401,7 +408,7 @@ namespace PunchClock.UI.Web.Controllers
                         PaddingBottom = 3,
                         HorizontalAlignment = Element.ALIGN_CENTER
                     });
-                else if (punch.RequestForApproval && !punch.ManagerAccepted)
+                else if (punch.ApprovalRequired && !punch.Approved)
                     dataTable.AddCell("Req. Approval");
                 else
                     dataTable.AddCell("");

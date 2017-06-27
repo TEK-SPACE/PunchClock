@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -19,7 +20,9 @@ namespace PunchClock.Core.DataAccess.Seeders
                 new UserType {Id = (int)Domain.Model.Enum.UserType.Manager, Description = "Manager"},
                 new UserType {Id = (int)Domain.Model.Enum.UserType.CompanyAdmin, Description = "CompanyAdmin"},
                 new UserType {Id = (int)Domain.Model.Enum.UserType.SuperAdmin, Description = "SuperAdmin"},
-                new UserType {Id = (int)Domain.Model.Enum.UserType.HumanResources,Description="Human Resource"}
+                new UserType {Id = (int)Domain.Model.Enum.UserType.HumanResources,Description="Human Resource"},
+                new UserType {Id = (int)Domain.Model.Enum.UserType.ProjectOwner,Description="Project Owner"}
+
             };
             foreach (var userType in userTypes)
             {
@@ -42,7 +45,6 @@ namespace PunchClock.Core.DataAccess.Seeders
                 }
             }
 
-
             List<User> users = new List<User>
             {
                 new User { FirstName = "Super",
@@ -53,7 +55,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     RegisteredTimeZone = "India Standard Time",
                     UserTypeId = (int)Domain.Model.Enum.UserType.SuperAdmin,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = context.Companies.First().Id,
+                    CompanyId = _firstCompany.Id,
                     IsActive = true,
                     PasswordLastChanged = DateTime.Now,
                     PasswordDisabled = false,
@@ -61,7 +63,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     DateCreatedUtc = DateTime.UtcNow,
                     LastUpdatedUtc = DateTime.UtcNow,
                     LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = context.Companies.First()?.RegisterCode,
+                    RegistrationCode = _firstCompany.RegisterCode,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
@@ -76,7 +78,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     RegisteredTimeZone = "India Standard Time",
                     UserTypeId = (int)Domain.Model.Enum.UserType.CompanyAdmin,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = context.Companies.First().Id,
+                    CompanyId = _firstCompany.Id,
                     IsActive = true,
                     PasswordLastChanged = DateTime.Now,
                     PasswordDisabled = false,
@@ -84,7 +86,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     DateCreatedUtc = DateTime.UtcNow,
                     LastUpdatedUtc = DateTime.UtcNow,
                     LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = context.Companies.First()?.RegisterCode,
+                    RegistrationCode = _firstCompany.RegisterCode,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
@@ -99,7 +101,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     RegisteredTimeZone = "India Standard Time",
                     UserTypeId = (int)Domain.Model.Enum.UserType.Employee,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = context.Companies.First().Id,
+                    CompanyId = _firstCompany.Id,
                     IsActive = true,
                     PasswordLastChanged = DateTime.Now,
                     PasswordDisabled = false,
@@ -107,7 +109,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     DateCreatedUtc = DateTime.UtcNow,
                     LastUpdatedUtc = DateTime.UtcNow,
                     LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = context.Companies.First()?.RegisterCode,
+                    RegistrationCode = _firstCompany.RegisterCode,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
@@ -122,7 +124,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     RegisteredTimeZone = "India Standard Time",
                     UserTypeId = (int)Domain.Model.Enum.UserType.Manager,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = context.Companies.First().Id,
+                    CompanyId = _firstCompany.Id,
                     IsActive = true,
                     PasswordLastChanged = DateTime.Now,
                     PasswordDisabled = false,
@@ -130,7 +132,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     DateCreatedUtc = DateTime.UtcNow,
                     LastUpdatedUtc = DateTime.UtcNow,
                     LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = context.Companies.First()?.RegisterCode,
+                    RegistrationCode = _firstCompany.RegisterCode,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
@@ -145,7 +147,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     RegisteredTimeZone = "India Standard Time",
                     UserTypeId = (int)Domain.Model.Enum.UserType.HumanResources,
                     EmploymentTypeId = (int)EmploymentType.FullTime,
-                    CompanyId = context.Companies.First().Id,
+                    CompanyId = _firstCompany.Id,
                     IsActive = true,
                     PasswordLastChanged = DateTime.Now,
                     PasswordDisabled = false,
@@ -153,7 +155,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     DateCreatedUtc = DateTime.UtcNow,
                     LastUpdatedUtc = DateTime.UtcNow,
                     LastActivityDateUtc = DateTime.UtcNow,
-                    RegistrationCode = context.Companies.First()?.RegisterCode,
+                    RegistrationCode = _firstCompany.RegisterCode,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
@@ -166,14 +168,13 @@ namespace PunchClock.Core.DataAccess.Seeders
 
             foreach (var user in users)
             {
-                //System.Diagnostics.Debugger.Launch();
-               
+                user.CompanyId = context.Companies.First().Id;
                 try
                 {
                     if (!context.Users.Any(u => u.UserName == user.UserName))
                     {
                         var password = new PasswordHasher();
-                        var hashed = password.HashPassword("TEK@Ind516");
+                        var hashed = password.HashPassword(_userPasswrod);
                         user.PasswordHash = hashed;
 
                         var userStore = new UserStore<User>(context);

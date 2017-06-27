@@ -93,7 +93,10 @@
     <Compile Include="AjaxResponse.cs" />
     <Compile Include="CommonEntity.cs" />
     <Compile Include="CompanyLanguage.cs" />
+    <Compile Include="CompanyRegister.cs" />
     <Compile Include="Constants\AppSettingConstant.cs" />
+    <Compile Include="Constants\RegistrationPlacehoder.cs" />
+    <Compile Include="Constants\RegistrationTooltip.cs" />
     <Compile Include="EmployeePaidHoliday.cs" />
     <Compile Include="CompanyHoliday.cs" />
     <Compile Include="Country.cs" />

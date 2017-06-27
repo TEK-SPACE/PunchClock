@@ -420,6 +420,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     NumericIsoCode = "000",
                     Published = 1,
                     DisplayOrder = 1,
+                    CountryGuid = Guid.NewGuid(),
                     CreatedOnUtc = DateTime.UtcNow
                 },
                 new Country
@@ -431,6 +432,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     NumericIsoCode = "091",
                     Published = 1,
                     DisplayOrder = 1,
+                    CountryGuid = Guid.NewGuid(),
                     CreatedOnUtc = DateTime.UtcNow
                 }
             };

@@ -22,7 +22,6 @@
             <fieldset>
                 @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                 @Html.Raw(ViewData["ModelError"] as string)
-                @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
                     <div class="col-md-12">
                         @Html.Kendo().TextBoxFor(model => model.Title).Value("").HtmlAttributes(new {@class = "form-control", placeholder = Placeholder.Title, title = Tooltip.Title })

@@ -17,7 +17,7 @@ namespace PunchClock.UI.Web.Helpers
         private static readonly ITicketCategory TicketCategory;
         private static readonly ITicketPriority TicketPriority;
         private static readonly ITicketType TicketType;
-        private static readonly IUserRepository UserRepository;
+        private static readonly IUser UserRepository;
 
         static TicketHelpers()
         {

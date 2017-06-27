@@ -4,3 +4,10 @@
     <div id="ajax_loader">
     </div>
 </div>
+
+@(Html.Kendo().Tooltip()
+      .For(".regDropdown")
+      .ContentHandler("getTooltip")
+      .Width(120)
+      .Position(TooltipPosition.Top)
+      )

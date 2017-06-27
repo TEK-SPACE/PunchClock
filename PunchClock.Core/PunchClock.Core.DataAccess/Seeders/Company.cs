@@ -12,7 +12,7 @@ namespace PunchClock.Core.DataAccess.Seeders
         {
             List<Company> companies = new List<Company>
             {
-                new Company {Id=1,Name="TEKSPACE",RegisterCode="7493582" ,GlobalId=Guid.NewGuid()}
+               _firstCompany
             };
             foreach (var company in companies)
             {
@@ -23,9 +23,9 @@ namespace PunchClock.Core.DataAccess.Seeders
         {
             List<CompanyLanguage> languages = new List<CompanyLanguage>
             {
-                new CompanyLanguage {Id = 1, CompanyId = 1, LanguageId = (int)LanguageCulture.English},
-                new CompanyLanguage {Id = 2, CompanyId = 1, LanguageId = (int)LanguageCulture.Spanish},
-                new CompanyLanguage {Id = 3, CompanyId = 1, LanguageId = (int)LanguageCulture.Spanish}
+                new CompanyLanguage {Id = 1, CompanyId = _firstCompany.Id, LanguageId = (int)LanguageCulture.English},
+                new CompanyLanguage {Id = 2, CompanyId = _firstCompany.Id, LanguageId = (int)LanguageCulture.Spanish},
+                new CompanyLanguage {Id = 3, CompanyId = _firstCompany.Id, LanguageId = (int)LanguageCulture.Spanish}
             };
             foreach (var language in languages)
             {

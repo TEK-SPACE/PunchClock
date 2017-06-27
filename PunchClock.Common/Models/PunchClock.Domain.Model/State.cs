@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PunchClock.Domain.Model
 {
@@ -14,6 +15,7 @@ namespace PunchClock.Domain.Model
         public bool IsPublished { get; set; }
         public int DisplayOrder { get; set; }
         public string ExtensionData { get; set; }
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedOnUtc { get; set; }
     }
 }

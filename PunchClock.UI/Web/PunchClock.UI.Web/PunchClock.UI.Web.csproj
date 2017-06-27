@@ -354,6 +354,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ArticleHelpers.cs" />
+    <Compile Include="Helpers\CompanyHelper.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\TicketHelpers.cs" />
     <Compile Include="Helpers\UserHelpers.cs" />
@@ -705,7 +706,7 @@
     <Content Include="Views\Error\Http404.cshtml" />
     <Content Include="Views\Error\Http500.cshtml" />
     <Content Include="Views\Punch\Index.cshtml" />
-    <Content Include="Views\Punch\Report.cshtml" />
+    <Content Include="Views\Punch\ReportOld.cshtml" />
     <Content Include="Views\Punch\Test.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
@@ -753,6 +754,7 @@
     <Content Include="Views\Shared\EditorTemplates\TicketTypesByName.cshtml" />
     <Content Include="Views\Article\Index.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
+    <Content Include="Views\Punch\Report.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ArticleCategoryDropdownList.cshtml" />
   </ItemGroup>
   <ItemGroup>
