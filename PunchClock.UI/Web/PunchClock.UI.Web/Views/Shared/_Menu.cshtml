@@ -2,21 +2,24 @@
 
     @foreach (var item in (IEnumerable<PunchClock.Domain.Model.SiteMap>)ViewBag.Menu)
     {
-        if (item.IsUserAccessable && item.Children.Any())
+        if (item.IsUserAccessable && item.IsMenuItem && item.Children.Any())
         {
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes"> @item.Name <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
                     @foreach (var child in item.Children)
                     {
-                        <li>
-                            @Html.ActionLink(child.Name, child.Action, child.Controller, null, null)
-                        </li>
+                        if (child.IsUserAccessable && child.IsMenuItem)
+                        {
+                            <li>
+                                @Html.ActionLink(child.Name, child.Action, child.Controller, null, null)
+                            </li>
+                        }
                     }
                 </ul>
             </li>
         }
-        else if (item.IsUserAccessable)
+        else if (item.IsUserAccessable && item.IsMenuItem)
         {
             <li>
                 @Html.ActionLink(item.Name, item.Action, item.Controller, null, null)

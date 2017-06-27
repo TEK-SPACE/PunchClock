@@ -6,40 +6,43 @@ using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
+using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.UI.Web.Controllers
 {
     public class BaseController : Controller
     {
         private readonly ICompany _companyRepository;
-
+        private readonly Core.Contracts.IUser _userService;
         protected readonly UserSession UserSession;
+
         protected User OperatingUser = new User();
+
         public BaseController()
         {
+            _userService = new UserService();
             _companyRepository = new CompanyService();
-            UserSession = new SessionService().GetCurrentSession(HttpContext);  
+            UserSession = new SessionService().GetCurrentSession(HttpContext);
         }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (User != null && User.Identity.IsAuthenticated)
-            {
-                UserService userService = new UserService();
-                OperatingUser = userService.Details(User.Identity.Name);
-                using (var unitOfWork = new UnitOfWork())
-                {
-                    OperatingUser.Company = unitOfWork.CompanyRepository.GetById(OperatingUser.CompanyId);
-                }
-            }
-            var menu =  _companyRepository.GetSiteMap(companyId: OperatingUser.CompanyId);
+            OperatingUser = User.Identity.IsAuthenticated
+                ? _userService.Details(User.Identity.Name)
+                : new User {CompanyId = 1, UserTypeId = (int) UserType.Guest};
+
+            var menu = _companyRepository.GetSiteMap(companyId: OperatingUser.CompanyId);
             foreach (var item in menu)
             {
-                if(item.UserAccesses.Any(x=>x.UserRoleId == ((OperatingUser != null && OperatingUser.Uid > 0) ? OperatingUser.UserTypeId : (int)Domain.Model.Enum.UserType.Guest)))
+                if (item.UserAccesses != null && item.UserAccesses.Any(x => x.UserRoleId == OperatingUser.UserTypeId))
                 {
                     item.IsUserAccessable = true;
                     foreach (var child in item.Children)
                     {
-                        if (child.UserAccesses.Any(x => x.UserRoleId == ((OperatingUser != null && OperatingUser.Uid > 0) ? OperatingUser.UserTypeId : (int)Domain.Model.Enum.UserType.Guest)))
+                        if (child.UserAccesses != null &&  child.UserAccesses.Any(x => x.UserRoleId ==
+                                                        ((OperatingUser != null && OperatingUser.Uid > 0)
+                                                            ? OperatingUser.UserTypeId
+                                                            : (int) Domain.Model.Enum.UserType.Guest)))
                         {
                             child.IsUserAccessable = true;
                         }
@@ -50,6 +53,7 @@ namespace PunchClock.UI.Web.Controllers
             ViewBag.Menu = menu;
             base.OnActionExecuting(filterContext);
         }
+
         // ReSharper disable once RedundantOverriddenMember
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {

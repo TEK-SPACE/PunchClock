@@ -14,7 +14,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             GlobalId = Guid.NewGuid(),
         };
 
-        private readonly string _userPasswrod = "TEK@Ind516";
+        private readonly string _userPasswrod = "Welcome@516";
         public PunchDbInitializer()
         {
             AutomaticMigrationsEnabled = true;

@@ -14,7 +14,7 @@ namespace PunchClock.Domain.Model
         public string Description { get; set; }
         public bool IsActive { get; set; } = true;
         //public bool OnAuthorizationOnly { get; set; } = true;
-        public bool IsCoreItem { get; set; } = false;
+        //public bool IsCoreItem { get; set; } = false;
         public bool IsMenuItem { get; set; } = true;
         [NotMapped]
         public bool IsUserAccessable { get; set; } = false;
@@ -23,6 +23,6 @@ namespace PunchClock.Domain.Model
         [ForeignKey("ParentId")]
         public virtual SiteMap Parent { get; set; }
         public List<SiteMap> Children { get; set; } = new List<SiteMap>();
-        public List<MenuUserAccess> UserAccesses { get; set; }
+        public virtual ICollection<MenuUserAccess> UserAccesses { get; set; }
     }
 }

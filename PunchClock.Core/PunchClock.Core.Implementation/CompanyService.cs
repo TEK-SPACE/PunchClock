@@ -218,7 +218,7 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.SiteMenus.ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId || x.IsCoreItem)).ToList();
+                return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId)).ToList();
             }
         }
     }

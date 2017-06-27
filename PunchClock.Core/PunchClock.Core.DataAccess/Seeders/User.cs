@@ -67,27 +67,40 @@ namespace PunchClock.Core.DataAccess.Seeders
             companyadmin.Email = "CompanyAdmin@rbtekspace.com";
             companyadmin.UserName = "companyadmin";
             companyadmin.UserTypeId = (int) Domain.Model.Enum.UserType.CompanyAdmin;
+            companyadmin.SecurityStamp = Guid.NewGuid().ToString("D");
 
             var companyemployee = superUser;
-            companyadmin.FirstName = "Company";
-            companyadmin.LastName = "Employee";
-            companyadmin.Email = "CompanyEmployee@rbtekspace.com";
-            companyadmin.UserName = "companyemployee";
-            companyadmin.UserTypeId = (int)Domain.Model.Enum.UserType.Employee;
+            companyemployee.FirstName = "Company";
+            companyemployee.LastName = "Employee";
+            companyemployee.Email = "CompanyEmployee@rbtekspace.com";
+            companyemployee.UserName = "companyemployee";
+            companyemployee.UserTypeId = (int)Domain.Model.Enum.UserType.Employee;
+            companyemployee.SecurityStamp = Guid.NewGuid().ToString("D");
+            companyemployee.SecurityStamp = Guid.NewGuid().ToString("D");
 
             var companymanager = superUser;
-            companyadmin.FirstName = "Company";
-            companyadmin.LastName = "Manager";
-            companyadmin.Email = "CompanyManager@rbtekspace.com";
-            companyadmin.UserName = "companymanager";
-            companyadmin.UserTypeId = (int)Domain.Model.Enum.UserType.Manager;
+            companymanager.FirstName = "Company";
+            companymanager.LastName = "Manager";
+            companymanager.Email = "CompanyManager@rbtekspace.com";
+            companymanager.UserName = "companymanager";
+            companymanager.UserTypeId = (int)Domain.Model.Enum.UserType.Manager;
+            companymanager.SecurityStamp = Guid.NewGuid().ToString("D");
 
             var companyHr = superUser;
-            companyadmin.FirstName = "Company";
-            companyadmin.LastName = "Hr";
-            companyadmin.Email = "CompanyHr@rbtekspace.com";
-            companyadmin.UserName = "CompanyHr";
-            companyadmin.UserTypeId = (int)Domain.Model.Enum.UserType.HumanResources;
+            companyHr.FirstName = "Company";
+            companyHr.LastName = "Hr";
+            companyHr.Email = "CompanyHr@rbtekspace.com";
+            companyHr.UserName = "CompanyHr";
+            companyHr.UserTypeId = (int)Domain.Model.Enum.UserType.HumanResources;
+            companyHr.SecurityStamp = Guid.NewGuid().ToString("D");
+
+            var projectOwner = superUser;
+            projectOwner.FirstName = "Project";
+            projectOwner.LastName = "Owner";
+            projectOwner.Email = "projectowner@rbtekspace.com";
+            projectOwner.UserName = "projectowner";
+            projectOwner.UserTypeId = (int)Domain.Model.Enum.UserType.ProjectOwner;
+            projectOwner.SecurityStamp = Guid.NewGuid().ToString("D");
 
             string[] roles = new string[] { "Administrator", "Manager", "Editor", "Buyer", "Business", "Seller", "Subscriber" };
 

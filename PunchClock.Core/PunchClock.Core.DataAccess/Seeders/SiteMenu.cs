@@ -14,12 +14,22 @@ namespace PunchClock.Core.DataAccess.Seeders
             {
                 new SiteMap
                 {
-                    Name = "User", Controller = "", Action = "", Target = "_self", IsCoreItem= true, OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    Name = "User", Controller = "User", Action = "#", Target = "_self",  Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    UserAccesses = new List<MenuUserAccess>
+                    {
+                        new MenuUserAccess { UserRoleId = (int)UserType.SuperAdmin } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner },
+                        new MenuUserAccess { UserRoleId = (int)UserType.Guest }
+                    },
                     Children = new List<SiteMap>
                     {
                         new SiteMap
                         {
-                            Name = "Register",Controller ="User", Action= "Register", IsCoreItem= true, Target = "_self", OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                            Name = "Register",Controller ="User", Action= "Register", Target = "_self",  Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                             UserAccesses = new List<MenuUserAccess>
                             {
                                new MenuUserAccess { UserRoleId = (int)UserType.Guest }
@@ -42,12 +52,22 @@ namespace PunchClock.Core.DataAccess.Seeders
                 },
                 new SiteMap
                 {
-                    Name = "Company",Controller ="Company", Action= "#", Target = "_self", IsCoreItem= true, OnAuthorizationOnly = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    Name = "Company",Controller ="Company", Action= "#", Target = "_self",  Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    UserAccesses = new List<MenuUserAccess>
+                    {
+                        new MenuUserAccess { UserRoleId = (int)UserType.SuperAdmin } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner },
+                        new MenuUserAccess { UserRoleId = (int)UserType.Guest }
+                    },
                     Children = new List<SiteMap>
                     {
                         new SiteMap
                         {
-                            IsCoreItem= true, Name = "Registration",Controller ="Company", Action= "Register",OnAuthorizationOnly = false, Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                            Name = "Registration",Controller ="Company", Action= "Register", Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                             UserAccesses = new List<MenuUserAccess>
                             {
                              new MenuUserAccess { UserRoleId = (int)UserType.Guest }
@@ -311,10 +331,10 @@ namespace PunchClock.Core.DataAccess.Seeders
             foreach (var item in menuItems)
             {
                 context.SiteMenus.AddOrUpdate(x => new {x.ParentId, x.Controller, x.Action}, item);
-                foreach (var userAccess in item.UserAccesses)
-                {
-                    context.MenuUserAccess.AddOrUpdate(userAccess);
-                }
+                //foreach (var userAccess in item.UserAccesses)
+                //{
+                //    context.MenuUserAccess.AddOrUpdate(userAccess);
+                //}
             }
         }
     }
