@@ -9,7 +9,7 @@
       {
           columns.Bound(c => c.Id).ClientTemplate(@Html.ActionLink("#=Id#", "Edit", new { id = "#=Id#" }, htmlAttributes: new { target = "_blank", style = "color: blue;text-decoration: underline;" }).ToHtmlString());
           columns.Bound(c => c.Title).Title("Title").ClientTemplate(@Html.ActionLink("#=Title#", "Edit", new {id = "#=Id#"}, htmlAttributes: new { target = "_blank",style= "color: blue;text-decoration: underline;" }).ToHtmlString());
-          columns.Bound(c => c.CategoryId).EditorTemplateName("ArticleCategoryDropdownList").ClientTemplate("#: Category.Name #");
+          columns.Bound(c => c.CategoryId).ClientGroupHeaderTemplate("#: getCategory(value) #").EditorTemplateName("ArticleCategoryDropdownList").ClientTemplate("#: Category.Name #");
           columns.Bound(c => c.IsPublished);
           columns.Bound(c => c.IsPrivate);
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
@@ -49,4 +49,14 @@
            .Destroy(update => update.Action("Delete", "Article"))
           .PageSize(20)
       )
-)
+      )
+
+<script>
+    function getCategory(id) {
+        var categories = @Html.Raw(Json.Encode(ViewData["ArticleCategory"]));
+        var result = categories.filter(function( obj ) {
+            return obj.Id === id;
+        });
+        return result[0].Name;
+    }
+</script>
