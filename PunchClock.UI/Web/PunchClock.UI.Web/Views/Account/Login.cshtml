@@ -25,12 +25,12 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.ActionLink("Register", "Register", "User") if you don't have an account.
-                       
+                        @Html.ActionLink("Register", "Register", "User") if you don't have an account.<br/>
+                        @Html.ActionLink("ForgotPassword", "ForgotPassword", "User") click to reset your password.
                     </div>
                 <div class="col-lg-6">
                     <input type="submit" value="Login" class="btn btn-primary"/>
-                    <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/Ticket';"/>
+                    <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/';"/>
                     <div class="checkbox slide-to-left">
                     @Html.Kendo().CheckBoxFor(m => m.RememberMe).Enable(true).Label("Remember me?")
                     </div>
@@ -42,11 +42,3 @@
 </div>
 
 
-@*<section class="social" id="socialLoginForm">
-        <h2>Use another service to log in.</h2>
-        @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-    </section>*@
-
-@section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
-}

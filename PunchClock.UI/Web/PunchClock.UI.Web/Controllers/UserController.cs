@@ -185,6 +185,7 @@ namespace PunchClock.UI.Web.Controllers
                     _emailRepository.SendEmail(resetBuilder.ToString(), "PunchClock Password Reset Link", new[] {user.Email});
                     return View("ForgotPasswordConfirmation");
                 }
+                ViewBag.Message = "No account found with this email";
             }
 
             // If we got this far, something failed, redisplay form

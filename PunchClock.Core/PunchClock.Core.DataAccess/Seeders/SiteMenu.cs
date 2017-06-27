@@ -127,8 +127,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                         new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                         new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                         new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                        new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                        new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner } ,
+                        new MenuUserAccess { UserRoleId = (int)UserType.Manager }
 
                     },
                     Children = new List<SiteMap>
@@ -142,8 +141,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                                 new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner }
+                                new MenuUserAccess { UserRoleId = (int)UserType.Manager }
                             }
                         },
                         new SiteMap
@@ -155,8 +153,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                                 new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner }
+                                new MenuUserAccess { UserRoleId = (int)UserType.Manager }
                             }
                         }
                     }
@@ -199,8 +196,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                                 new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner } 
+                                new MenuUserAccess { UserRoleId = (int)UserType.Manager }
                             }
                         },
                         new SiteMap
@@ -212,8 +208,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                                 new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner }
+                                new MenuUserAccess { UserRoleId = (int)UserType.Manager }
                             }
                         },
                         new SiteMap
@@ -225,8 +220,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                                 new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner }
+                                new MenuUserAccess { UserRoleId = (int)UserType.Manager }
                             }
                         }
                     }
@@ -280,8 +274,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                                 new MenuUserAccess { UserRoleId = (int)UserType.CompanyAdmin } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.Employee } ,
                                 new MenuUserAccess { UserRoleId = (int)UserType.HumanResources } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.Manager } ,
-                                new MenuUserAccess { UserRoleId = (int)UserType.ProjectOwner }
+                                new MenuUserAccess { UserRoleId = (int)UserType.Manager }
                             }
                         }
                     }
