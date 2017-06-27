@@ -3,12 +3,14 @@ using System.Web;
 
 namespace PunchClock.Core.Contracts
 {
-    public interface IGeoRepository : IEntityRepository<User>
+    public interface IGeo 
     {
-        GeoPlugin GetUserGeo(string clientIp = null);
-        
+        GeoLocation GetUserGeo(string clientIp = null);
+
         string IpAddress(HttpContextBase httpContext);
 
         string MacAddress(HttpContextBase httpContext);
+        GeoLocation GetGeoLocation(string ipaddress);
+
     }
 }

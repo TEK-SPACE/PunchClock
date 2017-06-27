@@ -1,31 +1,78 @@
-﻿@model PunchClock.Domain.Model.Company
+﻿@using PunchClock.Domain.Model.Constants
+@using PunchClock.UI.Web.Helpers
+@model PunchClock.Domain.Model.CompanyRegister
 @{
-    ViewBag.Title = "Companies Details";
+    var registrationCode = CompanyHelper.NewRegistrationCode();
+    ViewBag.Title = "Details";
 }
-<hgroup class="title">
-    <h1>@ViewBag.Title</h1>
-    <h2>@Html.Raw((string)ViewBag.Message)</h2>
-</hgroup>
-<div class="clearFloat"></div>
-<hr />
-<div class="col-lg-12">
-    <div class="well">
-        @(Html.Kendo().TabStrip()
-          .Name("tabstrip")
-          .Items(tabstrip =>
-          {
-              tabstrip.Add().Text("Details")
-                  .Selected(true)
-                  .LoadContentFrom("Edit", "Company", new { id = ViewBag.CompanyId });
-              tabstrip.Add().Text("Employees")
-                  .LoadContentFrom("Employees", "Company", new { id = ViewBag.CompanyId });
-              tabstrip.Add().Text("Emp Type Vs. Holi Paid")
-                  .LoadContentFrom("PaidHolidayPkg", "Company", new { id = ViewBag.CompanyId });
-              tabstrip.Add().Text("Holidays")
-                  .LoadContentFrom("SetHolidays", "Company", new { id = ViewBag.CompanyId });
 
-          })
-        )
+@using (Html.BeginForm("Register", "Company", null, FormMethod.Post,
+    new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
+{
+    <div class="col-lg-12 form-horizontal">
+        <div class="panel panel-success panel-nomargin">
+            <div class="panel-body">Company Details</div>
+        </div>
+        <div class="well">
+            <fieldset>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.Company.Name).HtmlAttributes(new {@class = "form-control", placeholder= RegistrationPlacehoder.CompanyName, title = RegistrationTooltip.CompanyName})
+                        @Html.ValidationMessageFor(x => x.Company.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.Company.RegisterCode).Value(registrationCode).HtmlAttributes(new {@class = "form-control", @readonly = "readonly", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode})
+                        @Html.ValidationMessageFor(x => x.Company.Name, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        @Html.Kendo().EditorFor(x => x.Company.Summary).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.CompanySummary, title = RegistrationTooltip.CompanySummary })
+                        @Html.ValidationMessageFor(x => x.Company.Summary, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        @Html.Kendo().Upload().Multiple(false).Validation(x=>x.AllowedExtensions(new [] {".gif",".jpg",".png"}).MaxFileSize(3145728)).Name("logo").HtmlAttributes(new {id = "fileUploader", @class = "form-control", placeholder = RegistrationPlacehoder.CompanyLogo, title = RegistrationTooltip.CompanyLogo })
+                        @Html.ValidationMessageFor(x => x.Company.LogoUrl, "", new {@class = "text-danger"})
+                    </div>
+                    <div class="col-lg-6">
+                        @(Html.Kendo().NumericTextBoxFor(x=>x.Company.DeltaPunchTime)
+                              .Format("0")
+                              .Min(0)
+                              .Max(30)
+                              .Step(5)
+                              .Value(5)
+                              .HtmlAttributes(new {@class = "", style = "width: 100%", title = RegistrationTooltip.CompanyPunchDelta}).Placeholder(RegistrationPlacehoder.CompanyPunchDelta))
+                        @Html.ValidationMessageFor(x => x.Company.DeltaPunchTime, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </fieldset>
+        </div>
     </div>
 
-</div>
+    
+    <div class="col-lg-12 form-horizontal">
+        <div class="panel panel-success panel-nomargin">
+            <div class="panel-body">Invite</div>
+        </div>
+        <div class="well">
+            @Html.Partial("_EmployeeInvite", Model.Company.EmployeeInvites)
+        </div>
+
+        <div class="">
+            <input type="submit" value="Register" class="btn btn-primary" />
+            <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/';" />
+        </div>
+    </div>
+}
+<script>
+    function filterStates() {
+        return {
+            id: $("#CreatedBy_RegistrationAddress_CountryId").val()
+        };
+    }
+   
+</script>

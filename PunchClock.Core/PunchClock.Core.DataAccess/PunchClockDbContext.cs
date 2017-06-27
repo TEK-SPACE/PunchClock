@@ -27,10 +27,14 @@ namespace PunchClock.Core.DataAccess
         {
             return new PunchClockDbContext();
         }
+
+        #region Company
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyHoliday> CompanyHolidays { get; set; }
         public DbSet<Domain.Model.Language> Languages { get; set; }
         public DbSet<CompanyLanguage> CompanyLanguages { get; set; }
+        public DbSet<EmployeeInvite> EmployeeInvites { get; set; }
+        #endregion
 
         public DbSet<Country> Countries { get; set; }
         public DbSet<EmployeePaidHoliday> EmployeePaidHolidays { get; set; }

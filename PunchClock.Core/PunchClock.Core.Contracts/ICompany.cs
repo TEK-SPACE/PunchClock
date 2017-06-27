@@ -20,5 +20,11 @@ namespace PunchClock.Core.Contracts
         void UpdateCompanyHolidays(List<CompanyHolidayView> hlds);
         List<HolidayView> GetCompanyHolidays(int companyId, int userId, DateTime stDate, DateTime enDate);
         List<SiteMap> GetSiteMap(int companyId);
+        string ComposeRegisteredEmail(CompanyRegister companyRegister);
+        List<EmployeeInvite> Invites(int companyId);
+        void UpdateInvite(EmployeeInvite invite);
+        string ComposeInviteEmail(EmployeeInvite invite);
+        void DeleteInvite(EmployeeInvite invite);
+        void Invite(EmployeeInvite invite);
     }
 }

@@ -3,7 +3,7 @@
 @model PunchClock.Domain.Model.CompanyRegister
 @{
     var registrationCode = CompanyHelper.NewRegistrationCode();
-    ViewBag.Title = "Company Registration";
+    ViewBag.Title = "Registration";
 }
 
 @using (Html.BeginForm("Register", "Company", null, FormMethod.Post,
@@ -15,7 +15,8 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
         </div>
         <div class="well">
             <fieldset>
-                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     <div class="col-lg-6">
                         @Html.Kendo().TextBoxFor(x => x.Company.Name).HtmlAttributes(new {@class = "form-control", placeholder= RegistrationPlacehoder.CompanyName, title = RegistrationTooltip.CompanyName})
@@ -58,8 +59,7 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
         </div>
         <div class="well">
             <fieldset>
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+             
 
                 <div class="form-group">
                     <div class="col-lg-6">

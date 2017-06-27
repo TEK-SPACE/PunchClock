@@ -19,7 +19,7 @@ namespace PunchClock.UI.Web.Controllers
         //
         // GET: /Register/
         private readonly IUser _userService;
-        private readonly IEmailRepository _emailRepository;
+        private readonly IEmail _emailRepository;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private readonly ISite _siteService;
@@ -56,14 +56,20 @@ namespace PunchClock.UI.Web.Controllers
             _companyService = new CompanyService();
         }
 
-        public ActionResult Register()
+        public ActionResult Register(string code)
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
+            var company = _companyService.Get(code);
+            if (company == null)
+            {
+                return View("InvalidCode");
+            }
             User user = new User
             {
                 LastActivityIp = UserSession.IpAddress,
-                LastActiveMacAddress = UserSession.MacAddress
+                LastActiveMacAddress = UserSession.MacAddress,
+                RegistrationCode = code
             };
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();

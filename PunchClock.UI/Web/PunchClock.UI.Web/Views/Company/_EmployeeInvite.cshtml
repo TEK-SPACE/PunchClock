@@ -1,0 +1,45 @@
+﻿@model IEnumerable<PunchClock.Domain.Model.EmployeeInvite>
+
+@(Html.Kendo().Grid(Model)
+      .Name("ConfigurationGrid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Name);
+          columns.Bound(c => c.Email).Width(150);
+          columns.Bound(c => c.InvitationDateUtc).HtmlAttributes(new { @class = "utc-date" });
+          columns.Bound(c => c.IsRegistered);
+          columns.Bound(c => c.InviteRevoked);
+          columns.Command(command =>
+          {
+              command.Edit();
+              command.Destroy();
+          });
+      })
+      //.HtmlAttributes(new { style = "height: 550px;" })
+      .Scrollable()
+      .Groupable()
+      .Sortable()
+      .ToolBar(toolbar => {
+          //toolbar.Create();
+          //toolbar.Save();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.PopUp))
+      .Pageable(pageable => pageable
+          .Refresh(true)
+          .PageSizes(true)
+          .ButtonCount(5))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(x => x.InvitationDateUtc).Editable(false);
+              model.Field(x => x.IsRegistered).Editable(false);
+          })
+          .Read(read => read.Action("Invites", "Company"))
+          .Create(update => update.Action("Invite", "Company"))
+          .Update(update => update.Action("UpdateInvite", "Company"))
+          .Destroy(update => update.Action("RevokeInvite", "Company"))
+          .PageSize(20)
+      )
+      )

@@ -97,6 +97,7 @@
     <Compile Include="Constants\AppSettingConstant.cs" />
     <Compile Include="Constants\RegistrationPlacehoder.cs" />
     <Compile Include="Constants\RegistrationTooltip.cs" />
+    <Compile Include="EmployeeInvite.cs" />
     <Compile Include="EmployeePaidHoliday.cs" />
     <Compile Include="CompanyHoliday.cs" />
     <Compile Include="Country.cs" />
@@ -106,7 +107,7 @@
     <Compile Include="Enum\ModuleType.cs" />
     <Compile Include="Enum\RegistrationStatus.cs" />
     <Compile Include="Enum\UserType.cs" />
-    <Compile Include="GeoPlugin.cs" />
+    <Compile Include="GeoLocation.cs" />
     <Compile Include="Holiday.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="EmploymentType.cs" />

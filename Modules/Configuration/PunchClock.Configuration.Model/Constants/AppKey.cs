@@ -10,5 +10,8 @@
         public const string CoreNotifyingList = "CoreNotifyingList";
         public const string CoreNotifyingEnabled = "CoreNotifyingEnabled";
         public const string CoreUserRegistrationTimeZoneDefault = "CoreUserRegistrationTimeZoneDefault";
+        public const string CoreCompanyRegisteredEmailTemplate = "CoreCompanyRegisteredEmailTemplate";
+        public const string CoreGeoEmailTemplate = "CoreGeoEmailTemplate";
+        public const string CoreCompanyInviteEmployeeEmailTemplate = "CoreCompanyInviteEmployeeEmailTemplate";
     }
 }

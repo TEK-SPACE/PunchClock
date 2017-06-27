@@ -28,9 +28,20 @@ namespace PunchClock.Domain.Model
         public string CreatedById { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
+
+        #region Branding
+
+        public string BrandDisplayName { get; set; }
+        public string DomainName { get; set; }
+        public string Website { get; set; }
+
+        #endregion
+
         //[ForeignKey("CreatedById")]
         //public User CreatedBy { get; set; }
-       // public ICollection<User> Users { get; set; }
+        // public ICollection<User> Users { get; set; }
         public ICollection<CompanyLanguage> Languages { get; set; }
+
+        public ICollection<EmployeeInvite> EmployeeInvites { get; set; } = new List<EmployeeInvite>();
     }
 }
