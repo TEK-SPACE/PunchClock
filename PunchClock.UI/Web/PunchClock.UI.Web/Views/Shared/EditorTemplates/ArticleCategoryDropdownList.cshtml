@@ -1,0 +1,2 @@
+﻿@using PunchClock.UI.Web.Controllers
+@Html.Kendo().ComboBoxFor(x => x).DataTextField("Text").DataValueField("Value").Suggest(true).BindTo(((ArticleController)ViewContext.Controller).GetCategoriesByCompanyList())

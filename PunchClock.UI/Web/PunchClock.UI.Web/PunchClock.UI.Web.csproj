@@ -755,6 +755,7 @@
     <Content Include="Views\Article\List.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
     <Content Include="Views\Punch\Report.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ArticleCategoryDropdownList.cshtml" />
     <Content Include="Views\Article\Dashboard.cshtml" />
     <Content Include="Views\Ticket\Dashboard.cshtml" />
   </ItemGroup>

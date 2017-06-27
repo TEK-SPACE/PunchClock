@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Kendo.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using PunchClock.Cms.Contract;
@@ -35,6 +37,7 @@ namespace PunchClock.UI.Web.Controllers
         }
         public ActionResult List()
         {
+            ViewData["ArticleCategory"] = CategoryService.GetArticleCategoriesByCompanyId(OperatingUser.CompanyId);
             return View(new List<Article>());
         }
         public ActionResult Edit(int id)
@@ -88,10 +91,30 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             var articlesList = _articleService.GetArticlesByCompanyId(OperatingUser.CompanyId);
+            IOrderedEnumerable<Article> articles = null;
+            if (request.Sorts.Count > 0)
+            {
+                if (request.Sorts[0].Member.Equals("CategoryId", StringComparison.OrdinalIgnoreCase))
+                    if (request.Sorts[0].SortDirection == System.ComponentModel.ListSortDirection.Ascending)
+                    {
+                        articles = articlesList.OrderBy(x => x.Category.Name);
+                        articlesList = articles.ToList();
+                        request.Sorts = new List<SortDescriptor>();
+
+                    }
+                    else
+                    {
+                        articles = articlesList.OrderByDescending(x => x.Category.Name);
+                        articlesList = articles.ToList();
+                        request.Sorts = new List<SortDescriptor>();
+                    }
+            }
+
             foreach (var article in articlesList)
             {
                 article.Tags = article.Tag.Split(',');
             }
+
             return Json(articlesList.ToDataSourceResult(request));
         }
 
@@ -101,6 +124,16 @@ namespace PunchClock.UI.Web.Controllers
             var article = _articleService.Delete(id);
            return Json(article);
         }
-    
+
+        [HttpGet]
+        public ActionResult Tags()
+        {
+            return Json(TagsService.GetArticleTagsByCompany(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Categories()
+        {
+            return Json(CategoryService.GetArticleCategoriesByCompanyId(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
+        }
     }
 }
