@@ -3,7 +3,7 @@
       .Columns(columns =>
       {
           columns.Bound(c => c.Id);
-          columns.Bound(c => c.Name);
+          columns.Bound(c => c.Name);//.Editable("isEditable(data.IsCoreItem,'" + ViewData["IsSuperAdmin"] + "')");
           columns.Bound(c => c.Description).Width(150);
           columns.Bound(c => c.DisplayOrder);
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
@@ -20,6 +20,7 @@
           toolbar.Save();
       })
       .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Events(events=>events.Edit("onTicketingModuleConfigEdit"))
       .Pageable(pageable => pageable
           .Refresh(true)
           .PageSizes(true)

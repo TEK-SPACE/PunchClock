@@ -77,7 +77,7 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketCategories.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder)
+                return context.TicketCategories.Where(x => x.CompanyId == companyId || x.IsCoreItem).OrderBy(x => x.DisplayOrder)
                     .ToList();
             }
         }
@@ -86,7 +86,7 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketProjects.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder)
+                return context.TicketProjects.Where(x => x.CompanyId == companyId || x.IsCoreItem).OrderBy(x => x.DisplayOrder)
                     .ToList();
             }
         }
@@ -103,7 +103,7 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketTypes.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketTypes.Where(x => x.CompanyId == companyId || x.IsCoreItem).OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 
@@ -111,7 +111,7 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketPriorities.Where(x => x.CompanyId == companyId).OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketPriorities.Where(x => x.CompanyId == companyId || x.IsCoreItem).OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 
@@ -119,7 +119,7 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketStatuses.Where(x=>x.CompanyId == companyId ).OrderBy(x => x.DisplayOrder).ToList();
+                return context.TicketStatuses.Where(x=>x.CompanyId == companyId || x.IsCoreItem).OrderBy(x => x.DisplayOrder).ToList();
             }
         }
 

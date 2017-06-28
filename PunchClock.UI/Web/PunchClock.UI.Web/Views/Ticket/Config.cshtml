@@ -1,19 +1,42 @@
-﻿
-<div class="col-lg-12">
-    <div class="panel panel-success panel-nomargin">
-        <div class="panel-body">Categories</div>
-        @Html.Partial("_ConfigCategory")
-    </div>
-    <div class="panel panel-success panel-nomargin">
-        <div class="panel-body">Priorities</div>
-        @Html.Partial("_ConfigPriority")
-    </div>
-    <div class="panel panel-success panel-nomargin">
-        <div class="panel-body">Types</div>
-        @Html.Partial("_ConfigTypes")
-    </div>
-    <div class="panel panel-success panel-nomargin">
-        <div class="panel-body">Status</div>
-        @Html.Partial("_ConfigStatus")
+﻿@{
+    ViewBag.Title = "Ticketing Module Management";
+}
+<div class="">
+    <div class="panel panel-danger panel-nomargin">
+        <div class="panel-body panel-heading ">Ticketing Module Management</div>
+        @(Html.Kendo().TabStrip()
+              .Name("tabstrip")
+              .Items(tabstrip =>
+              {
+                  tabstrip.Add().Text("Category")
+                      .Selected(true)
+                      .Content(@<text>@Html.Partial("_ConfigCategory")</text>);
+
+                  tabstrip.Add().Text("Status")
+                      .Content(@<text>@Html.Partial("_ConfigStatus")</text>);
+
+                  tabstrip.Add().Text("Type")
+                      .Content(@<text>@Html.Partial("_ConfigTypes")</text>);
+
+                  tabstrip.Add().Text("Priority")
+                      .Content(@<text>@Html.Partial("_ConfigPriority")</text>);
+              }))
     </div>
 </div>
+
+<script>
+    function isEditable(isCoreItem, isSuperAdmin) {
+        console.log("isCoreItem:" + isCoreItem + "\nisSuperAdmin" + isSuperAdmin);
+        return isCoreItem !== true || isCoreItem !== true && isSuperAdmin === true;
+    }
+
+    function onTicketingModuleConfigEdit(e) {
+        var isSuperAdmin = Boolean("@(ViewData["IsSuperAdmin"])");
+        if (!e.model.isNew()) {
+            if (e.model.IsCoreItem && isSuperAdmin) {
+                //var nameField = e.container.find("input[name=Name]").data("kendoTextBox");
+                //nameField.enable(false);
+            }
+        }
+    }
+</script>

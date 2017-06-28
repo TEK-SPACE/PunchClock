@@ -7,6 +7,7 @@ using PunchClock.Cms.Contract;
 using PunchClock.Cms.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
+using PunchClock.Domain.Model.Enum;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
 using PunchClock.Ticketing.Services;
@@ -166,15 +167,11 @@ namespace PunchClock.UI.Web.Controllers
             return Json(_ticketService.GetProjects(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AdminConfig()
-        {
-            return View();
-        }
-
         #region Ticket Category Config
 
         public ActionResult Config()
         {
+            ViewData["IsSuperAdmin"] = OperatingUser.UserTypeId == (int) UserType.SuperAdmin;
             return View();
         }
 
