@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -18,28 +19,30 @@ namespace PunchClock.UI.Web.Controllers
     public class TicketController : BaseController
     {
         private readonly ITicket _ticketService;
-        private readonly IUser _userRepository;
+        private readonly IUser _userService;
         private readonly ICategoryService _categoryService;
         private readonly ITicketCategory _ticketCategoryService;
         private readonly ITicketPriority _ticketPriority;
         private readonly ITicketStatus _ticketStatus;
         private readonly ITicketType _ticketType;
+        private readonly IEmail _emailService;
 
         public TicketController()
         {
             _categoryService = new CategoryService();
             _ticketService = new TicketService();
-            _userRepository = new UserService();
+            _userService = new UserService();
             _ticketCategoryService = new TicketCategoryService();
             _ticketPriority = new TicketPriorityService();
             _ticketStatus = new TicketStatusService();
             _ticketType = new TicketTypeService();
+            _emailService = new Core.Implementation.EmailService();
         }
 
         // GET: Ticket
         public ActionResult List()
         {
-            ViewData["Users"] = _userRepository.All(OperatingUser.CompanyId);
+            ViewData["Users"] = _userService.All(OperatingUser.CompanyId);
             ViewData["TicketCategories"] = _ticketService.GetCategories(OperatingUser.CompanyId);
             ViewData["TicketPriorities"] = _ticketService.GetPriorties(OperatingUser.CompanyId);
             ViewData["TicketProjects"] = _ticketService.GetProjects(OperatingUser.CompanyId);
@@ -63,6 +66,21 @@ namespace PunchClock.UI.Web.Controllers
                 ticket.CreatedById = OperatingUser.Id;
                 ticket.ModifiedById = OperatingUser.Id;
                 _ticketService.Add(ticket);
+               
+                var userIds = ticket.NotifyTo.Split(',').ToList();
+                userIds.Add(ticket.RequestorId);
+                userIds.Add(ticket.AssignedToId);
+                userIds.Add(ticket.CreatedById);
+                if (ticket.NotifyTo.Split(',').Any())
+                {
+                    userIds.AddRange(ticket.NotifyTo.Split(','));
+                }
+                List<string> contributors = _userService.GetEmailsById(userIds.ToArray());
+
+                ticket.LinkToTicketDetails =
+                    $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Edit", "Ticket", new {id = ticket.Id})}";
+                string emailMessage = _ticketService.ComposeTicketCreatedEmail(ticket);
+                _emailService.SendEmail(emailMessage, $"New Ticket: {ticket.Title}", contributors.Distinct().ToArray());
                 if (ticket.Id > 0)
                     return RedirectToAction("Edit", "Ticket", new {id = ticket.Id});
             }

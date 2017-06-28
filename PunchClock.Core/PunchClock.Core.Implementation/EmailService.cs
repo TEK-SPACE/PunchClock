@@ -66,7 +66,7 @@ namespace PunchClock.Core.Implementation
 
         public bool SendEmail(string msgBody, string msgSubject, string[] recipients, bool includeGeo)
         {
-            var appSettings =_appSettingService.GetByModule(moduleId: (int) ModuleType.Core);
+            var appSettings =_appSettingService.GetByModules((int) ModuleType.Core);
 
             MailMessage msg = new MailMessage
             {

@@ -238,7 +238,7 @@ namespace PunchClock.Core.Implementation
 
         public string ComposeRegisteredEmail(CompanyRegister companyRegister)
         {
-            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+            var appSettings = _appSettingService.GetByModules((int)ModuleType.Core);
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreCompanyRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
@@ -279,7 +279,7 @@ namespace PunchClock.Core.Implementation
 
         public string ComposeInviteEmail(EmployeeInvite invite)
         {
-            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+            var appSettings = _appSettingService.GetByModules((int)ModuleType.Core);
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreCompanyInviteEmployeeEmailTemplate, StringComparison.OrdinalIgnoreCase))

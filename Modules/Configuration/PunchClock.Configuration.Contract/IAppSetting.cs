@@ -6,7 +6,7 @@ namespace PunchClock.Configuration.Contract
     public interface IAppSetting
     {
         AppSetting GetById(int id);
-        List<AppSetting> GetByModule(int moduleId);
+        List<AppSetting> GetByModules(params int[] moduleIds);
         List<AppSetting> All();
         AppSetting GetByKey(int moduleId, string keyName);
         int Add(AppSetting appSetting);

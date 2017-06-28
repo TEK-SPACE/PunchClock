@@ -1,16 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using PunchClock.Core.DataAccess;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
 using PunchClock.Domain.Model;
+using PunchClock.Configuration.Contract;
+using PunchClock.Configuration.Model.Constants;
+using PunchClock.Configuration.Service;
+using PunchClock.Domain.Model.Enum;
+using RedandBlue.Common;
+using RedandBlue.Common.Logging;
 
 namespace PunchClock.Ticketing.Services
 {
     public class TicketService : ITicket
     {
+        private readonly IAppSetting _appSettingService;
+
+        public TicketService()
+        {
+            _appSettingService = new AppSettingService();
+        }
         public Ticket Add(Ticket ticket)
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
@@ -95,8 +109,55 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.Tickets.Include(x=>x.CreatedBy).Include(x=>x.Comments).FirstOrDefault(x => x.Id == id);
+                return context.Tickets
+                    .Include(x=>x.CreatedBy)
+                    .Include(x=>x.Requestor)
+                    .Include(x => x.AssignedTo)
+                    .Include(x => x.TicketProject)
+                    .Include(x => x.Status)
+                    .Include(x => x.Type)
+                    .Include(x => x.Priority)
+                    .Include(x => x.Category)
+                    .Include(x=>x.Comments).FirstOrDefault(x => x.Id == id);
             }
+        }
+
+        public string ComposeTicketCreatedEmail(Ticket ticket)
+        {
+            var appSettings = _appSettingService.GetByModules((int)ModuleType.Core, (int)ModuleType.Ticketing);
+
+            var templateName = appSettings
+                .First(x => x.Key.Equals(AppKey.TicketCreateEmailTemplate, StringComparison.OrdinalIgnoreCase))
+                .Value;
+            var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email","Ticket", templateName);
+            if (!File.Exists(emailTemplatePath))
+            {
+                Log.Error($"Template doesnt't exists at {emailTemplatePath}");
+            }
+            else
+            {
+                var ticketLink = ticket.LinkToTicketDetails;
+                ticket = Details(ticket.Id);
+                ticket.LinkToTicketDetails = ticketLink;
+                var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Title#", ticket.Title);
+                emailContent = emailContent.Replace("#Project#", ticket.TicketProject.Name);
+                emailContent = emailContent.Replace("#Priority#", ticket.Priority.Name);
+                emailContent = emailContent.Replace("#Description#", ticket.Description);
+                emailContent = emailContent.Replace("#Status#", ticket.Status.Name);
+                emailContent = emailContent.Replace("#Type#", ticket.Type.Name);
+                emailContent = emailContent.Replace("#Requestor#", ticket.Requestor.DisplayName);
+                emailContent = emailContent.Replace("#AssignedTo#", ticket.AssignedTo.DisplayName);
+                emailContent = emailContent.Replace("#Category#", ticket.Category.Name);
+                emailContent = emailContent.Replace("#DueDate#", ticket.DueDateUtc?.ToString() ?? "");
+                emailContent = emailContent.Replace("#EstimatedEffort#", ticket.EstimatedEffort.ToString("00"));
+                emailContent = emailContent.Replace("#WorkCompleted#", ticket.CompletedWork.ToString("00"));
+                emailContent = emailContent.Replace("#CreatedOn#", ticket.CreatedDateUtc.ToString("F"));
+                emailContent = emailContent.Replace("#CreatedBy#", ticket.CreatedBy.DisplayName);
+                emailContent = emailContent.Replace("#LinkToTicketDetails#", ticket.LinkToTicketDetails);
+                return emailContent;
+            }
+            return string.Empty;
         }
 
         public List<TicketType> GetTypes(int companyId)

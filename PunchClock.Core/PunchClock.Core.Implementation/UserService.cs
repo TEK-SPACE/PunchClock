@@ -307,7 +307,7 @@ namespace PunchClock.Core.Implementation
 
         public string ComposeRegisteredEmail(User user)
         {
-            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+            var appSettings = _appSettingService.GetByModules((int)ModuleType.Core);
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreUserRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
@@ -328,6 +328,14 @@ namespace PunchClock.Core.Implementation
                 return emailContent;
             }
             return string.Empty;
+        }
+
+        public List<string> GetEmailsById(string[] userIds)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                return context.Users.Where(x => userIds.Any(u => x.Id == u)).Select(x => x.Email).ToList();
+            }
         }
     }
 }

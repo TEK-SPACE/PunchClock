@@ -18,5 +18,6 @@ namespace PunchClock.Ticketing.Contracts
         List<TicketType> GetTypes(int companyId);
         List<TicketProject> GetProjects(int companyId);
         Ticket Details(int id);
+        string ComposeTicketCreatedEmail(Ticket ticket);
     }
 }
