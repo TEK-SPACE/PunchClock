@@ -772,6 +772,11 @@
     <Content Include="Views\User\InvalidCode.cshtml" />
     <Content Include="Views\Company\_EmployeeInvite.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EmployeeInviteEdit.cshtml" />
+    <Content Include="Views\Ticket\TicketCategoryConfig.cshtml" />
+    <Content Include="Views\Ticket\TicketTypeConfig.cshtml" />
+    <Content Include="Views\Ticket\TicketStatusConfig.cshtml" />
+    <Content Include="Views\Ticket\TicketPriorityConfig.cshtml" />
+    <Content Include="Views\Ticket\AdminConfig.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

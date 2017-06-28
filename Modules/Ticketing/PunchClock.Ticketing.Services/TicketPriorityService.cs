@@ -12,7 +12,12 @@ namespace PunchClock.Ticketing.Services
     {
         public TicketPriority Add(TicketPriority priority)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                context.TicketPriorities.Add(priority);
+                context.SaveChanges();
+            }
+            return priority;
         }
 
         public AjaxResponse Delete(int Id)
@@ -44,7 +49,18 @@ namespace PunchClock.Ticketing.Services
         }
         public TicketPriority Update(TicketPriority priority)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                var oldPriority = context.TicketPriorities.FirstOrDefault(x => x.Id == priority.Id);
+                if(oldPriority==null)return priority;
+                oldPriority.Name = priority.Name;
+                oldPriority.Description = priority.Description;
+                oldPriority.DisplayOrder = priority.DisplayOrder;
+                oldPriority.ModifiedById = priority.ModifiedById;
+                oldPriority.ModifiedDateUtc=DateTime.UtcNow;
+               context.SaveChanges();
+            }
+            return priority;
         }
     }
 }

@@ -10,9 +10,15 @@ namespace PunchClock.Ticketing.Services
 {
    public class TicketTypeService : ITicketType
     {
-        public TicketStatus Add(TicketStatus status)
+        public TicketType Add(TicketType type)
         {
-            throw new NotImplementedException();
+
+            using (var context = new PunchClockDbContext())
+            {
+                context.TicketTypes.Add(type);
+                context.SaveChanges();
+            }
+            return type;
         }
         public AjaxResponse Delete(int id)
         {
@@ -43,9 +49,20 @@ namespace PunchClock.Ticketing.Services
             }
         }
 
-        public TicketStatus Update(TicketStatus status)
+        public TicketType Update(TicketType type)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                var oldTicketType = context.TicketTypes.FirstOrDefault(x => x.Id == type.Id);
+                if (oldTicketType == null) return type;
+                oldTicketType.Name = type.Name;
+                oldTicketType.Description = type.Description;
+                oldTicketType.DisplayOrder = type.DisplayOrder;
+                oldTicketType.ModifiedById = type.ModifiedById;
+                oldTicketType.ModifiedDateUtc = DateTime.UtcNow;
+                context.SaveChanges();
+            }
+            return type;
         }
     }
 }

@@ -12,7 +12,12 @@ namespace PunchClock.Ticketing.Services
     {
         public TicketStatus Add(TicketStatus status)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                context.TicketStatuses.Add(status);
+                context.SaveChanges();
+            }
+            return status;
         }
 
         public AjaxResponse Delete(int id)
@@ -22,7 +27,18 @@ namespace PunchClock.Ticketing.Services
 
         public TicketStatus Update(TicketStatus status)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                var oldTicketStatus = context.TicketStatuses.FirstOrDefault(x => x.Id == status.Id);
+                if (oldTicketStatus == null) return status;
+                oldTicketStatus.Name = status.Name;
+                oldTicketStatus.Description = status.Description;
+                oldTicketStatus.DisplayOrder = status.DisplayOrder;
+                oldTicketStatus.ModifiedById = status.ModifiedById;
+                oldTicketStatus.ModifiedDateUtc = DateTime.UtcNow;
+               context.SaveChanges();
+            }
+            return status;
         }
 
         public TicketStatus GetTicketStatusById(int id)

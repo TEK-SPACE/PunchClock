@@ -13,7 +13,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             var articleCategories = new List<ArticleCategory>
             {
                 new ArticleCategory
-                {
+                { Id = 1,
                    Name = "SuperAdmin",
                     Description = "",
                     CreatedDateUtc = DateTime.UtcNow,
@@ -23,7 +23,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     CompanyId = context.Companies.First().Id
                 },
                 new ArticleCategory
-                {
+                {Id = 2,
                     Name = "RBTek",
                     Description = "",
                    CreatedDateUtc = DateTime.UtcNow,
@@ -34,7 +34,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                 }
                 ,
                 new ArticleCategory
-                {
+                {Id = 3,
                     Name = "CMS",
                     Description = "",
                     CreatedDateUtc = DateTime.UtcNow,
@@ -46,6 +46,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                  ,
                 new ArticleCategory
                 {
+                    Id = 4,
                     Name = "Ticketing",
                     Description = "",
                      CreatedDateUtc = DateTime.UtcNow,
