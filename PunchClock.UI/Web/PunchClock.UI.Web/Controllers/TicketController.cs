@@ -162,7 +162,10 @@ namespace PunchClock.UI.Web.Controllers
         {
             return Json(_ticketService.GetProjects(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
-
+        public ActionResult AdminConfig()
+        {
+            return View();
+        }
         #region Ticket Category COnfig
 
         public ActionResult TicketCategoryConfig()

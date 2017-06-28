@@ -1,0 +1,17 @@
+﻿@(Html.Kendo().TabStrip()
+        .Name("tabstrip")
+        .Items(tabstrip =>
+        {
+        tabstrip.Add().Text("Category")
+                .Selected(true)
+                   .Content(@<text>@Html.Action("TicketCategoryConfig", "Ticket", new { vm = Model })</text>);
+
+tabstrip.Add().Text("Status")
+         .Content(@<text>@Html.Action("TicketStatusConfig", "Ticket", new { vm = Model })</text>);
+
+tabstrip.Add().Text("Type")
+    .Content(@<text>@Html.Action("TicketTypeConfig", "Ticket", new { vm = Model })</text>);
+
+tabstrip.Add().Text("Priority")
+ .Content(@<text>@Html.Action("TicketPriorityConfig", "Ticket", new { vm = Model })</text>);
+        }))
