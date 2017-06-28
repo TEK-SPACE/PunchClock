@@ -56,7 +56,12 @@ namespace PunchClock.Ticketing.Services
         //}
         public TicketCategory Add(TicketCategory category)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                context.TicketCategories.Add(category);
+                context.SaveChanges();
+            }
+            return category;
         }
 
         public AjaxResponse Delete(int id)
@@ -90,7 +95,18 @@ namespace PunchClock.Ticketing.Services
 
         public TicketCategory Update(TicketCategory category)
         {
-            throw new NotImplementedException();
+            using (var context = new PunchClockDbContext())
+            {
+                var oldCategory = context.TicketCategories.FirstOrDefault(x => x.Id == category.Id);
+                if (oldCategory == null) return category;
+                oldCategory.IsDeleted = false;
+                oldCategory.Name = category.Name;
+                oldCategory.Description = category.Description;
+                oldCategory.ModifiedById = category.ModifiedById;
+                oldCategory.ModifiedDateUtc = DateTime.UtcNow;
+                context.SaveChanges();
+            }
+            return category;
         }
     }
 }

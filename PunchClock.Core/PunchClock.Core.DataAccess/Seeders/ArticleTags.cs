@@ -17,6 +17,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             {
                 new ArticleTag
                 {
+                    Id = 1,
                    Name = "Home",
                     Description = "",
                      CreatedDateUtc = DateTime.UtcNow,
@@ -27,20 +28,22 @@ namespace PunchClock.Core.DataAccess.Seeders
                 },
                 new ArticleTag
                 {
+                    Id = 2,
                     Name = "Social",
                     Description = "",
-                  CreatedDateUtc = DateTime.UtcNow,
+                    CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
-                       CompanyId = context.Companies.First().Id
+                    CompanyId = context.Companies.First().Id
                 }
                 ,
                 new ArticleTag
                 {
+                    Id = 3,
                     Name = "Fashion",
                     Description = "",
-                     CreatedDateUtc = DateTime.UtcNow,
+                    CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,
@@ -49,9 +52,10 @@ namespace PunchClock.Core.DataAccess.Seeders
                  ,
                 new ArticleTag
                 {
+                    Id = 4,
                     Name = "Technology",
                     Description = "",
-                 CreatedDateUtc = DateTime.UtcNow,
+                    CreatedDateUtc = DateTime.UtcNow,
                     CreatedBy = null,
                     ModifiedById = null,
                     ModifiedDateUtc = DateTime.UtcNow,

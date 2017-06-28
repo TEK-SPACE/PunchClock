@@ -758,6 +758,10 @@
     <Content Include="Views\Shared\EditorTemplates\ArticleCategoryDropdownList.cshtml" />
     <Content Include="Views\Article\Dashboard.cshtml" />
     <Content Include="Views\Ticket\Dashboard.cshtml" />
+    <Content Include="Views\Ticket\TicketCategoryConfig.cshtml" />
+    <Content Include="Views\Ticket\TicketTypeConfig.cshtml" />
+    <Content Include="Views\Ticket\TicketStatusConfig.cshtml" />
+    <Content Include="Views\Ticket\TicketPriorityConfig.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

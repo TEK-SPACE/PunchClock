@@ -5,8 +5,8 @@ namespace PunchClock.Ticketing.Contracts
 {
    public interface ITicketType
     {
-        TicketStatus Add(TicketStatus status);
-        TicketStatus Update(TicketStatus status);
+        TicketType Add(TicketType status);
+        TicketType Update(TicketType status);
         AjaxResponse Delete(int id);
 
         TicketType GetTicketTypeById(int id);

@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Kendo.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using PunchClock.Cms.Contract;
+using PunchClock.Cms.Model;
+using PunchClock.Cms.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
 using PunchClock.Ticketing.Contracts;
@@ -17,11 +21,20 @@ namespace PunchClock.UI.Web.Controllers
     {
         private readonly ITicket _ticketService;
         private readonly IUser _userRepository;
-
+        private readonly ICategoryService _categoryService;
+        private readonly ITicketCategory _ticketCategoryService;
+        private readonly ITicketPriority _ticketPriority;
+        private readonly ITicketStatus _ticketStatus;
+        private readonly ITicketType _ticketType;
         public TicketController()
         {
+            _categoryService = new CategoryService();
             _ticketService = new TicketService();
             _userRepository = new UserService();
+            _ticketCategoryService=new TicketCategoryService();
+            _ticketPriority=new TicketPriorityService();
+            _ticketStatus=new TicketStatusService();
+            _ticketType=new TicketTypeService();
         }
         // GET: Ticket
         public ActionResult List()
@@ -165,5 +178,146 @@ namespace PunchClock.UI.Web.Controllers
         {
             return Json(_ticketService.GetProjects(companyId: OperatingUser.CompanyId), JsonRequestBehavior.AllowGet);
         }
+
+        #region Ticket Category COnfig
+
+        public ActionResult TicketCategoryConfig()
+        {
+            return View(new List<TicketCategory>());
+        }
+        public ActionResult ReadCategory([DataSourceRequest] DataSourceRequest request)
+        {
+            var articlesList = _ticketCategoryService.GetCategoryByCompanyIdList(OperatingUser.CompanyId);
+
+            return Json(articlesList.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult AddCategory([DataSourceRequest] DataSourceRequest request, TicketCategory category)
+        {
+            category.CompanyId = OperatingUser.CompanyId;
+            category.CreatedById = OperatingUser.Id;
+            category.ModifiedById = OperatingUser.Id;
+            _ticketCategoryService.Add(category);
+            return Json(new[] { category }.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult UpdateCategory([DataSourceRequest] DataSourceRequest request, TicketCategory category)
+        {
+
+            category.CompanyId = OperatingUser.CompanyId;
+            category.CreatedById = OperatingUser.Id;
+            category.ModifiedById = OperatingUser.Id;
+            _ticketCategoryService.Update(category);
+
+            return Json(new[] { category }.ToDataSourceResult(request));
+        }
+   
+        #endregion
+
+        #region Ticket Priority COnfig
+
+        public ActionResult TicketPriorityConfig()
+        {
+            return View(new List<TicketPriority>());
+        }
+        public ActionResult ReadPriority([DataSourceRequest] DataSourceRequest request)
+        {
+            var articlesList = _ticketPriority.GetPriorityByCompanyIdList(OperatingUser.CompanyId);
+
+            return Json(articlesList.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult AddPriority([DataSourceRequest] DataSourceRequest request, TicketPriority ticketPriority)
+        {
+            ticketPriority.CompanyId = OperatingUser.CompanyId;
+            ticketPriority.CreatedById = OperatingUser.Id;
+            ticketPriority.ModifiedById = OperatingUser.Id;
+            _ticketPriority.Add(ticketPriority);
+            return Json(new[] { ticketPriority }.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult UpdatePriority([DataSourceRequest] DataSourceRequest request, TicketPriority ticketPriority)
+        {
+
+            ticketPriority.CompanyId = OperatingUser.CompanyId;
+            ticketPriority.CreatedById = OperatingUser.Id;
+            ticketPriority.ModifiedById = OperatingUser.Id;
+            _ticketPriority.Update(ticketPriority);
+
+            return Json(new[] { ticketPriority }.ToDataSourceResult(request));
+        }
+
+
+        #endregion
+
+        #region Ticket Status Config
+
+        public ActionResult TicketStatusConfig()
+        {
+            return View(new List<TicketStatus>());
+        }
+        public ActionResult ReadStatus([DataSourceRequest] DataSourceRequest request)
+        {
+            var articlesList = _ticketStatus.GetStatusByCompanyIdList(OperatingUser.CompanyId);
+
+            return Json(articlesList.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult AddStatus([DataSourceRequest] DataSourceRequest request, TicketStatus ticketStatus)
+        {
+            ticketStatus.CompanyId = OperatingUser.CompanyId;
+            ticketStatus.CreatedById = OperatingUser.Id;
+            ticketStatus.ModifiedById = OperatingUser.Id;
+            _ticketStatus.Add(ticketStatus);
+            return Json(new[] { ticketStatus }.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult UpdateStatus([DataSourceRequest] DataSourceRequest request, TicketStatus ticketStatus)
+        {
+
+            ticketStatus.CompanyId = OperatingUser.CompanyId;
+            ticketStatus.CreatedById = OperatingUser.Id;
+            ticketStatus.ModifiedById = OperatingUser.Id;
+            _ticketStatus.Update(ticketStatus);
+            return Json(new[] { ticketStatus }.ToDataSourceResult(request));
+        }
+
+
+        #endregion
+
+        #region Ticket Type Config
+
+        public ActionResult TicketTypeConfig()
+        {
+            return View(new List<TicketType>());
+        }
+        public ActionResult ReadType([DataSourceRequest] DataSourceRequest request)
+        {
+            var articlesList = _ticketType.GetTickettypeByCompanyIdList(OperatingUser.CompanyId);
+
+            return Json(articlesList.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult AddType([DataSourceRequest] DataSourceRequest request,TicketType ticketType)
+        {
+            ticketType.CompanyId = OperatingUser.CompanyId;
+            ticketType.CreatedById = OperatingUser.Id;
+            ticketType.ModifiedById = OperatingUser.Id;
+            _ticketType.Add(ticketType);
+            return Json(new [] {ticketType}.ToDataSourceResult(request));
+        }
+        [HttpPost]
+        public ActionResult UpdateType([DataSourceRequest] DataSourceRequest request, TicketType ticketType)
+        {
+
+            ticketType.CompanyId = OperatingUser.CompanyId;
+            ticketType.CreatedById = OperatingUser.Id;
+            ticketType.ModifiedById = OperatingUser.Id;
+            _ticketType.Update(ticketType);
+            return Json(new[] { ticketType }.ToDataSourceResult(request));
+        }
+
+
+        #endregion
     }
 }
