@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
@@ -201,7 +202,10 @@ namespace PunchClock.Ticketing.Services
                 entity.AssignedToId = ticket.AssignedToId;
                 entity.NotifyTo = ticket.NotifyTo;
                 entity.CategoryId = ticket.CategoryId;
-                if(ticket.DueDateUtc.HasValue)
+                entity.EstimatedEffort = ticket.EstimatedEffort;
+                entity.CompletedWork = ticket.CompletedWork;
+                //entity.DueDateUtc = ticket.DueDateUtc;
+                if (ticket.DueDateUtc.HasValue)
                     entity.DueDateUtc = ticket.DueDateUtc.Value.ToUniversalTime();
                 if (ticket.Comments != null && ticket.Comments.Any())
                     context.TicketComments.AddOrUpdate(ticket.Comments.ToArray());

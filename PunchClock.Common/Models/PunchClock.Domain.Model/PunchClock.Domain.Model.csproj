@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="AjaxResponse.cs" />
+    <Compile Include="ChangeLog.cs" />
     <Compile Include="CommonEntity.cs" />
     <Compile Include="CompanyLanguage.cs" />
     <Compile Include="CompanyRegister.cs" />
