@@ -27,7 +27,9 @@ namespace PunchClock.Core.DataAccess.Seeders
                 new AppSetting {Id =12, GlobalId = Guid.NewGuid(), IsPrivate = false,ModuleId = (int) ModuleType.Core, Key = AppKey.CoreUserRegisteredEmailTemplate, Value = "UserRegistered.html", ValueType = KeyValueType.String,  Description = "You can edit email template from file system", IsEditable = true},
 
 
-                new AppSetting {Id =13, GlobalId = Guid.NewGuid(), IsPrivate = false,ModuleId = (int) ModuleType.Ticketing, Key = AppKey.TicketCreateEmailTemplate, Value = "CreatedNew.html", ValueType = KeyValueType.String,  Description = "You can edit email template from file system", IsEditable = true}
+                new AppSetting {Id =13, GlobalId = Guid.NewGuid(), IsPrivate = false,ModuleId = (int) ModuleType.Ticketing, Key = AppKey.TicketCreateEmailTemplate, Value = "CreatedNew.html", ValueType = KeyValueType.String,  Description = "You can edit email template from file system", IsEditable = true},
+                new AppSetting {Id =14, GlobalId = Guid.NewGuid(), IsPrivate = false,ModuleId = (int) ModuleType.Ticketing, Key = AppKey.TicketEditEmailTemplate, Value = "Update.html", ValueType = KeyValueType.String,  Description = "You can edit email template from file system", IsEditable = true}
+
 
 
             };

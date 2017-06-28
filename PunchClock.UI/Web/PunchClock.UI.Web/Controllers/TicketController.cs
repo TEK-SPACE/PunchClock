@@ -8,10 +8,11 @@ using PunchClock.Cms.Contract;
 using PunchClock.Cms.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
-using PunchClock.Domain.Model.Enum;
+using PunchClock.Domain.Model;
 using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
 using PunchClock.Ticketing.Services;
+using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.UI.Web.Controllers
 {
@@ -114,8 +115,25 @@ namespace PunchClock.UI.Web.Controllers
                     TicketId = ticket.Id
                 });
             }
-            _ticketService.Update(ticket);
+            var changes = new List<ChangeLog>();
+            _ticketService.Update(ticket, ref changes);
             ticket = _ticketService.Details(ticket.Id);
+
+            var userIds = ticket.NotifyTo.Split(',').ToList();
+            userIds.Add(ticket.RequestorId);
+            userIds.Add(ticket.AssignedToId);
+            userIds.Add(ticket.CreatedById);
+            if (ticket.NotifyTo.Split(',').Any())
+            {
+                userIds.AddRange(ticket.NotifyTo.Split(','));
+            }
+            List<string> contributors = _userService.GetEmailsById(userIds.ToArray());
+
+            ticket.LinkToTicketDetails =
+                $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Edit", "Ticket", new { id = ticket.Id })}";
+            string emailMessage = _ticketService.ComposeTicketEditEmail(ticket, changes);
+            _emailService.SendEmail(emailMessage, $"Ticket Updated: {ticket.Title}", contributors.Distinct().ToArray());
+
             return View(ticket);
         }
 
@@ -138,7 +156,8 @@ namespace PunchClock.UI.Web.Controllers
             {
                 ticket.ModifiedById = OperatingUser.Id;
                 ticket.ModifiedDateUtc = DateTime.UtcNow;
-                _ticketService.Update(ticket);
+                var changes = new List<ChangeLog>();
+                _ticketService.Update(ticket, ref changes);
             }
             return Json(new[] {ticket}.ToDataSourceResult(request, ModelState));
         }

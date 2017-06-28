@@ -105,6 +105,14 @@ namespace PunchClock.Core.DataAccess
 
         public override int SaveChanges()
         {
+            List<ChangeLog> logs = GetEntityChanges();
+            ChangeLogs.AddRange(logs);
+            return base.SaveChanges();
+        }
+
+        public virtual List<ChangeLog> GetEntityChanges()
+        {
+            List<ChangeLog> logs = new List<ChangeLog>();
             var modifiedEntities = ChangeTracker.Entries()
                 .Where(p => p.State == EntityState.Modified).ToList();
             var now = DateTime.UtcNow;
@@ -116,8 +124,8 @@ namespace PunchClock.Core.DataAccess
 
                 foreach (var prop in change.OriginalValues.PropertyNames)
                 {
-                    var originalValue = change.OriginalValues[prop]?.ToString()??string.Empty;
-                    var currentValue = change.CurrentValues[prop]?.ToString()??string.Empty;
+                    var originalValue = change.OriginalValues[prop]?.ToString() ?? string.Empty;
+                    var currentValue = change.CurrentValues[prop]?.ToString() ?? string.Empty;
                     if (originalValue != currentValue)
                     {
                         ChangeLog log = new ChangeLog
@@ -129,12 +137,13 @@ namespace PunchClock.Core.DataAccess
                             NewValue = currentValue,
                             DateChanged = now
                         };
-                        ChangeLogs.Add(log);
+                        logs.Add(log);
                     }
                 }
             }
-            return base.SaveChanges();
+            return logs;
         }
+
         object GetPrimaryKeyValue(DbEntityEntry entry)
         {
             var objectStateEntry = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
