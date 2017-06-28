@@ -13,7 +13,6 @@ namespace PunchClock.Ticketing.Contracts
         TicketCategory GetTicketCategoryId(int id);
         List<TicketCategory> GetAllTicketCategry();
         List<TicketCategory> GetCategoryByCompanyIdList(int companyId);
-
-
+        void Delete(TicketCategory category);
     }
 }

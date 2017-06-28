@@ -769,14 +769,16 @@
     <Content Include="Views\Shared\EditorTemplates\ArticleCategoryDropdownList.cshtml" />
     <Content Include="Views\Article\Dashboard.cshtml" />
     <Content Include="Views\Ticket\Dashboard.cshtml" />
-    <Content Include="Views\User\InvalidCode.cshtml" />
+    <Content Include="Views\User\InvalidInvite.cshtml" />
     <Content Include="Views\Company\_EmployeeInvite.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EmployeeInviteEdit.cshtml" />
-    <Content Include="Views\Ticket\TicketCategoryConfig.cshtml" />
-    <Content Include="Views\Ticket\TicketTypeConfig.cshtml" />
-    <Content Include="Views\Ticket\TicketStatusConfig.cshtml" />
-    <Content Include="Views\Ticket\TicketPriorityConfig.cshtml" />
+    <Content Include="Views\Ticket\Config.cshtml" />
+    <Content Include="Views\Ticket\_ConfigTypes.cshtml" />
+    <Content Include="Views\Ticket\_ConfigStatus.cshtml" />
+    <Content Include="Views\Ticket\_ConfigPriority.cshtml" />
     <Content Include="Views\Ticket\AdminConfig.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UserTypeDropdownList.cshtml" />
+    <Content Include="Views\Ticket\_ConfigCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

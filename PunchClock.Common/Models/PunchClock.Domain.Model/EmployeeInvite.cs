@@ -8,11 +8,17 @@ namespace PunchClock.Domain.Model
     {
         [Key]
         public int Id { get; set; }
+
+        public string GlobalId { get; set; } = Guid.NewGuid().ToString("D");
         public string Name { get; set; }
         [EmailAddress]//[Index(IsUnique = true)]
         public string Email { get; set; }
         public string InvitedBy { get; set; }
         public int CompanyId { get; set; }
+        public int UserTypeId { get; set; }
+        [ForeignKey("UserTypeId")]
+        public virtual UserType UserType { get; set; }
+        [ForeignKey("CompanyId")]
         [NotMapped][ScaffoldColumn(false)]
         public string LinkToRegister { get; set; }
         [ForeignKey("CompanyId")]

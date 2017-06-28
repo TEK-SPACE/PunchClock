@@ -309,11 +309,22 @@ namespace PunchClock.Core.Implementation
             }
         }
 
-        public void Invite(EmployeeInvite invite)
+        public string Invite(EmployeeInvite invite)
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
                 context.EmployeeInvites.AddOrUpdate(invite);
+                return invite.GlobalId;
+            }
+        }
+
+        public EmployeeInvite ByInviteKey(string id)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                var invite = context.EmployeeInvites.Include(x => x.Company)
+                    .FirstOrDefault(x => x.GlobalId == id && !x.InviteRevoked);
+                return invite;
             }
         }
     }

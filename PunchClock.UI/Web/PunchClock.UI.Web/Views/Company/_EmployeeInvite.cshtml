@@ -5,6 +5,7 @@
           columns.Bound(c => c.Id).Hidden();
           columns.Bound(c => c.Name).Groupable(false);
           columns.Bound(c => c.Email).Groupable(false).Width(150);
+          columns.Bound(c => c.UserTypeId).ClientGroupHeaderTemplate("#: getUserType(value) #").EditorTemplateName("UserTypeDropdownList").ClientTemplate("#: UserType.Description #"); 
           columns.Bound(c => c.InvitationDateUtc).Format("{0:dd/MM/yyyy}").Title("Invitation Date").HtmlAttributes(new { @class = "utc-date" });
           columns.Bound(c => c.InvitedBy);
           columns.Bound(c => c.IsRegistered).Groupable(false);
@@ -49,6 +50,14 @@
 )
 
 <script>
+
+    function getUserType(typeId) {
+        var users = @Html.Raw(Json.Encode(ViewData["UserTypes"]));
+        var result = users.filter(function( obj ) {
+            return obj.Id === typeId;
+        });
+        return result[0].DisplayName;
+    }
     function gridErrorHandler(e) {
         if (e.errors) {
             var message = "Errors:\n";

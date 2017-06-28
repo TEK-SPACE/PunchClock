@@ -12,5 +12,6 @@ namespace PunchClock.Ticketing.Contracts
         TicketType GetTicketTypeById(int id);
         List<TicketType> GetAllTicketType();
         List<TicketType> GetTickettypeByCompanyIdList(int companyId);
+        void Delete(TicketType ticketType);
     }
 }

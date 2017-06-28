@@ -1,7 +1,4 @@
-﻿@using PunchClock.Domain.Model
-
-@model IEnumerable<PunchClock.Ticketing.Model.TicketCategory>
-@(Html.Kendo().Grid(Model)
+﻿@(Html.Kendo().Grid<PunchClock.Ticketing.Model.TicketCategory>()
       .Name("CategoryGrid")
       .Columns(columns =>
       {
@@ -11,7 +8,7 @@
           columns.Bound(c => c.DisplayOrder);
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
-        
+
       })
       .HtmlAttributes(new { style = "height: 550px;" })
       .Scrollable()
@@ -22,7 +19,7 @@
           toolbar.Create();
           toolbar.Save();
       })
-      .Editable(editable => editable.Mode(GridEditMode.InCell    ))
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable(pageable => pageable
           .Refresh(true)
           .PageSizes(true)
@@ -44,6 +41,6 @@
           .Read(read => read.Action("ReadCategory", "Ticket"))
           .Create(update => update.Action("AddCategory", "Ticket"))
           .Update(update => update.Action("UpdateCategory", "Ticket"))
-        //  .Destroy(update => update.Action("DeleteCategory", "Ticket"))
+          .Destroy(update => update.Action("DeleteCategory", "Ticket"))
           .PageSize(20)
       ))

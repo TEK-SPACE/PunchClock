@@ -196,6 +196,7 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
+            ViewData["UserTypes"] = _userService.GetTypes();
             return View(_companyService.Get(id));
         }
 
@@ -331,8 +332,11 @@ namespace PunchClock.UI.Web.Controllers
             {
                 invite.CompanyId = OperatingUser.CompanyId;
                 invite.InvitedBy = OperatingUser.DisplayName;
-                invite.LinkToRegister = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Register", "User", new { code = OperatingUser.RegistrationCode })}";
-                _companyService.Invite(invite);
+
+                invite.GlobalId = _companyService.Invite(invite);
+
+                invite.LinkToRegister = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Register", "User", new { id = invite.GlobalId })}";
+
                 string emailMessage = _companyService.ComposeInviteEmail(invite);
                 _emailService.SendEmail(emailMessage, "Invite", new[] { invite.Email });
             }
