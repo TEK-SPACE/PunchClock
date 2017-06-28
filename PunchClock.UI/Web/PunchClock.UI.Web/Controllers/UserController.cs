@@ -70,7 +70,8 @@ namespace PunchClock.UI.Web.Controllers
                 LastActivityIp = UserSession.IpAddress,
                 LastActiveMacAddress = UserSession.MacAddress,
                 RegistrationCode = invite.Company.RegisterCode,
-                UserTypeId = invite.UserTypeId
+                UserTypeId = invite.UserTypeId,
+                Email = invite.Email
             };
             return View(user);
         }

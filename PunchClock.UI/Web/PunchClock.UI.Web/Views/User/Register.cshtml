@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.Email).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.Email, title = RegistrationTooltip.Email })
+                        @Html.Kendo().TextBoxFor(x => x.Email).HtmlAttributes(new { @class = "form-control", @readonly=  "readonly", placeholder = RegistrationPlacehoder.Email, title = RegistrationTooltip.Email })
                         @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-lg-6">
