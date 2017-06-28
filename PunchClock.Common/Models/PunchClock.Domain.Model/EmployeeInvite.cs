@@ -15,10 +15,12 @@ namespace PunchClock.Domain.Model
         public string Email { get; set; }
         public string InvitedBy { get; set; }
         public int CompanyId { get; set; }
+        [Display(Name = "User Type")]
         public int UserTypeId { get; set; }
+
         [ForeignKey("UserTypeId")]
-        public virtual UserType UserType { get; set; }
-        [ForeignKey("CompanyId")]
+        public virtual UserType UserType { get; set; } = new UserType();
+       
         [NotMapped][ScaffoldColumn(false)]
         public string LinkToRegister { get; set; }
         [ForeignKey("CompanyId")]

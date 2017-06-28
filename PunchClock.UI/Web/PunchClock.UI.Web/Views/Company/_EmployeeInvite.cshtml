@@ -5,7 +5,7 @@
           columns.Bound(c => c.Id).Hidden();
           columns.Bound(c => c.Name).Groupable(false);
           columns.Bound(c => c.Email).Groupable(false).Width(150);
-          columns.Bound(c => c.UserTypeId).ClientGroupHeaderTemplate("#: getUserType(value) #").EditorTemplateName("UserTypeDropdownList").ClientTemplate("#: UserType.Description #"); 
+          columns.Bound(c => c.UserTypeId).ClientGroupHeaderTemplate("#: getUserType(value) #").EditorTemplateName("UserTypeDropdownList");//.ClientTemplate("#: UserType.Description #"); 
           columns.Bound(c => c.InvitationDateUtc).Format("{0:dd/MM/yyyy}").Title("Invitation Date").HtmlAttributes(new { @class = "utc-date" });
           columns.Bound(c => c.InvitedBy);
           columns.Bound(c => c.IsRegistered).Groupable(false);
@@ -42,8 +42,8 @@
               model.Field(x => x.InvitationDateUtc).Editable(false);
               model.Field(x => x.InviteRevoked).Editable(false);
           })
-          .Create(update => update.Action("Invite", "Company"))
           .Read(read => read.Action("Invites", "Company"))
+          .Create(update => update.Action("Invite", "Company"))
           .Update(update => update.Action("UpdateInvite", "Company"))
           .Destroy(update => update.Action("DeleteInvite", "Company"))
       )
@@ -52,11 +52,11 @@
 <script>
 
     function getUserType(typeId) {
-        var users = @Html.Raw(Json.Encode(ViewData["UserTypes"]));
-        var result = users.filter(function( obj ) {
+        var userTypes = @Html.Raw(Json.Encode(ViewData["UserTypes"]));
+        var result = userTypes.filter(function( obj ) {
             return obj.Id === typeId;
         });
-        return result[0].DisplayName;
+        return result[0].Discription;
     }
     function gridErrorHandler(e) {
         if (e.errors) {

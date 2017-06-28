@@ -1,1 +1,19 @@
-﻿@Html.Partial("_ConfigCategory")
+﻿
+<div class="col-lg-12">
+    <div class="panel panel-success panel-nomargin">
+        <div class="panel-body">Categories</div>
+        @Html.Partial("_ConfigCategory")
+    </div>
+    <div class="panel panel-success panel-nomargin">
+        <div class="panel-body">Priorities</div>
+        @Html.Partial("_ConfigPriority")
+    </div>
+    <div class="panel panel-success panel-nomargin">
+        <div class="panel-body">Types</div>
+        @Html.Partial("_ConfigTypes")
+    </div>
+    <div class="panel panel-success panel-nomargin">
+        <div class="panel-body">Status</div>
+        @Html.Partial("_ConfigStatus")
+    </div>
+</div>

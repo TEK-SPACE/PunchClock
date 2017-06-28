@@ -24,5 +24,6 @@ namespace PunchClock.Domain.Model
         public virtual SiteMap Parent { get; set; }
         public List<SiteMap> Children { get; set; } = new List<SiteMap>();
         public virtual ICollection<MenuUserAccess> UserAccesses { get; set; }
+        public bool IsCoreItem { get; set; } = true;
     }
 }

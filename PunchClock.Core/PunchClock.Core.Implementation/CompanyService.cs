@@ -232,7 +232,7 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId)).ToList();
+                return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null && (x.IsCoreItem || x.CompanyId == companyId)).ToList();
             }
         }
 
@@ -265,7 +265,7 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.EmployeeInvites.Where(x => x.CompanyId == companyId).ToList();
+                return context.EmployeeInvites.Include(x=>x.UserType).Where(x => x.CompanyId == companyId).ToList();
             }
         }
 
@@ -293,6 +293,7 @@ namespace PunchClock.Core.Implementation
             {
                 var emailContent = File.ReadAllText(emailTemplatePath);
                 emailContent = emailContent.Replace("#Name#", invite.Name);
+                emailContent = emailContent.Replace("#CreatedBy#", invite.InvitedBy);
                 emailContent = emailContent.Replace("#Email#", invite.Email);
                 emailContent = emailContent.Replace("#LinkToRegister#", invite.LinkToRegister);
                 return emailContent;
@@ -313,7 +314,10 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
+                invite.GlobalId = Guid.NewGuid().ToString("D");
+                invite.UserType = context.UserTypes.FirstOrDefault(x => x.Id == invite.UserTypeId);
                 context.EmployeeInvites.AddOrUpdate(invite);
+                context.SaveChanges();
                 return invite.GlobalId;
             }
         }

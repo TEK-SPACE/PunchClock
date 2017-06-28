@@ -1,5 +1,5 @@
 ﻿@(Html.Kendo().Grid<PunchClock.Ticketing.Model.TicketCategory>()
-      .Name("CategoryGrid")
+      .Name("TicketCategoryGrid")
       .Columns(columns =>
       {
           columns.Bound(c => c.Id);
@@ -10,7 +10,7 @@
           columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
 
       })
-      .HtmlAttributes(new { style = "height: 550px;" })
+      //.HtmlAttributes(new { style = "height: 550px;" })
       .Scrollable()
       .Groupable()
       .Sortable()

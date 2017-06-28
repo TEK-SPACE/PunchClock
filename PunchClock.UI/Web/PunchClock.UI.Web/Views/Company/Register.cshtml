@@ -7,59 +7,15 @@
 }
 
 @using (Html.BeginForm("Register", "Company", null, FormMethod.Post,
-new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
+            new { enctype = "multipart/form-data", @class = "form-horizontal" }))
 {
-    <div class="col-lg-12 form-horizontal">
-        <div class="panel panel-success panel-nomargin">
-            <div class="panel-body">Company Details</div>
-        </div>
-        <div class="well">
-            <fieldset>
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.Company.Name).HtmlAttributes(new {@class = "form-control", placeholder= RegistrationPlacehoder.CompanyName, title = RegistrationTooltip.CompanyName})
-                        @Html.ValidationMessageFor(x => x.Company.Name, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.Company.RegisterCode).Value(registrationCode).HtmlAttributes(new {@class = "form-control", @readonly = "readonly", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode})
-                        @Html.ValidationMessageFor(x => x.Company.Name, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-12">
-                        @Html.Kendo().EditorFor(x => x.Company.Summary).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.CompanySummary, title = RegistrationTooltip.CompanySummary })
-                        @Html.ValidationMessageFor(x => x.Company.Summary, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-6">
-                        @Html.Kendo().Upload().Multiple(false).Validation(x=>x.AllowedExtensions(new [] {".gif",".jpg",".png"}).MaxFileSize(3145728)).Name("logo").HtmlAttributes(new {id = "fileUploader", @class = "form-control", placeholder = RegistrationPlacehoder.CompanyLogo, title = RegistrationTooltip.CompanyLogo })
-                        @Html.ValidationMessageFor(x => x.Company.LogoUrl, "", new {@class = "text-danger"})
-                    </div>
-                    <div class="col-lg-6">
-                        @(Html.Kendo().NumericTextBoxFor(x=>x.Company.DeltaPunchTime)
-                              .Format("0")
-                              .Min(0)
-                              .Max(30)
-                              .Step(5)
-                              .Value(5)
-                              .HtmlAttributes(new {@class = "", style = "width: 100%", title = RegistrationTooltip.CompanyPunchDelta}).Placeholder(RegistrationPlacehoder.CompanyPunchDelta))
-                        @Html.ValidationMessageFor(x => x.Company.DeltaPunchTime, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-    </div>
-
     <div class="col-lg-12 form-horizontal">
         <div class="panel panel-success panel-nomargin">
             <div class="panel-body">User Details</div>
         </div>
         <div class="well">
             <fieldset>
-             
+
 
                 <div class="form-group">
                     <div class="col-lg-6">
@@ -100,12 +56,57 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
                     </div>
                     <div class="col-lg-6">
                         @Html.Kendo().ComboBoxFor(x => x.CreatedBy.UserTypeId).Value(Convert.ToString((int)PunchClock.Domain.Model.Enum.UserType.CompanyAdmin)).DataSource(x => x.Read("Types", "User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new { @class = "form-control", title = RegistrationTooltip.UserType, @readonly = "readonly" }).Placeholder(RegistrationPlacehoder.UserType)
-                        @Html.ValidationMessageFor(x => x.CreatedBy.UserTypeId, "", new { @class = "text-danger"})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.UserTypeId, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </fieldset>
         </div>
     </div>
+
+    <div class="col-lg-12 form-horizontal">
+        <div class="panel panel-success panel-nomargin">
+            <div class="panel-body">Company Details</div>
+        </div>
+        <div class="well">
+            <fieldset>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.Company.Name).HtmlAttributes(new {@class = "form-control", placeholder= RegistrationPlacehoder.CompanyName, title = RegistrationTooltip.CompanyName})
+                        @Html.ValidationMessageFor(x => x.Company.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.Kendo().TextBoxFor(x => x.Company.RegisterCode).Value(registrationCode).HtmlAttributes(new {@class = "form-control", @readonly = "readonly", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode})
+                        @Html.ValidationMessageFor(x => x.Company.RegisterCode, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        @Html.Kendo().EditorFor(x => x.Company.Summary).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.CompanySummary, title = RegistrationTooltip.CompanySummary })
+                        @Html.ValidationMessageFor(x => x.Company.Summary, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-6">
+                        @Html.Kendo().Upload().Multiple(false).Validation(x=>x.AllowedExtensions(new [] {".gif",".jpg",".png"}).MaxFileSize(3145728)).Name("logo").HtmlAttributes(new {id = "fileUploader", @class = "form-control", placeholder = RegistrationPlacehoder.CompanyLogo, title = RegistrationTooltip.CompanyLogo })
+                        @Html.ValidationMessageFor(x => x.Company.LogoUrl, "", new {@class = "text-danger"})
+                    </div>
+                    <div class="col-lg-6">
+                        @(Html.Kendo().NumericTextBoxFor(x=>x.Company.DeltaPunchTime)
+                              .Format("0")
+                              .Min(0)
+                              .Max(30)
+                              .Step(5)
+                              .Value(5)
+                              .HtmlAttributes(new {@class = "", style = "width: 100%", title = RegistrationTooltip.CompanyPunchDelta}).Placeholder(RegistrationPlacehoder.CompanyPunchDelta))
+                        @Html.ValidationMessageFor(x => x.Company.DeltaPunchTime, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
     <div class="col-lg-12 form-horizontal">
         <div class="panel panel-success panel-nomargin">
             <div class="panel-body">Address</div>
@@ -149,6 +150,12 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
         </div>
     </div>
 }
+@(Html.Kendo().Tooltip()
+      .For("#userPassword")
+      .ContentTemplateId("PasswordTemplate")
+      .Position(TooltipPosition.Top)
+      .Width(600)
+)
 <script>
     function filterStates() {
         return {
@@ -157,3 +164,56 @@ new { enctype = "multipart/form-data",  @class = "form-horizontal" }))
     }
    
 </script>
+<script id="PasswordTemplate" type="text/x-kendo-template">
+    <div class="passwordStrengthTempSection">
+        <ul class="passwordRules">
+            <li>
+                Password strength:
+                <ul>
+                    <li>must contain at least <span>1 lowercase</span>  alphabetical character</li>
+                    <li>must contain at least <span>1 uppercase</span>  alphabetical character</li>
+                    <li>must contain at least <span>1 numeric</span>  character</li>
+                    <li>must contain at least <span>1 special</span>  character</li>
+                    <li>must be <span>eight characters</span>  or longer</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</script>
+<style>
+    .k-tooltip-content {
+        vertical-align: middle;
+    }
+
+    .k-tooltip-content img,
+    .k-tooltip-content p {
+        float: left;
+    }
+
+    .k-tooltip-content p {
+        font-size: 1.4em;
+        padding: 20px;
+        width: 160px;
+        text-align: left;
+    }
+
+    ul.passwordRules > li {
+        text-align: left;
+        text-decoration: none;
+        line-height: 1.2em;
+    }
+
+    ul.passwordRules li ul li {
+        text-align: left;
+        line-height: 1.5em;
+    }
+
+    ul.passwordRules li span {
+        font-weight: bold;
+    }
+
+    div.passwordStrengthTempSection {
+        text-align: left;
+        font-size: 1em;
+    }
+</style>
