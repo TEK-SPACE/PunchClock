@@ -18,5 +18,6 @@ namespace PunchClock.Core.Contracts
         User ByEmail(string modelEmail);
         List<User> All(int companyId);
         int AddAddress(Address userRegistrationAddress);
+        string ComposeRegisteredEmail(User user);
     }
 }

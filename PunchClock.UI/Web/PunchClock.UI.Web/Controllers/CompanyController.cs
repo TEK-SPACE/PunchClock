@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Microsoft.AspNet.Identity.Owin;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.Implementation;
@@ -19,6 +21,7 @@ namespace PunchClock.UI.Web.Controllers
     {
         private readonly UserService _userService;
         private readonly ICompany _companyService;
+        private readonly IEmail _emailService;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -26,6 +29,7 @@ namespace PunchClock.UI.Web.Controllers
         {
             _userService = new UserService();
             _companyService = new CompanyService();
+            _emailService = new Core.Implementation.EmailService();
         }
         public CompanyController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -168,8 +172,13 @@ namespace PunchClock.UI.Web.Controllers
                     userId: companyRegister.CreatedBy.Id);
                 ViewBag.Message = "Your company code <strong>" + companyRegister.Company.RegisterCode +
                                   "</strong>. Your employees need this code to sign up for their account.";
+#pragma warning disable 4014
                 SignInManager.SignInAsync(companyRegister.CreatedBy, isPersistent: false,
-                    rememberBrowser: false).Wait();
+#pragma warning restore 4014
+                    rememberBrowser: false);
+
+                string emailMessage = _companyService.ComposeRegisteredEmail(companyRegister);
+                _emailService.SendEmail(emailMessage, "Successfully Registered", new[] { companyRegister.CreatedBy.Email });
                 return RedirectToAction("Index", "Home");
             }
             return View(companyRegister);
@@ -187,28 +196,9 @@ namespace PunchClock.UI.Web.Controllers
         [Authorize]
         public ActionResult Details(int id)
         {
-            ViewBag.CompanyId = id;
-            ViewBag.Message = "view/edit your company information";
-            return View();
+            return View(_companyService.Get(id));
         }
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult Edit(int id)
-        {
-            Company model = null;
-            var eligibleUsers = new List<int>
-            {
-                (int) UserType.CompanyAdmin,
-                (int) UserType.SuperAdmin
-            };
-            if (eligibleUsers.Any(x => x.Equals(OperatingUser.UserTypeId)))
-            {
-                model = _companyService.Get(OperatingUser.CompanyId);
-            }
-            ViewBag.Message = "Please enter your company information";
-            return PartialView("_Edit", model);
-        }
 
         [HttpGet]
         [Authorize]
@@ -299,6 +289,54 @@ namespace PunchClock.UI.Web.Controllers
                     break;
             }
             return View("_Edit", company);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Invites([DataSourceRequest] DataSourceRequest request)
+        {
+            var invites = _companyService.Invites(OperatingUser.CompanyId);
+            return Json(invites.ToDataSourceResult(request));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UpdateInvite([DataSourceRequest] DataSourceRequest request,
+            EmployeeInvite invite)
+        {
+            if (invite != null && ModelState.IsValid)
+            {
+                invite.CompanyId = OperatingUser.CompanyId;
+                invite.InvitedBy = OperatingUser.DisplayName;
+                invite.LinkToRegister = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Register", "User", new {code = OperatingUser.RegistrationCode})}";
+                _companyService.UpdateInvite(invite);
+                string emailMessage = _companyService.ComposeInviteEmail(invite);
+                _emailService.SendEmail(emailMessage, "Invite", new []{ invite.Email});
+            }
+            return Json(new[] { invite }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DeleteInvite([DataSourceRequest] DataSourceRequest request,
+            EmployeeInvite invite)
+        {
+            if (invite != null && ModelState.IsValid)
+            {
+                _companyService.DeleteInvite(invite);
+            }
+            return Json(new[] { invite }.ToDataSourceResult(request, ModelState));
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Invite([DataSourceRequest] DataSourceRequest request,
+            EmployeeInvite invite)
+        {
+            if (invite != null && ModelState.IsValid)
+            {
+                invite.CompanyId = OperatingUser.CompanyId;
+                invite.InvitedBy = OperatingUser.DisplayName;
+                invite.LinkToRegister = $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Register", "User", new { code = OperatingUser.RegistrationCode })}";
+                _companyService.Invite(invite);
+                string emailMessage = _companyService.ComposeInviteEmail(invite);
+                _emailService.SendEmail(emailMessage, "Invite", new[] { invite.Email });
+            }
+            return Json(new[] { invite }.ToDataSourceResult(request, ModelState));
         }
     }
 }

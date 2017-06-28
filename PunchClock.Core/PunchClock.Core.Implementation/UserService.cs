@@ -1,17 +1,30 @@
 ﻿using PunchClock.Core.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using PunchClock.Configuration.Contract;
+using PunchClock.Configuration.Model.Constants;
+using PunchClock.Configuration.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Domain.Model;
 using PunchClock.Domain.Model.Enum;
+using RedandBlue.Common;
+using RedandBlue.Common.Logging;
 using UserType = PunchClock.Domain.Model.Enum.UserType;
 
 namespace PunchClock.Core.Implementation
 {
     public class UserService : IUser
     {
+        private readonly IAppSetting _appSettingService;
+
+        public UserService()
+        {
+            _appSettingService = new AppSettingService();
+        }
         [Obsolete("This method is not in use as we are using Identity Service")]
         public int Add(User user)
         {
@@ -290,6 +303,31 @@ namespace PunchClock.Core.Implementation
                 context.SaveChanges();
                 return address.Id;
             }
+        }
+
+        public string ComposeRegisteredEmail(User user)
+        {
+            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+
+            var templateName = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreUserRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
+                .Value;
+            var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email", templateName);
+            if (!File.Exists(emailTemplatePath))
+            {
+                Log.Error($"Template doesnt't exists at {emailTemplatePath}");
+            }
+            else
+            {
+                var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#DisplayName#", user.DisplayName);
+                emailContent = emailContent.Replace("#RegisterEmail#", user.Email);
+                emailContent = emailContent.Replace("#UserName#", user.UserName);
+                emailContent = emailContent.Replace("#Password#", user.Password);
+                emailContent = emailContent.Replace("#RegisteredDate#", DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                return emailContent;
+            }
+            return string.Empty;
         }
     }
 }

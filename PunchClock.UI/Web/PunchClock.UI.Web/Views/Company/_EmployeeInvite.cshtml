@@ -1,0 +1,65 @@
+﻿@(Html.Kendo().Grid<PunchClock.Domain.Model.EmployeeInvite>()
+      .Name("EmployeeInviteGrid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Id).Hidden();
+          columns.Bound(c => c.Name).Groupable(false);
+          columns.Bound(c => c.Email).Groupable(false).Width(150);
+          columns.Bound(c => c.InvitationDateUtc).Format("{0:dd/MM/yyyy}").Title("Invitation Date").HtmlAttributes(new { @class = "utc-date" });
+          columns.Bound(c => c.InvitedBy);
+          columns.Bound(c => c.IsRegistered).Groupable(false);
+          columns.Bound(c => c.InviteRevoked).Groupable(false);
+          columns.Command(command =>
+          {
+              command.Edit();
+              command.Destroy();
+          });
+      })
+      .ToolBar(toolbar =>
+      {
+          toolbar.Create();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EmployeeInviteEdit"))
+      .Pageable(pageable => pageable
+          .Refresh(true)
+          .PageSizes(true)
+          .ButtonCount(5))
+      .Sortable()
+      .Scrollable()
+      //.HtmlAttributes(new { style = "height: 550px;" })
+      .Groupable()
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(20)
+          .Events(events => events.Error("gridErrorHandler"))
+          .Model(model =>
+          {
+              model.Id(x => x.Id);
+              model.Field(x => x.Id).Editable(false);
+              model.Field(x => x.InvitationDateUtc).Editable(false);
+              model.Field(x => x.IsRegistered).Editable(false);
+              model.Field(x => x.InvitationDateUtc).Editable(false);
+              model.Field(x => x.InviteRevoked).Editable(false);
+          })
+          .Create(update => update.Action("Invite", "Company"))
+          .Read(read => read.Action("Invites", "Company"))
+          .Update(update => update.Action("UpdateInvite", "Company"))
+          .Destroy(update => update.Action("DeleteInvite", "Company"))
+      )
+)
+
+<script>
+    function gridErrorHandler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

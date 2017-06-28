@@ -4,6 +4,6 @@ namespace PunchClock.Core.Contracts
 {
     public interface IContactRepository : IEntityRepository<User>
     {
-        bool Submit(View.Model.ContactView obj, GeoPlugin geo);
+        bool Submit(View.Model.ContactView obj, GeoLocation geo);
     }
 }

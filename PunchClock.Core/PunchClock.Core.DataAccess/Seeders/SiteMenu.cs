@@ -14,7 +14,7 @@ namespace PunchClock.Core.DataAccess.Seeders
             {
                 new SiteMap
                 {
-                    Name = "User", Controller = "User", Action = "#", Target = "_self",  Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                    Name = "User", Controller = "User", Action = "#", Target = "_self", IsMenuItem  = false, Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                     UserAccesses = new List<MenuUserAccess>
                     {
                         new MenuUserAccess { UserRoleId = (int)UserType.SuperAdmin } ,
@@ -241,7 +241,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     {
                         new SiteMap
                         {
-                            Name = "List",  Controller ="Ticket", Action = "Index", Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                            Name = "List",  Controller ="Ticket", Action = "List", Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                             UserAccesses = new List<MenuUserAccess>
                             {
                                 new MenuUserAccess { UserRoleId = (int)UserType.SuperAdmin } ,

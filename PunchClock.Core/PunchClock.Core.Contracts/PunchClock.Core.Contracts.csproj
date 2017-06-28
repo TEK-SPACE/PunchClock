@@ -84,9 +84,9 @@
   <ItemGroup>
     <Compile Include="ICompany.cs" />
     <Compile Include="IContactRepository.cs" />
-    <Compile Include="IEmailRepository.cs" />
+    <Compile Include="IEmail.cs" />
     <Compile Include="IGenericRepository.cs" />
-    <Compile Include="IGeoRepository.cs" />
+    <Compile Include="IGeo.cs" />
     <Compile Include="IEntityRepository.cs" />
     <Compile Include="ISite.cs" />
     <Compile Include="IUser.cs" />

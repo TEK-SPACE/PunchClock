@@ -19,7 +19,7 @@ namespace PunchClock.UI.Web.Controllers
         //
         // GET: /Register/
         private readonly IUser _userService;
-        private readonly IEmailRepository _emailRepository;
+        private readonly IEmail _emailService;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private readonly ISite _siteService;
@@ -51,19 +51,25 @@ namespace PunchClock.UI.Web.Controllers
         public UserController()
         {
             _userService = new UserService();
-            _emailRepository = new Core.Implementation.EmailService();
+            _emailService = new Core.Implementation.EmailService();
             _siteService = new SiteService();
             _companyService = new CompanyService();
         }
 
-        public ActionResult Register()
+        public ActionResult Register(string code)
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
+            var company = _companyService.Get(code);
+            if (company == null)
+            {
+                return View("InvalidCode");
+            }
             User user = new User
             {
                 LastActivityIp = UserSession.IpAddress,
-                LastActiveMacAddress = UserSession.MacAddress
+                LastActiveMacAddress = UserSession.MacAddress,
+                RegistrationCode = code
             };
 
             var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
@@ -120,6 +126,10 @@ namespace PunchClock.UI.Web.Controllers
                   _userService.AddAddress(user.RegistrationAddress);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     //return RedirectToAction("Index", "Home");
+
+                    string emailMessage = _userService.ComposeRegisteredEmail(user);
+                    _emailService.SendEmail(emailMessage, "Successfully Registered", new[] { user.Email});
+
                     return Json(user);
                 }
                 user.Uid = -5;
@@ -182,7 +192,7 @@ namespace PunchClock.UI.Web.Controllers
                     StringBuilder resetBuilder = new StringBuilder();
                     resetBuilder.AppendLine("Please use the link to reset your password");
                     resetBuilder.AppendLine($"{System.Web.HttpContext.Current.Request.Url.Scheme}://{System.Web.HttpContext.Current.Request.Url.Host}{Url.Action("ResetPassword", "User", new { uid = user.Id, code = resetCode })}");
-                    _emailRepository.SendEmail(resetBuilder.ToString(), "PunchClock Password Reset Link", new[] {user.Email});
+                    _emailService.SendEmail(resetBuilder.ToString(), "PunchClock Password Reset Link", new[] {user.Email});
                     return View("ForgotPasswordConfirmation");
                 }
                 ViewBag.Message = "No account found with this email";

@@ -24,6 +24,18 @@
                 @Html.Raw(ViewData["ModelError"] as string)
                 @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
+                <div class="col-md-12">
+                    @(Html.Kendo().ProgressBar()
+                          .Name("EffortCovered")
+                          .Type(ProgressBarType.Percent)
+                          .Min(0)
+                          .Max(Model.EstimatedEffort)
+                          .Value(Model.CompletedWork)
+                          .Animation(a => a.Duration(600))
+                          )
+                </div>
+                </div>
+                <div class="form-group">
                     <div class="col-md-12">
                         @Html.Kendo().TextBoxFor(model => model.Title).HtmlAttributes(new {@class = "form-control", placeholder = Placeholder.Title, title = Tooltip.Title })
                         @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})

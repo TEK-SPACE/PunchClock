@@ -1,18 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using PunchClock.Configuration.Contract;
+using PunchClock.Configuration.Model.Constants;
+using PunchClock.Configuration.Service;
 using PunchClock.Core.Contracts;
 using PunchClock.Core.DataAccess;
 using PunchClock.Domain.Model;
 using PunchClock.Domain.Model.Enum;
 using PunchClock.Model.Mapper;
 using PunchClock.View.Model;
+using RedandBlue.Common;
+using RedandBlue.Common.Logging;
 
 namespace PunchClock.Core.Implementation
 {
     public class CompanyService : ICompany
     {
+        private readonly IAppSetting _appSettingService;
+
+        public CompanyService()
+        {
+            _appSettingService = new AppSettingService();
+        }
         public int Add(Company company)
         {
             using (var context = new PunchClockDbContext())
@@ -219,6 +233,87 @@ namespace PunchClock.Core.Implementation
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
                 return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId)).ToList();
+            }
+        }
+
+        public string ComposeRegisteredEmail(CompanyRegister companyRegister)
+        {
+            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+
+            var templateName = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreCompanyRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
+                .Value;
+            var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email", templateName);
+            if (!File.Exists(emailTemplatePath))
+            {
+                Log.Error($"Template doesnt't exists at {emailTemplatePath}");
+            }
+            else
+            {
+                var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Comapny#", companyRegister.Company.Name);
+                emailContent = emailContent.Replace("#RegisterCode#", companyRegister.Company.RegisterCode);
+                emailContent = emailContent.Replace("#CreatedBy#", companyRegister.CreatedBy.DisplayName);
+                emailContent = emailContent.Replace("#CreatedByEmail#", companyRegister.CreatedBy.Email);
+                emailContent = emailContent.Replace("#RegisteredDate#", DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                return emailContent;
+            }
+            return string.Empty;
+        }
+
+        public List<EmployeeInvite> Invites(int companyId)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                return context.EmployeeInvites.Where(x => x.CompanyId == companyId).ToList();
+            }
+        }
+
+        public void UpdateInvite(EmployeeInvite invite)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                context.EmployeeInvites.AddOrUpdate(invite);
+            }
+        }
+
+        public string ComposeInviteEmail(EmployeeInvite invite)
+        {
+            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+
+            var templateName = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreCompanyInviteEmployeeEmailTemplate, StringComparison.OrdinalIgnoreCase))
+                .Value;
+            var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email", templateName);
+            if (!File.Exists(emailTemplatePath))
+            {
+                Log.Error($"Template doesnt't exists at {emailTemplatePath}");
+            }
+            else
+            {
+                var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Name#", invite.Name);
+                emailContent = emailContent.Replace("#Email#", invite.Email);
+                emailContent = emailContent.Replace("#LinkToRegister#", invite.LinkToRegister);
+                return emailContent;
+            }
+            return string.Empty;
+        }
+
+        public void DeleteInvite(EmployeeInvite invite)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                invite.InviteRevoked = true;
+                context.EmployeeInvites.AddOrUpdate(invite);
+            }
+        }
+
+        public void Invite(EmployeeInvite invite)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                context.EmployeeInvites.AddOrUpdate(invite);
             }
         }
     }
