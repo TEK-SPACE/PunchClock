@@ -32,7 +32,7 @@
                         <div class="col-lg-10">
                             @(Html.Kendo().DateTimePicker()
                     .Name("differentTime")
-                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0))
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0))
                                   .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
                                   .Value(DateTime.Now) //Set the value of the DateTimePicker.
                     .HtmlAttributes(new
@@ -75,14 +75,19 @@
                     <legend> @ViewBag.Title </legend>
                     <div class="form-group">
                         <div class="col-lg-10">
-                            @Html.TextBox("pTime", null,
-                   htmlAttributes: new
-                   {
-                       type = "time",
-                       @class = "pTime",
-                       style = "width: 120px;  display:none;",
-                       id = "pTimePunchesIn"
-                   })
+                            @(Html.Kendo().DateTimePicker()
+                                  .Name("differentTime")
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0))
+                                  .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
+                                  .Value(DateTime.Now) //Set the value of the DateTimePicker.
+                                  .HtmlAttributes(new
+                                  {
+                                      type = "time",
+                                      @class = "pTime",
+                                      style = "display:none;",
+                                      id = "pTimePunchesIn"
+                                  }))
+
                             <input type="submit" value="Punch In" class="btn btn-success" />
                         </div>
                     </div>

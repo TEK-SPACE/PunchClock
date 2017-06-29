@@ -37,34 +37,40 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        @Html.Kendo().TextBoxFor(model => model.Title).HtmlAttributes(new {@class = "form-control", placeholder = Placeholder.Title, title = Tooltip.Title })
+                        @Html.LabelFor(x=>x.Title, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.Title).HtmlAttributes(new {@class = "form-control", placeholder = Placeholder.Title, title = Tooltip.Title})
                         @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-6">
-                        @Html.Kendo().ComboBoxFor(model => model.ProjectId).Suggest(true).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Projects", "Ticket")).Placeholder(Placeholder.Project).HtmlAttributes(new { title = Tooltip.Project})
+                        @Html.LabelFor(x=>x.ProjectId, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().ComboBoxFor(model => model.ProjectId).Suggest(true).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Projects", "Ticket")).Placeholder(Placeholder.Project).HtmlAttributes(new {title = Tooltip.Project})
                         @Html.ValidationMessageFor(model => model.ProjectId, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-6">
+                        @Html.LabelFor(x=>x.PriorityId, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().ComboBoxFor(model => model.PriorityId).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Priorities", "Ticket")).Placeholder("Priority")
                         @Html.ValidationMessageFor(model => model.PriorityId, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        @Html.Kendo().EditorFor(model => model.Description).Value(x=> Html.Raw(x).ToHtmlString()).HtmlAttributes(new {@class = "form-control"})
+                        @Html.LabelFor(x=>x.Description, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().EditorFor(model => model.Description).Value(x => Html.Raw(x).ToHtmlString()).HtmlAttributes(new {@class = "form-control"})
                         @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-6">
+                        @Html.LabelFor(x=>x.StatusId, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().ComboBoxFor(model => model.StatusId).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Status", "Ticket")).Placeholder("Status")
                         @Html.ValidationMessageFor(model => model.StatusId, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-6">
+                        @Html.LabelFor(x=>x.TypeId, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().ComboBoxFor(model => model.TypeId).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Types", "Ticket")).Placeholder("Type")
                         @Html.ValidationMessageFor(model => model.TypeId, "", new {@class = "text-danger"})
                     </div>
@@ -72,10 +78,12 @@
 
                 <div class="form-group">
                     <div class="col-md-6">
+                        @Html.LabelFor(x=>x.RequestorId, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().ComboBoxFor(model => model.RequestorId).Events(x => x.Change("comboboxChangeEvent")).DataTextField("DisplayName").DataValueField("Id").DataSource(x => x.Read("All", "User")).Placeholder("Requestor")
                         @Html.ValidationMessageFor(model => model.RequestorId, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-6">
+                        @Html.LabelFor(x=>x.AssignedToId, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().ComboBoxFor(model => model.AssignedToId).Events(x => x.Change("comboboxChangeEvent")).DataTextField("DisplayName").DataValueField("Id").DataSource(x => x.Read("All", "User")).Placeholder("Assigned To")
                         @Html.ValidationMessageFor(model => model.AssignedToId, "", new {@class = "text-danger"})
                     </div>
@@ -83,27 +91,32 @@
                 <div class="form-group">
                     @*@Html.LabelFor(model => model.NotifyTo, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-12">
+                        @Html.LabelFor(x=>x.NotifyTo, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().MultiSelectFor(model => model.NotifyTo).DataTextField("DisplayName").DataValueField("Id").DataSource(x => x.Read("All", "User")).Placeholder("Notify To")
                         @Html.ValidationMessageFor(model => model.NotifyTo, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-9">
+                        @Html.LabelFor(x=>x.CategoryId, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().ComboBoxFor(model => model.CategoryId).Events(x => x.Change("comboboxChangeEvent")).DataTextField("Name").DataValueField("Id").DataSource(x => x.Read("Categories", "Ticket")).Placeholder("Category")
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-3">
+                        @Html.LabelFor(x=>x.DueDateUtc, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().DatePickerFor(model => model.DueDateUtc).DateInput().Min(DateTime.Now.AddDays(1)).HtmlAttributes(new {placeholder = "Due Date", style = "width:100%;"})
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
-                        @Html.Kendo().NumericTextBoxFor(model => model.EstimatedEffort).Step(0.5).Max(40).HtmlAttributes(new {style="width:100%;"}).Placeholder("Estimated Effort")
+                        @Html.LabelFor(x=>x.EstimatedEffort, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().NumericTextBoxFor(model => model.EstimatedEffort).Step(0.5).Max(40).HtmlAttributes(new {style = "width:100%;"}).Placeholder("Estimated Effort")
                         @Html.ValidationMessageFor(model => model.EstimatedEffort, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-6">
-                        @Html.Kendo().NumericTextBoxFor(model => model.CompletedWork).Step(0.5).Max(40).HtmlAttributes(new { style = "width:100%;" }).Placeholder("Completed Work")
+                        @Html.LabelFor(x=>x.CompletedWork, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().NumericTextBoxFor(model => model.CompletedWork).Step(0.5).Max(40).HtmlAttributes(new {style = "width:100%;"}).Placeholder("Completed Work")
                         @Html.ValidationMessageFor(model => model.CompletedWork, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -116,12 +129,13 @@
             <fieldset>
                 <div class="form-group">
                     <div class="col-md-12">
+                        @Html.Label("Add New Comment", htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().Editor().Name("Comment")
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-
+                        @Html.Label("Previous Comment(s)", htmlAttributes: new { @class = "control-label" })
                         @if (Model.Comments.Any())
                         {
                             @(Html.Kendo().PanelBar()
@@ -142,7 +156,7 @@
 
         <div class="">
             <input type="submit" value="Submit" class="btn btn-primary"/>
-            <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/Ticket';"/>
+            <input type="button" value="Cancel" class="btn btn-primary" onclick="location.href = '/Ticket';"/>
         </div>
     </div>
 }

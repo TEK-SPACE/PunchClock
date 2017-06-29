@@ -495,5 +495,11 @@ namespace PunchClock.UI.Web.Controllers
             }
             return TimeSpan.FromSeconds(totalSeconds);
         }
+
+        public ActionResult PunchWindow()
+        {
+            Punch punch = _punchService.OpenLogByUser(OperatingUser.Uid);
+            return PartialView("_Punch", punch);
+        }
     }
 }

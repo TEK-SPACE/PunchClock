@@ -68,14 +68,10 @@ namespace PunchClock.UI.Web.Controllers
                 ticket.ModifiedById = OperatingUser.Id;
                 _ticketService.Add(ticket);
                
-                var userIds = ticket.NotifyTo.Split(',').ToList();
+                var userIds = ticket.NotifyTo?.Split(',').ToList() ?? new List<string>();
                 userIds.Add(ticket.RequestorId);
                 userIds.Add(ticket.AssignedToId);
                 userIds.Add(ticket.CreatedById);
-                if (ticket.NotifyTo.Split(',').Any())
-                {
-                    userIds.AddRange(ticket.NotifyTo.Split(','));
-                }
                 List<string> contributors = _userService.GetEmailsById(userIds.ToArray());
 
                 ticket.LinkToTicketDetails =
@@ -119,14 +115,10 @@ namespace PunchClock.UI.Web.Controllers
             _ticketService.Update(ticket, ref changes);
             ticket = _ticketService.Details(ticket.Id);
 
-            var userIds = ticket.NotifyTo.Split(',').ToList();
+            var userIds = ticket.NotifyTo?.Split(',').ToList() ?? new List<string>();
             userIds.Add(ticket.RequestorId);
             userIds.Add(ticket.AssignedToId);
             userIds.Add(ticket.CreatedById);
-            if (ticket.NotifyTo.Split(',').Any())
-            {
-                userIds.AddRange(ticket.NotifyTo.Split(','));
-            }
             List<string> contributors = _userService.GetEmailsById(userIds.ToArray());
 
             ticket.LinkToTicketDetails =

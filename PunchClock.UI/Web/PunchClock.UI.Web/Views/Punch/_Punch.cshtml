@@ -1,0 +1,149 @@
+﻿@model PunchClock.TimeTracker.Model.Punch
+<div class="col-lg-11">
+    <div class="">
+        @if (Model != null)
+        {
+            using (Ajax.BeginForm("InOut", "Punch",
+                new { punchId = Model.Id, inOrOut = "out" },
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    Confirm = "You're about to punch-Out?",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "punchBox"
+                },
+                htmlAttributes: new { id = "punchInForm", @class = "form-horizontal" }))
+            {
+                <fieldset id="punchBox">
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            <span>
+                                @Html.Raw(string.Format("You have <span class='text-warning'> punched in at <strong>{1}</strong> </span> on {0}",
+                                    Html.DisplayFor(x => Model.PunchDate),
+                                    Html.DisplayFor(x => Model.PunchIn)))
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3">
+                            <input type="submit" value="Punch Out Now" class="btn btn-success" />
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 12px;">
+                            @Html.CheckBox("reqDifferentTime") <span>Request a different punch out time</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            @(Html.Kendo().DateTimePicker()
+                                  .Name("differentTime")
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0))
+                                  .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
+                                  .Value(DateTime.Now) //Set the value of the DateTimePicker.
+                                  .HtmlAttributes(new
+                                  {
+                                      type = "time",
+                                      @class = "pTime",
+                                      style = "display:none;",
+                                      id = "pTimePunchesOut"
+                                  }))
+                        </div>
+                    </div>
+                </fieldset>
+
+            }
+        }
+        else if (Model == null)
+        {
+            using (Ajax.BeginForm("InOut", "Punch",
+                new { punchId = 0, inOrOut = "in" },
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    Confirm = "You're about to punch-In?",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "punchBox"
+                },
+                htmlAttributes: new
+                {
+                    id = "punchInForm",
+                    @class = "form-horizontal"
+                }))
+            {
+                <fieldset id="punchBox">
+                    <div class="form-group">
+                        <div class="col-lg-3">
+                            <input type="submit" value="Punch In" class="btn btn-success" />
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 12px;">
+                            @Html.CheckBox("reqDifferentTime") <span>Request a different punch in time</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            @(Html.Kendo().DateTimePicker()
+                                  .Name("differentTime")
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0))
+                                  .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
+                                  .Value(DateTime.Now) //Set the value of the DateTimePicker.
+                                  .HtmlAttributes(new
+                                  {
+                                      type = "time",
+                                      @class = "pTime",
+                                      style = "display:none;",
+                                      id = "pTimePunchesIn"
+                                  }))
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        }
+    </div>
+</div>
+<script>
+    $("#reqDifferentTime").click(function (e) {
+        //min: new Date($(".utc-date").text() + $(".UTCTime").text())
+        var pOutDate = new Date($(".utc-date").text() + " " + $(".utc-time").text());
+        var d = new Date();
+        if ($(this).is(":checked")) {
+            var $pTime = $(".pTime");
+            // $pTime.inputmask("99:99 aa");
+            $pTime.show().attr("required", "required");
+            if (!$pTime.parent().hasClass("k-picker-wrap")) {
+                if ($pTime.attr("id") === "pTimePunchOut") {
+                    $pTime.kendoTimePicker({
+                        format: "hh:mm tt",
+                        min: new Date(pOutDate.getFullYear(), pOutDate.getMonth() + 1, pOutDate.getDay(), pOutDate.getHours() + 1, 0, 0),
+                        max: new Date(pOutDate.getFullYear(), pOutDate.getMonth() + 1, pOutDate.getDay(), pOutDate.getHours() + 9, 0, 0)
+                    });
+                }
+                else if ($pTime.attr("id") === "pTimePunchIn") {
+                    $pTime.kendoTimePicker({
+                        format: "hh:mm tt",
+                        min: new Date(d.getFullYear(), d.getMonth() + 1, d.getDay(), d.getHours() - 2, 0, 0),
+                        max: new Date(d.getFullYear(), d.getMonth() + 1, d.getDay(), d.getHours() + 2, 0, 0)
+                    });
+                }
+            }
+
+        }
+        else {
+            $(".pTime").removeAttr("required").hide();
+        }
+    });
+
+   // $(".pDate").kendoDatePicker();
+
+    //$(".pTime").keypress(function (e) {
+    //    //validateTime(this);
+    //});
+    function punchCompleteMessage() {
+        var $window = $("#TimeTracker");
+        var $kwContent = $window.data("kendoWindow");
+        $kwContent.refresh();
+    }
+    //$("button.punchCompleteMessage").click(function () {
+    //    var $window = $("#TimeTracker");
+    //    var $kwContent = $window.data("kendoWindow");
+    //    $kwContent.refresh();
+    //});
+</script>

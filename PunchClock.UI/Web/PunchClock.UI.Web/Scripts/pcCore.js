@@ -78,7 +78,11 @@ $(function () {
     })    ;
 });
 
-
+function centerPunchWindow() {
+    var $window = $("#TimeTracker");
+    var $kwContent = $window.data("kendoWindow");
+    $kwContent.center();
+}
 
 
 function showDialog(strTitle, strContent, pxWidth, pxHeight) {
@@ -107,42 +111,8 @@ function showDialog(strTitle, strContent, pxWidth, pxHeight) {
 
 
 $(function () {
-    $("#reqDifferentTime").click(function (e) {
-        //min: new Date($(".utc-date").text() + $(".UTCTime").text())
-        var pOutDate = new Date($(".utc-date").text() + " " + $(".utc-time").text());
-        var d = new Date();
-        if ($(this).is(":checked")) {
-            $pTime = $(".pTime");
-           // $pTime.inputmask("99:99 aa");
-            $pTime.show().attr("required", "required");
-            if (!$pTime.parent().hasClass("k-picker-wrap")) {
-                if ($pTime.attr("id") == "pTimePunchOut") {
-                    $pTime.kendoTimePicker({
-                        format: "hh:mm tt",
-                        min: new Date(pOutDate.getFullYear(), pOutDate.getMonth() + 1, pOutDate.getDay(), pOutDate.getHours() + 1, 0, 0),
-                        max: new Date(pOutDate.getFullYear(), pOutDate.getMonth() + 1, pOutDate.getDay(), pOutDate.getHours() + 9, 0, 0)
-                    });
-                }
-                else if ($pTime.attr("id") == "pTimePunchIn") {
-                    $pTime.kendoTimePicker({
-                        format: "hh:mm tt",
-                        min: new Date(d.getFullYear(), d.getMonth() + 1, d.getDay(), d.getHours() - 2, 0, 0),
-                        max: new Date(d.getFullYear(), d.getMonth() + 1, d.getDay(), d.getHours() + 2, 0, 0)
-                    });
-                }
-            }
-           
-        }
-        else {
-            $(".pTime").removeAttr("required").hide();
-        }
-    });
    
-    $(".pDate").kendoDatePicker();
 
-    $(".pTime").keypress(function (e) {
-        //validateTime(this);
-    });
     function validateTime($this) {
         var time = $($this).val();
         time = time.replace(/_/g, "").replace(":", "");
@@ -187,13 +157,6 @@ $(function () {
         }
     }
 
-    $("button.punchCompleteMessage").click(function() {
-        window.location = "/";
-    });
-
-    function punchCompleteMessage() {
-
-    }
     $(".resultGridSection").hide();
     $(".ckdPunchReport").on("click", function (e) {
         // console.log(this.value);
@@ -222,8 +185,6 @@ $(function () {
             $(this).removeAttr("required");
         }
     });
-
-
 });
 
     $(function () {
@@ -247,6 +208,7 @@ function convetUtcDateToLocalDateByInput(inputDate) {
         catch (ex) {
             console.warn("Error converting date", ex);
         }
+    return "";
 }
     function convetUtcDateToLocalDate() {
         var d = new Date();
