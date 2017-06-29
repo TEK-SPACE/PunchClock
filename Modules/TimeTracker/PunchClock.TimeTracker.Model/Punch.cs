@@ -31,6 +31,7 @@ namespace PunchClock.TimeTracker.Model
 
         public bool Approved { get; set; }
         public bool ApprovalRequired { get; set; }
+        //[ScaffoldColumn()]
         public string Comments { get; set; }
         public string IpAddress { get; set; }
         public string MacAddress { get; set; }
