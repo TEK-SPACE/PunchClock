@@ -92,7 +92,7 @@ function setTimeTrakerMode() {
     if (activeButton === "Punch Out Now") {
         $window.kendoWindow({
             position: {
-                top: ($(window).scrollTop() + $(window).height()) - 50,
+                top: ($(window).scrollTop() + $(window).height()) - 5,
                 left: 0
             },
             width: 600

@@ -1,7 +1,23 @@
 ﻿@{
-    ViewBag.Title = "404";
+    ViewBag.Title = "403 UnAuthorized";
 }
-<hgroup class="title">
-<h1>@ViewBag.Title.</h1>
-<h2>@Html.Raw((string)ViewBag.Message)</h2></hgroup>
-<hr />
+
+<div class="col-lg-12 form-horizontal">
+    <div class="panel panel-success panel-nomargin">
+        <div class="panel-body">@ViewBag.Title</div>
+    </div>
+    <div class="well">
+        <fieldset>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    <p>
+                        You are not authorized to access this page. @Html.ActionLink("Go to Home", "Index", "Home")
+                    </p>
+                    <p>
+                        If you beleive you are seeing this message by error, please contact your Admin
+                    </p>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

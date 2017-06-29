@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "SiteMap Config";
+}
+
+@(Html.Kendo().Splitter()
+      .Name("vertical")
+      .Orientation(SplitterOrientation.Vertical)
+      .Panes(verticalPanes =>
+      {
+          verticalPanes.Add()
+              .HtmlAttributes(new { id = "top-pane" })
+              .Scrollable(false)
+              .Collapsible(false)
+              .Content(
+                  Html.Kendo().Splitter()
+                      .Name("horizontal")
+                      .HtmlAttributes(new { style = "height: 100%;" })
+                      .Panes(horizontalPanes =>
+                      {
+                          horizontalPanes.Add()
+                              .HtmlAttributes(new { id = "left-pane" })
+                              .Size("220px")
+                              .Collapsible(true)
+                              .Content(@<div class="pane-content">
+                                           <h3>Sitemap</h3>
+                                            @Html.Partial("_SiteMapTree")
+                                       </div>);
+    
+                          horizontalPanes.Add()
+                              .HtmlAttributes(new { id = "center-pane" })
+                              .Content(@<div class="pane-content">
+                                           <h3>Select a node from the tree</h3>
+                                           <p id="sitemap-details">Load node details here</p>
+                                       </div>);
+    
+                          horizontalPanes.Add()
+                              .HtmlAttributes(new { id = "right-pane" })
+                              .Collapsible(true)
+                              .Size("220px")
+                              .Content(@<div class="pane-content">
+                                           <h3>Roles</h3>
+                                           <p>List all available roles</p>
+                                       </div>);
+                      }).ToHtmlString()
+              );
+      })
+      )

@@ -8,6 +8,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using PunchClock.Core.Contracts;
 using PunchClock.View.Model;
 using PunchClock.Core.Implementation;
 using PunchClock.Domain.Model;
@@ -22,7 +23,7 @@ namespace PunchClock.UI.Web.Controllers
     [Authorize]
     public class PunchController : BaseController
     {
-        private readonly UserService _userService;
+        private readonly IUser _userService;
         private readonly IPunch _punchService;
         private readonly CompanyService _companyService;
 
@@ -180,7 +181,7 @@ namespace PunchClock.UI.Web.Controllers
         }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            var punches = _punchService.All();
+            var punches = _punchService.All(OperatingUser.Uid, OperatingUser.IsAdmin);
             punches.ForEach(x=>x.DurationInSeconds = x.Duration.TotalSeconds);
             return Json(punches.ToDataSourceResult(request));
         }

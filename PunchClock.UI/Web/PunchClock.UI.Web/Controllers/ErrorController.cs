@@ -32,5 +32,9 @@ namespace PunchClock.UI.Web.Controllers
             return View("Http500");
         }
 
+        public ActionResult UnAuthorized()
+        {
+            return View();
+        }
     }
 }

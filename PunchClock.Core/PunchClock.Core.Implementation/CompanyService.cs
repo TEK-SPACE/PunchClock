@@ -232,7 +232,7 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null && (x.IsCoreItem || x.CompanyId == companyId)).ToList();
+                return context.SiteMaps.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null && (x.IsCoreItem || x.CompanyId == companyId)).ToList();
             }
         }
 
@@ -243,6 +243,9 @@ namespace PunchClock.Core.Implementation
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreCompanyRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
                 .Value;
+            var logoPath = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreEmailTemplateLogoPath, StringComparison.OrdinalIgnoreCase))
+                .Value;
             var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email", templateName);
             if (!File.Exists(emailTemplatePath))
             {
@@ -251,6 +254,7 @@ namespace PunchClock.Core.Implementation
             else
             {
                 var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Logo#", logoPath);
                 emailContent = emailContent.Replace("#Comapny#", companyRegister.Company.Name);
                 emailContent = emailContent.Replace("#RegisterCode#", companyRegister.Company.RegisterCode);
                 emailContent = emailContent.Replace("#CreatedBy#", companyRegister.CreatedBy.DisplayName);
@@ -284,6 +288,9 @@ namespace PunchClock.Core.Implementation
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreCompanyInviteEmployeeEmailTemplate, StringComparison.OrdinalIgnoreCase))
                 .Value;
+            var logoPath = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreEmailTemplateLogoPath, StringComparison.OrdinalIgnoreCase))
+                .Value;
             var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email", templateName);
             if (!File.Exists(emailTemplatePath))
             {
@@ -292,6 +299,7 @@ namespace PunchClock.Core.Implementation
             else
             {
                 var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Logo#", logoPath);
                 emailContent = emailContent.Replace("#Name#", invite.Name);
                 emailContent = emailContent.Replace("#CreatedBy#", invite.InvitedBy);
                 emailContent = emailContent.Replace("#Email#", invite.Email);

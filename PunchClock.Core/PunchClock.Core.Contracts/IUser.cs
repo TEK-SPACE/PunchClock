@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using PunchClock.Domain.Model;
 
 namespace PunchClock.Core.Contracts
@@ -20,5 +21,7 @@ namespace PunchClock.Core.Contracts
         int AddAddress(Address userRegistrationAddress);
         string ComposeRegisteredEmail(User user);
         List<string> GetEmailsById(string[] split);
+        List<SelectListItem> GetAllCompanyEmployees(int companyId, int opUserTypeId);
+        User Details(int userId);
     }
 }

@@ -13,7 +13,7 @@ namespace PunchClock.TimeTracker.Contract
         List<Punch> Search(int opUserId, int userId, DateTime stDate, DateTime enDate);
         bool Approve(Punch punch, int opUserId);
         void Add(Punch punch);
-        List<Punch> All();
+        List<Punch> All(int userId, bool isAdmin);
         void Update(Punch punch);
         void Delete(Punch punch);
         void Approve(Punch punch);

@@ -323,7 +323,7 @@ namespace PunchClock.Core.DataAccess.Seeders
 
             foreach (var item in menuItems)
             {
-                context.SiteMenus.AddOrUpdate(x => new {x.ParentId, x.Controller, x.Action}, item);
+                context.SiteMaps.AddOrUpdate(x => new {x.ParentId, x.Controller, x.Action}, item);
                 //foreach (var userAccess in item.UserAccesses)
                 //{
                 //    context.MenuUserAccess.AddOrUpdate(userAccess);

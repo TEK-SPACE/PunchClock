@@ -312,6 +312,9 @@ namespace PunchClock.Core.Implementation
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreUserRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
                 .Value;
+            var logoPath = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreEmailTemplateLogoPath, StringComparison.OrdinalIgnoreCase))
+                .Value;
             var emailTemplatePath = Path.Combine(Util.AssemblyDirectory, "Templates", "Email", templateName);
             if (!File.Exists(emailTemplatePath))
             {
@@ -320,6 +323,7 @@ namespace PunchClock.Core.Implementation
             else
             {
                 var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Logo#", logoPath);
                 emailContent = emailContent.Replace("#DisplayName#", user.DisplayName);
                 emailContent = emailContent.Replace("#RegisterEmail#", user.Email);
                 emailContent = emailContent.Replace("#UserName#", user.UserName);

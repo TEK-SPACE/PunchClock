@@ -9,5 +9,10 @@ namespace PunchClock.Core.Contracts
         List<Country> GetCountries();
         List<State> GetStates(int countryId);
         List<SelectListItem> GetEmploymentTypes(int companyId);
+        void Delete(SiteMap siteMap);
+        void Update(SiteMap siteMap);
+        void Add(SiteMap siteMap);
+        List<SiteMap> All(int companyId, bool isAdmin);
+        SiteMap Details(int id);
     }
 }

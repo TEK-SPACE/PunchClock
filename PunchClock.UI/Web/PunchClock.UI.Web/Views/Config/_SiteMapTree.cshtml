@@ -1,0 +1,34 @@
+﻿@(Html.Kendo().TreeView()
+      .Name("siteMapTreeView")
+      .DataTextField("Name")
+      .TemplateId("sitemap-tree-template")
+      .Events(events => events
+          //.Change("onSiteMapChange")
+          .Select("onSiteMapSelect")
+          //.Check("onSiteMapCheck")
+          //.Collapse("onSiteMapCollapse")
+          //.Expand("onSiteMapExpand")
+          //.DragStart("onSiteMapDragStart")
+          //.Drag("onSiteMapDrag")
+          //.Drop("onSiteMapDrop")
+          //.DragEnd("onSiteMapDragEnd")
+      )
+      .DataSource(dataSource => dataSource
+          .Read(read => read
+              .Action("SiteMapTreeRead", "Config")
+          )
+      )
+      )
+
+<script id="sitemap-tree-template" type="text/kendo-ui-template">
+    #: item.Name #
+    # if (!item.hasChildren) { #
+    <a class='delete-link' href='\#'></a>
+    # } #
+</script>
+   @*@Ajax.ActionLink("", "SiteMapDetails", "Config", new {id = "#: item.value #"}, new AjaxOptions {UpdateTargetId = "sitemap-details", HttpMethod = "POST", InsertionMode = InsertionMode.Replace})*@
+<Script>
+    function onSiteMapSelect(e) {
+        $("#sitemap-details").html("Selecting: " + this.text(e.node));
+    }
+</Script>

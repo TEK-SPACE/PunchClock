@@ -7,18 +7,18 @@
       .Columns(columns =>
       {
           columns.Bound(c => c.Id).Hidden(true).HtmlAttributes(new {style="text-align:center;"});
-          columns.Bound(c => c.ApprovalRequired).ClientTemplate("# if (ApprovalRequired == true && Approved == false && '"+ (ViewBag.IsAdmin).ToString() + "'=== 'True') {# Yes: <a data-ajax='true' data-ajax-complete='refreshGrid' data-ajax-method='POST' href='/Punch/Approve/#:Id#' class='grid-link' >Approve</a>#} else{# No #}#");
+          columns.Bound(c => c.ApprovalRequired).Visible((bool)ViewBag.IsAdmin).ClientTemplate("# if (ApprovalRequired == true && Approved == false && '"+ (ViewBag.IsAdmin).ToString() + "'=== 'True') {# Yes: <a data-ajax='true' data-ajax-complete='refreshGrid' data-ajax-method='POST' href='/Punch/Approve/#:Id#' class='grid-link' >Approve</a>#} else{# No #}#");
           columns.Bound(c => c.EmployeeName).Filterable(ftb => ftb.Multi(true).Search(true));
           columns.Bound(c => c.Month).Filterable(ftb => ftb.Multi(true));
           columns.Bound(c => c.PunchDate)
               .ClientFooterTemplate("#= getFormattdDate(data.PunchDate.min) # - #= getFormattdDate(data.PunchDate.max) # ")
               .ClientGroupHeaderTemplate("#:convetUtcDateToLocalDate(PunchDate)#").HtmlAttributes(new { @class = "utc-date", utc_date_value = "#:PunchDate#" });
           columns.Bound(c => c.PunchIn).Groupable(false).Filterable(false).ClientTemplate("#:PunchIn.Hours#:#:PunchIn.Minutes#").HtmlAttributes(new { @class = "utc-time", utc_time_value = "#:PunchIn.Hours#:#:PunchIn.Minutes#" });
-          columns.Bound(c => c.PunchOut).Groupable(false).Filterable(false).ClientTemplate("#: PunchOut.Hours #:#: PunchOut.Minutes  #").HtmlAttributes(new {@class= "utc-time", utc_time_value = "#:PunchOut.Hours#:#:PunchOut.Minutes#" });
+          columns.Bound(c => c.PunchOut).Groupable(false).Filterable(false).ClientTemplate("#:PunchOut == null ? 0 :PunchOut.Hours #:#: PunchOut == null ? 0 : PunchOut.Minutes  #").HtmlAttributes(new {@class= "utc-time", utc_time_value = "#: PunchOut == null ? 0 : PunchOut.Hours#:#:PunchOut == null ? 0 : PunchOut.Minutes #" });
           columns.Bound(c => c.Duration).Groupable(false).Filterable(false)
               .ClientFooterTemplate("#= SecondsToTime(data.DurationInSeconds.sum) # ")
               .ClientTemplate("#:formatDuration(Duration.Hours,Duration.Minutes) #").HtmlAttributes(new { @class = "" });
-          columns.Bound(c => c.Comments).Filterable(false).Groupable(false).ClientTemplate("# if (ApprovalRequired == true && Approved == false && '" + (ViewBag.IsAdmin).ToString() + "' !== 'True') {# Please get this time log approved #} else{#  #:Comments# #}#");
+          columns.Bound(c => c.Comments).Visible((bool)ViewBag.IsAdmin).Filterable(false).Groupable(false).ClientTemplate("# if (ApprovalRequired == true && Approved == false && '" + (ViewBag.IsAdmin).ToString() + "' !== 'True') {# Please get this time log approved #} else{#  #:Comments# #}#");
           //columns.Command(command =>
           //{
           //    command.Edit().Text(" ");
