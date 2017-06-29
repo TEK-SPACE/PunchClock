@@ -232,13 +232,13 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null &&  (x.CompanyId == companyId)).ToList();
+                return context.SiteMenus.Include(x=>x.UserAccesses).ToList().Where(x=>x.ParentId == null && (x.IsCoreItem || x.CompanyId == companyId)).ToList();
             }
         }
 
         public string ComposeRegisteredEmail(CompanyRegister companyRegister)
         {
-            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+            var appSettings = _appSettingService.GetByModules((int)ModuleType.Core);
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreCompanyRegisteredEmailTemplate, StringComparison.OrdinalIgnoreCase))
@@ -265,7 +265,7 @@ namespace PunchClock.Core.Implementation
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.EmployeeInvites.Where(x => x.CompanyId == companyId).ToList();
+                return context.EmployeeInvites.Include(x=>x.UserType).Where(x => x.CompanyId == companyId).ToList();
             }
         }
 
@@ -279,7 +279,7 @@ namespace PunchClock.Core.Implementation
 
         public string ComposeInviteEmail(EmployeeInvite invite)
         {
-            var appSettings = _appSettingService.GetByModule(moduleId: (int)ModuleType.Core);
+            var appSettings = _appSettingService.GetByModules((int)ModuleType.Core);
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.CoreCompanyInviteEmployeeEmailTemplate, StringComparison.OrdinalIgnoreCase))
@@ -293,6 +293,7 @@ namespace PunchClock.Core.Implementation
             {
                 var emailContent = File.ReadAllText(emailTemplatePath);
                 emailContent = emailContent.Replace("#Name#", invite.Name);
+                emailContent = emailContent.Replace("#CreatedBy#", invite.InvitedBy);
                 emailContent = emailContent.Replace("#Email#", invite.Email);
                 emailContent = emailContent.Replace("#LinkToRegister#", invite.LinkToRegister);
                 return emailContent;
@@ -309,11 +310,25 @@ namespace PunchClock.Core.Implementation
             }
         }
 
-        public void Invite(EmployeeInvite invite)
+        public string Invite(EmployeeInvite invite)
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
+                invite.GlobalId = Guid.NewGuid().ToString("D");
+                invite.UserType = context.UserTypes.FirstOrDefault(x => x.Id == invite.UserTypeId);
                 context.EmployeeInvites.AddOrUpdate(invite);
+                context.SaveChanges();
+                return invite.GlobalId;
+            }
+        }
+
+        public EmployeeInvite ByInviteKey(string id)
+        {
+            using (PunchClockDbContext context = new PunchClockDbContext())
+            {
+                var invite = context.EmployeeInvites.Include(x => x.Company)
+                    .FirstOrDefault(x => x.GlobalId == id && !x.InviteRevoked);
+                return invite;
             }
         }
     }

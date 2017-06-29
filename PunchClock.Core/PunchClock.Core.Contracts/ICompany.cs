@@ -25,6 +25,7 @@ namespace PunchClock.Core.Contracts
         void UpdateInvite(EmployeeInvite invite);
         string ComposeInviteEmail(EmployeeInvite invite);
         void DeleteInvite(EmployeeInvite invite);
-        void Invite(EmployeeInvite invite);
+        string Invite(EmployeeInvite invite);
+        EmployeeInvite ByInviteKey(string id);
     }
 }

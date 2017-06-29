@@ -23,7 +23,7 @@ namespace PunchClock.UI.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private readonly ISite _siteService;
-        private readonly CompanyService _companyService;
+        private readonly ICompany _companyService;
 
         private ApplicationSignInManager SignInManager
         {
@@ -56,37 +56,23 @@ namespace PunchClock.UI.Web.Controllers
             _companyService = new CompanyService();
         }
 
-        public ActionResult Register(string code)
+        public ActionResult Register(string id)
         {
             if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Edit", "User", new { userName = OperatingUser.UserName });
-            var company = _companyService.Get(code);
-            if (company == null)
+                return RedirectToAction("Edit", "User", new {userName = OperatingUser.UserName});
+            var invite = _companyService.ByInviteKey(id);
+            if (invite == null)
             {
-                return View("InvalidCode");
+                return View("InvalidInvite");
             }
             User user = new User
             {
                 LastActivityIp = UserSession.IpAddress,
                 LastActiveMacAddress = UserSession.MacAddress,
-                RegistrationCode = code
+                RegistrationCode = invite.Company.RegisterCode,
+                UserTypeId = invite.UserTypeId,
+                Email = invite.Email
             };
-
-            var systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
-            user.TimezonesList = (from t in systemTimeZones
-                                  orderby t.Id
-                                  select new SelectListItem
-                                  {
-                                       Value = t.Id,
-                                       Text = t.Id
-                                  }).ToList();
-            user.TimezonesList.Single(x => x.Value == "US Eastern Standard Time").Selected = true;
-
-            var userTypes = Get.UserTypes(true);
-            if (user.UserTypeId > 0)
-                userTypes.First(x => x.Value == user.UserTypeId.ToString()).Selected = true;
-            ViewBag.UserTypes = userTypes;
-
             return View(user);
         }
 

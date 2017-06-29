@@ -18,11 +18,11 @@ namespace PunchClock.Configuration.Service
             }
         }
 
-        public List<AppSetting> GetByModule(int moduleId)
+        public List<AppSetting> GetByModules(params int[] moduleIds)
         {
             using (PunchClockDbContext context = new PunchClockDbContext())
             {
-                return context.AppSettings.Where(x => x.ModuleId == moduleId).ToList();
+                return context.AppSettings.Where(x => moduleIds.Any(m=>x.ModuleId == m)).ToList();
             }
         }
 

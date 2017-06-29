@@ -12,5 +12,6 @@ namespace PunchClock.Ticketing.Contracts
         TicketPriority GetTicketPriorityId(int id);
         List<TicketPriority> GetAllTicketPriority();
         List<TicketPriority> GetPriorityByCompanyIdList(int companyId);
+        void Delete(TicketPriority ticketPriority);
     }
 }

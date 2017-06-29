@@ -8,11 +8,10 @@ using PunchClock.Domain.Model;
 
 namespace PunchClock.Ticketing.Services
 {
-   public class TicketTypeService : ITicketType
+    public class TicketTypeService : ITicketType
     {
         public TicketType Add(TicketType type)
         {
-
             using (var context = new PunchClockDbContext())
             {
                 context.TicketTypes.Add(type);
@@ -20,6 +19,7 @@ namespace PunchClock.Ticketing.Services
             }
             return type;
         }
+
         public AjaxResponse Delete(int id)
         {
             throw new NotImplementedException();
@@ -41,6 +41,20 @@ namespace PunchClock.Ticketing.Services
             }
         }
 
+        public void Delete(TicketType type)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                var ticketType = context.TicketTypes.FirstOrDefault(x => x.Id == type.Id);
+                if (ticketType == null) return;
+                ticketType.Name = type.Name;
+                ticketType.ModifiedById = type.ModifiedById;
+                ticketType.ModifiedDateUtc = DateTime.UtcNow;
+                ticketType.IsDeleted = true;
+                context.SaveChanges();
+            }
+        }
+
         public TicketType GetTicketTypeById(int id)
         {
             using (var context = new PunchClockDbContext())
@@ -53,13 +67,13 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                var oldTicketType = context.TicketTypes.FirstOrDefault(x => x.Id == type.Id);
-                if (oldTicketType == null) return type;
-                oldTicketType.Name = type.Name;
-                oldTicketType.Description = type.Description;
-                oldTicketType.DisplayOrder = type.DisplayOrder;
-                oldTicketType.ModifiedById = type.ModifiedById;
-                oldTicketType.ModifiedDateUtc = DateTime.UtcNow;
+                var ticketType = context.TicketTypes.FirstOrDefault(x => x.Id == type.Id);
+                if (ticketType == null) return type;
+                ticketType.Name = type.Name;
+                ticketType.Description = type.Description;
+                ticketType.DisplayOrder = type.DisplayOrder;
+                ticketType.ModifiedById = type.ModifiedById;
+                ticketType.ModifiedDateUtc = DateTime.UtcNow;
                 context.SaveChanges();
             }
             return type;

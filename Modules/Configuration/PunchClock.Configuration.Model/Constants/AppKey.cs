@@ -14,5 +14,7 @@
         public const string CoreGeoEmailTemplate = "CoreGeoEmailTemplate";
         public const string CoreCompanyInviteEmployeeEmailTemplate = "CoreCompanyInviteEmployeeEmailTemplate";
         public const string CoreUserRegisteredEmailTemplate = "CoreUserRegisteredEmailTemplate";
+        public const string TicketCreateEmailTemplate = "TicketCreateEmailTemplate";
+        public const string TicketEditEmailTemplate = "TicketEditEmailTemplate";
     }
 }

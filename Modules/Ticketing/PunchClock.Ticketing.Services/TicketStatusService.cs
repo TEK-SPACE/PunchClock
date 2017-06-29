@@ -29,14 +29,14 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                var oldTicketStatus = context.TicketStatuses.FirstOrDefault(x => x.Id == status.Id);
-                if (oldTicketStatus == null) return status;
-                oldTicketStatus.Name = status.Name;
-                oldTicketStatus.Description = status.Description;
-                oldTicketStatus.DisplayOrder = status.DisplayOrder;
-                oldTicketStatus.ModifiedById = status.ModifiedById;
-                oldTicketStatus.ModifiedDateUtc = DateTime.UtcNow;
-               context.SaveChanges();
+                var ticketStatus = context.TicketStatuses.FirstOrDefault(x => x.Id == status.Id);
+                if (ticketStatus == null) return status;
+                ticketStatus.Name = status.Name;
+                ticketStatus.Description = status.Description;
+                ticketStatus.DisplayOrder = status.DisplayOrder;
+                ticketStatus.ModifiedById = status.ModifiedById;
+                ticketStatus.ModifiedDateUtc = DateTime.UtcNow;
+                context.SaveChanges();
             }
             return status;
         }
@@ -56,11 +56,25 @@ namespace PunchClock.Ticketing.Services
                 return context.TicketStatuses.Where(x => x.IsDeleted == false).ToList();
             }
         }
+
         public List<TicketStatus> GetStatusByCompanyIdList(int companyId)
         {
             using (var context = new PunchClockDbContext())
             {
                 return context.TicketStatuses.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
+            }
+        }
+
+        public void Delete(TicketStatus status)
+        {
+            using (var context = new PunchClockDbContext())
+            {
+                var ticketStatus = context.TicketStatuses.FirstOrDefault(x => x.Id == status.Id);
+                if (ticketStatus == null) return;
+                ticketStatus.ModifiedById = status.ModifiedById;
+                ticketStatus.ModifiedDateUtc = DateTime.UtcNow;
+                ticketStatus.IsDeleted = true;
+                context.SaveChanges();
             }
         }
     }

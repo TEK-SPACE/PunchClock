@@ -7,7 +7,7 @@ namespace PunchClock.Ticketing.Contracts
     public interface ITicket
     {
         Ticket Add(Ticket ticket);
-        Ticket Update(Ticket ticket);
+        Ticket Update(Ticket ticket, ref List<ChangeLog> changeLogs);
         AjaxResponse Delete(int id);
         List<Ticket> All();
         void Delete(Ticket ticket);
@@ -18,5 +18,7 @@ namespace PunchClock.Ticketing.Contracts
         List<TicketType> GetTypes(int companyId);
         List<TicketProject> GetProjects(int companyId);
         Ticket Details(int id);
+        string ComposeTicketCreatedEmail(Ticket ticket);
+        string ComposeTicketEditEmail(Ticket ticket, List<ChangeLog> changeLogs);
     }
 }

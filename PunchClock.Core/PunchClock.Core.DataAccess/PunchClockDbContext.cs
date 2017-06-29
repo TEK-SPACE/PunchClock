@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace PunchClock.Core.DataAccess
         {
             return new PunchClockDbContext();
         }
+
+        public DbSet<ChangeLog> ChangeLogs { get; set; }
 
         #region Company
         public DbSet<Company> Companies { get; set; }
@@ -100,6 +103,52 @@ namespace PunchClock.Core.DataAccess
                 select h).ToList();
         }
 
+        public override int SaveChanges()
+        {
+            List<ChangeLog> logs = GetEntityChanges();
+            ChangeLogs.AddRange(logs);
+            return base.SaveChanges();
+        }
+
+        public virtual List<ChangeLog> GetEntityChanges()
+        {
+            List<ChangeLog> logs = new List<ChangeLog>();
+            var modifiedEntities = ChangeTracker.Entries()
+                .Where(p => p.State == EntityState.Modified).ToList();
+            var now = DateTime.UtcNow;
+
+            foreach (var change in modifiedEntities)
+            {
+                var entityName = change.Entity.GetType().Name;
+                var primaryKey = GetPrimaryKeyValue(change);
+
+                foreach (var prop in change.OriginalValues.PropertyNames)
+                {
+                    var originalValue = change.OriginalValues[prop]?.ToString() ?? string.Empty;
+                    var currentValue = change.CurrentValues[prop]?.ToString() ?? string.Empty;
+                    if (originalValue != currentValue)
+                    {
+                        ChangeLog log = new ChangeLog
+                        {
+                            EntityName = entityName,
+                            PrimaryKeyValue = primaryKey.ToString(),
+                            PropertyName = prop,
+                            OldValue = originalValue,
+                            NewValue = currentValue,
+                            DateChanged = now
+                        };
+                        logs.Add(log);
+                    }
+                }
+            }
+            return logs;
+        }
+
+        object GetPrimaryKeyValue(DbEntityEntry entry)
+        {
+            var objectStateEntry = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
+            return objectStateEntry.EntityKey.EntityKeyValues[0].Value;
+        }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

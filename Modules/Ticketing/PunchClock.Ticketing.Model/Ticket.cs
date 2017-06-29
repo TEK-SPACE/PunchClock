@@ -64,6 +64,8 @@ namespace PunchClock.Ticketing.Model
         [Column(TypeName = "datetime2")]
         [Display(Name = "Due Date")]
         public DateTime? DueDateUtc { get; set; }
+        [NotMapped] [ScaffoldColumn(false)]
+        public string LinkToTicketDetails { get; set; }
         //public List<TicketNotificationsTo> NotificationsTo { get; set; }
 
         [ForeignKey("ProjectId")]

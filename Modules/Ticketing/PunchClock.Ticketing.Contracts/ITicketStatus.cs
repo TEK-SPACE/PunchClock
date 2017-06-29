@@ -12,5 +12,6 @@ namespace PunchClock.Ticketing.Contracts
         TicketStatus GetTicketStatusById(int id);
         List<TicketStatus> GetAllTicketStatuses();
         List<TicketStatus> GetStatusByCompanyIdList(int companyId);
+        void Delete(TicketStatus ticketStatus);
     }
 }
