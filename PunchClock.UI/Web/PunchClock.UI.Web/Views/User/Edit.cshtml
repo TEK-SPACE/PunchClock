@@ -2,9 +2,8 @@
 @{
     ViewBag.Title = "Users Details";
 }
-@{ List<SelectListItem> accountType = new List<SelectListItem> {new SelectListItem {Text = "Employee", Value = Convert.ToString((int) PunchClock.Domain.Model.Enum.UserType.Employee)}, new SelectListItem {Text = "Manager", Value = Convert.ToString((int) PunchClock.Domain.Model.Enum.UserType.Manager)}}; }
 <div class="col-lg-6">
-    <div class="well bs-component">
+    <div class="well">
         @using (Ajax.BeginForm("Edit", "User", null,
                                 new AjaxOptions { HttpMethod = "POST", OnSuccess = "postUpdateUser" },
                                 new { @class = "form-horizontal" }))
@@ -14,29 +13,29 @@
                 @Html.HiddenFor(x => x.Id)
                 @Html.HiddenFor(x => x.Uid)
                 <div class="form-group">
-                    @Html.LabelFor(x => x.FirstName, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
+                    @Html.LabelFor(x => x.FirstName, new { @class = "control-label" })
                         @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.FirstName)
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(x => x.LastName, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
+                    @Html.LabelFor(x => x.LastName, new { @class = "control-label" })
                         @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.LastName)
                     </div>
                 </div>
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(x => x.Email, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
                         @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Email)
                     </div>
-                </div>
+                </div>*@
                 <div class="form-group">
-                    @Html.LabelFor(x => x.PhoneNumber, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
+                    @Html.LabelFor(x => x.PhoneNumber, new { @class = "control-label" })
                         @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.PhoneNumber)
                     </div>

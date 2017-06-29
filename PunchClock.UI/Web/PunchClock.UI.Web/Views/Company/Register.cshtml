@@ -15,48 +15,54 @@
         </div>
         <div class="well">
             <fieldset>
-
-
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.FirstName).Value("").HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.FirstName, title = RegistrationTooltip.FirstName })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.FirstName, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.FirstName, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.FirstName).Value("").HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.FirstName, title = RegistrationTooltip.FirstName})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.FirstName, "", new {@class = "text-danger"})
                     </div>
 
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.LastName).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.LastName, title = RegistrationTooltip.LastName })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.LastName, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.LastName, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.LastName).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.LastName, title = RegistrationTooltip.LastName})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.LastName, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.Email).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.Email, title = RegistrationTooltip.Email })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.Email, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.Email, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.Email).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.Email, title = RegistrationTooltip.Email})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.Email, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.PhoneNumber).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.PhoneNumber, title = RegistrationTooltip.PhoneNumber })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.PhoneNumber, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.PhoneNumber, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.PhoneNumber).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.PhoneNumber, title = RegistrationTooltip.PhoneNumber})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.PhoneNumber, "", new {@class = "text-danger"})
                     </div>
 
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.UserName).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.UserName, title = RegistrationTooltip.UserName })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.UserName, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.UserName, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.UserName).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.UserName, title = RegistrationTooltip.UserName})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.UserName, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.Password).HtmlAttributes(new { id = "userPassword", required = "required", @class = "form-control", type = "password", placeholder = RegistrationPlacehoder.Password, title = RegistrationTooltip.Password })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.Password, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.Password, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.Password).HtmlAttributes(new {id = "userPassword", required = "required", @class = "form-control", type = "password", placeholder = RegistrationPlacehoder.Password, title = RegistrationTooltip.Password})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.Password, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationCode).Value(registrationCode).HtmlAttributes(new { @class = "form-control", @readonly = "readonly", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode })
-                        @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationCode, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.RegistrationCode, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationCode).Value(registrationCode).HtmlAttributes(new {@class = "form-control", @readonly = "readonly", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode})
+                        @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationCode, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-lg-6">
-                        @Html.Kendo().ComboBoxFor(x => x.CreatedBy.UserTypeId).Value(Convert.ToString((int)PunchClock.Domain.Model.Enum.UserType.CompanyAdmin)).DataSource(x => x.Read("Types", "User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new { @class = "form-control", title = RegistrationTooltip.UserType, @readonly = "readonly" }).Placeholder(RegistrationPlacehoder.UserType)
-                        @Html.ValidationMessageFor(x => x.CreatedBy.UserTypeId, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.CreatedBy.UserTypeId, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().ComboBoxFor(x => x.CreatedBy.UserTypeId).Value(Convert.ToString((int) PunchClock.Domain.Model.Enum.UserType.CompanyAdmin)).DataSource(x => x.Read("Types", "User")).DataValueField("Id").DataTextField("Description").HtmlAttributes(new {@class = "form-control", title = RegistrationTooltip.UserType, @readonly = "readonly"}).Placeholder(RegistrationPlacehoder.UserType)
+                        @Html.ValidationMessageFor(x => x.CreatedBy.UserTypeId, "", new {@class = "text-danger"})
                     </div>
                 </div>
             </fieldset>
@@ -73,27 +79,32 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().TextBoxFor(x => x.Company.Name).HtmlAttributes(new {@class = "form-control", placeholder= RegistrationPlacehoder.CompanyName, title = RegistrationTooltip.CompanyName})
-                        @Html.ValidationMessageFor(x => x.Company.Name, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.Company.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(x => x.Company.Name).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.CompanyName, title = RegistrationTooltip.CompanyName})
+                        @Html.ValidationMessageFor(x => x.Company.Name, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-lg-6">
+                        @Html.LabelFor(x => x.Company.RegisterCode, htmlAttributes: new { @class = "control-label" })
                         @Html.Kendo().TextBoxFor(x => x.Company.RegisterCode).Value(registrationCode).HtmlAttributes(new {@class = "form-control", @readonly = "readonly", placeholder = RegistrationPlacehoder.RegistrationCode, title = RegistrationTooltip.RegistrationCode})
                         @Html.ValidationMessageFor(x => x.Company.RegisterCode, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        @Html.Kendo().EditorFor(x => x.Company.Summary).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.CompanySummary, title = RegistrationTooltip.CompanySummary })
-                        @Html.ValidationMessageFor(x => x.Company.Summary, "", new { @class = "text-danger" })
+                        @Html.LabelFor(x => x.Company.Summary, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().EditorFor(x => x.Company.Summary).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.CompanySummary, title = RegistrationTooltip.CompanySummary})
+                        @Html.ValidationMessageFor(x => x.Company.Summary, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-6">
-                        @Html.Kendo().Upload().Multiple(false).Validation(x=>x.AllowedExtensions(new [] {".gif",".jpg",".png"}).MaxFileSize(3145728)).Name("logo").HtmlAttributes(new {id = "fileUploader", @class = "form-control", placeholder = RegistrationPlacehoder.CompanyLogo, title = RegistrationTooltip.CompanyLogo })
+                        @Html.LabelFor(x => x.Company.LogoBinary, htmlAttributes: new { @class = "control-label" })
+                        @Html.Kendo().Upload().Multiple(false).Validation(x => x.AllowedExtensions(new[] {".gif", ".jpg", ".png"}).MaxFileSize(3145728)).Name("logo").HtmlAttributes(new {id = "fileUploader", @class = "form-control", placeholder = RegistrationPlacehoder.CompanyLogo, title = RegistrationTooltip.CompanyLogo})
                         @Html.ValidationMessageFor(x => x.Company.LogoUrl, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-lg-6">
-                        @(Html.Kendo().NumericTextBoxFor(x=>x.Company.DeltaPunchTime)
+                        @Html.LabelFor(x => x.Company.DeltaPunchTime, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().NumericTextBoxFor(x => x.Company.DeltaPunchTime)
                               .Format("0")
                               .Min(0)
                               .Max(30)
@@ -114,39 +125,45 @@
         <div class="well">
             <div class="form-group">
                 <div class="col-lg-6">
-                    @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationAddress.Address1).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.Address1, title = RegistrationTooltip.Address1 })
-                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.Address1, "", new { @class = "text-danger" })
+                    @Html.LabelFor(x => x.CreatedBy.RegistrationAddress.Address1, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationAddress.Address1).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.Address1, title = RegistrationTooltip.Address1})
+                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.Address1, "", new {@class = "text-danger"})
                 </div>
                 <div class="col-lg-6">
-                    @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationAddress.Address2).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.Address2, title = RegistrationTooltip.Address2 })
-                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.Address1, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-6">
-                    @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationAddress.City).HtmlAttributes(new { @class = "form-control", placeholder = RegistrationPlacehoder.City, title = RegistrationTooltip.City })
-                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.City, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-lg-6">
-                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.CountryId).Filter(FilterType.Contains).DataSource(x => x.Read(r => r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new { @class = "form-control regDropdown", required = "required", style = "width:100%;", placeholder = RegistrationPlacehoder.Country, title = RegistrationTooltip.Country })
-                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.CountryId, "", new { @class = "text-danger" })
+                    @Html.LabelFor(x => x.CreatedBy.RegistrationAddress.Address2, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationAddress.Address2).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.Address2, title = RegistrationTooltip.Address2})
+                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.Address2, "", new {@class = "text-danger"})
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-6">
-                    @Html.Kendo().ComboBoxFor(x => x.CreatedBy.RegisteredTimeZone).DataSource(x => x.Read("Zones", "User")).DataValueField("Id").DataTextField("Id").Value(ConfigHelper.DefaultTimezone()).HtmlAttributes(new { @class = "k-dropdownTimeZones form-control", required = "required", title = RegistrationTooltip.Timezone }).Placeholder(RegistrationPlacehoder.Timezone)
-                    @Html.ValidationMessageFor(x => x.CreatedBy.RegisteredTimeZone, "", new { @class = "text-danger" })
+                    @Html.LabelFor(x => x.CreatedBy.RegistrationAddress.City, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(x => x.CreatedBy.RegistrationAddress.City).HtmlAttributes(new {@class = "form-control", placeholder = RegistrationPlacehoder.City, title = RegistrationTooltip.City})
+                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.City, "", new {@class = "text-danger"})
                 </div>
                 <div class="col-lg-6">
-                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.StateId).DataSource(x => x.Read(r => r.Action("States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("CreatedBy_RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new { @class = "form-control regDropdown", style = "width:100%;", required = "required", placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State })
-                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.StateId, "", new { @class = "text-danger" })
+                    @Html.LabelFor(x => x.CreatedBy.RegistrationAddress.CountryId, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.CountryId).Filter(FilterType.Contains).DataSource(x => x.Read(r => r.Action("Countries", "User")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").OptionLabel(RegistrationPlacehoder.Country).HtmlAttributes(new {@class = "form-control regDropdown", required = "required", style = "width:100%;", placeholder = RegistrationPlacehoder.Country, title = RegistrationTooltip.Country})
+                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.CountryId, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    @Html.LabelFor(x => x.CreatedBy.RegisteredTimeZone, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().ComboBoxFor(x => x.CreatedBy.RegisteredTimeZone).DataSource(x => x.Read("Zones", "User")).DataValueField("Id").DataTextField("Id").Value(ConfigHelper.DefaultTimezone()).HtmlAttributes(new {@class = "k-dropdownTimeZones form-control", required = "required", title = RegistrationTooltip.Timezone}).Placeholder(RegistrationPlacehoder.Timezone)
+                    @Html.ValidationMessageFor(x => x.CreatedBy.RegisteredTimeZone, "", new {@class = "text-danger"})
+                </div>
+                <div class="col-lg-6">
+                    @Html.LabelFor(x=>x.CreatedBy.RegistrationAddress.StateId, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().DropDownListFor(x => x.CreatedBy.RegistrationAddress.StateId).DataSource(x => x.Read(r => r.Action("States", "User").Data("filterStates")).ServerFiltering(true)).DataValueField("Id").DataTextField("Name").CascadeFrom("CreatedBy_RegistrationAddress_CountryId").Enable(false).AutoBind(false).HtmlAttributes(new {@class = "form-control regDropdown", style = "width:100%;", required = "required", placeholder = RegistrationPlacehoder.State, title = RegistrationTooltip.State})
+                    @Html.ValidationMessageFor(x => x.CreatedBy.RegistrationAddress.StateId, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
 
         <div class="">
             <input type="submit" value="Register" class="btn btn-primary" />
-            <input type="submit" value="Cancel" class="btn btn-primary" onclick="location.href = '/';" />
+            <input type="button" value="Cancel" class="btn btn-primary" onclick="location.href = '/';" />
         </div>
     </div>
 }

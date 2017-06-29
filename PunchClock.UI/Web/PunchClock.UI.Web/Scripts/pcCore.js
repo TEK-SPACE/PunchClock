@@ -187,9 +187,9 @@ $(function () {
         }
     }
 
-    $("button.punchCompleteMessage").click(function () {
-        window.location ="/";
-    })
+    $("button.punchCompleteMessage").click(function() {
+        window.location = "/";
+    });
 
     function punchCompleteMessage() {
 
@@ -207,7 +207,7 @@ $(function () {
             $("#enDate").val("").attr("required", "required");
         }
     });
-    $(".reportDate").blur(function () {
+    $(".reportDate").blur(function() {
         var inputValue = $(this).val();
         if (inputValue === null || inputValue === undefined || inputValue.length === 0) {
             $(this).val("");
@@ -218,13 +218,12 @@ $(function () {
         if (isNaN(d.getTime())) {
             alert($(this).val() + "is not a valid date.\nPlease enter valid date");
             $(this).val("");
-        }
-        else {
+        } else {
             $(this).removeAttr("required");
         }
-    })
+    });
 
-    
+
 });
 
     $(function () {
@@ -391,23 +390,24 @@ function appSettingEditable(dataItem) {
     // do not allow editing for product with ProductID=3
     return dataItem.IsEditable;
 }
-$(document).ready(function () {
-    var tooltip = $(".form-horizontal").kendoTooltip({
-        filter: "input,select,textarea",
-        width: 120,
-        position: "top",
-        animation: {
-            close: {
-                effects: "fade:out"
-            }
-        }
-    }).data("kendoTooltip");
+//$(document).ready(function () {
+//    var tooltip = $(".form-horizontal").kendoTooltip({
+//        filter: "input,select,textarea",
+//        width: 120,
+//        position: "top",
+//        animation: {
+//            close: {
+//                effects: "fade:out"
+//            }
+//        }
+//    }).data("kendoTooltip");
 
-    $(".form-horizontal").find("a").click(false);
-});
-function getTooltip(e) {
-    return $(e.target).parent().find("input").attr("title");
-}
+//    $(".form-horizontal").find("a").click(false);
+//});
+
+//function getTooltip(e) {
+//    return $(e.target).parent().find("input").attr("title");
+//}
 function refreshGrid() {
     $(document.activeElement).parentsUntil(".kgrid").find(".k-pager-refresh").trigger("click");
 }

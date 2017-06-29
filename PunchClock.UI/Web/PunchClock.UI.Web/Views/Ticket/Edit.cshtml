@@ -93,7 +93,7 @@
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                     </div>
                     <div class="col-md-3">
-                        @Html.Kendo().DatePickerFor(model => model.DueDateUtc).Min(DateTime.Now.AddDays(1)).HtmlAttributes(new {placeholder = "Due Date", style = "width:100%;"})
+                        @Html.Kendo().DatePickerFor(model => model.DueDateUtc).DateInput().Min(DateTime.Now.AddDays(1)).HtmlAttributes(new {placeholder = "Due Date", style = "width:100%;"})
                         @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
                     </div>
                 </div>

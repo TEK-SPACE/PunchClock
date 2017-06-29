@@ -155,7 +155,7 @@ namespace PunchClock.Core.Implementation
                 u.FirstName = user.FirstName;
                 u.LastName = user.LastName;
                 u.MiddleName = user.MiddleName;
-                u.Email = user.Email;
+                //u.Email = user.Email;
                 u.PhoneNumber = user.PhoneNumber;
                 if (!adminUpdate)
                 {
