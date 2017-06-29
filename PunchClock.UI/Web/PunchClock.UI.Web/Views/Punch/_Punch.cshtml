@@ -18,9 +18,7 @@
                     <div class="form-group">
                         <div class="col-lg-10">
                             <span>
-                                @Html.Raw(string.Format("You have <span class='text-warning'> punched in at <strong>{1}</strong> </span> on {0}",
-                                    Html.DisplayFor(x => Model.PunchDate),
-                                    Html.DisplayFor(x => Model.PunchIn)))
+                                @Html.Raw($"You have <span class='text-warning last-punch-in'> Punched in at <strong><span class='utc-date' utc-date-value='{Model.PunchDate}'>{Model.PunchDate}</span></strong> on <span class='utc-time' utc-time-value='{Model.PunchIn}'>{Model.PunchIn}</span></span>")
                             </span>
                         </div>
                     </div>
@@ -102,7 +100,7 @@
 <script>
     $("#reqDifferentTime").click(function (e) {
         //min: new Date($(".utc-date").text() + $(".UTCTime").text())
-        var pOutDate = new Date($(".utc-date").text() + " " + $(".utc-time").text());
+        var pOutDate = new Date($(".utc-date").attr("utc-date-value") + " " + $(".utc-time").attr("utc-time-value"));
         var d = new Date();
         if ($(this).is(":checked")) {
             var $pTime = $(".pTime");
@@ -146,4 +144,5 @@
     //    var $kwContent = $window.data("kendoWindow");
     //    $kwContent.refresh();
     //});
+   
 </script>

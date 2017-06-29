@@ -99,7 +99,7 @@ namespace PunchClock.TimeTracker.Service
             }
 
             message = string.Format(
-                "<div class=\"{0}\">  <button type=\"button\" class=\"close punchCompleteMessage\" data-dismiss=\"alert\">×</button>" +
+                "<div class=\"{0}\">  <button type=\"button\" class=\"close punchCompleteMessage\" onclick=\"punchCompleteMessage();\" data-dismiss=\"alert\">×</button>" +
                 message + "</div>",
                 message == "Successfully punched Out"
                     ? "alert alert-dismissable alert-success"

@@ -23,10 +23,10 @@
           columns.Bound(c => c.StatusId).ClientGroupHeaderTemplate("#:getTicketStatus(value) #").EditorTemplateName("TicketStatus").ClientTemplate("#: Status.Name #"); ;
           columns.Bound(c => c.PriorityId).ClientGroupHeaderTemplate("#:getTicketPriority(value) #").EditorTemplateName("TicketPriorities").ClientTemplate("#: Priority.Name #"); ;
           columns.Bound(c => c.AssignedToId).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: AssignedTo.DisplayName #");
-          columns.Bound(c => c.DueDateUtc).Format("{0:dd/MM/yyyy}");
+          columns.Bound(c => c.DueDateUtc).HtmlAttributes(new { @class = "utc-date", utc_date_value = "#:DueDateUtc#" });//.Format("{0:dd/MM/yyyy}");
           columns.Bound(c => c.ModifiedById).ClientGroupHeaderTemplate("#: getUserName(value) #").EditorTemplateName("UsersDropdownList").ClientTemplate("#: ModifiedBy.DisplayName #");
-          columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm tt}");
-          columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm tt}");
+          columns.Bound(c => c.CreatedDateUtc).HtmlAttributes(new { @class="utc-date-time", utc_date_time_value = "#:CreatedDateUtc#" });//.Format("{0:dd/MM/yyyy HH:mm tt}");
+          columns.Bound(c => c.ModifiedDateUtc).HtmlAttributes(new { @class = "utc-date-time", utc_date_time_value = "#:ModifiedDateUtc#" });
           columns.Command(command =>
           {
               command.Edit().Text(" ");
@@ -41,6 +41,7 @@
           //toolbar.Create();
           toolbar.Save();
       })
+      //.Events(events=>events.DataBinding("convertUtcToLocal"))
       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable(pageable => pageable
           .Refresh(true)

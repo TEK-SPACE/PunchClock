@@ -78,13 +78,47 @@ $(function () {
     })    ;
 });
 
-function centerPunchWindow() {
+$(".k-i-window-restore").click(function () {
+        var $window = $("#TimeTracker");
+        var $kwContent = $window.data("kendoWindow");
+        $kwContent.center();
+    });
+
+function setTimeTrakerMode() {
+    var $window = $("#TimeTracker");
+    var $kwContent = $window.data("kendoWindow");
+    var activeButton = $($window.find("input")[0]).val();
+    //alert(activeButton);
+    if (activeButton === "Punch Out Now") {
+        $window.kendoWindow({
+            position: {
+                top: ($(window).scrollTop() + $(window).height()) - 50,
+                left: 0
+            },
+            width: 600
+            //minimize:true,
+            //modal: false,
+            //title: "Time Tracker: Last Punched in at " + $window.find(".utc-time").html()
+        });
+        //$kwContent.title("Time Tracker: Last Punched in at " + $window.find(".last-punch-in").html());
+        $kwContent.title("");
+        $(".k-window-title").append($window.find(".last-punch-in").html());
+        $kwContent.minimize();
+    } else {
+        $kwContent.title("Time Tracker: Please punch-in");
+        $kwContent = $window.data("kendoWindow");
+        $kwContent.center();
+    }
+    //$kwContent.bind("maximize", centerTimetrackerWindow);
+    convertUtcToLocal();
+}
+
+
+function centerTimetrackerWindow() {
     var $window = $("#TimeTracker");
     var $kwContent = $window.data("kendoWindow");
     $kwContent.center();
 }
-
-
 function showDialog(strTitle, strContent, pxWidth, pxHeight) {
     var $window = $("#kwDialog");
     $window.kendoWindow({
@@ -97,18 +131,18 @@ function showDialog(strTitle, strContent, pxWidth, pxHeight) {
             "Maximize",
             "Close"
         ],
-        close: onClose
+        close: onWindowClose
     });
     var $kwContent = $window.data("kendoWindow");
     $kwContent.content(strContent);
     $kwContent.center();
     $kwContent.open();
-
-    var onClose = function () {
-        $kwContent.content("");
-    }
 }
-
+var onWindowClose = function () {
+    var $window = $("#kwDialog");
+    var $kwContent = $window.data("kendoWindow");
+    $kwContent.content("");
+}
 
 $(function () {
    
@@ -194,6 +228,7 @@ $(function () {
 function convertUtcToLocal() {
     convetUtcTimeToLocalTime();
     convetUtcDateToLocalDate();
+    convetUtcDateAndTimeToLocalDate();
 }
 function convetUtcDateToLocalDateByInput(inputDate) {
     var d = new Date();
@@ -210,12 +245,33 @@ function convetUtcDateToLocalDateByInput(inputDate) {
         }
     return "";
 }
+function convetUtcDateAndTimeToLocalDate() {
+    var d = new Date();
+    var offsetms = d.getTimezoneOffset() * 60 * 1000;
+    $('.utc-date-time').each(function () {
+        try {
+            var text = $(this).attr("utc-date-time-value");
+            var n = new Date(text);
+            n = new Date(n.valueOf() - offsetms);
+            var localDate = n.toLocaleDateString();
+            var localTime = n.toLocaleTimeString();
+            $(this).text(localDate + " " + localTime);
+            $(this).attr("value", localDate + " " + localTime);
+        }
+        catch (ex) {
+            console.warn("Error converting date", ex);
+            $(this).text("");
+            $(this).attr("value", "");
+        }
+    });
+}
+
     function convetUtcDateToLocalDate() {
         var d = new Date();
         var offsetms = d.getTimezoneOffset() * 60 * 1000;
         $('.utc-date').each(function () {
             try {
-                var text = $(this).text();
+                var text = $(this).attr("utc-date-value");
                 var n = new Date(text);
                 n = new Date(n.valueOf() - offsetms);
                 var localDate = n.toLocaleDateString();
@@ -234,7 +290,7 @@ function convetUtcDateToLocalDateByInput(inputDate) {
     var offsetms = d.getTimezoneOffset() * 60 * 1000;
     $('.utc-time').each(function() {
         try {
-            var text = $(this).text();
+            var text = $(this).attr("utc-time-value");
             var timeArray = String(text).split(':');
             var currentDate = new Date();
 
