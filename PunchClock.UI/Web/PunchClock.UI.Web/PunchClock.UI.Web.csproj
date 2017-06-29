@@ -784,6 +784,7 @@
     <Content Include="Views\Ticket\_ConfigPriority.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UserTypeDropdownList.cshtml" />
     <Content Include="Views\Ticket\_ConfigCategory.cshtml" />
+    <Content Include="Views\Punch\_Punch.cshtml" />
     <Content Include="Views\Ticket\_project.cshtml" />
   </ItemGroup>
   <ItemGroup>

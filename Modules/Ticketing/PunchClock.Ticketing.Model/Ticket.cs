@@ -38,6 +38,7 @@ namespace PunchClock.Ticketing.Model
         [UIHint("TicketPriorities")]
         [Required]
         public int PriorityId { get; set; }
+        [Required]
         [Display(Name = "Category")]
         [UIHint("TicketCategories")]
         public int CategoryId { get; set; }

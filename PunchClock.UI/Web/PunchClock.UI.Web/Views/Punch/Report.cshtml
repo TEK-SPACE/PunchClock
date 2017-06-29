@@ -12,9 +12,9 @@
           columns.Bound(c => c.Month).Filterable(ftb => ftb.Multi(true));
           columns.Bound(c => c.PunchDate)
               .ClientFooterTemplate("#= getFormattdDate(data.PunchDate.min) # - #= getFormattdDate(data.PunchDate.max) # ")
-              .ClientGroupHeaderTemplate("#:convetUtcDateToLocalDate(PunchDate)#").HtmlAttributes(new { @class = "utc-date" });
-          columns.Bound(c => c.PunchIn).Groupable(false).Filterable(false).ClientTemplate("#:PunchIn.Hours#:#:PunchIn.Minutes#").HtmlAttributes(new { @class = "utc-time" });
-          columns.Bound(c => c.PunchOut).Groupable(false).Filterable(false).ClientTemplate("#: PunchOut.Hours #:#: PunchOut.Minutes  #").HtmlAttributes(new {@class= "utc-time" });
+              .ClientGroupHeaderTemplate("#:convetUtcDateToLocalDate(PunchDate)#").HtmlAttributes(new { @class = "utc-date", utc_date_value = "#:PunchDate#" });
+          columns.Bound(c => c.PunchIn).Groupable(false).Filterable(false).ClientTemplate("#:PunchIn.Hours#:#:PunchIn.Minutes#").HtmlAttributes(new { @class = "utc-time", utc_time_value = "#:PunchIn.Hours#:#:PunchIn.Minutes#" });
+          columns.Bound(c => c.PunchOut).Groupable(false).Filterable(false).ClientTemplate("#: PunchOut.Hours #:#: PunchOut.Minutes  #").HtmlAttributes(new {@class= "utc-time", utc_time_value = "#:PunchOut.Hours#:#:PunchOut.Minutes#" });
           columns.Bound(c => c.Duration).Groupable(false).Filterable(false)
               .ClientFooterTemplate("#= SecondsToTime(data.DurationInSeconds.sum) # ")
               .ClientTemplate("#:formatDuration(Duration.Hours,Duration.Minutes) #").HtmlAttributes(new { @class = "" });
@@ -48,7 +48,7 @@
           .PaperSize("A4")
           .Scale(0.8)
           .Margin("2cm", "1cm", "1cm", "1cm")
-          //.Landscape()
+          .Landscape()
           .RepeatHeaders()
           .TemplateId("page-template")
           .FileName("PunchClock Result")

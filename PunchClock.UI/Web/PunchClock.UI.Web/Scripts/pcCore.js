@@ -78,9 +78,47 @@ $(function () {
     })    ;
 });
 
+$(".k-i-window-restore").click(function () {
+        var $window = $("#TimeTracker");
+        var $kwContent = $window.data("kendoWindow");
+        $kwContent.center();
+    });
+
+function setTimeTrakerMode() {
+    var $window = $("#TimeTracker");
+    var $kwContent = $window.data("kendoWindow");
+    var activeButton = $($window.find("input")[0]).val();
+    //alert(activeButton);
+    if (activeButton === "Punch Out Now") {
+        $window.kendoWindow({
+            position: {
+                top: ($(window).scrollTop() + $(window).height()) - 50,
+                left: 0
+            },
+            width: 600
+            //minimize:true,
+            //modal: false,
+            //title: "Time Tracker: Last Punched in at " + $window.find(".utc-time").html()
+        });
+        //$kwContent.title("Time Tracker: Last Punched in at " + $window.find(".last-punch-in").html());
+        $kwContent.title("");
+        $(".k-window-title").append($window.find(".last-punch-in").html());
+        $kwContent.minimize();
+    } else {
+        $kwContent.title("Time Tracker: Please punch-in");
+        $kwContent = $window.data("kendoWindow");
+        $kwContent.center();
+    }
+    //$kwContent.bind("maximize", centerTimetrackerWindow);
+    convertUtcToLocal();
+}
 
 
-
+function centerTimetrackerWindow() {
+    var $window = $("#TimeTracker");
+    var $kwContent = $window.data("kendoWindow");
+    $kwContent.center();
+}
 function showDialog(strTitle, strContent, pxWidth, pxHeight) {
     var $window = $("#kwDialog");
     $window.kendoWindow({
@@ -93,56 +131,22 @@ function showDialog(strTitle, strContent, pxWidth, pxHeight) {
             "Maximize",
             "Close"
         ],
-        close: onClose
+        close: onWindowClose
     });
     var $kwContent = $window.data("kendoWindow");
     $kwContent.content(strContent);
     $kwContent.center();
     $kwContent.open();
-
-    var onClose = function () {
-        $kwContent.content("");
-    }
+}
+var onWindowClose = function () {
+    var $window = $("#kwDialog");
+    var $kwContent = $window.data("kendoWindow");
+    $kwContent.content("");
 }
 
-
 $(function () {
-    $("#reqDifferentTime").click(function (e) {
-        //min: new Date($(".utc-date").text() + $(".UTCTime").text())
-        var pOutDate = new Date($(".utc-date").text() + " " + $(".utc-time").text());
-        var d = new Date();
-        if ($(this).is(":checked")) {
-            $pTime = $(".pTime");
-           // $pTime.inputmask("99:99 aa");
-            $pTime.show().attr("required", "required");
-            if (!$pTime.parent().hasClass("k-picker-wrap")) {
-                if ($pTime.attr("id") == "pTimePunchOut") {
-                    $pTime.kendoTimePicker({
-                        format: "hh:mm tt",
-                        min: new Date(pOutDate.getFullYear(), pOutDate.getMonth() + 1, pOutDate.getDay(), pOutDate.getHours() + 1, 0, 0),
-                        max: new Date(pOutDate.getFullYear(), pOutDate.getMonth() + 1, pOutDate.getDay(), pOutDate.getHours() + 9, 0, 0)
-                    });
-                }
-                else if ($pTime.attr("id") == "pTimePunchIn") {
-                    $pTime.kendoTimePicker({
-                        format: "hh:mm tt",
-                        min: new Date(d.getFullYear(), d.getMonth() + 1, d.getDay(), d.getHours() - 2, 0, 0),
-                        max: new Date(d.getFullYear(), d.getMonth() + 1, d.getDay(), d.getHours() + 2, 0, 0)
-                    });
-                }
-            }
-           
-        }
-        else {
-            $(".pTime").removeAttr("required").hide();
-        }
-    });
    
-    $(".pDate").kendoDatePicker();
 
-    $(".pTime").keypress(function (e) {
-        //validateTime(this);
-    });
     function validateTime($this) {
         var time = $($this).val();
         time = time.replace(/_/g, "").replace(":", "");
@@ -187,13 +191,6 @@ $(function () {
         }
     }
 
-    $("button.punchCompleteMessage").click(function() {
-        window.location = "/";
-    });
-
-    function punchCompleteMessage() {
-
-    }
     $(".resultGridSection").hide();
     $(".ckdPunchReport").on("click", function (e) {
         // console.log(this.value);
@@ -222,8 +219,6 @@ $(function () {
             $(this).removeAttr("required");
         }
     });
-
-
 });
 
     $(function () {
@@ -233,6 +228,7 @@ $(function () {
 function convertUtcToLocal() {
     convetUtcTimeToLocalTime();
     convetUtcDateToLocalDate();
+    convetUtcDateAndTimeToLocalDate();
 }
 function convetUtcDateToLocalDateByInput(inputDate) {
     var d = new Date();
@@ -247,13 +243,35 @@ function convetUtcDateToLocalDateByInput(inputDate) {
         catch (ex) {
             console.warn("Error converting date", ex);
         }
+    return "";
 }
+function convetUtcDateAndTimeToLocalDate() {
+    var d = new Date();
+    var offsetms = d.getTimezoneOffset() * 60 * 1000;
+    $('.utc-date-time').each(function () {
+        try {
+            var text = $(this).attr("utc-date-time-value");
+            var n = new Date(text);
+            n = new Date(n.valueOf() - offsetms);
+            var localDate = n.toLocaleDateString();
+            var localTime = n.toLocaleTimeString();
+            $(this).text(localDate + " " + localTime);
+            $(this).attr("value", localDate + " " + localTime);
+        }
+        catch (ex) {
+            console.warn("Error converting date", ex);
+            $(this).text("");
+            $(this).attr("value", "");
+        }
+    });
+}
+
     function convetUtcDateToLocalDate() {
         var d = new Date();
         var offsetms = d.getTimezoneOffset() * 60 * 1000;
         $('.utc-date').each(function () {
             try {
-                var text = $(this).text();
+                var text = $(this).attr("utc-date-value");
                 var n = new Date(text);
                 n = new Date(n.valueOf() - offsetms);
                 var localDate = n.toLocaleDateString();
@@ -272,7 +290,7 @@ function convetUtcDateToLocalDateByInput(inputDate) {
     var offsetms = d.getTimezoneOffset() * 60 * 1000;
     $('.utc-time').each(function() {
         try {
-            var text = $(this).text();
+            var text = $(this).attr("utc-time-value");
             var timeArray = String(text).split(':');
             var currentDate = new Date();
 

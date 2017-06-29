@@ -134,7 +134,7 @@ namespace PunchClock.Core.DataAccess.Seeders
                     {
                         new SiteMap
                         {
-                            Name = "Punch", Controller ="Punch", Action="Index",Target = "_self", Description = null, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
+                            Name = "Punch", Controller ="Punch", Action="Index",Target = "_self", Description = null, IsMenuItem = false, CompanyId = context.Companies.First().Id, CreatedById = context.Users.First().Id,
                             UserAccesses = new List<MenuUserAccess>
                             {
                                 new MenuUserAccess { UserRoleId = (int)UserType.SuperAdmin } ,

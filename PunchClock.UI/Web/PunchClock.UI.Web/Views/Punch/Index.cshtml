@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Punch-In or Punch-Out";
 }
-<div class="col-lg-6">
-    <div class="well bs-component">
+<div class="col-lg-4">
+    <div class="well">
         @if (Model != null)
         {
             using (Ajax.BeginForm("InOut", "Punch",
@@ -20,7 +20,6 @@
                 <fieldset id="punchBox">
                     <legend>@ViewBag.Title</legend>
                     <div class="form-group">
-                        @*<input type="submit" value="Punches In" disabled="disabled" class="btn btn-warning disabled" />*@
                         <div class="col-lg-10">
                             <span>
                                 @Html.Raw(string.Format("You have <span class='text-warning'> punched in at <strong>{1}</strong> </span> on {0}",
@@ -33,24 +32,16 @@
                         <div class="col-lg-10">
                             @(Html.Kendo().DateTimePicker()
                     .Name("differentTime")
-                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0)) 
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0))
                                   .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
                                   .Value(DateTime.Now) //Set the value of the DateTimePicker.
                     .HtmlAttributes(new
-                            {
-                                type = "time",
-                                @class = "pTime",
-                                style = "display:none;",
-                                id = "pTimePunchesOut"
-                            }))
-                            @*@Html.TextBox("differentTime", null,
-                   htmlAttributes: new
-                   {
-                       type = "time",
-                       @class = "pTime",
-                       style = "width: 120px; display:none;",
-                       id = "pTimePunchesOut"
-                   })*@
+                    {
+                        type = "time",
+                        @class = "pTime",
+                        style = "display:none;",
+                        id = "pTimePunchesOut"
+                    }))
                             <input type="submit" value="Punch Out Now" class="btn btn-success" />
                         </div>
                     </div>
@@ -84,20 +75,24 @@
                     <legend> @ViewBag.Title </legend>
                     <div class="form-group">
                         <div class="col-lg-10">
-                            @Html.TextBox("pTime", null,
-                   htmlAttributes: new
-                   {
-                       type = "time",
-                       @class = "pTime",
-                       style = "width: 120px;  display:none;",
-                       id = "pTimePunchesIn"
-                   })
+                            @(Html.Kendo().DateTimePicker()
+                                  .Name("differentTime")
+                                  .Min(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0))
+                                  .Max(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, DateTime.Now.TimeOfDay.Seconds)) //Set the min date of the DateTimePicker.
+                                  .Value(DateTime.Now) //Set the value of the DateTimePicker.
+                                  .HtmlAttributes(new
+                                  {
+                                      type = "time",
+                                      @class = "pTime",
+                                      style = "display:none;",
+                                      id = "pTimePunchesIn"
+                                  }))
+
                             <input type="submit" value="Punch In" class="btn btn-success" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10">
-                            @*<input type="submit" value="Punches Out" disabled="disabled" class="btn btn-warning disabled" />*@
                             @Html.CheckBox("reqDifferentTime") <span>Request a different punch in time</span>
                         </div>
                     </div>
@@ -106,8 +101,3 @@
         }
     </div>
 </div>
-@section featured {
-    <aside>
-        @Html.ActionLink("Search Reports", "Report", "Punch", null, new { @class="btn btn-default" })
-    </aside>
-}
