@@ -110,5 +110,12 @@
         </div>
     </div>
 }
+<script>
+    function filterStates() {
+        return {
+            id: $("#CreatedBy_RegistrationAddress_CountryId").val()
+        };
+    }
 
+</script>
 @Scripts.Render("~/bundles/Ticketing")

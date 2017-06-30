@@ -3,7 +3,7 @@
       .Columns(columns =>
       {
           columns.Bound(c => c.Id);
-          columns.Bound(c => c.Name);//.Editable("isEditable(data.IsCoreItem,'" + ViewData["IsSuperAdmin"] + "')");
+          columns.Bound(c => c.Name);
           columns.Bound(c => c.Description).Width(150);
           columns.Bound(c => c.DisplayOrder);
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
@@ -39,9 +39,9 @@
               model.Field(c => c.ModifiedDateUtc).Editable(false);
 
           })
-          .Read(read => read.Action("ReadCategory", "Ticket"))
-          .Create(update => update.Action("AddCategory", "Ticket"))
-          .Update(update => update.Action("UpdateCategory", "Ticket"))
-          .Destroy(update => update.Action("DeleteCategory", "Ticket"))
+          .Read(read => read.Action("ReadProject", "Ticket"))
+          .Create(update => update.Action("AddProject", "Ticket"))
+          .Update(update => update.Action("UpdateProject", "Ticket"))
+          .Destroy(update => update.Action("DeleteProject", "Ticket"))
           .PageSize(20)
       ))

@@ -6,6 +6,7 @@
           columns.Bound(c => c.Name);//.Editable("isEditable(data.IsCoreItem,'" + ViewData["IsSuperAdmin"] + "')");
           columns.Bound(c => c.Description).Width(150);
           columns.Bound(c => c.DisplayOrder);
+          columns.Bound(c => c.ProjectId).EditorTemplateName("TicketProjects").ClientTemplate("#: data.TicketProject?TicketProject.Name:'' #");
           columns.Bound(c => c.CreatedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
           columns.Bound(c => c.ModifiedDateUtc).Format("{0:dd/MM/yyyy HH:mm}");
 
@@ -35,6 +36,7 @@
               model.Field(x => x.Name).Editable(true);
               model.Field(x => x.DisplayOrder).Editable(true);
               model.Field(c => c.Description).Editable(true);
+              model.Field(c => c.ProjectId).Editable(true).DefaultValue(1);
               model.Field(c => c.CreatedDateUtc).Editable(false);
               model.Field(c => c.ModifiedDateUtc).Editable(false);
 

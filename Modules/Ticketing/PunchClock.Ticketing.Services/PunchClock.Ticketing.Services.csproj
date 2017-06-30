@@ -84,6 +84,7 @@
     <Compile Include="TicketCategoryService.cs" />
     <Compile Include="TicketCommentService.cs" />
     <Compile Include="TicketPriorityService.cs" />
+    <Compile Include="TicketProjectService.cs" />
     <Compile Include="TicketService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TicketStatusService.cs" />
