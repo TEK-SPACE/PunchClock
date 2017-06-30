@@ -334,7 +334,6 @@ namespace PunchClock.Ticketing.Services
                 entity.CategoryId = ticket.CategoryId;
                 entity.EstimatedEffort = ticket.EstimatedEffort;
                 entity.CompletedWork = ticket.CompletedWork;
-                //entity.DueDateUtc = ticket.DueDateUtc;
                 if (ticket.DueDateUtc.HasValue)
                     entity.DueDateUtc = ticket.DueDateUtc.Value.ToUniversalTime();
                 if (ticket.Comments != null && ticket.Comments.Any())

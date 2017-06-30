@@ -13,7 +13,7 @@
       .Position(TooltipPosition.Top)
       )*@
 
-@if (User.Identity.IsAuthenticated)
+@if (User.Identity.IsAuthenticated && @HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().Equals("Home", StringComparison.OrdinalIgnoreCase))
 {
     @(Html.Kendo()
         .Window()

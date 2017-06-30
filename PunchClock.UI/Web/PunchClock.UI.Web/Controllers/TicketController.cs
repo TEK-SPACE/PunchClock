@@ -146,62 +146,23 @@ namespace PunchClock.UI.Web.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Update([DataSourceRequest] DataSourceRequest request,
-            Ticket ticket)
+             [Bind(Prefix = "models")]IEnumerable<Ticket> tickets)
         {
-           //removing all field related to date which is failing for ticket update
-            ModelState.Remove("Requestor.PasswordLastChanged");
-            ModelState.Remove("AssignedTo.PasswordLastChanged");
-            ModelState.Remove("CreatedBy.PasswordLastChanged");
-            ModelState.Remove("ModifiedBy.PasswordLastChanged");
-            ModelState.Remove("Requestor.RegistrationAddress.Address1");
-            ModelState.Remove("AssignedTo.RegistrationAddress.Address1");
-            ModelState.Remove("CreatedBy.RegistrationAddress.Address1");
-            ModelState.Remove("ModifiedBy.RegistrationAddress.Address1");
-            ModelState.Remove("AssignedTo.LastActivityDateUtc");
-            ModelState.Remove("CreatedBy.LastActivityDateUtc");
-            ModelState.Remove("ModifiedBy.LastActivityDateUtc");
-            ModelState.Remove("Requestor.LastActivityDateUtc");
-            ModelState.Remove("Requestor.RegistrationAddress.City");
-            ModelState.Remove("AssignedTo.RegistrationAddress.City");
-            ModelState.Remove("CreatedBy.RegistrationAddress.City");
-            ModelState.Remove("ModifiedBy.RegistrationAddress.City");
-            ModelState.Remove("CreatedBy.DateCreatedUtc");
-            ModelState.Remove("CreatedBy.LastUpdatedUtc");
-            ModelState.Remove("ModifiedBy.DateCreatedUtc");
-            ModelState.Remove("ModifiedBy.LastUpdatedUtc");
-            ModelState.Remove("Requestor.DateCreatedUtc");
-            ModelState.Remove("Requestor.LastUpdatedUtc");
-            ModelState.Remove("AssignedTo.DateCreatedUtc");
-            ModelState.Remove("AssignedTo.LastUpdatedUtc");
-            ModelState.Remove("CreatedBy.RegistrationAddress.State.CreatedOnUtc");
-            ModelState.Remove("CreatedBy.RegistrationAddress.Country.CreatedOnUtc");
-            ModelState.Remove("ModifiedBy.RegistrationAddress.State.CreatedOnUtc");
-            ModelState.Remove("ModifiedBy.RegistrationAddress.Country.CreatedOnUtc");
-            ModelState.Remove("Requestor.RegistrationAddress.State.CreatedOnUtc");
-            ModelState.Remove("Requestor.RegistrationAddress.Country.CreatedOnUtc");
-            ModelState.Remove("AssignedTo.RegistrationAddress.State.CreatedOnUtc");
-            ModelState.Remove("AssignedTo.RegistrationAddress.Country.CreatedOnUtc");
-            ModelState.Remove("CreatedDateUtc");
-            ModelState.Remove("ModifiedDateUtc");
-            ModelState.Remove("Status.CreatedDateUtc");
-            ModelState.Remove("Status.ModifiedDateUtc");
-            ModelState.Remove("Category.CreatedDateUtc");
-            ModelState.Remove("Category.ModifiedDateUtc");
-            ModelState.Remove("TicketProject.CreatedDateUtc");
-            ModelState.Remove("TicketProject.ModifiedDateUtc");
-            ModelState.Remove("Type.CreatedDateUtc");
-            ModelState.Remove("Type.ModifiedDateUtc");
-            ModelState.Remove("Priority.CreatedDateUtc");
-            ModelState.Remove("Priority.ModifiedDateUtc");
-    
-            if (ticket != null && ModelState.IsValid)
+            foreach (var modelValue in ModelState.Values)
             {
-                ticket.ModifiedById = OperatingUser.Id;
-                ticket.ModifiedDateUtc = DateTime.UtcNow;
-                var changes = new List<ChangeLog>();
-                _ticketService.Update(ticket, ref changes);
+                modelValue.Errors.Clear();
             }
-            return Json(new[] {ticket}.ToDataSourceResult(request, ModelState));
+            if (tickets != null && ModelState.IsValid)
+            {
+                foreach (var ticket in tickets)
+                {
+                    ticket.ModifiedById = OperatingUser.Id;
+                    ticket.ModifiedDateUtc = DateTime.UtcNow;
+                    var changes = new List<ChangeLog>();
+                    _ticketService.Update(ticket, ref changes);
+                }
+            }
+            return Json(tickets.ToDataSourceResult(request, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

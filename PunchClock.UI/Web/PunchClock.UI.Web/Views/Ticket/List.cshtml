@@ -3,12 +3,12 @@
 @{
     ViewBag.Title = "Tickets Dashboard";
 }
-<hgroup class="title">
+@*<hgroup class="title">
     <h1>@ViewBag.Title</h1>
     <h2>@Html.Raw((string)ViewBag.Message)</h2>
 </hgroup>
 <div class="clearFloat"></div>
-<hr />
+<hr />*@
 
 @(Html.Kendo().Grid(Model)
       .Name("TicketsGrid")
@@ -29,19 +29,14 @@
           columns.Bound(c => c.ModifiedDateUtc).HtmlAttributes(new { @class = "utc-date-time", utc_date_time_value = "#:ModifiedDateUtc#" });
           columns.Command(command =>
           {
-              command.Edit().Text(" ");
+              //command.Edit().Text(" ");
               command.Destroy().Text(" ");
           }).Width(50);
       })
-      .HtmlAttributes(new { style = "height: 100%; width: 100%;position: absolute;top: 40px;left: 0;z-index: 9;" })
-      //.Scrollable()
-      .Groupable()
-      .Sortable()
       .ToolBar(toolbar => {
-          //toolbar.Create();
-          toolbar.Save();
+                              //toolbar.Create();
+                              toolbar.Save();
       })
-      .Events(events=>events.DataBinding("convertUtcToLocal"))
       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable(pageable => pageable
           .Refresh(true)
@@ -49,9 +44,18 @@
           .ButtonCount(5))
           .Events(events =>
           events.Group("OnTicketsGrouping"))
+      .Navigatable()
+      .Sortable()
+      //.Scrollable()
+      .Groupable()
+      .HtmlAttributes(new { @class= "full-screen-dashboard" })
+      .Events(events=>events.DataBinding("convertUtcToLocal").DataBound("convertUtcToLocal"))
       .DataSource(dataSource => dataSource
           .Ajax()
-          .Events(events => events.Error("gridErrorHandler"))
+          .Batch(true)
+          .PageSize(20)
+          .ServerOperation(false)
+          .Events(events => events.Error("gridErrorHandler").Sync("ticketsGridSyncHandler"))
           .Model(model =>
           {
               model.Id(x => x.Id);
@@ -64,11 +68,10 @@
               model.Field(c => c.ModifiedById).Editable(false);
               model.Field(c => c.ModifiedDateUtc).Editable(false);
           })
-          .Read(read => read.Action("Read", "Ticket"))
           //.Create(update => update.Action("Add", "Ticket"))
+          .Read(read => read.Action("Read", "Ticket"))
           .Update(update => update.Action("Update", "Ticket"))
           .Destroy(update => update.Action("Delete", "Ticket"))
-          .PageSize(20)
       )
       )
 
@@ -83,10 +86,12 @@
                     });
                 }
             });
-            alert(message);
+            console.log(message);
         }
     }
-
+    function ticketsGridSyncHandler(e) {
+        this.read();
+    }
     function OnTicketsGrouping(arg) {
     }
 
