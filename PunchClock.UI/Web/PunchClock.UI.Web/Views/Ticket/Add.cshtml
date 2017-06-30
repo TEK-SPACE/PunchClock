@@ -40,7 +40,17 @@
                 <div class="form-group">
                     <div class="col-md-12">
                         @Html.LabelFor(x => x.Description, htmlAttributes: new { @class = "control-label" })
-                        @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new {@class = "form-control"})
+                        @Html.Kendo().EditorFor(model => model.Description).Encode(false).Tools(tools => tools
+                        .Clear()
+                        .Formatting()
+                        .Bold().Italic().Underline().Strikethrough()
+                        .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                        .InsertUnorderedList().InsertOrderedList()
+                        .CreateLink().Unlink().InsertImage()
+                        .TableEditing()
+                        .FontColor().BackColor()
+                        .ViewHtml()
+                        )
                         @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
                     </div>
                 </div>

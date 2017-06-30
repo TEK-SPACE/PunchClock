@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc;
 using Kendo.Mvc.Extensions;
@@ -43,6 +44,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Edit(int id)
         {
             Article article = _articleService.GetOneArticle(id);
+            article.Description = HttpUtility.HtmlDecode(article.Description);
             article.Tags = article.Tag.Split(',');
             return View(article);
         }

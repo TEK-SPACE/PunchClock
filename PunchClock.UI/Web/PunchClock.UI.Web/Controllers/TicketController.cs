@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -93,6 +94,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Edit(int id)
         {
             var ticket = _ticketService.Details(id);
+            ticket.Description = HttpUtility.HtmlDecode(ticket.Description);
             return View(ticket);
         }
 
