@@ -71,10 +71,10 @@ namespace PunchClock.UI.Web.Controllers
             switch (inOrOut)
             {
                 case "in":
-                    message = _punchService.PunchIn(OperatingUser.Uid, punchTime, UserSession.IpAddress, UserSession.MacAddress);
+                    message = _punchService.PunchIn(OperatingUser.Uid, punchTime, UserSession);
                     break;
                 case "out":
-                    message = _punchService.PunchOut(OperatingUser.Uid, punchId, punchTime, UserSession.IpAddress, UserSession.MacAddress);
+                    message = _punchService.PunchOut(OperatingUser.Uid, punchId, punchTime, UserSession);
                     break;
             }
             return Json(message);

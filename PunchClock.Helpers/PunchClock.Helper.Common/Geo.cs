@@ -36,5 +36,11 @@ namespace PunchClock.Helper.Common
             return macAddresses;
         }
 
+        public static string GetHostName()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            //return context.Request.UserHostName;
+            return System.Net.Dns.GetHostName();
+        }
     }
 }

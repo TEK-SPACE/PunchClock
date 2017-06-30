@@ -31,7 +31,7 @@ namespace PunchClock.TimeTracker.Service
             }
         }
 
-        public string PunchIn(int userId, TimeSpan punchTime, string ipAddress, string macAdress)
+        public string PunchIn(int userId, TimeSpan punchTime, UserSession session)
         {
             string message = "Successfully punched in";
 
@@ -45,12 +45,13 @@ namespace PunchClock.TimeTracker.Service
                     PunchDate = DateTime.UtcNow,
                     UserId = userId,
                     PunchIn = punchTime != TimeSpan.MinValue ? punchTime : DateTime.Now.ToUniversalTime().TimeOfDay,
-                    IpAddress = ipAddress,
-                    MacAddress = macAdress,
+                    IpAddress = session.IpAddress,
+                    MacAddress = session.MacAddress,
+                    HostName = session.HostAddress,
                     UserGuid = user.Id
                 };
                 ExplicitPunchTimeCheck(punchTime, punch);
-                IpAddressMatchCheck(ipAddress, user, punch);
+                IpAddressMatchCheck(session.IpAddress, user, punch);
                 context.Punches.Add(punch);
                 context.SaveChanges();
             }
@@ -64,7 +65,7 @@ namespace PunchClock.TimeTracker.Service
             return message;
         }
 
-        public string PunchOut(int userId, int punchId, TimeSpan punchTime, string ipAddress, string macAdress)
+        public string PunchOut(int userId, int punchId, TimeSpan punchTime, UserSession session)
         {
             string message = "Successfully punched Out";
 
@@ -91,10 +92,10 @@ namespace PunchClock.TimeTracker.Service
                         " Due to discrepancy in punch timings, manager Approval is requested for this punch out time";
                     punch.ApprovalRequired = true;
                 }
-                IpAddressMatchCheck(ipAddress, user, punch);
-                punch.IpAddress = ipAddress;
-                punch.MacAddress = macAdress;
-
+                IpAddressMatchCheck(session.IpAddress, user, punch);
+                punch.IpAddress = session.IpAddress;
+                punch.MacAddress = session.MacAddress;
+                punch.HostName = session.HostAddress;
                 context.SaveChanges();
             }
 

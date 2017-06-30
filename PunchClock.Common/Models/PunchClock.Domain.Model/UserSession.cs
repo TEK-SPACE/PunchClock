@@ -4,5 +4,6 @@
     {
         public string IpAddress { get; set; }
         public string MacAddress { get; set; }
+        public string HostAddress { get; set; }
     }
 }

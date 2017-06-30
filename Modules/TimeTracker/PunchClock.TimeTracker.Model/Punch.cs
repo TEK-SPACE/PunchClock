@@ -86,5 +86,7 @@ namespace PunchClock.TimeTracker.Model
 
         [ForeignKey("UserGuid")]
         public virtual User User { get; set; }
+
+        public string HostName { get; set; }
     }
 }

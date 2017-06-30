@@ -11,7 +11,8 @@ namespace PunchClock.Core.Implementation
             UserSession sess = new UserSession
             {
                 IpAddress = Geo.GetIpAddress(),
-                MacAddress = Geo.GetMac()
+                MacAddress = Geo.GetMac(),
+                HostAddress = Geo.GetHostName()
             };
             return sess;
         }
