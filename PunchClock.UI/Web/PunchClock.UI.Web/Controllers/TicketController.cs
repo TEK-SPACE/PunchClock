@@ -76,7 +76,7 @@ namespace PunchClock.UI.Web.Controllers
                 List<string> contributors = _userService.GetEmailsById(userIds.ToArray());
 
                 ticket.LinkToTicketDetails =
-                    $"{Request.Url.Scheme}://{Request.Url.Host}:{Request.Url.Port}{Url.Action("Edit", "Ticket", new {id = ticket.Id})}";
+                    $"{Request.Url.Scheme}://{Request.Url.Host}{Url.Action("Edit", "Ticket", new {id = ticket.Id})}";
                 string emailMessage = _ticketService.ComposeTicketCreatedEmail(ticket);
                 _emailService.SendEmail(emailMessage, $"New Ticket: {ticket.Title}", contributors.Distinct().ToArray());
                 if (ticket.Id > 0)

@@ -41,7 +41,7 @@
           //toolbar.Create();
           toolbar.Save();
       })
-      //.Events(events=>events.DataBinding("convertUtcToLocal"))
+      .Events(events=>events.DataBinding("convertUtcToLocal"))
       .Editable(editable => editable.Mode(GridEditMode.InCell))
       .Pageable(pageable => pageable
           .Refresh(true)

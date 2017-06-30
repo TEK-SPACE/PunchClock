@@ -16,5 +16,6 @@
         public const string CoreUserRegisteredEmailTemplate = "CoreUserRegisteredEmailTemplate";
         public const string TicketCreateEmailTemplate = "TicketCreateEmailTemplate";
         public const string TicketEditEmailTemplate = "TicketEditEmailTemplate";
+        public const string CoreEmailTemplateLogoPath = "CoreEmailTemplateLogoPath";
     }
 }

@@ -155,10 +155,12 @@ namespace PunchClock.TimeTracker.Service
             }
         }
 
-        public List<Punch> All()
+        public List<Punch> All(int userId, bool isAdmin)
         {
             PunchClockDbContext context = new PunchClockDbContext();
-            return context.Punches.Where(x => x.PunchOut != null).Include(x=>x.User).ToList();
+            if (isAdmin)
+                return context.Punches.Include(x => x.User).ToList();
+            return context.Punches.Where(x => x.UserId == userId).Include(x=>x.User).ToList();
         }
 
         public void Update(Punch punch)

@@ -194,10 +194,10 @@ namespace PunchClock.UI.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Details(int id)
+        public ActionResult Details()
         {
             ViewData["UserTypes"] = _userService.GetTypes();
-            return View(_companyService.Get(id));
+            return View(_companyService.Get(OperatingUser.CompanyId));
         }
 
 

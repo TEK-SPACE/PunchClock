@@ -1,7 +1,23 @@
 ﻿@{
-    ViewBag.Title = "Internal Error";
+    ViewBag.Title = "500 Unexpected Internal Error";
 }
-<hgroup class="title">
-<h1>@ViewBag.Title.</h1>
-<h2>@Html.Raw((string)ViewBag.Message)</h2></hgroup>
-<hr />
+
+<div class="col-lg-12 form-horizontal">
+    <div class="panel panel-success panel-nomargin">
+        <div class="panel-body">@ViewBag.Title</div>
+    </div>
+    <div class="well">
+        <fieldset>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    <p>
+                        Due to some bug in application, your request was not completed. Please send an email to Admin
+                    </p>
+                    <p>
+                        @Html.ActionLink("Go to Home", "Index", "Home")
+                    </p>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

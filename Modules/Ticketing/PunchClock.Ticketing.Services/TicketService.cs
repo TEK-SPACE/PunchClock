@@ -126,6 +126,9 @@ namespace PunchClock.Ticketing.Services
         public string ComposeTicketCreatedEmail(Ticket ticket)
         {
             var appSettings = _appSettingService.GetByModules((int)ModuleType.Core, (int)ModuleType.Ticketing);
+            var logoPath = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreEmailTemplateLogoPath, StringComparison.OrdinalIgnoreCase))
+                .Value;
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.TicketCreateEmailTemplate, StringComparison.OrdinalIgnoreCase))
@@ -141,6 +144,7 @@ namespace PunchClock.Ticketing.Services
                 ticket = Details(ticket.Id);
                 ticket.LinkToTicketDetails = ticketLink;
                 var emailContent = File.ReadAllText(emailTemplatePath);
+                emailContent = emailContent.Replace("#Logo#", logoPath);
                 emailContent = emailContent.Replace("#Title#", ticket.Title);
                 emailContent = emailContent.Replace("#Project#", ticket.TicketProject.Name);
                 emailContent = emailContent.Replace("#Priority#", ticket.Priority.Name);
@@ -164,6 +168,10 @@ namespace PunchClock.Ticketing.Services
         public string ComposeTicketEditEmail(Ticket ticket, List<ChangeLog> changeLogs)
         {
             var appSettings = _appSettingService.GetByModules((int)ModuleType.Core, (int)ModuleType.Ticketing);
+
+            var logoPath = appSettings
+                .First(x => x.Key.Equals(AppKey.CoreEmailTemplateLogoPath, StringComparison.OrdinalIgnoreCase))
+                .Value;
 
             var templateName = appSettings
                 .First(x => x.Key.Equals(AppKey.TicketEditEmailTemplate, StringComparison.OrdinalIgnoreCase))
@@ -260,7 +268,7 @@ namespace PunchClock.Ticketing.Services
                 var ticketLink = ticket.LinkToTicketDetails;
                 ticket = Details(ticket.Id);
                 ticket.LinkToTicketDetails = ticketLink;
-
+                emailContent = emailContent.Replace("#Logo#", logoPath);
                 emailContent = emailContent.Replace("#RowTemplate#", changedContent);
 
                 emailContent = emailContent.Replace("#Title#", ticket.Title);
