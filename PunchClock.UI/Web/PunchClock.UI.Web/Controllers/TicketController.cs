@@ -99,6 +99,7 @@ namespace PunchClock.UI.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(Ticket ticket, FormCollection formCollection)
         {
             if (!string.IsNullOrEmpty(formCollection["Comment"]))
