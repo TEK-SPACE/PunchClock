@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -27,7 +28,7 @@ namespace PunchClock.UI.Web.Controllers
         private readonly ITicketStatus _ticketStatus;
         private readonly ITicketType _ticketType;
         private readonly IEmail _emailService;
-
+        private readonly ITicketProject _ticketProject;
         public TicketController()
         {
             _categoryService = new CategoryService();
@@ -38,6 +39,7 @@ namespace PunchClock.UI.Web.Controllers
             _ticketStatus = new TicketStatusService();
             _ticketType = new TicketTypeService();
             _emailService = new Core.Implementation.EmailService();
+            _ticketProject=new TicketProjectService();
         }
 
         // GET: Ticket
@@ -92,10 +94,12 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Edit(int id)
         {
             var ticket = _ticketService.Details(id);
+            ticket.Description = HttpUtility.HtmlDecode(ticket.Description);
             return View(ticket);
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(Ticket ticket, FormCollection formCollection)
         {
             if (!string.IsNullOrEmpty(formCollection["Comment"]))
@@ -144,6 +148,52 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult Update([DataSourceRequest] DataSourceRequest request,
             Ticket ticket)
         {
+           //removing all field related to date which is failing for ticket update
+            ModelState.Remove("Requestor.PasswordLastChanged");
+            ModelState.Remove("AssignedTo.PasswordLastChanged");
+            ModelState.Remove("CreatedBy.PasswordLastChanged");
+            ModelState.Remove("ModifiedBy.PasswordLastChanged");
+            ModelState.Remove("Requestor.RegistrationAddress.Address1");
+            ModelState.Remove("AssignedTo.RegistrationAddress.Address1");
+            ModelState.Remove("CreatedBy.RegistrationAddress.Address1");
+            ModelState.Remove("ModifiedBy.RegistrationAddress.Address1");
+            ModelState.Remove("AssignedTo.LastActivityDateUtc");
+            ModelState.Remove("CreatedBy.LastActivityDateUtc");
+            ModelState.Remove("ModifiedBy.LastActivityDateUtc");
+            ModelState.Remove("Requestor.LastActivityDateUtc");
+            ModelState.Remove("Requestor.RegistrationAddress.City");
+            ModelState.Remove("AssignedTo.RegistrationAddress.City");
+            ModelState.Remove("CreatedBy.RegistrationAddress.City");
+            ModelState.Remove("ModifiedBy.RegistrationAddress.City");
+            ModelState.Remove("CreatedBy.DateCreatedUtc");
+            ModelState.Remove("CreatedBy.LastUpdatedUtc");
+            ModelState.Remove("ModifiedBy.DateCreatedUtc");
+            ModelState.Remove("ModifiedBy.LastUpdatedUtc");
+            ModelState.Remove("Requestor.DateCreatedUtc");
+            ModelState.Remove("Requestor.LastUpdatedUtc");
+            ModelState.Remove("AssignedTo.DateCreatedUtc");
+            ModelState.Remove("AssignedTo.LastUpdatedUtc");
+            ModelState.Remove("CreatedBy.RegistrationAddress.State.CreatedOnUtc");
+            ModelState.Remove("CreatedBy.RegistrationAddress.Country.CreatedOnUtc");
+            ModelState.Remove("ModifiedBy.RegistrationAddress.State.CreatedOnUtc");
+            ModelState.Remove("ModifiedBy.RegistrationAddress.Country.CreatedOnUtc");
+            ModelState.Remove("Requestor.RegistrationAddress.State.CreatedOnUtc");
+            ModelState.Remove("Requestor.RegistrationAddress.Country.CreatedOnUtc");
+            ModelState.Remove("AssignedTo.RegistrationAddress.State.CreatedOnUtc");
+            ModelState.Remove("AssignedTo.RegistrationAddress.Country.CreatedOnUtc");
+            ModelState.Remove("CreatedDateUtc");
+            ModelState.Remove("ModifiedDateUtc");
+            ModelState.Remove("Status.CreatedDateUtc");
+            ModelState.Remove("Status.ModifiedDateUtc");
+            ModelState.Remove("Category.CreatedDateUtc");
+            ModelState.Remove("Category.ModifiedDateUtc");
+            ModelState.Remove("TicketProject.CreatedDateUtc");
+            ModelState.Remove("TicketProject.ModifiedDateUtc");
+            ModelState.Remove("Type.CreatedDateUtc");
+            ModelState.Remove("Type.ModifiedDateUtc");
+            ModelState.Remove("Priority.CreatedDateUtc");
+            ModelState.Remove("Priority.ModifiedDateUtc");
+    
             if (ticket != null && ModelState.IsValid)
             {
                 ticket.ModifiedById = OperatingUser.Id;
@@ -216,7 +266,7 @@ namespace PunchClock.UI.Web.Controllers
             category.CompanyId = OperatingUser.CompanyId;
             category.CreatedById = OperatingUser.Id;
             category.ModifiedById = OperatingUser.Id;
-            _ticketCategoryService.Add(category);
+            category= _ticketCategoryService.Add(category);
             return Json(new[] {category}.ToDataSourceResult(request));
         }
 
@@ -224,7 +274,7 @@ namespace PunchClock.UI.Web.Controllers
         public ActionResult UpdateCategory([DataSourceRequest] DataSourceRequest request, TicketCategory category)
         {
             category.ModifiedById = OperatingUser.Id;
-            _ticketCategoryService.Update(category);
+            category= _ticketCategoryService.Update(category);
             return Json(new[] {category}.ToDataSourceResult(request));
         }
 
@@ -341,6 +391,43 @@ namespace PunchClock.UI.Web.Controllers
             ticketType.ModifiedById = OperatingUser.Id;
             _ticketType.Delete(ticketType);
             return Json(new[] {ticketType}.ToDataSourceResult(request));
+        }
+
+
+        #endregion
+
+        #region Ticket Project Config
+
+        public ActionResult ReadProject([DataSourceRequest] DataSourceRequest request)
+        {
+            var typeList = _ticketProject.GetProjectsByCompanyId(OperatingUser.CompanyId);
+            return Json(typeList.ToDataSourceResult(request));
+        }
+
+        [HttpPost]
+        public ActionResult AddProject([DataSourceRequest] DataSourceRequest request, TicketProject ticketProject)
+        {
+            ticketProject.CompanyId = OperatingUser.CompanyId;
+            ticketProject.CreatedById = OperatingUser.Id;
+            ticketProject.ModifiedById = OperatingUser.Id;
+            _ticketProject.Add(ticketProject);
+            return Json(new[] { ticketProject }.ToDataSourceResult(request));
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProject([DataSourceRequest] DataSourceRequest request, TicketProject ticketProject)
+        {
+            ticketProject.ModifiedById = OperatingUser.Id;
+            _ticketProject.Update(ticketProject);
+            return Json(new[] { ticketProject }.ToDataSourceResult(request));
+        }
+
+        [HttpPost]
+        public ActionResult DeleteProject([DataSourceRequest] DataSourceRequest request, TicketProject ticketProject)
+        {
+            ticketProject.ModifiedById = OperatingUser.Id;
+            _ticketProject.Delete(ticketProject.Id);
+            return Json(new[] { ticketProject }.ToDataSourceResult(request));
         }
 
 

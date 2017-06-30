@@ -5,6 +5,7 @@ using PunchClock.Ticketing.Contracts;
 using PunchClock.Ticketing.Model;
 using PunchClock.Domain.Model;
 using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace PunchClock.Ticketing.Services
 {
@@ -16,6 +17,7 @@ namespace PunchClock.Ticketing.Services
             {
                 context.TicketCategories.Add(category);
                 context.SaveChanges();
+                category = context.TicketCategories.Include(x => x.TicketProject).FirstOrDefault(x => x.Id == category.Id); ;
             }
             return category;
         }
@@ -37,7 +39,10 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                return context.TicketCategories.Where(x => x.IsDeleted == false && x.CompanyId == companyId).ToList();
+                return
+                    context.TicketCategories.Where(x => x.IsDeleted == false && x.CompanyId == companyId)
+                        .Include(x => x.TicketProject)
+                        .ToList();
             }
         }
 
@@ -48,7 +53,7 @@ namespace PunchClock.Ticketing.Services
                 var ticketCategory = context.TicketCategories.FirstOrDefault(x => x.Id == category.Id);
                 if (ticketCategory == null) return;
                 ticketCategory.ModifiedById = category.ModifiedById;
-                ticketCategory.ModifiedDateUtc = DateTime.UtcNow;
+               ticketCategory.ModifiedDateUtc = DateTime.UtcNow;
                 ticketCategory.IsDeleted = true;
                 context.SaveChanges();
             }
@@ -66,13 +71,15 @@ namespace PunchClock.Ticketing.Services
         {
             using (var context = new PunchClockDbContext())
             {
-                var ticketCategory = context.TicketCategories.FirstOrDefault(x => x.Id == category.Id);
+                var ticketCategory = context.TicketCategories.Include(x=>x.TicketProject).FirstOrDefault(x => x.Id == category.Id);
                 if (ticketCategory == null) return category;
                 ticketCategory.Name = category.Name;
                 ticketCategory.Description = category.Description;
                 ticketCategory.ModifiedById = category.ModifiedById;
-                ticketCategory.ModifiedDateUtc = DateTime.UtcNow;
+                ticketCategory.ProjectId = category.ProjectId;
+                 ticketCategory.ModifiedDateUtc = DateTime.UtcNow;
                 context.SaveChanges();
+                category = context.TicketCategories.Include(x => x.TicketProject).FirstOrDefault(x => x.Id == category.Id); ;
             }
             return category;
         }

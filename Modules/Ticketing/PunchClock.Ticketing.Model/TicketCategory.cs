@@ -12,9 +12,10 @@ namespace PunchClock.Ticketing.Model
         public string Description { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsCoreItem { get; set; } = false;
+        [UIHint("TicketProjects")]
         public int ProjectId { get; set; } = 1;
 
         [ForeignKey("ProjectId")]
-        public virtual TicketProject Project { get; set; }
+        public virtual TicketProject TicketProject { get; set; }
     }
 }

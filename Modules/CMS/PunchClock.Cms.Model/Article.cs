@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 using PunchClock.Domain.Model;
 
 namespace PunchClock.Cms.Model
@@ -11,7 +12,7 @@ namespace PunchClock.Cms.Model
         [Key]
         public int Id { get; set; }
         public string Title { get; set; }
-
+        [AllowHtml]
         public string Description { get; set; }
         public bool IsPublished { get; set; }
         public string Tag { get; set; }

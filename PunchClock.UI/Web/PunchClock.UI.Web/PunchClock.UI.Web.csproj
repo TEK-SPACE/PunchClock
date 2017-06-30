@@ -790,6 +790,7 @@
     <Content Include="Views\Config\SiteMapGrid.cshtml" />
     <Content Include="Views\Config\_SiteMapTree.cshtml" />
     <Content Include="Views\Config\_SiteMapDetails.cshtml" />
+    <Content Include="Views\Ticket\_project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

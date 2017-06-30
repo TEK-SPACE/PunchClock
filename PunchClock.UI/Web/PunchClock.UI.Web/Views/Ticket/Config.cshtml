@@ -5,12 +5,16 @@
     <div class="panel panel-danger panel-nomargin">
         <div class="panel-body panel-heading ">Ticketing Module Management</div>
         @(Html.Kendo().TabStrip()
-              .Name("tabstrip")
-              .Items(tabstrip =>
-              {
-                  tabstrip.Add().Text("Category")
-                      .Selected(true)
-                      .Content(@<text>@Html.Partial("_ConfigCategory")</text>);
+          .Name("tabstrip")
+          .Items(tabstrip =>
+          {
+
+          tabstrip.Add().Text("Projects")
+                  .Selected(true)
+                  .Content(@<text>@Html.Partial("_project")</text>);
+
+          tabstrip.Add().Text("Category")
+               .Content(@<text>@Html.Partial("_ConfigCategory")</text>);
 
                   tabstrip.Add().Text("Status")
                       .Content(@<text>@Html.Partial("_ConfigStatus")</text>);

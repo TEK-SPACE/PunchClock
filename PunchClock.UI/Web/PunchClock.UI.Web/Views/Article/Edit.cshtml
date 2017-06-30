@@ -31,7 +31,7 @@
                 <div class="form-group">
                     @Html.Label("Description", new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.Kendo().EditorFor(x => x.Description).Tools(tools => tools
+                        @Html.Kendo().EditorFor(x => x.Description).Encode(false).Tools(tools => tools
                         .Clear()
                         .Formatting()
                         .Bold().Italic().Underline().Strikethrough()
